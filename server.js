@@ -47,7 +47,7 @@ app.use((req, res) => {
         } else if (redirectLocation) {
             res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
         } else if (renderProps) {
-            const html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
+            const html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
             const page = swig.renderFile('views/index.html', { html: html });
 
             res.status(200).send(page);
