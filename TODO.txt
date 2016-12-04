@@ -1,0 +1,19 @@
+(DONE)- Add base app (based on the tutorial)
+(DONE)- upgrade to React 15.3
+- Create some login store where the authentication state changes. then subscribe in components to reflect the changes
+- create a home page
+  (DONE)- add Auth0 integration on home page
+  - do the necessary navbar changes (e.g. welcome, name) and the necessary route displaying
+  - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
+
+
+Later
+- check out react bootstarp and how to use it... and if I'm using ir correctly
+- play around with the styles (currently using the one from the tutorial)
+- check out Auth0 to see if it's possible to replace the popup with a regular form
+- check out Auth0 to see what other options there are (e.g. faster popup animation, custom fields, language etc.)
+- make a better footer
+- add active styles for links in navbar
+- figure out if it's possible to not show the login page if the user is to be redirected
+- add Latvian language to Auht0
+- add other logon options (FB, Google+ etc.)

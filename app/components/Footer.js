@@ -1,17 +1,19 @@
 import React from 'react';
 
-class Footer extends React.Component {
+export default class Footer extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const year = new Date().getFullYear();
+
         return (
             <footer>
                 <div className='container'>
                     <div className='row'>
                         <div className='col-xs-12'>
-                            <h3 className='lead'><strong>Information</strong> and <strong>Copyright</strong></h3>
+                            <h3 className='lead'><strong>SIA "Drošā distance"</strong> <strong>Visas tiesības pasargātas {year}</strong></h3>
                         </div>
                     </div>
                 </div>
@@ -19,5 +21,3 @@ class Footer extends React.Component {
         );
     }
 }
-
-export default Footer;
