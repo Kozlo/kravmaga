@@ -38,6 +38,7 @@
     "compression": "^1.6.2",
     "exenv": "^1.2.1",
     "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
     "mongoose": "^4.7.1",
     "morgan": "^1.7.0",
     "react": "^15.4.1",

@@ -4,9 +4,11 @@
 - create a home page
   (DONE)- add Auth0 integration on home page
   (DONE)- do the necessary navbar changes (e.g. welcome, name) and the necessary route displaying
-  - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
   (DONE)- commit the auht0 switch to bower that fixed double react include bug
   (DONE)- figure out the setState error on logout: switched to alt's getStores & getPropsFromStores static methods
+  - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
+  - decide which data is needed and add the scope, so that it's not needed to return the full profile in a separate req:
+    - https://auth0.com/docs/scopes
 
 
 Later
@@ -19,4 +21,5 @@ Later
 - figure out if it's possible to not show the login page if the user is to be redirected
 - add Latvian language to Auht0
 - add other logon options (FB, Google+ etc.)
-- Read on SPA routing/navigation logic best practices and amend routing/navbar accordingly
+- Read on SPA routing/navigation logic best practices and (DONE) amend routing/navbar accordingly
+- add login with FB option
