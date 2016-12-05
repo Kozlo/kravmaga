@@ -13,7 +13,7 @@ class AuthStore {
     onLoginUser(authResult) {
         localStorage.setItem('id_token', authResult.idToken);
         this.isLoggedIn = true;
-        browserHistory.replace('/profile');
+        browserHistory.replace('/');
         toastr.success('Lietotājs ienācis veiksmīgi!');
     }
 
@@ -21,7 +21,7 @@ class AuthStore {
     onLogoutUser() {
         localStorage.removeItem('id_token');
         this.isLoggedIn = false;
-        browserHistory.replace('/');
+        browserHistory.replace('/login');
         toastr.success('Lietotājs izgājis veiksmīgi!');
     }
 }

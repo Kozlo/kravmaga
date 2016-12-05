@@ -28,11 +28,11 @@ class Navbar extends React.Component {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link to='/profile' className='navbar-brand'>Krav Maga</Link>
+                    <Link to='/' className='navbar-brand'>Krav Maga</Link>
                 </div>
                 <div id='navbar' className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
-                        {isLoggedIn && <li><Link to='/profile'>Profils</Link></li>}
+                        {isLoggedIn && <li><Link activeClassName="active" to='/'>Profils</Link></li>}
                     </ul>
                     {isLoggedIn &&
                         <Button className="btn btn-default navbar-btn pull-right" onClick={AuthActions.logoutUser.bind(this)}>

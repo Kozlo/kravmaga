@@ -13,17 +13,16 @@ const requireAuth = (nextState, replace) => {
        replace({pathname: '/login'})
     }
 };
-// redirect to profile if the user is authenticated
+// redirect to profile (index route) if the user is authenticated
 const userLoggedOn = (nextState, replace) => {
     if (AuthStore.getState().isLoggedIn) {
-        replace({pathname: '/profile'})
+        replace({pathname: '/'})
     }
 };
 
 export default (
     <Route component={App}>
-        <Route path='/' component={Login} onEnter={userLoggedOn} />
+        <Route path='/' component={Profile} onEnter={requireAuth} />
         <Route path='/login' component={Login} onEnter={userLoggedOn} />
-        <Route path='/profile' component={Profile} onEnter={requireAuth} />
     </Route>
 );
