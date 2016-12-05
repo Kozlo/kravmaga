@@ -10,8 +10,8 @@ class AuthStore {
         this.isLoggedIn = typeof localStorage !== 'undefined' ? !!localStorage.getItem('id_token') : false;
     }
 
-    onLoginUser(idToken) {
-        localStorage.setItem('id_token', idToken);
+    onLoginUser(authResult) {
+        localStorage.setItem('id_token', authResult.idToken);
         this.isLoggedIn = true;
         browserHistory.replace('/profile');
         toastr.success('Lietotājs ienācis veiksmīgi!');
