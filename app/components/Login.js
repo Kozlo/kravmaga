@@ -43,7 +43,22 @@ class Login extends React.Component {
             }
         });
 
-        this._lock.on('authenticated', authResult => AuthActions.loginUser(authResult));
+        this._lock.on('authenticated', authResult => this._onAuthenticated(authResult));
+    }
+
+    _onAuthenticated(authResult) {
+        const token = authResult.idToken;
+        this._lock.getProfile(token, (error, profile) => this._onProfileReceived(error, profile, token));
+    }
+
+    _onProfileReceived(error, profile, token) {
+        if (error) {
+            console.error(error);
+            toastr.error('Autorizācija neveiksmīga!');
+            return;
+        }
+
+        AuthActions.loginUser(profile, token);
     }
 
     render() {

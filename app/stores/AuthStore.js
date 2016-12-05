@@ -10,8 +10,9 @@ class AuthStore {
         this.isLoggedIn = typeof localStorage !== 'undefined' ? !!localStorage.getItem('id_token') : false;
     }
 
-    onLoginUser(authResult) {
-        localStorage.setItem('id_token', authResult.idToken);
+    onLoginUser(profile, token) {
+        localStorage.setItem('profile', JSON.stringify(profile));
+        localStorage.setItem('id_token', token);
         this.isLoggedIn = true;
         browserHistory.replace('/');
         toastr.success('Lietotājs ienācis veiksmīgi!');
@@ -19,6 +20,7 @@ class AuthStore {
 
     // TODO: add user name here as arg
     onLogoutUser() {
+        localStorage.removeItem('profile');
         localStorage.removeItem('id_token');
         this.isLoggedIn = false;
         browserHistory.replace('/login');
