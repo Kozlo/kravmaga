@@ -1,5 +1,5 @@
 import React from 'react';
-//import connectToStores from 'alt-utils/lib/connectToStores';
+    import connectToStores from 'alt-utils/lib/connectToStores';
 import ExecutionEnvironment from 'exenv';
 import { Button } from 'react-bootstrap'
 
@@ -8,22 +8,16 @@ import AuthActions from '../actions/AuthActions';
 
 class Login extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = AuthStore.getState();
+    static getStores() {
+        return [AuthStore];
+    }
+
+    static getPropsFromStores() {
+        return AuthStore.getState();
     }
 
     componentDidMount() {
-        AuthStore.listen(this.onChange.bind(this));
         this._initLock();
-    }
-
-    componentWillUnmount() {
-        AuthStore.unlisten(this.onChange.bind(this));
-    }
-
-    onChange(state) {
-        this.setState(state);
     }
 
     login() {
@@ -66,4 +60,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default connectToStores(Login);

@@ -1,5 +1,5 @@
 import React from 'react';
-//import connectToStores from 'alt-utils/lib/connectToStores';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
 
@@ -7,25 +7,17 @@ import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 
 class Navbar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = AuthStore.getState();
+
+    static getStores() {
+        return [AuthStore];
     }
 
-    componentDidMount() {
-        AuthStore.listen(this.onChange.bind(this));
-    }
-
-    componentWillUnmount() {
-        AuthStore.unlisten(this.onChange.bind(this));
-    }
-
-    onChange(state) {
-        this.setState(state);
+    static getPropsFromStores() {
+        return AuthStore.getState();
     }
 
     render() {
-        const { isLoggedIn } = this.state;
+        const { isLoggedIn } = this.props;
 
         return (
             <nav className='navbar navbar-default navbar-static-top'>
@@ -53,4 +45,4 @@ class Navbar extends React.Component {
     }
 }
 
-export default Navbar;
+export default connectToStores(Navbar);
