@@ -3,8 +3,10 @@
 - Create some login store where the authentication state changes. then subscribe in components to reflect the changes
 - create a home page
   (DONE)- add Auth0 integration on home page
-  - do the necessary navbar changes (e.g. welcome, name) and the necessary route displaying
+  (DONE)- do the necessary navbar changes (e.g. welcome, name) and the necessary route displaying
   - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
+  - commit the auht0 switch to bower that fixed double react include bug
+  - figure out the setState error on logout
 
 
 Later

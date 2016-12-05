@@ -1,6 +1,7 @@
 {
   "name": "newedenfaces",
   "dependencies": {
+    "auth0-lock": "10.7.2",
     "jquery": "^2.1.4",
     "bootstrap": "^3.3.7",
     "magnific-popup": "^1.0.0",

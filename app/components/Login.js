@@ -1,12 +1,9 @@
 import React from 'react';
 //import connectToStores from 'alt-utils/lib/connectToStores';
 import ExecutionEnvironment from 'exenv';
-import { browserHistory } from 'react-router'
-import { Button } from 'react-bootstrap';
-import Auth0Lock from 'auth0-lock';
+import { Button } from 'react-bootstrap'
 
 import AuthStore from '../stores/AuthStore';
-import AuthActions from '../actions/AuthActions';
 
 class Login extends React.Component {
 
@@ -38,6 +35,11 @@ class Login extends React.Component {
                 redirectUrl: `${window.location.origin}/profile`,
                 responseType: 'token'
             }
+        });
+
+        lock.on('authenticated', function(authResult) {
+            console.log(authResult);
+            // debugger;
         });
 
         lock.show();
