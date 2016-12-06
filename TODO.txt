@@ -1,14 +1,38 @@
 (DONE)- Add base app (based on the tutorial)
 (DONE)- upgrade to React 15.3
-- Create some login store where the authentication state changes. then subscribe in components to reflect the changes
-- create a home page
+(DONE)- Create some login store where the authentication state changes. then subscribe in components to reflect the changes
+(DONE)- create a home page
   (DONE)- add Auth0 integration on home page
   (DONE)- do the necessary navbar changes (e.g. welcome, name) and the necessary route displaying
   (DONE)- commit the auht0 switch to bower that fixed double react include bug
   (DONE)- figure out the setState error on logout: switched to alt's getStores & getPropsFromStores static methods
+
+- Add proper back-end authentication:
+  - enable FB/Google logins
+    (DONE)- enable and configure on Auth0
+    - see what data can be retrieved here (email, picture, location, birthdate, gender etc.)
+      - Google: email, picture, gender, birthdate, country
+      - Facebook: email, user_birthday, location, first_name?, last_name?
+  - need to create a route for profile:
+    - if the user exists, then login with authstore
+    - if the user doesn't exist in the DB, should create it (and then login):
+      - consider only allowing vertified e-mail addresses (but maybe not, as it might be annoying... should research)
+      - required field(s): probably base this on authId (not e-mail, as it can change, but still keep it unique in the DB)
+        - figure out which one I should use: user_id, clientID, global_client_id (these also apply to FB, Google)
+          - check if client_ID and global ID are the same for all sing-up versions
+        (DONE)- check if there's an authID if the user is using Google/FB
+          - yes, but it has either 'facebook' or 'google-oauth2' in front of it
+      - optional fields:
+        - all info that can be retrieved from Google/FB, or just authId and e-mail otherwise
+    - should show some message if the user was created (login is there already in AuthStore)
+
+- Create profile page (as index page) that the user is redirected to
   - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
-  - decide which data is needed and add the scope, so that it's not needed to return the full profile in a separate req:
-    - https://auth0.com/docs/scopes
+    (DONE)- add JWT JWT auth to back-end
+    -
+    - need to create code on profile page to retrieve profile info
+
+- Add JSDoc to components (research this a bit as well)
 
 
 Later
@@ -22,5 +46,5 @@ Later
 - add Latvian language to Auht0
 - add other logon options (FB, Google+ etc.)
 - Read on SPA routing/navigation logic best practices and (DONE) amend routing/navbar accordingly
-- add login with FB option
--
+- add login with FB option (currently only Google)
+- should test routes for profile info, maybe need to logout user if authorization isn't fine on server

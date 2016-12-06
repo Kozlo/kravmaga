@@ -58,7 +58,42 @@ class Login extends React.Component {
             return;
         }
 
-        AuthActions.loginUser(profile, token);
+        // TODO: check if user exists in local DB, if not, create an account, if yes, check if blocked, if not, login
+        console.log(profile);
+        const request = {
+            url: '/check-profile',
+            method: 'POST',
+            data: profile,
+            headers: { 'Authorization': `Bearer ${token}` },
+            statusCode: {
+                401: res => {
+                    console.error(res);
+                    toastr.error('Autorizācijas kļūda - mēģiniet vēlreiz!');
+                },
+                403: res => {
+                    console.error(res);
+                    toastr.error('Lietotājs bloķēts - Sazinieties ar administratoru!');
+                },
+                500: res => {
+                    console.error(res);
+                    toastr.error('Servera kļūda - mēģiniet vēlreiz!');
+                }
+            }
+        };
+        $.ajax(request)
+            .done(data => {
+                console.log('Data: ', data);
+                AuthActions.loginUser();
+            })
+            .fail(e => {
+                // skip the error codes that have been handled
+                const handledStatuses = Object.keys(request.statusCode);
+                const indexOfStatus = handledStatuses.indexOf(e.status.toString());
+                if (indexOfStatus !== -1) return;
+
+                console.error(e);
+                toastr.error('Autorizācija neveiksmīga - neparadzēta kļūda!');
+            });
     }
 
     render() {

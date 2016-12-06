@@ -18,7 +18,6 @@ class AuthStore {
         toastr.success('Lietotājs ienācis veiksmīgi!');
     }
 
-    // TODO: add user name here as arg
     onLogoutUser() {
         localStorage.removeItem('profile');
         localStorage.removeItem('id_token');
