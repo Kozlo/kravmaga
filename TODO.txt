@@ -10,9 +10,9 @@
 - Add proper back-end authentication:
   - enable FB/Google logins
     (DONE)- enable and configure on Auth0
-    - see what data can be retrieved here (email, picture, location, birthdate, gender etc.)
-      - Google: email, picture, gender, birthdate, country
-      - Facebook: email, user_birthday, location, first_name?, last_name?
+    (DONE)- see what data can be retrieved here
+      (DONE)- Google  : email, given_name, family_name, gender, picture
+      (DONE)- Facebook: email, given_name, family_name, gender, picture
   - need to create a route for profile:
     - if the user exists, then login with authstore
     - if the user doesn't exist in the DB, should create it (and then login):
@@ -34,7 +34,7 @@
 
 - Add JSDoc to components (research this a bit as well)
 
-
+-----------------------------------------------
 Later
 - check out react bootstarp and how to use it... and if I'm using ir correctly
 - play around with the styles (currently using the one from the tutorial)
@@ -47,4 +47,37 @@ Later
 - add other logon options (FB, Google+ etc.)
 - Read on SPA routing/navigation logic best practices and (DONE) amend routing/navbar accordingly
 - add login with FB option (currently only Google)
-- should test routes for profile info, maybe need to logout user if authorization isn't fine on server
+- should test routes for profile info, maybe need to logout user if authorization isn't fine on server,
+
+
+
+-----------------------------------------------
+Notes:
+- Auth0 gives the following info for profile:
+clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
+user_id: "auth0|57b560d73fa4e89a29e99a0d"
+provider:
+  connection: "Username-Password-Authentication"
+  isSocial: false
+  provider: "auth0"
+  user_id: "57b560d73fa4e89a29e99a0d"
+
+
+Google:
+clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
+user_id: "google-oauth2|107376329887259877921"
+provider:
+  connection: "google-oauth2"
+  isSocial:true
+  provider: "google-oauth2"
+  user_id: "107376329887259877921"
+
+
+Facebook
+clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
+user_id: "facebook|10211758406534749"
+provider:
+  connection: "facebook"
+  isSocial: true
+  provider: "facebook"
+  user_id: "10211758406534749"

@@ -47,8 +47,11 @@ class Login extends React.Component {
     }
 
     _onAuthenticated(authResult) {
-        const token = authResult.idToken;
-        this._lock.getProfile(token, (error, profile) => this._onProfileReceived(error, profile, token));
+        console.log('Authresult: ', authResult);
+        this._lock.getUserInfo(
+            authResult.accessToken,
+            (error, profile) => this._onProfileReceived(error, profile, authResult.idToken)
+        );
     }
 
     _onProfileReceived(error, profile, token) {
