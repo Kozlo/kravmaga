@@ -25,6 +25,8 @@
       - optional fields:
         - all info that can be retrieved from Google/FB, or just authId and e-mail otherwise
     - should show some message if the user was created (login is there already in AuthStore)
+    - !!!BUG!!!: there's a bug with identities. normally they are separate, so would need to link them to allow the user to use many:
+      to link accounts, use: https://auth0.com/docs/link-accounts
 
 - Create profile page (as index page) that the user is redirected to
   - do the necessary back-end changes (need to save the user the DB and link auth0 account with other info)
@@ -33,7 +35,8 @@
     - need to create code on profile page to retrieve profile info
 
 - Add JSDoc to components (research this a bit as well)
-
+- Deal with error:
+ DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
 -----------------------------------------------
 Later
 - check out react bootstarp and how to use it... and if I'm using ir correctly
