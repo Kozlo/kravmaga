@@ -8,6 +8,9 @@ module.exports = app => {
     // models
     const User = require('./models/user');
 
+    // config
+    const authProviderTypes = require('./config').authProviderTypes;
+
     // set up JWT
     const jwtCheck = jwt({
         secret: new Buffer(process.env.JWT_SECRET, 'base64'),
@@ -20,8 +23,8 @@ module.exports = app => {
 
         if (!isProfileValid(res, profile)) return;
 
-        const criteria = { auth_client_id: profile.clientID };
-        const fields = 'is_blocked auth_providers email, name, gender, picture';
+        const criteria = { user_id: profile.user_id };
+        const fields = 'user_id is_blocked email firstName, lastName';
 
         User.findOne(criteria, fields)
             .then(user => {
@@ -80,7 +83,7 @@ module.exports = app => {
             res.status(401).send(msg);
 
             return false;
-        } else if (!isValidString(profile.clientID)) {
+        } else if (!isValidString(profile.user_id)) {
             const msg = 'Profile clientID not defined properly';
             console.error(msg);
             res.status(401).send(msg);
@@ -99,8 +102,7 @@ module.exports = app => {
      */
     function createUser( profile) {
         let user = {
-            auth_client_id: profile.clientID,
-            auth_providers: []
+            user_id: profile.user_id
         };
 
         if (profile.email) user.email = profile.email;
@@ -108,7 +110,6 @@ module.exports = app => {
         if (profile.family_name) user.lastName = profile.family_name;
         if (profile.gender) user.gender = profile.gender;
         if (profile.picture) user.picture = profile.picture;
-        _addAuthProviders(user, profile);
 
         console.log('Creating new user:', user);
 
@@ -129,60 +130,9 @@ module.exports = app => {
         if (!user.family_name && profile.family_name) user.lastName = profile.family_name;
         if (!user.gender && profile.gender) user.gender = profile.gender;
         if (!user.picture && profile.picture) user.picture = profile.picture;
-        _addAuthProviders(user, profile, true);
 
         console.log('Updating user:', user);
 
         return user;
-    }
-
-    /**
-     * Creates new or checks if new have to be added to the user's profile.
-     *
-     * @private
-     * @param {User|Object} user User whose profile is being updated.
-     * @param {Object} profile Identities the user is logging in with.
-     * @param {boolean} [update] Flag showing is the identities are being updated or added.
-     */
-    function _addAuthProviders(user, profile, update = false) {
-        let provider = profile['identities[0][provider]'];
-        let userId = profile['identities[0][user_id]'];
-        let connection = profile['identities[0][connection]'];
-        let isSocial = profile['identities[0][isSocial]'];
-
-        if (!provider || !userId || !connection || !isSocial) {
-            console.log('Could not read identity from profile, skipping...');
-            return;
-        }
-
-        if (update && _authProviderExists(user.auth_providers, userId, provider)) {
-            console.log(`Provider for ${provider} already exists, skipping...`);
-            return;
-        }
-
-        console.log('Adding auth providers');
-
-        // need to convert isSocial from string to boolean
-        user.auth_providers.push({
-            connection: connection,
-            is_social: !!isSocial,
-            provider: provider,
-            user_id: userId
-        });
-    }
-
-    /**
-     * Checks if the provider has already been added to the user's profile based on provider name and user id.
-     *
-     * @private
-     * @param {Array} providers User's existing providers.
-     * @param {Array} id Id of the provider the user is logging in with.
-     * @param {Array} providername Name of the provider the user is logging in with.
-     * @returns {boolean} Indicator showing if the provider already exists.
-     */
-    function _authProviderExists(identities, userId, providerName) {
-        return identities.filter(identity => {
-            return (identity.user_id == userId && identity.provider == providerName);
-        }).length > 0;
     }
 };

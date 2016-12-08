@@ -51,8 +51,17 @@ Later
 - Read on SPA routing/navigation logic best practices and (DONE) amend routing/navbar accordingly
 - add login with FB option (currently only Google)
 - should test routes for profile info, maybe need to logout user if authorization isn't fine on server,
-
-
+- If the user is logging in with an unauthorized email (regardless of type - email/FB/GOOG), ask them to vertify the account first (indicate if it's email, FB, or GOOGLE)
+- Krav Maga user account linking:
+  -) make emails unique
+  -) remove identities entry to an account and create 3 separate fields: auht0ID, facebookID, googleID
+  -) first check if the id (1 of 3) exists in the DB (assume if the user got this far, the email is vertified)
+    - if yes, then login the user
+    - if no, then find a user based on the email
+      - if not found create a brand new user
+  	- if yes (the email exists in the DB), link the account to the email
+  -) check out the following link for linking the accounts on Auth0 side as well: https://auth0.com/docs/link-accounts
+  -) at very login, check if the passed profile has some data that the user doesn't have in the DB, and update it
 
 -----------------------------------------------
 Notes:

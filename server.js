@@ -17,6 +17,8 @@ const bodyParser = require('body-parser');
 // DB files
 const mongoose = require('mongoose');
 const config = require('./config');
+// Use native promises
+mongoose.Promise = global.Promise;
 
 // Establish a DB connection
 mongoose.connect(config.database, () => {
