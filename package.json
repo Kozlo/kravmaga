@@ -22,7 +22,7 @@
     "start": "node server.js",
     "watch": "nodemon server.js"
   },
-  "postinstall": "bower install && gulp build",
+  "postinstall": "npm install && bower install && gulp build",
   "babel": {
     "presets": [
       "es2015",
