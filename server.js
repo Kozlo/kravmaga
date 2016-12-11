@@ -1,6 +1,8 @@
 // Babel ES6/JSX Compiler
 require('babel-register');
 
+process.env.PWD = process.cwd();
+
 // React dependencies
 const swig  = require('swig');
 const React = require('react');
@@ -37,7 +39,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(process.env.PWD, 'public')));
 
 // Routes
 require('./routes')(app);
