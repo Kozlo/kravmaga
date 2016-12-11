@@ -20,9 +20,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "watch": "nodemon server.js"
+    "watch": "nodemon server.js",
+    "build": "gulp build",
+    "postinstall": "npm install && bower install && npm run build",
   },
-  "postinstall": "npm install && bower install && gulp build",
   "babel": {
     "presets": [
       "es2015",
