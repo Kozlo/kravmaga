@@ -7,13 +7,26 @@ class AuthStore {
     constructor() {
         this.bindActions(AuthActions);
 
-        this.isLoggedIn = typeof localStorage !== 'undefined' ? !!localStorage.getItem('id_token') : false;
+        // this is needed for server-side rendering
+        if (typeof localStorage === 'undefined') return;
+
+        let profile = localStorage.getItem('profile');
+
+        this.isLoggedIn = !!localStorage.getItem('id_token');
+        this.token = localStorage.getItem('id_token');
+        this.profile = profile ? JSON.parse(profile) : {};
     }
 
-    onLoginUser(profile, token) {
+    onLoginUser(args) {
+        // TODO: figure out how to pass the args separately
+        let profile = args[0];
+        let token = args[1];
+
         localStorage.setItem('profile', JSON.stringify(profile));
         localStorage.setItem('id_token', token);
         this.isLoggedIn = true;
+        this.token = token;
+        this.profile = profile;
         browserHistory.replace('/');
         toastr.success('Lietotājs ienācis veiksmīgi!');
     }

@@ -17,6 +17,26 @@ module.exports = app => {
         audience: process.env.JWT_AUDIENCE
     });
 
+    app.post('/get-profile', jwtCheck, (req, res) => {
+        const user_id = req.body.user_id;
+        console.log('Retrieving profile for user with id: ', user_id);
+
+        if (!isValidString(user_id)) return handleError(res, null, 'user_id not defined', 401);
+
+        const criteria = { user_id };
+
+        User.findOne(criteria)
+            .then(user => {
+                if (!user) return handleError(res, null, `user with id ${user_id} not found`, 401);
+                if (user.is_blocked) return handleError(res, null, `user with id ${user_id} is blocked`, 403);
+
+                console.log('Found user:', user);
+
+                res.status(200).send(user);
+            })
+            .catch(err => handleError(res, err, 'Error checking profile'));
+    });
+
     app.post('/check-profile', jwtCheck, (req, res) => {
         const profile = req.body;
         console.log('Profile received: ', profile);
@@ -50,11 +70,12 @@ module.exports = app => {
      * @public
      * @param {Object} res Response object
      * @param {Object} err Error object
-     * @param {String} [msg] Error message
+     * @param {string} [msg] Error message
+     * @param {number} [status] Status code
      */
-    function handleError(res, err, msg = 'Internal server error') {
-        res.status(500).send();
-        throw err;
+    function handleError(res, err, msg = 'Internal server error', status = 500) {
+        res.status(status).send(msg);
+        console.error(msg, err);
     }
 
     /**
@@ -84,7 +105,7 @@ module.exports = app => {
 
             return false;
         } else if (!isValidString(profile.user_id)) {
-            const msg = 'Profile clientID not defined properly';
+            const msg = 'Profile user_id not defined properly';
             console.error(msg);
             res.status(401).send(msg);
 

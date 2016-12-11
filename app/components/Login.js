@@ -1,5 +1,5 @@
 import React from 'react';
-    import connectToStores from 'alt-utils/lib/connectToStores';
+import connectToStores from 'alt-utils/lib/connectToStores';
 import ExecutionEnvironment from 'exenv';
 import { Button } from 'react-bootstrap'
 
@@ -60,15 +60,19 @@ class Login extends React.Component {
             toastr.error('Autorizācija neveiksmīga!');
             return;
         }
-
-        // TODO: check if user exists in local DB, if not, create an account, if yes, check if blocked, if not, login
+        // TODO: remove when done devleoping
         console.log(profile);
         const request = {
             url: '/check-profile',
             method: 'POST',
             data: profile,
             headers: { 'Authorization': `Bearer ${token}` },
+            // TODO: consider moving these to some utils class
             statusCode: {
+                200: res => {
+                    console.log('Authorization successful');
+                    AuthActions.loginUser(profile, token);
+                },
                 401: res => {
                     console.error(res);
                     toastr.error('Autorizācijas kļūda - mēģiniet vēlreiz!');
@@ -85,8 +89,7 @@ class Login extends React.Component {
         };
         $.ajax(request)
             .done(data => {
-                console.log('Data: ', data);
-                AuthActions.loginUser();
+                console.log('Data returned from the server: ', data);
             })
             .fail(e => {
                 // skip the error codes that have been handled
