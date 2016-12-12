@@ -18,6 +18,7 @@ class Navbar extends React.Component {
 
     render() {
         const { isLoggedIn } = this.props;
+        const logoutBtnStyle = { marginRight: '15px' };
 
         return (
             <nav className='navbar navbar-default navbar-static-top'>
@@ -35,7 +36,7 @@ class Navbar extends React.Component {
                         {isLoggedIn && <li><Link activeClassName="active" to='/'>Profils</Link></li>}
                     </ul>
                     {isLoggedIn &&
-                        <Button className="btn btn-default navbar-btn pull-right" onClick={AuthActions.logoutUser.bind(this)}>
+                        <Button className="btn btn-default navbar-btn pull-right" onClick={AuthActions.logoutUser.bind(this)} style={logoutBtnStyle} >
                             <span className="glyphicon glyphicon-log-out"></span> Iziet
                         </Button>
                     }
