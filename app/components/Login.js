@@ -34,16 +34,38 @@ class Login extends React.Component {
             return;
         }
 
-        // TODO: replace the strings with config
-        // initialize
-        this._lock = new Auth0Lock('Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf', 'kozlo.eu.auth0.com', {
-            auth: {
-                redirectUrl: `${window.location.origin}/login`,
-                responseType: 'token'
-            }
-        });
+        const request = {
+            url: '/get-auth0-config',
+            method: 'POST',
+            statusCode: {
+                200: res => {
+                    console.log('Environmental variables retrieved successfully');
+                    // initialize
+                    this._lock = new Auth0Lock(res.jwt_audience, res.auth0_id, {
+                        auth: {
+                            redirectUrl: `${window.location.origin}/login`,
+                            responseType: 'token'
+                        }
+                    });
 
-        this._lock.on('authenticated', authResult => this._onAuthenticated(authResult));
+                    this._lock.on('authenticated', authResult => this._onAuthenticated(authResult));
+                },
+                500: res => {
+                    console.error(res);
+                    toastr.error('Servera kļūda - mēģiniet vēlreiz!');
+                }
+            }
+        };
+        $.ajax(request)
+            .fail(e => {
+                // skip the error codes that have been handled
+                const handledStatuses = Object.keys(request.statusCode);
+                const indexOfStatus = handledStatuses.indexOf(e.status.toString());
+                if (indexOfStatus !== -1) return;
+
+                console.error(e);
+                toastr.error('Servera kļūda - mēģiniet vēlreiz!');
+            });
     }
 
     _onAuthenticated(authResult) {
@@ -60,7 +82,7 @@ class Login extends React.Component {
             toastr.error('Autorizācija neveiksmīga!');
             return;
         }
-        // TODO: remove when done devleoping
+        // TODO: remove when done developing
         console.log(profile);
         const request = {
             url: '/check-profile',

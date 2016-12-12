@@ -17,6 +17,18 @@ module.exports = app => {
         audience: process.env.JWT_AUDIENCE
     });
 
+    app.post('/get-auth0-config', (req, res) => {
+        const jwt_audience = process.env.JWT_AUDIENCE;
+        const auth0_id = process.env.AUTH0_ID;
+
+        if (!jwt_audience) return handleError(res, null, 'JWT_AUDIENCE environmental variable not set', 500);
+        if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
+
+        console.log('Returning jwt, auth0 environmental variables');
+
+        res.status(200).json({ jwt_audience, auth0_id });
+    });
+
     app.post('/get-profile', jwtCheck, (req, res) => {
         const user_id = req.body.user_id;
         console.log('Retrieving profile for user with id: ', user_id);
