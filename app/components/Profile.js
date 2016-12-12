@@ -68,7 +68,7 @@ class Profile extends React.Component {
         const { user } = this.props.user;
         const gender = user.gender == 'male' ? 'Vīrietis' : (user.gender == 'female' ? 'Sieviete' : '');
         const panelStyle = { maxWidth: '720px', margin: 'auto' };
-        const imageStyle = { float: 'left',  marginRight: '10px' };
+        const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
         const btnStyle = { float: 'right', marginRight: '10px' };
 
         return (
@@ -79,7 +79,7 @@ class Profile extends React.Component {
                     </div>
                     <div className="panel-body">
                         <div className="row">
-                            <div className="col-xs-6 col-sm-5">
+                            <div className="col-xs-12 col-sm-5">
                                 <img src={user.picture} alt="User Image" style={imageStyle} />
                                 <dl>
                                     <dt>Vārds, Uzvārds</dt>
