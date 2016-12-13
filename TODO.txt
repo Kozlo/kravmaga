@@ -6,8 +6,8 @@
 (DONE)- Create profile page (as index page) that the user is redirected to
 
 - Add an admin page
-  - add admin feature to Auth0 (roles most likely)
-  - Update user schema to refleact admin feature (also user creation/update)
+  (DONE)- add admin feature to Auth0 (set the metadata)
+  (DONE)- Update user schema to refleact admin feature (also user creation/update)
   - create a blank admin page
   - create a table with a list of all users
 

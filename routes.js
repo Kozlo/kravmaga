@@ -131,10 +131,9 @@ module.exports = app => {
      * @returns {User} Created user.
      */
     function createUser( profile) {
-        let user = {
-            user_id: profile.user_id
-        };
+        let user = { user_id: profile.user_id };
 
+        if (profile.isAdmin === 'true') user.isAdmin = true;
         if (profile.email) user.email = profile.email;
         if (profile.given_name) user.firstName = profile.given_name;
         if (profile.family_name) user.lastName = profile.family_name;
@@ -155,6 +154,7 @@ module.exports = app => {
      * @returns {User}
      */
     function updateUser(user, profile) {
+        if (!user.isAdmin && profile.isAdmin === 'true') user.isAdmin = true;
         if (!user.email && profile.email) user.email = profile.email;
         if (!user.given_name && profile.given_name) user.firstName = profile.given_name;
         if (!user.family_name && profile.family_name) user.lastName = profile.family_name;
