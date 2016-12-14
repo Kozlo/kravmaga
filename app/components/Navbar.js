@@ -4,20 +4,25 @@ import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
 
 import AuthStore from '../stores/AuthStore';
+import UserStore from '../stores/UserStore';
 import AuthActions from '../actions/AuthActions';
 
 class Navbar extends React.Component {
 
     static getStores() {
-        return [AuthStore];
+        return [AuthStore, UserStore];
     }
 
     static getPropsFromStores() {
-        return AuthStore.getState();
+        return {
+            auth: AuthStore.getState(),
+            user: UserStore.getState().user
+        }
     }
 
     render() {
-        const { isLoggedIn } = this.props;
+        const { isLoggedIn } = this.props.auth;
+        const isAdmin = this.props.user.isAdmin === true;
         const logoutBtnStyle = { marginRight: '15px' };
 
         return (
@@ -34,6 +39,7 @@ class Navbar extends React.Component {
                 <div id='navbar' className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         {isLoggedIn && <li><Link activeClassName="active" to='/'>Profils</Link></li>}
+                        {isLoggedIn && isAdmin && <li><Link activeClassName="active" to='/admin'>Admin Panelis</Link></li>}
                     </ul>
                     {isLoggedIn &&
                         <Button className="btn btn-default navbar-btn pull-right" onClick={AuthActions.logoutUser.bind(this)} style={logoutBtnStyle} >

@@ -14,7 +14,7 @@ class Profile extends React.Component {
     static getPropsFromStores() {
         return {
             auth: AuthStore.getState(),
-            user: UserStore.getState()
+            user: UserStore.getState().user
         };
     }
 
@@ -23,7 +23,7 @@ class Profile extends React.Component {
     }
 
     render() {
-        const { user } = this.props.user;
+        const user = this.props.user;
         const gender = user.gender == 'male' ? 'Vīrietis' : (user.gender == 'female' ? 'Sieviete' : '');
         const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
         const btnStyle = { float: 'right', marginRight: '10px' };
