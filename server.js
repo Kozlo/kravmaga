@@ -44,22 +44,8 @@ app.use(express.static(path.join(process.env.PWD, 'public')));
 // Routes
 require('./routes')(app);
 
-// React middleware
-app.use((req, res) => {
-    Router.match({ routes: routes.default, location: req.url }, (err, redirectLocation, renderProps) => {
-        if (err) {
-            res.status(500).send(err.message)
-        } else if (redirectLocation) {
-            res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
-        } else if (renderProps) {
-            const html = ReactDOM.renderToString(React.createElement(Router.RouterContext, renderProps));
-            const page = swig.renderFile('views/index.html', { html: html });
-
-            res.status(200).send(page);
-        } else {
-            res.status(404).send('Page Not Found')
-        }
-    });
+app.get('*', function response(req, res) {
+    res.sendFile(path.join(__dirname, 'views/index.html'));
 });
 
 app.listen(app.get('port'), () => {

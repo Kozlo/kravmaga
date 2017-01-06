@@ -1,7 +1,9 @@
-- remove server-side rendering
+(DONE)- remove server-side rendering
+- move the index file from
 - switch to webpack and add hot module re-load
 - fix routes and make them RESTful
 - figure out the best way to organize back-end code (would need some controller)
+- move the popup away from the logout button or vice versa
 
 - Add an admin page
   (DONE)- add admin feature to Auth0 (set the metadata)
