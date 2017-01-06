@@ -1,5 +1,5 @@
 (DONE)- remove server-side rendering
-- move the index file from
+- move the index file from view to public
 - switch to webpack and add hot module re-load
 - fix routes and make them RESTful
 - figure out the best way to organize back-end code (would need some controller)

@@ -45,7 +45,7 @@ app.use(express.static(path.join(process.env.PWD, 'public')));
 require('./routes')(app);
 
 app.get('*', function response(req, res) {
-    res.sendFile(path.join(__dirname, 'views/index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(app.get('port'), () => {
