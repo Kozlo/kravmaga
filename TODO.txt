@@ -1,6 +1,7 @@
 (DONE)- remove server-side rendering
-- move the index file from view to public
+(DONE)- move the index file from view to public
 - switch to webpack and add hot module re-load
+- check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - fix routes and make them RESTful
 - figure out the best way to organize back-end code (would need some controller)
 - move the popup away from the logout button or vice versa
