@@ -1,9 +1,7 @@
-(DONE)- Add base app (based on the tutorial)
-(DONE)- upgrade to React 15.3
-(DONE)- Create some login store where the authentication state changes. then subscribe in components to reflect the changes
-(DONE)- create a home page
-(DONE)- Add proper back-end authentication:
-(DONE)- Create profile page (as index page) that the user is redirected to
+- remove server-side rendering
+- switch to webpack and add hot module re-load
+- fix routes and make them RESTful
+- figure out the best way to organize back-end code (would need some controller)
 
 - Add an admin page
   (DONE)- add admin feature to Auth0 (set the metadata)

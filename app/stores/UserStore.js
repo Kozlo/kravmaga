@@ -9,8 +9,8 @@ class UserStore {
         this.user = {};
     }
 
-    onUserReceived(User) {
-        this.user = User;
+    onUserReceived(user) {
+        this.user = user;
     }
 }
 
