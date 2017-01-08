@@ -1,5 +1,7 @@
 (DONE)- remove server-side rendering
 (DONE)- move the index file from view to public
+- create all CRUD routes for users
+- adjust all routes in front-end with the new system
 - switch to webpack and add hot module re-load
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - fix routes and make them RESTful

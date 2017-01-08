@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     user_id: { type: String, unique: true, required: true, index: true },
-    isAdmin: { type: Boolean, default: false },
     email: { type: String, index: true },
+    is_admin: { type: Boolean, default: false },
     is_blocked: { type: Boolean, default: false },
-    firstName: { type: String },
-    lastName: { type: String },
+    given_name: { type: String },
+    family_name: { type: String },
     gender: { type: String },
     picture: { type: String }
 });

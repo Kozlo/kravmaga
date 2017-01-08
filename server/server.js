@@ -8,7 +8,7 @@ const swig  = require('swig');
 const React = require('react');
 const ReactDOM = require('react-dom/server');
 const Router = require('react-router');
-const routes = require('./app/routes');
+const routes = require('./../app/routes');
 
 // express-related dependencies
 const express = require('express');
@@ -42,11 +42,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(process.env.PWD, 'public')));
 
 // Routes
-require('./routes')(app);
-
-app.get('*', function response(req, res) {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
+require('./routes/index')(app);
 
 app.listen(app.get('port'), () => {
     console.log(`Express server listening on port ${app.get('port')}`);

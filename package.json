@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Kozlo/kravmaga#readme",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/server.js",
     "watch": "nodemon server.js",
     "build": "gulp build",
     "postinstall": "bower install && npm run build"
