@@ -1,45 +1,50 @@
-// Babel ES6/JSX Compiler
-require('babel-register');
+/**
+ * Server.js
+ *
+ * Entry point for the Krav-Maga CRM application.
+ */
 
-process.env.PWD = process.cwd();
+//=================
+// Dependencies
+//=================
 
-// React dependencies
-const swig  = require('swig');
-const React = require('react');
-const ReactDOM = require('react-dom/server');
-const Router = require('react-router');
-const routes = require('./../app/routes');
-
-// express-related dependencies
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-
-// DB files
 const mongoose = require('mongoose');
-const config = require('./config');
-// Use native promises
+
+//=================
+// DB setup
+//=================
+
+const database = process.env.DB_URI;
+
 mongoose.Promise = global.Promise;
+mongoose.connect(database, () => console.log(`Successfully connected to the DB: ${database}`));
+mongoose.connection.on('error', () => console.info(`Error: Could not connect to MongoDB ${database}: `, err));
 
-// Establish a DB connection
-mongoose.connect(config.database, () => {
-    console.log(`Successfully connected to the DB: ${config.database}`);
-});
-mongoose.connection.on('error', () => {
-    console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?');
-});
+//=================
+// App setup
+//=================
 
-// start the app
 const app = express();
-
 
 // Express middleware
 app.set('port', process.env.PORT || 3000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(process.env.PWD, 'public')));
+app.use(express.static(path.join(process.cwd(), 'public')));
+
+// Catch unauthorised errors
+// TODO: figure out why this isn't caught
+app.use((err, req, res, next) => {
+    if (err.name === 'UnauthorizedError') {
+        console.error('Unauthorized error:', err);
+        res.status(401).json({ 'message': `${err.name}: ${err.message}` });
+    }
+});
 
 // Routes
 require('./routes/index')(app);

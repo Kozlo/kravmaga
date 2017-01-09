@@ -13,7 +13,6 @@ module.exports = app => {
 
     require('./auth')(app);
     require('./users')(app, auth);
-    // require('./expenses')(app, auth);
 
     app.get('*', controller.main);
 

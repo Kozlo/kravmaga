@@ -3,6 +3,7 @@
 - create all CRUD routes for users
 - adjust all routes in front-end with the new system
 - switch to webpack and add hot module re-load
+- check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - fix routes and make them RESTful
 - figure out the best way to organize back-end code (would need some controller)
@@ -24,6 +25,7 @@
  DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
 -----------------------------------------------
 Later
+- add filters to get users route
 - check out react bootstarp and how to use it... and if I'm using ir correctly
 - play around with the styles (currently using the one from the tutorial)
 - check out Auth0 to see if it's possible to replace the popup with a regular form

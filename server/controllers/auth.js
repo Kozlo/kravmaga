@@ -18,8 +18,6 @@ module.exports = {
         if (!jwt_audience) return handleError(res, null, 'JWT_AUDIENCE environmental variable not set', 500);
         if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
 
-        console.log('Returning jwt, auth0 environmental variables: ', jwt_audience, auth0_id);
-
         res.status(200).json({ jwt_audience, auth0_id });
     }
 

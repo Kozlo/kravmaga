@@ -72,8 +72,6 @@ module.exports = {
         if (!userHelpers.isUserIdValid(res, id)) return;
         if (!userHelpers.isUserIdValid(res, authUserId)) return;
 
-        // TODO: check if the authenticated user getting his/her own profile or is an admin.
-
         User.findOne({ user_id: authUserId })
             .then(authUser => {
                 if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
