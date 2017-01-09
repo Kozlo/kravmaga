@@ -7,10 +7,7 @@ class AuthStore {
     constructor() {
         this.bindActions(AuthActions);
 
-        // this is needed for server-side rendering
-        if (typeof localStorage === 'undefined') return;
-
-        let profile = localStorage.getItem('profile');
+        const profile = localStorage.getItem('profile');
 
         this.isLoggedIn = !!localStorage.getItem('id_token');
         this.token = localStorage.getItem('id_token');

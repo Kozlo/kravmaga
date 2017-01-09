@@ -25,7 +25,7 @@ const userLoggedOn = (nextState, replace) => {
 
 // requires the user to be logged in and an admin
 const isAdmin = (nextState, replace) => {
-    if (!AuthStore.getState().isLoggedIn || UserStore.getState().user.isAdmin !== true) {
+    if (!AuthStore.getState().isLoggedIn || UserStore.getState().user.is_admin !== true) {
         replace({pathname: '/login'})
     }
 };

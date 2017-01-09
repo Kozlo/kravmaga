@@ -37,6 +37,7 @@ class Login extends React.Component {
         const request = {
             url: '/get-auth0-config',
             method: 'POST',
+            // TODO: move these to the utils class (but create a new object (see Expensio))
             statusCode: {
                 200: res => {
                     console.log('Environmental variables retrieved successfully');
@@ -69,6 +70,7 @@ class Login extends React.Component {
     }
 
     _onAuthenticated(authResult) {
+        // TODO: remove when done developing
         console.log('Authresult: ', authResult);
         this._lock.getUserInfo(
             authResult.accessToken,
@@ -89,7 +91,7 @@ class Login extends React.Component {
             method: 'POST',
             data: profile,
             headers: { 'Authorization': `Bearer ${token}` },
-            // TODO: consider moving these to some utils class
+            // TODO: move these to the utils class (but create a new object (see Expensio))
             statusCode: {
                 200: res => {
                     console.log('Authorization successful');

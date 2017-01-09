@@ -1,7 +1,12 @@
 (DONE)- remove server-side rendering
 (DONE)- move the index file from view to public
-- create all CRUD routes for users
+(DONE)- create all CRUD routes for users
 - adjust all routes in front-end with the new system
+- finish implementing the admin page
+  - finish the base set-up
+  - add a possibility to CRUD users
+  - create a 'lessons' section
+
 - switch to webpack and add hot module re-load
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
