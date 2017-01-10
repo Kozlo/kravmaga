@@ -5,7 +5,6 @@ class UserStore {
     constructor() {
         this.bindActions(UserActions);
 
-        // TODO: figure out is this is needed or if it can be removed
         this.user = {};
     }
 

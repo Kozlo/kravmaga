@@ -1,6 +1,7 @@
 (DONE)- remove server-side rendering
 (DONE)- move the index file from view to public
 (DONE)- create all CRUD routes for users
+- replace user_id field with auth_id to avoid confusion
 - adjust all routes in front-end with the new system
 - finish implementing the admin page
   - finish the base set-up

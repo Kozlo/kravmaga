@@ -1,6 +1,5 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import ExecutionEnvironment from 'exenv';
 import { Button } from 'react-bootstrap'
 
 import AuthStore from '../stores/AuthStore';
@@ -18,9 +17,15 @@ class Login extends React.Component {
 
     componentDidMount() {
         this._initLock();
+        // TODO: add auto popup opening
+    }
+
+    componentWillUnmount() {
+        // TODO: research if I need to do anything here
     }
 
     login() {
+        // TODO: test if this is needed (probably isn't)
         if (typeof this._lock === 'undefined') {
             console.error('Lock is undefined');
             return;
@@ -30,10 +35,10 @@ class Login extends React.Component {
     }
 
     _initLock() {
-        if (!ExecutionEnvironment.canUseDOM || this._lock) {
-            return;
-        }
+        // TODO: test if this is needed (probably isn't)
+        if (this._lock) return;
 
+        // TODO: add an auth action to get the config via a request
         const request = {
             url: '/get-auth0-config',
             method: 'POST',
@@ -69,6 +74,7 @@ class Login extends React.Component {
             });
     }
 
+
     _onAuthenticated(authResult) {
         // TODO: remove when done developing
         console.log('Authresult: ', authResult);
@@ -84,8 +90,9 @@ class Login extends React.Component {
             toastr.error('Autorizācija neveiksmīga!');
             return;
         }
-        // TODO: remove when done developing
-        console.log(profile);
+
+        // TODO: relace with a callto getUsers instead
+        // TODO: test what kind of response is received when logging and what when registering via auth0 and see if it can be differentiated here
         const request = {
             url: '/check-profile',
             method: 'POST',

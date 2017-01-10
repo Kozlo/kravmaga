@@ -4,8 +4,10 @@ class AuthActions {
 
     constructor() {
         this.generateActions(
+            'getToken',
             'loginUser',
-            'logoutUser'
+            'logoutUser',
+            'silentLogoutUser'
         );
     }
 

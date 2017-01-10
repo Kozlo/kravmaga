@@ -1,55 +1,47 @@
 import AuthActions from '../actions/AuthActions';
-import UserActions from '../actions/UserActions';
 
-// TODO: replace 'auth' with something more generic and use everywhere
-export const authStatusCode = {
-    200: user => {
-        console.log('User received successfully: ', user);
-        UserActions.userReceived(user);
-    },
+export const httpStatusCode = {
     401: res => {
         console.error(res);
         toastr.error('Autorizācijas kļūda - mēģiniet vēlreiz!');
-        // TODO: replace with a 'silent logout'
-        AuthActions.logoutUser();
+        AuthActions.silentLogoutUser();
     },
     403: res => {
         console.error(res);
-        toastr.error('Lietotājs bloķēts - Sazinieties ar administratoru!');
-        // TODO: replace with a 'silent logout'
-        AuthActions.logoutUser();
+        toastr.error('Lietotājs bloķēts - sazinieties ar administratoru!');
+        AuthActions.silentLogoutUser();
+    },
+    404: res => {
+        console.error(res);
+        toastr.error('Pieprasītais saturs netika atrasts - sazinieties ar administratoru!');
+    },
+    409: res => {
+        console.error(res);
+        toastr.error('Noticis datu apstrādes konflikts - sazinieties ar administratoru!');
     },
     500: res => {
         console.error(res);
         toastr.error('Servera kļūda - mēģiniet vēlreiz!');
-        // TODO: replace with a 'silent logout'
-        AuthActions.logoutUser();
+        AuthActions.silentLogoutUser();
     }
 };
 
-export const authErrorHandler = e => {
+export const getAuthorizationHeader = () => {
+    const token = AuthActions.getToken();
+
+    return { 'Authorization': `Bearer ${token}` };
+};
+
+export const httpErrorHandler = e => {
     // skip the error codes that have been handled
-    const handledStatuses = Object.keys(authStatusCode);
+    const handledStatuses = Object.keys(httpStatusCode);
     const indexOfStatus = handledStatuses.indexOf(e.status.toString());
 
     if (indexOfStatus !== -1) return;
 
     console.error(e);
-    toastr.error('Autorizācija neveiksmīga - neparadzēta kļūda!');
+    toastr.error('Pieprasījums neveiksmīgs - neparedzēta kļūda!');
 };
 
-export const authSuccessHandler = data => console.log('User received: ', data);
 
-export const getProfile = auth => {
-    // TODO: replace user_id with _id if possible
-    const request = {
-        url: '/get-profile',
-        method: 'POST',
-        data: { user_id: auth.profile.user_id },
-        headers: { 'Authorization': `Bearer ${auth.token}` },
-        statusCode: authStatusCode
-    };
-    $.ajax(request)
-        .done(authSuccessHandler)
-        .fail(authErrorHandler);
-};
+export const httpSuccessHandler = data => console.log('Data received: ', data);
