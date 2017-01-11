@@ -3,8 +3,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 import AuthStore from '../stores/AuthStore';
 
-import { getProfile } from '../utils/utils';
-
 class Admin extends React.Component {
     static getStores() {
         return [AuthStore];
@@ -14,10 +12,6 @@ class Admin extends React.Component {
         return {
             auth: AuthStore.getState()
         };
-    }
-
-    componentDidMount() {
-        getProfile(this.props.auth);
     }
 
     render() {

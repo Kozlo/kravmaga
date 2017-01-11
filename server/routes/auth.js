@@ -1,13 +1,13 @@
 /**
  * Authentication routes.
  */
-module.exports = app => {
+module.exports = (app, auth) => {
 
-    const auth = require('../controllers/auth');
+    const authController = require('../controllers/auth');
 
     // TODO: check if a logout route is necessary
 
-    // TODO: change front-end references
-    app.get('/auth-config', auth.getConfig);
+    app.get('/auth-config', authController.getConfig);
 
+    app.post('/check-profile', auth, authController.checkProfile);
 };

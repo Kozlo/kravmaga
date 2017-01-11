@@ -5,28 +5,32 @@ import AuthActions from '../actions/AuthActions';
 
 class AuthStore {
     constructor() {
-        const profile = localStorage.getItem('profile');
+        const user = localStorage.getItem('user');
 
         this.bindActions(AuthActions);
 
         this.isLoggedIn = !!localStorage.getItem('id_token');
         this.token = localStorage.getItem('id_token');
-        this.profile = profile ? JSON.parse(profile) : {};
+        this.user = user ? JSON.parse(user) : {};
     }
 
     onGetToken() {
         return this.token;
     }
 
-    onLoginUser(args) {
-        const [profile, token] = args;
+    onGetUser() {
+        return this.user;
+    }
 
-        localStorage.setItem('profile', JSON.stringify(profile));
+    onLoginUser(args) {
+        const { user, token } = args;
+
+        localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('id_token', token);
 
         this.isLoggedIn = true;
         this.token = token;
-        this.profile = profile;
+        this.user = user;
 
         browserHistory.replace('/');
 
@@ -44,7 +48,7 @@ class AuthStore {
     }
 
     _logOutUser() {
-        localStorage.removeItem('profile');
+        localStorage.removeItem('user');
         localStorage.removeItem('id_token');
 
         this.isLoggedIn = false;

@@ -2,6 +2,10 @@
  * Authentication controller.
  */
 
+const helpers = require('../helpers/common');
+const userHelpers = require('../helpers/users');
+const User = require('../models/user');
+
 module.exports = {
 
     /**
@@ -19,6 +23,32 @@ module.exports = {
         if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
 
         res.status(200).json({ jwt_audience, auth0_id });
-    }
+    },
 
+    /**
+     * Checks if the user exists and returns the user if yes. Otherwise creates the user.
+     *
+     * @public
+     * @param {Object} req Request object.
+     * @param {Object} res Response object
+     */
+    checkProfile(req, res) {
+        const authUserId = req.payload.sub;
+
+        if (!userHelpers.isUserIdValid(res, authUserId)) return;
+
+        User.findOne({ user_id: authUserId })
+            .then(authUser => {
+                if (authUser) return authUser;
+
+                const profile = req.body;
+                const userProps = userHelpers.createUser(res, profile);
+
+                if (!userProps) helpers.throwError(res, `Some of the user props for profile ${profile} are not valid`, 400);
+
+                return User.create(userProps);
+            })
+            .then(user => res.status(200).send(user))
+            .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${authUserId}`));
+    }
 };

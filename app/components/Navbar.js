@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import AuthStore from '../stores/AuthStore';
 import UserStore from '../stores/UserStore';
 import AuthActions from '../actions/AuthActions';
+import UserActions from '../actions/UserActions';
 
 class Navbar extends React.Component {
 
@@ -20,9 +21,15 @@ class Navbar extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const { user, token } = this.props.auth;
+
+        if (user && user._id && token) UserActions.getUser(user._id, token);
+    }
+
     render() {
         const { isLoggedIn } = this.props.auth;
-        const isAdmin = this.props.user.isAdmin === true;
+        const isAdmin = this.props.user.is_admin === true;
         const logoutBtnStyle = { marginRight: '15px' };
 
         return (

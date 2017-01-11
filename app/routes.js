@@ -2,7 +2,6 @@ import React from 'react';
 import { Route } from 'react-router';
 
 import AuthStore from './stores/AuthStore';
-import UserStore from './stores/UserStore';
 import App from './components/App';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -25,7 +24,7 @@ const userLoggedOn = (nextState, replace) => {
 
 // requires the user to be logged in and an admin
 const isAdmin = (nextState, replace) => {
-    if (!AuthStore.getState().isLoggedIn || UserStore.getState().user.is_admin !== true) {
+    if (!AuthStore.getState().isLoggedIn || AuthStore.getState().user.is_admin !== true) {
         replace({pathname: '/login'})
     }
 };

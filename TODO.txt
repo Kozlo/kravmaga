@@ -27,8 +27,8 @@
   - add a table with lessons to both the admin panel and the user section
 
 - Add JSDoc to components (research this a bit as well)
-- Deal with error:
- DeprecationWarning: Mongoose: mpromise (mongoose's default promise library) is deprecated, plug in your own promise library instead: http://mongoosejs.com/docs/promises.html
+
+
 -----------------------------------------------
 Later
 - add filters to get users route

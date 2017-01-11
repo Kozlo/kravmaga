@@ -8,10 +8,9 @@ module.exports = app => {
         audience: process.env.JWT_AUDIENCE,
         userProperty: 'payload'
     });
-
     const controller = require('../controllers/index');
 
-    require('./auth')(app);
+    require('./auth')(app, auth);
     require('./users')(app, auth);
 
     app.get('*', controller.main);

@@ -4,7 +4,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../stores/AuthStore';
 import UserStore from '../stores/UserStore';
 
-import { getProfile } from '../utils/utils';
+import UserActions from '../actions/UserActions';
 
 class Profile extends React.Component {
     static getStores() {
@@ -19,7 +19,9 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        getProfile(this.props.auth);
+        const { user, token } = this.props.auth;
+
+        UserActions.getUser(user._id, token);
     }
 
     render() {

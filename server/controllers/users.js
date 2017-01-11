@@ -19,11 +19,20 @@ module.exports = {
      */
     create(req, res) {
         const profile = req.body;
-        const user = userHelpers.createUser(res, profile);
+        const user_id = profile.user_id;
 
-        if (!user) return;
+        if (!userHelpers.isUserIdValid(res, user_id)) return;
 
-        User.create(user)
+        User.findOne({ user_id })
+            .then(user => {
+                if (user) helpers.throwError(res, `User with user_id ${user_id} already exists`, 409);
+
+                const userProps = userHelpers.createUser(res, profile);
+
+                if (!userProps) helpers.throwError(res, `Some of the user props for profile ${profile} are not valid`, 400);
+
+                return User.create(userProps);
+            })
             .then(user => res.status(200).send(user))
             .catch(err => helpers.handleError(res, err, 'Error creating user'));
     },
@@ -46,8 +55,9 @@ module.exports = {
             .then(authUser => {
                 if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
 
+                // TODO: add user_id filter and allow users to get their own user data based on user_id
                 if (authUser.is_admin !== true) {
-                    helpers.throwError(res, `Only admins can view all users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
+                    helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
                 }
 
                 return User.find();

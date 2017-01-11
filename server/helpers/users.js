@@ -60,7 +60,7 @@ module.exports = {
      * @returns {Object|undefined} Object with valid user properties if validated.
      */
     _getValidUser(res, profile, authUser) {
-        if (!helpers.isObject(profile)) return helpers.handleError(res, null, 'The passed profile not a valid object', 401);
+        if (!helpers.isObject(profile)) return helpers.handleError(res, null, 'The passed profile not a valid object', 400);
 
         const user = {};
         const { user_id, email, given_name, family_name, gender, picture, is_admin, is_blocked } = profile;
@@ -69,42 +69,42 @@ module.exports = {
             if (this.isUserIdValid(res, user_id)) {
                 user.user_id = user_id;
             } else {
-                return helpers.handleError(res, null, `The passed user_id ${user_id} is not a valid string`, 401);
+                return helpers.handleError(res, null, `The passed user_id ${user_id} is not a valid string`, 400);
             }
         }
         if (email) {
             if (helpers.isValidEmail(email)) {
                 user.email = email
             } else {
-                return helpers.handleError(res, null, `The passed email ${email} is not valid`, 401);
+                return helpers.handleError(res, null, `The passed email ${email} is not valid`, 400);
             }
         }
         if (given_name) {
             if (helpers.isValidString(given_name)) {
                 user.given_name = given_name;
             } else {
-                return helpers.handleError(res, null, `The passed given_name ${given_name} is not a valid string`, 401);
+                return helpers.handleError(res, null, `The passed given_name ${given_name} is not a valid string`, 400);
             }
         }
         if (family_name) {
             if (helpers.isValidString(family_name)) {
                 user.family_name = family_name;
             } else {
-                return helpers.handleError(res, null, `The passed family_name ${family_name} is not a valid string`, 401);
+                return helpers.handleError(res, null, `The passed family_name ${family_name} is not a valid string`, 400);
             }
         }
         if (gender) {
             if (helpers.isValidString(gender)) {
                 user.gender = gender;
             } else {
-                return helpers.handleError(res, null, `The passed gender ${gender} is not a valid string`, 401);
+                return helpers.handleError(res, null, `The passed gender ${gender} is not a valid string`, 400);
             }
         }
         if (picture) {
             if (helpers.isValidString(picture)) {
                 user.picture = picture;
             } else {
-                return helpers.handleError(res, null, `The passed picture ${picture} is not a valid string`, 401);
+                return helpers.handleError(res, null, `The passed picture ${picture} is not a valid string`, 400);
             }
         }
         if (helpers.isBooleanValue(is_admin) || is_admin === 'true' || is_admin === 'false')  {
