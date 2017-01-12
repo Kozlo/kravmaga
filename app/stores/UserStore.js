@@ -8,6 +8,10 @@ class UserStore {
         this.user = {};
     }
 
+    onGetCurrentUser() {
+        return this.user;
+    }
+
     onUserReceived(user) {
         this.user = user;
     }

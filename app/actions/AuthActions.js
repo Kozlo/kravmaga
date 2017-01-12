@@ -6,7 +6,7 @@ class AuthActions {
     constructor() {
         this.generateActions(
             'getToken',
-            'getUser',
+            'getAuthUserId',
             'loginUser',
             'logoutUser',
             'silentLogoutUser'
@@ -27,7 +27,7 @@ class AuthActions {
     }
 
     checkProfile(token, profile) {
-        const statusCode = $.extend({ 200: user => this.loginUser({ user, token}) }, httpStatusCode);
+        const statusCode = $.extend({ 200: user => this.loginUser({ token, authUserId: user._id }) }, httpStatusCode);
         const request = {
             statusCode,
             data: profile,

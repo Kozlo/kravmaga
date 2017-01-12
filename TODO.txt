@@ -8,6 +8,7 @@
   - add a possibility to CRUD users
   - create a 'lessons' section
 
+- instead of saving the whole user in auth, only save the _id
 - switch to webpack and add hot module re-load
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only

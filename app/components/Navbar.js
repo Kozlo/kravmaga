@@ -5,8 +5,11 @@ import { Button } from 'react-bootstrap';
 
 import AuthStore from '../stores/AuthStore';
 import UserStore from '../stores/UserStore';
+
 import AuthActions from '../actions/AuthActions';
 import UserActions from '../actions/UserActions';
+
+import { objectIsEmpty } from '../utils/utils';
 
 class Navbar extends React.Component {
 
@@ -17,19 +20,21 @@ class Navbar extends React.Component {
     static getPropsFromStores() {
         return {
             auth: AuthStore.getState(),
-            user: UserStore.getState().user
+            user: UserStore.getState()
         }
     }
 
     componentDidMount() {
-        const { user, token } = this.props.auth;
+        const { user } = this.props.user;
+        const { authUserId, token } = this.props.auth;
 
-        if (user && user._id && token) UserActions.getUser(user._id, token);
+        UserActions.checkForUser(user, authUserId, token);
     }
 
     render() {
-        const { isLoggedIn } = this.props.auth;
-        const isAdmin = this.props.user.is_admin === true;
+        const { user, auth } = this.props;
+        const isLoggedIn = !!auth.token;
+        const isAdmin = user.user.is_admin === true;
         const logoutBtnStyle = { marginRight: '15px' };
 
         return (

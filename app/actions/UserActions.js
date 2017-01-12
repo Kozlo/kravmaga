@@ -1,11 +1,19 @@
 import alt from '../alt';
-import { httpStatusCode, httpSuccessHandler, httpErrorHandler, getAuthorizationHeader, encodeJsonUrl } from '../utils/utils';
+import {
+    httpStatusCode,
+    httpSuccessHandler,
+    httpErrorHandler,
+    objectIsEmpty,
+    getAuthorizationHeader,
+    encodeJsonUrl
+} from '../utils/utils';
 
 class UserActions {
 
     constructor() {
         this.generateActions(
-            'userReceived'
+            'userReceived',
+            'getCurrentUser'
         );
     }
 
@@ -17,6 +25,17 @@ class UserActions {
             url: '/users',
             method: 'POST',
             data: profile,
+        });
+    }
+
+    getUser(id, token) {
+        const statusCode = $.extend({ 200: user => this.userReceived(user) }, httpStatusCode);
+
+        return this._sendRequest({
+            statusCode,
+            url: `/users/${id}`,
+            method: 'GET',
+            headers: getAuthorizationHeader(token)
         });
     }
 
@@ -32,15 +51,13 @@ class UserActions {
         });
     }
 
-    getUser(id, token) {
-        const statusCode = $.extend({ 200: user => this.userReceived(user) }, httpStatusCode);
+    // fetches the authenticated user if it hasn't been fetched already
+    checkForUser(user, authUserId, token) {
+        if (objectIsEmpty(user) && authUserId && token) {
+            return this.getUser(authUserId, token);
+        }
 
-        return this._sendRequest({
-            statusCode,
-            url: `/users/${id}`,
-            method: 'GET',
-            headers: getAuthorizationHeader(token)
-        });
+        return false;
     }
 
     _sendRequest(request) {
