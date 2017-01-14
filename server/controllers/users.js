@@ -19,17 +19,17 @@ module.exports = {
      */
     create(req, res) {
         const profile = req.body;
-        const user_id = profile.user_id;
+        const auth_id = profile.user_id;
 
-        if (!userHelpers.isUserIdValid(res, user_id)) return;
+        if (!userHelpers.isUserIdValid(res, auth_id)) return;
 
-        User.findOne({ user_id })
+        User.findOne({ auth_id })
             .then(user => {
-                if (user) helpers.throwError(res, `User with user_id ${user_id} already exists`, 409);
+                if (user) helpers.throwError(res, `User with auth_id ${auth_id} already exists`, 409);
 
                 const userProps = userHelpers.createUser(res, profile);
 
-                if (!userProps) helpers.throwError(res, `Some of the user props for profile ${profile} are not valid`, 400);
+                if (!userProps) helpers.throwError(res, 'Some of the user props for profile are not valid', 400);
 
                 return User.create(userProps);
             })
@@ -47,15 +47,15 @@ module.exports = {
      * @param {Object} res Response object
      */
     get(req, res) {
-        const authUserId = req.payload.sub;
+        const auth_id = req.payload.sub;
 
         // TODO: add filters
 
-        User.findOne({ user_id: authUserId })
+        User.findOne({ auth_id })
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
+                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
 
-                // TODO: add user_id filter and allow users to get their own user data based on user_id
+                // TODO: add auth_id filter and allow users to get their own user data based on auth_id
                 if (authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
                 }
@@ -77,14 +77,14 @@ module.exports = {
      */
     getOne(req, res) {
         const id = req.params.id;
-        const authUserId = req.payload.sub;
+        const auth_id = req.payload.sub;
 
         if (!userHelpers.isUserIdValid(res, id)) return;
-        if (!userHelpers.isUserIdValid(res, authUserId)) return;
+        if (!userHelpers.isUserIdValid(res, auth_id)) return;
 
-        User.findOne({ user_id: authUserId })
+        User.findOne({ auth_id })
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
+                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
 
                 if (!authUser._id.equals(id) && authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
@@ -113,14 +113,14 @@ module.exports = {
     update(req, res) {
         const id = req.params.id;
         const profile = req.body;
-        const authUserId = req.payload.sub;
+        const auth_id = req.payload.sub;
 
         if (!userHelpers.isUserIdValid(res, id)) return;
-        if (!userHelpers.isUserIdValid(res, authUserId)) return;
+        if (!userHelpers.isUserIdValid(res, auth_id)) return;
 
-        User.findOne({ user_id: authUserId })
+        User.findOne({ auth_id })
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
+                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
 
                 if (!authUser._id.equals(id) && authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can update other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
@@ -151,11 +151,11 @@ module.exports = {
      */
     delete(req, res) {
         const id = req.params.id;
-        const authUserId = req.payload.sub;
+        const auth_id = req.payload.sub;
 
-        User.findOne({ user_id: authUserId })
+        User.findOne({ auth_id })
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with user_id ${authUserId} not found`, 404);
+                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
 
                 if (authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can delete other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);

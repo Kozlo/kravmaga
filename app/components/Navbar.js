@@ -26,9 +26,9 @@ class Navbar extends React.Component {
 
     componentDidMount() {
         const { user } = this.props.user;
-        const { authUserId, token } = this.props.auth;
+        const { userId, token } = this.props.auth;
 
-        UserActions.checkForUser(user, authUserId, token);
+        UserActions.checkForUser(user, userId, token);
     }
 
     render() {

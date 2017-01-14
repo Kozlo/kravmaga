@@ -2,15 +2,17 @@ import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 import AuthStore from '../stores/AuthStore';
+import UserStore from '../stores/UserStore';
 
 class Admin extends React.Component {
     static getStores() {
-        return [AuthStore];
+        return [AuthStore, UserStore];
     }
 
     static getPropsFromStores() {
         return {
-            auth: AuthStore.getState()
+            auth: AuthStore.getState(),
+            user: UserStore.getState()
         };
     }
 

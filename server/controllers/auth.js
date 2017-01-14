@@ -33,22 +33,22 @@ module.exports = {
      * @param {Object} res Response object
      */
     checkProfile(req, res) {
-        const authUserId = req.payload.sub;
+        const auth_id = req.payload.sub;
 
-        if (!userHelpers.isUserIdValid(res, authUserId)) return;
+        if (!userHelpers.isUserIdValid(res, auth_id)) return;
 
-        User.findOne({ user_id: authUserId })
+        User.findOne({ auth_id })
             .then(authUser => {
                 if (authUser) return authUser;
 
                 const profile = req.body;
                 const userProps = userHelpers.createUser(res, profile);
 
-                if (!userProps) helpers.throwError(res, `Some of the user props for profile ${profile} are not valid`, 400);
+                if (!userProps) helpers.throwError(res, 'Some of the user props for profile are not valid', 400);
 
                 return User.create(userProps);
             })
             .then(user => res.status(200).send(user))
-            .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${authUserId}`));
+            .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${auth_id}`));
     }
 };

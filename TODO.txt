@@ -1,13 +1,14 @@
 (DONE)- remove server-side rendering
 (DONE)- move the index file from view to public
 (DONE)- create all CRUD routes for users
-- replace user_id field with auth_id to avoid confusion
-- adjust all routes in front-end with the new system
+(DONE)- replace user_id field with auth_id to avoid confusion
+(DONE)- adjust all routes in front-end with the new system
 - finish implementing the admin page
-  - finish the base set-up
+  (DONE)- finish the base set-up
   - add a possibility to CRUD users
   - create a 'lessons' section
 
+- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
 - instead of saving the whole user in auth, only save the _id
 - switch to webpack and add hot module re-load
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)

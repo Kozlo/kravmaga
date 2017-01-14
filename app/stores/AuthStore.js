@@ -8,7 +8,7 @@ class AuthStore {
         this.bindActions(AuthActions);
 
         this.token = localStorage.getItem('id_token');
-        this.authUserId = localStorage.getItem('auth_user_id');
+        this.userId = localStorage.getItem('user_id');
     }
 
     onGetToken() {
@@ -16,17 +16,17 @@ class AuthStore {
     }
 
     onAuthUserId() {
-        return this.authUserId;
+        return this.userId;
     }
 
     onLoginUser(args) {
-        const { authUserId, token } = args;
+        const { userId, token } = args;
 
-        localStorage.setItem('auth_user_id', authUserId);
+        localStorage.setItem('user_id', userId);
         localStorage.setItem('id_token', token);
 
         this.token = token;
-        this.authUserId = authUserId;
+        this.userId = userId;
 
         browserHistory.replace('/');
 
@@ -44,11 +44,11 @@ class AuthStore {
     }
 
     _logOutUser() {
-        localStorage.removeItem('auth_user_id');
+        localStorage.removeItem('user_id');
         localStorage.removeItem('id_token');
 
         this.token = null;
-        this.authUserId = null;
+        this.userId = null;
 
         browserHistory.replace('/login');
     }

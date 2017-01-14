@@ -52,9 +52,9 @@ class UserActions {
     }
 
     // fetches the authenticated user if it hasn't been fetched already
-    checkForUser(user, authUserId, token) {
-        if (objectIsEmpty(user) && authUserId && token) {
-            return this.getUser(authUserId, token);
+    checkForUser(user, userId, token) {
+        if (objectIsEmpty(user) && userId && token) {
+            return this.getUser(userId, token);
         }
 
         return false;

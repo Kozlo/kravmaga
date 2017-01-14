@@ -6,8 +6,6 @@ import UserStore from '../stores/UserStore';
 
 import UserActions from '../actions/UserActions';
 
-import { objectIsEmpty } from '../utils/utils';
-
 class Profile extends React.Component {
     static getStores() {
         return [AuthStore, UserStore];
@@ -22,9 +20,9 @@ class Profile extends React.Component {
 
     componentDidMount() {
         const { user } = this.props.user;
-        const { authUserId, token } = this.props.auth;
+        const { userId, token } = this.props.auth;
 
-        return UserActions.checkForUser(user, authUserId, token);
+        return UserActions.checkForUser(user, userId, token);
     }
 
     render() {

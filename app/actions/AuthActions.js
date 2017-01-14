@@ -27,7 +27,7 @@ class AuthActions {
     }
 
     checkProfile(token, profile) {
-        const statusCode = $.extend({ 200: user => this.loginUser({ token, authUserId: user._id }) }, httpStatusCode);
+        const statusCode = $.extend({ 200: user => this.loginUser({ token, userId: user._id }) }, httpStatusCode);
         const request = {
             statusCode,
             data: profile,

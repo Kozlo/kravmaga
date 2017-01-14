@@ -31,7 +31,7 @@ module.exports = {
         if (this.isUserIdValid(res, profile.user_id)) {
             return this._getValidUser(res, profile);
         } else {
-            return helpers.handleError(res, null, `The passed user_id ${profile.user_id} is not a valid string`, 403);
+            return helpers.handleError(res, null, `The passed auth_id ${profile.auth_id} is not a valid string`, 403);
         }
     },
 
@@ -51,7 +51,7 @@ module.exports = {
     /**
      * Validates all passed user properties and returns the constructed object is appropriate.
      *
-     * Excludes user_id as it
+     * Excludes auth_id as it
      *
      * @private
      * @param {Object} res Response to use in case of errors.
@@ -67,9 +67,9 @@ module.exports = {
 
         if (user_id) {
             if (this.isUserIdValid(res, user_id)) {
-                user.user_id = user_id;
+                user.auth_id = user_id;
             } else {
-                return helpers.handleError(res, null, `The passed user_id ${user_id} is not a valid string`, 400);
+                return helpers.handleError(res, null, `The passed auth_id ${user_id} is not a valid string`, 400);
             }
         }
         if (email) {
