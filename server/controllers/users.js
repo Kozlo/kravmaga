@@ -58,6 +58,8 @@ module.exports = {
                 // TODO: add auth_id filter and allow users to get their own user data based on auth_id
                 if (authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
+                } else if (authUser.is_blocked !== false) {
+                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
                 }
 
                 return User.find();
@@ -84,10 +86,12 @@ module.exports = {
 
         User.findOne({ auth_id })
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
-
-                if (!authUser._id.equals(id) && authUser.is_admin !== true) {
+                if (!authUser) {
+                    helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
+                } else if (!authUser._id.equals(id) && authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
+                } else if (authUser.is_blocked !== false) {
+                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
                 }
 
                 return User.findById(id);
@@ -124,6 +128,8 @@ module.exports = {
 
                 if (!authUser._id.equals(id) && authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can update other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
+                } else if (authUser.is_blocked !== false) {
+                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
                 }
 
                 const newProps = userHelpers.updateUser(res, profile, authUser);
@@ -159,6 +165,8 @@ module.exports = {
 
                 if (authUser.is_admin !== true) {
                     helpers.throwError(res, `Only admins can delete other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
+                } else if (authUser.is_blocked !== false) {
+                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
                 }
 
                 return User.findByIdAndRemove(id);

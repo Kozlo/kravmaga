@@ -48,7 +48,13 @@ module.exports = {
 
                 return User.create(userProps);
             })
-            .then(user => res.status(200).send(user))
+            .then(user => {
+                if (user.is_blocked !== false) {
+                    res.status(403).send(`User with auth_id ${user.auth_id} is blocked`);
+                } else {
+                    res.status(200).send(user);
+                }
+            })
             .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${auth_id}`));
     }
 };

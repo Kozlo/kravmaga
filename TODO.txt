@@ -30,6 +30,8 @@
 
 - Add JSDoc to components (research this a bit as well)
 
+Bugs:
+- when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
 
 -----------------------------------------------
 Later
