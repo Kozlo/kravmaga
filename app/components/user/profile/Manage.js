@@ -62,15 +62,20 @@ class ManageUser extends React.Component {
     }
 
     _onReplyReceived() {
-        $('#manageUserCloseBtn').click();
-        $('#manageUserSubmitBtn').prop('disabled', false);
+        const { userId, token } = this.props.auth;
+
+        $('#manageProfileCloseBtn').click();
+        $('#manageProfileSubmitBtn').prop('disabled', false);
+
+        UserActions.getUser(userId, token);
     }
 
+
     render() {
-        const { given_name, family_name, email, gender, is_blocked, is_admin } = this.props.user.updatable;
+        const { given_name, family_name, email, gender } = this.props.user.updatable;
 
         return (
-            <div className="modal fade" id="userModal" tabIndex="-1" role="dialog" aria-labelledby="User Modal">
+            <div className="modal fade" id="profileModal" tabIndex="-1" role="dialog" aria-labelledby="Profile Modal">
                 <div className="modal-dialog" role="document">
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className="modal-content">
@@ -131,45 +136,15 @@ class ManageUser extends React.Component {
                                         </FormGroup>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12}>
-                                        <FormGroup>
-                                            <ControlLabel>Statuss</ControlLabel>
-                                            <select className="form-control"
-                                                    onChange={this.handleChange.bind(this, 'is_blocked')}
-                                                    value={is_blocked}>
-                                                <option value={false}>Aktīvs</option>
-                                                <option value={true}>Bloķēts</option>
-                                            </select>
-                                            <FormControl.Feedback />
-                                            <HelpBlock>Vai lietotājs ir aktīvs vai bloķēts?</HelpBlock>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12}>
-                                        <FormGroup>
-                                            <ControlLabel>Loma</ControlLabel>
-                                            <select className="form-control"
-                                                    onChange={this.handleChange.bind(this, 'is_admin')}
-                                                    value={is_admin}>
-                                                <option value={false}>Lietotājs</option>
-                                                <option value={true}>Admins</option>
-                                            </select>
-                                            <FormControl.Feedback />
-                                            <HelpBlock>Vai lietotājs ir admins?</HelpBlock>
-                                        </FormGroup>
-                                    </Col>
-                                </Row>
                             </div>
                             <div className="modal-footer">
-                                <Button id="manageUserCloseBtn"
+                                <Button id="manageProfileCloseBtn"
                                         type="button"
                                         className="btn btn-default"
                                         data-dismiss="modal">Aizvērt</Button>
-                                <Button id="manageUserSubmitBtn"
+                                <Button id="manageProfileSubmitBtn"
                                         type="submit"
-                                        className="btn btn-primary">Atjaunināt</Button>
+                                        className="btn btn-primary">Saglabāt</Button>
                             </div>
                         </div>
                     </form>

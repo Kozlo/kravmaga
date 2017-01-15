@@ -12,6 +12,7 @@ class AdminContainer extends React.Component {
             </div>
         );
     }
+
 }
 
 export default AdminContainer;

@@ -17,7 +17,7 @@ class UserActions {
             'userDeleted',
             'userUpdated',
             'userListReceived',
-            'setUpdatableUser'
+            'setUpdatableUser',
         );
     }
 

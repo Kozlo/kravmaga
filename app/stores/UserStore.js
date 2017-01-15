@@ -7,7 +7,8 @@ class UserStore {
 
         this.user = {};
         this.userList = [];
-        this.updatable = { given_name : '', family_name: '', email: '', is_blocked: '', is_admin: '' };
+        this.updatable = { given_name : '', family_name: '', email: '', gender: '', is_blocked: '', is_admin: '' };
+        this.requestInProgress = false;
     }
 
     onGetCurrentUser() {
@@ -43,8 +44,8 @@ class UserStore {
         this.userList = userList;
     }
 
-    onSetUpdatableUser(user) {
-        this.updatable = user;
+    onSetUpdatableUser(updatable) {
+        this.updatable = updatable;
     }
 
 }

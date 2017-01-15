@@ -19,6 +19,8 @@ export const httpErrorHandler = e => {
     toastr.error('Pieprasījums neveiksmīgs - neparedzēta kļūda!');
 };
 
+export const httpSuccessHandler = data => console.log('Data received: ', data);
+
 export const objectIsEmpty = obj => {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
@@ -64,5 +66,3 @@ export const httpStatusCode = {
         AuthActions.silentLogoutUser();
     }
 };
-
-export const httpSuccessHandler = data => console.log('Data received: ', data);

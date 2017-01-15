@@ -1,43 +1,63 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Row, Col, Table } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
-// stores and actions
+import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
+import UserActions from '../../../actions/UserActions';
 
-// other components
 import UserEntry from './Entry';
 
 class UserData extends React.Component {
 
     static getStores() {
-        return [UserStore];
+        return [AuthStore, UserStore];
     }
 
     static getPropsFromStores() {
-        return UserStore.getState();
+        return {
+            auth: AuthStore.getState(),
+            user: UserStore.getState()
+        };
+    }
+
+    componentDidMount() {
+        const { token } = this.props.auth;
+        const { filters } = this.props.user;
+
+        UserActions.getUserList(filters, token);
     }
 
     render() {
+        const { userList } = this.props.user;
+
         return (
-            <Table responsive>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Vārds</th>
-                        <th>Uzvārds</th>
-                        <th>E-pasts</th>
-                        <th>Autorizācija</th>
-                        <th>Statuss</th>
-                        <th>Loma</th>
-                        <th>Labot</th>
-                        <th>Dzēst</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {this.props.userList.map((user, index) => <UserEntry key={`UserEntry${index}`} user={user} index={index} />)}
-                </tbody>
-            </Table>
+            <Row>
+                <Col xs={12}>
+                    <h4>Dati</h4>
+                </Col>
+                <Col xs={12}>
+                    <Table responsive>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Vārds</th>
+                                <th>Uzvārds</th>
+                                <th>E-pasts</th>
+                                <th>Dzimums</th>
+                                <th>Autorizācija</th>
+                                <th>Statuss</th>
+                                <th>Loma</th>
+                                <th>Labot</th>
+                                <th>Dzēst</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {userList.map((user, index) => <UserEntry key={`UserEntry${index}`} user={user} index={index} />)}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
         );
     }
 
