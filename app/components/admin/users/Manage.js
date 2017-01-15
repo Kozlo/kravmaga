@@ -147,6 +147,7 @@ class ManageUser extends React.Component {
                                             <select className="form-control"
                                                     onChange={this.handleChange.bind(this, 'gender')}
                                                     value={gender}>
+                                                <option value=''></option>
                                                 <option value='male'>Vīrietis</option>
                                                 <option value='female'>Sieviete</option>
                                             </select>

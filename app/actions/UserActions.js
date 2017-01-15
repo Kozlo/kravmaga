@@ -77,7 +77,6 @@ class UserActions {
         });
     }
 
-    // fetches the authenticated user if it hasn't been fetched already
     checkForUser(user, userId, token) {
         if (objectIsEmpty(user) && userId && token) {
             return this.getUser(userId, token);
