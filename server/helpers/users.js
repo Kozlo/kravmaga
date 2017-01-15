@@ -65,56 +65,56 @@ module.exports = {
         const user = {};
         const { user_id, email, given_name, family_name, gender, picture, is_admin, is_blocked } = profile;
 
-        if (user_id) {
-            if (this.isUserIdValid(res, user_id)) {
+        if (typeof user_id !== 'undefined') {
+            if (this.isUserIdValid(res, user_id) || user_id === '') {
                 user.auth_id = user_id;
             } else {
-                return helpers.handleError(res, null, `The passed auth_id ${user_id} is not a valid string`, 400);
+                return helpers.handleError(res, null, `The passed user_id ${user_id} is not a valid string`, 400);
             }
         }
-        if (email) {
-            if (helpers.isValidEmail(email)) {
+        if (typeof email !== 'undefined') {
+            if (helpers.isValidEmail(email) || email === '') {
                 user.email = email
             } else {
                 return helpers.handleError(res, null, `The passed email ${email} is not valid`, 400);
             }
         }
-        if (given_name) {
-            if (helpers.isValidString(given_name)) {
+        if (typeof given_name !== 'undefined') {
+            if (helpers.isValidString(given_name) || given_name === '') {
                 user.given_name = given_name;
             } else {
                 return helpers.handleError(res, null, `The passed given_name ${given_name} is not a valid string`, 400);
             }
         }
-        if (family_name) {
-            if (helpers.isValidString(family_name)) {
+        if (typeof family_name !== 'undefined') {
+            if (helpers.isValidString(family_name) || family_name === '') {
                 user.family_name = family_name;
             } else {
                 return helpers.handleError(res, null, `The passed family_name ${family_name} is not a valid string`, 400);
             }
         }
-        if (gender) {
-            if (helpers.isValidString(gender)) {
+        if (typeof gender !== 'undefined') {
+            if (helpers.isValidString(gender) || gender === '') {
                 user.gender = gender;
             } else {
                 return helpers.handleError(res, null, `The passed gender ${gender} is not a valid string`, 400);
             }
         }
-        if (picture) {
-            if (helpers.isValidString(picture)) {
+        if (typeof picture !== 'undefined') {
+            if (helpers.isValidString(picture) || picture === '') {
                 user.picture = picture;
             } else {
                 return helpers.handleError(res, null, `The passed picture ${picture} is not a valid string`, 400);
             }
         }
-        if (helpers.isBooleanValue(is_admin) || is_admin === 'true' || is_admin === 'false')  {
+        if (helpers.isBooleanValue(is_admin) || is_admin === '')  {
             if (authUser && authUser.is_admin === true) {
                 user.is_admin = is_admin;
             } else {
                 return helpers.handleError(res, null, 'Only admin users are allowed to change the role for other users', 403);
             }
         }
-        if (helpers.isBooleanValue(is_blocked) || is_blocked === 'true' || is_blocked === 'false')  {
+        if (helpers.isBooleanValue(is_blocked) || is_blocked === '')  {
             if (authUser && authUser.is_admin === true) {
                 user.is_blocked = is_blocked;
             } else {

@@ -12,8 +12,12 @@ class UserActions {
 
     constructor() {
         this.generateActions(
+            'getCurrentUser',
             'userReceived',
-            'getCurrentUser'
+            'userDeleted',
+            'userUpdated',
+            'userListReceived',
+            'setUpdatableUser'
         );
     }
 
@@ -39,15 +43,37 @@ class UserActions {
         });
     }
 
-    getUsers(filters, successHandler) {
-        const statusCode = $.extend({ 200: config => successHandler(config)}, httpStatusCode);
+    getUserList(filters, token) {
+        const statusCode = $.extend({ 200: users => this.userListReceived(users)}, httpStatusCode);
 
-        // TODO: add filters
         return this._sendRequest({
             statusCode,
             url: `/users?filters=${encodeJsonUrl(filters)}`,
             method: 'GET',
-            headers: getAuthorizationHeader()
+            headers: getAuthorizationHeader(token)
+        });
+    }
+
+    updateUser(user, token) {
+        const statusCode = $.extend({ 200: updatedUser => this.userUpdated(updatedUser) }, httpStatusCode);
+
+        return this._sendRequest({
+            statusCode,
+            url: `/users/${user._id}`,
+            method: 'PUT',
+            data: user,
+            headers: getAuthorizationHeader(token)
+        });
+    }
+
+    deleteUser(id, token) {
+        const statusCode = $.extend({ 200: () => this.userDeleted(id) }, httpStatusCode);
+
+        return this._sendRequest({
+            statusCode,
+            url: `/users/${id}`,
+            method: 'DELETE',
+            headers: getAuthorizationHeader(token)
         });
     }
 

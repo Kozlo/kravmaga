@@ -62,7 +62,7 @@ module.exports = {
                     helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
                 }
 
-                return User.find();
+                return User.find().sort({ 'updatedAt': -1 });
             })
             .then(users => res.status(200).send(users))
             .catch(err => handleError(res, err, 'Error retrieving users'));
@@ -136,7 +136,10 @@ module.exports = {
 
                 if (!newProps) helpers.throwError(res, `User with ID ${id} could not be updated`, 403);
 
-                return User.findByIdAndUpdate(id, newProps);
+                // make sure the new resource is returned, not the old one
+                const options = { 'new': true };
+
+                return User.findByIdAndUpdate(id, newProps, options);
             })
             .then(user => {
                 if (!user) helpers.throwError(res, `User with ID ${id} not found`, 404);

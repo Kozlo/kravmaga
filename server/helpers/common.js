@@ -15,7 +15,7 @@ module.exports = {
     },
 
     isBooleanValue(val) {
-        return typeof val === 'boolean';
+        return typeof val === 'boolean' || val === 'true' || val === 'false';
     },
 
     /**

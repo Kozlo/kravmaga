@@ -3,10 +3,13 @@
 (DONE)- create all CRUD routes for users
 (DONE)- replace user_id field with auth_id to avoid confusion
 (DONE)- adjust all routes in front-end with the new system
+- move the notifications bar to a different position (not on top of the logout button)
+- add a possibility for regular users to update their info (should b erelatively easy)
 - finish implementing the admin page
   (DONE)- finish the base set-up
-  - add a possibility to CRUD users
+  (DONE)- add a possibility to RUD (no C) users
   - create a 'lessons' section
+- add proper validation to form fields (need to figure out a general one)
 
 - replace all regular bootstrap with react-bootstrap and see if it can be removed completely
 - instead of saving the whole user in auth, only save the _id
@@ -59,6 +62,8 @@ Later
   	- if yes (the email exists in the DB), link the account to the email
   -) check out the following link for linking the accounts on Auth0 side as well: https://auth0.com/docs/link-accounts
   -) at very login, check if the passed profile has some data that the user doesn't have in the DB, and update it
+- think about what happens when the use changes his/her password after having signed up with e-mail
+  - probably would need to change the user on auth0 side via the API
 
 -----------------------------------------------
 Notes:

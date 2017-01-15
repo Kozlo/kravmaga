@@ -9,8 +9,6 @@ import UserStore from '../stores/UserStore';
 import AuthActions from '../actions/AuthActions';
 import UserActions from '../actions/UserActions';
 
-import { objectIsEmpty } from '../utils/utils';
-
 class Navbar extends React.Component {
 
     static getStores() {

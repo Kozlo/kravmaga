@@ -4,7 +4,7 @@ import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import App from './components/App';
 import Login from './components/Login';
 import Profile from './components/Profile';
-import Admin from './components/Admin';
+import AdminContainer from './components/admin/Container';
 
 import AuthStore from './stores/AuthStore';
 import UserStore from './stores/UserStore';
@@ -43,7 +43,7 @@ export default (
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={Profile} onEnter={requireAuth} />
-            <Route path='admin' component={Admin} onEnter={isAdmin} />
+            <Route path='admin' component={AdminContainer} onEnter={isAdmin} />
             <Route path='login' component={Login} onEnter={userLoggedOn} />
             <Route path='*' component={Profile} onEnter={requireAuth} />
         </Route>

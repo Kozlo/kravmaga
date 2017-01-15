@@ -26,8 +26,8 @@ class Profile extends React.Component {
     }
 
     render() {
-        const { user } = this.props.user;
-        const gender = user.gender == 'male' ? 'Vīrietis' : (user.gender == 'female' ? 'Sieviete' : '');
+        const { gender, given_name, family_name, picture, email } = this.props.user.user;
+        const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
         const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
         const btnStyle = { float: 'right', marginRight: '10px' };
 
@@ -40,23 +40,23 @@ class Profile extends React.Component {
                     <div className="panel-body">
                         <div className="row">
                             <div className="col-xs-12 col-sm-5">
-                                <img src={user.picture} alt="User Image" style={imageStyle} />
+                                <img src={picture} alt="User Image" style={imageStyle} />
                                 <dl>
                                     <dt>Vārds, Uzvārds</dt>
-                                    <dd>{user.firstName} {user.lastName}</dd>
+                                    <dd>{given_name} {family_name}</dd>
                                 </dl>
                             </div>
 
                             <div className="col-xs-6 col-sm-4">
                                 <dl>
                                     <dt>E-pasts</dt>
-                                    <dd>{user.email}</dd>
+                                    <dd>{email}</dd>
                                 </dl>
                             </div>
                             <div className="col-xs-6 col-sm-3">
                                 <dl>
                                     <dt>Dzimums</dt>
-                                    <dd>{gender}</dd>
+                                    <dd>{genderValue}</dd>
                                 </dl>
                             </div>
                         </div>
