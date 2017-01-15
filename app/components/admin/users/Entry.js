@@ -23,12 +23,12 @@ class UserEntry extends React.Component {
     }
 
     deleteUser(user) {
-        const { userId, token } = this.props;
+        const { token } = this.props;
         const role = user.is_admin ? 'admin' : 'lietotājs';
         const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${user.given_name} ${user.family_name} ar e-pastu ${user.email} un lomu ${role}?`;
 
         if (confirm(confirmText)) {
-            UserActions.deleteUser(userId, token);
+            UserActions.deleteUser(user._id, token);
         }
     }
 

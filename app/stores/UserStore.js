@@ -26,6 +26,8 @@ class UserStore {
                 return true;
             }
         });
+
+        toastr.success('Lietotājs veiksmīgi izdzēsts');
     }
 
     onUserUpdated(updatedUser) {
@@ -37,6 +39,8 @@ class UserStore {
                 return true;
             }
         });
+
+        toastr.success('Lietotāja info veiksmīgi atjaunināta');
     }
 
     onUserListReceived(userList) {

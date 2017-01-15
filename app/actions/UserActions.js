@@ -67,7 +67,7 @@ class UserActions {
     }
 
     deleteUser(id, token) {
-        const statusCode = $.extend({ 200: () => this.userDeleted(id) }, httpStatusCode);
+        const statusCode = $.extend({ 200: (deletedUser) => this.userDeleted(deletedUser) }, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
