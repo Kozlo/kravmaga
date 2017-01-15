@@ -30,7 +30,8 @@ class ProfileData extends React.Component {
     }
 
     updateProfile(user) {
-        const updatableUser = Object.assign({}, user);
+        const { _id, given_name, family_name, email, gender, picture } = user;
+        const updatableUser = { _id, given_name, family_name, email, gender, picture };
 
         UserActions.setUpdatableUser(updatableUser);
     }

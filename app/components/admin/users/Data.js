@@ -41,6 +41,7 @@ class UserData extends React.Component {
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Bilde</th>
                                 <th>Vārds</th>
                                 <th>Uzvārds</th>
                                 <th>E-pasts</th>

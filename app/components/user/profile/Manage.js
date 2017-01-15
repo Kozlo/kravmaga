@@ -31,22 +31,25 @@ class ManageUser extends React.Component {
 
     handleSubmit(event) {
         const { updatable } = this.props.user;
-        const { email, is_admin, is_blocked } = updatable;
+        const { email } = updatable;
 
         event.preventDefault();
 
-        if (isEmailValid(email) && isValueBoolean(is_admin) && isValueBoolean(is_blocked)) {
+        if (this._getIsEmailValidOrEmpty(email)) {
             this._updateUser(updatable);
         } else {
-            toastr.error('Lūdzu aizpildiet visus laukus!');
+            toastr.error('Lūdzu aizpildiet visus nepieciešamos laukus!');
         }
     }
 
     getEmailValidationState() {
         const { email } = this.props.user.updatable;
-        const emailValid = isEmailValid(email) || '';
 
-        return emailValid ? null : 'error';
+        return this._getIsEmailValidOrEmpty(email) ? null : 'error';
+    }
+
+    _getIsEmailValidOrEmpty(email) {
+        return isEmailValid(email) || email === '';
     }
 
     _updateUser(user) {
@@ -72,7 +75,8 @@ class ManageUser extends React.Component {
 
 
     render() {
-        const { given_name, family_name, email, gender } = this.props.user.updatable;
+        const { given_name, family_name, email, gender, picture } = this.props.user.updatable;
+        const imageStyle = { maxWidth: '100%' };
 
         return (
             <div className="modal fade" id="profileModal" tabIndex="-1" role="dialog" aria-labelledby="Profile Modal">
@@ -81,9 +85,27 @@ class ManageUser extends React.Component {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 className="modal-title">Atjaunināt lietotāju</h4>
+                                <h4 className="modal-title">{given_name} {family_name}</h4>
                             </div>
                             <div className="modal-body">
+                                <Row>
+                                    <Col xs={8}>
+                                        <FormGroup>
+                                            <ControlLabel>Bilde</ControlLabel>
+                                            <FormControl
+                                                type="text"
+                                                placeholder="Bilde"
+                                                value={picture}
+                                                onChange={this.handleChange.bind(this, 'picture')}
+                                            />
+                                            <FormControl.Feedback />
+                                            <HelpBlock>Saite uz manu profila bildi.</HelpBlock>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col xs={4}>
+                                        <img src={picture} alt="User Image" style={imageStyle} />
+                                    </Col>
+                                </Row>
                                 <Row>
                                     <Col xs={12}>
                                         <FormGroup>

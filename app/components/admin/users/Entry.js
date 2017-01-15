@@ -42,7 +42,8 @@ class UserEntry extends React.Component {
 
     render() {
         const { user, index } = this.props;
-        const { given_name, family_name, email, gender, auth_id } = user;
+        const { given_name, family_name, email, gender, picture, auth_id } = user;
+        const imageStyle = { maxWidth: '40px', maxHeight: '40xp' };
         const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
         const role = user.is_admin ? 'admin' : 'lietotājs';
         const status = user.is_blocked ? 'bloķēts' : 'aktīvs';
@@ -51,6 +52,7 @@ class UserEntry extends React.Component {
         return (
             <tr>
                 <td>{index + 1}</td>
+                <td><img src={picture} alt="User Image" style={imageStyle} /></td>
                 <td>{given_name}</td>
                 <td>{family_name}</td>
                 <td>{email}</td>
