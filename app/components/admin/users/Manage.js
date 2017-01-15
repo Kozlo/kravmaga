@@ -147,8 +147,14 @@ class ManageUser extends React.Component {
                                 </Row>
                             </div>
                             <div className="modal-footer">
-                                <Button type="button" id="manageUserCloseBtn" className="btn btn-default" data-dismiss="modal">Aizvērt</Button>
-                                <Button type="submit"
+                                <Button id="manageUserCloseBtn"
+                                        type="button"
+                                        className="btn btn-default"
+                                        data-dismiss="modal">
+                                    Aizvērt
+                                </Button>
+                                <Button id="submitBtn"
+                                        type="submit"
                                         className="btn btn-primary">
                                     Atjaunināt
                                 </Button>

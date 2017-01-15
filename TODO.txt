@@ -4,12 +4,15 @@
 (DONE)- replace user_id field with auth_id to avoid confusion
 (DONE)- adjust all routes in front-end with the new system
 (DONE)- move the notifications bar to a different position (not on top of the logout button)
+(DONE)- fix error with changing fromcontrol values by adding empty string default values to updatable
+- Make the admin page the default one for admins
 - add a possibility for regular users to update their info (should be relatively easy)
 - finish implementing the admin page
   (DONE)- finish the base set-up
   (DONE)- add a possibility to RUD (no C) users
   - create a 'lessons' section
 - add proper validation to form fields (need to figure out a general one)
+  - also disable
 
 - replace all regular bootstrap with react-bootstrap and see if it can be removed completely
 - instead of saving the whole user in auth, only save the _id
