@@ -40,11 +40,10 @@ module.exports = {
         User.findOne({ auth_id })
             .then(authUser => {
                 if (authUser) return authUser;
-console.log('auth user', authUser);
+
                 const profile = req.body;
-                //console.log('profile:', profile);
                 const userProps = userHelpers.createUser(res, profile);
-console.log('user props', userProps);
+
                 if (!userProps) helpers.throwError(res, 'Some of the user props for profile are not valid', 400);
 
                 return User.create(userProps);
