@@ -3,8 +3,8 @@
 (DONE)- create all CRUD routes for users
 (DONE)- replace user_id field with auth_id to avoid confusion
 (DONE)- adjust all routes in front-end with the new system
-- move the notifications bar to a different position (not on top of the logout button)
-- add a possibility for regular users to update their info (should b erelatively easy)
+(DONE)- move the notifications bar to a different position (not on top of the logout button)
+- add a possibility for regular users to update their info (should be relatively easy)
 - finish implementing the admin page
   (DONE)- finish the base set-up
   (DONE)- add a possibility to RUD (no C) users
