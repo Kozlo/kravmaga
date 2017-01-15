@@ -8,6 +8,10 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
+        this._configureToastr();
+    }
+
+    _configureToastr() {
         toastr.options.closeButton = true;
         toastr.options.closeDuration = 0;
     }
