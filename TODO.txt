@@ -1,38 +1,26 @@
 (DONE)- remove server-side rendering
 (DONE)- move the index file from view to public
 (DONE)- create all CRUD routes for users
+(DONE)- fix routes and make them RESTful
+(DONE)- figure out the best way to organize back-end code (would need some controller)
 (DONE)- replace user_id field with auth_id to avoid confusion
 (DONE)- adjust all routes in front-end with the new system
 (DONE)- move the notifications bar to a different position (not on top of the logout button)
 (DONE)- fix error with changing fromcontrol values by adding empty string default values to updatable
-- Make the admin page the default one for admins
-- add a possibility for regular users to update their info (should be relatively easy)
-- finish implementing the admin page
-  (DONE)- finish the base set-up
-  (DONE)- add a possibility to RUD (no C) users
-  - create a 'lessons' section
+(DONE)- add a possibility for regular users to update their info (should be relatively easy)
+(DONE)- add a possibility to RUD (no C) users
+- have some config where e.g. all updatable props are stores (instead of several places in the code)
+- create a 'lessons' section for the admin page
 - add proper validation to form fields (need to figure out a general one)
-  - also disable
+
 
 - replace all regular bootstrap with react-bootstrap and see if it can be removed completely
-- instead of saving the whole user in auth, only save the _id
 - switch to webpack and add hot module re-load
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
-- fix routes and make them RESTful
-- figure out the best way to organize back-end code (would need some controller)
-- move the popup away from the logout button or vice versa
+- add filters and limits to user (and other lists)
+- consider looping through the form control and creating them dynamically instead of having separate entries
 
-- Add an admin page
-  (DONE)- add admin feature to Auth0 (set the metadata)
-  (DONE)- Update user schema to refleact admin feature (also user creation/update)
-  - create a blank admin page
-  - create a table with a list of all users
-
-- Make it possible to update user profiles
-
-- Add a possibility for an admin to create lessons
-  - add a table with lessons to both the admin panel and the user section
 
 - Add JSDoc to components (research this a bit as well)
 
