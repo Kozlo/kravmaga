@@ -11,7 +11,9 @@ module.exports = (app, auth) => {
 
     app.get('/users/:id', auth, users.getOne);
 
-    app.put('/users/:id', auth, users.update);
+    app.patch('/users/:id', auth, users.update);
+
+    // TODO: Add a PUT route as well
 
     app.delete('/users/:id', auth, users.delete);
 

@@ -60,7 +60,7 @@ class UserActions {
         return this._sendRequest({
             statusCode,
             url: `/users/${user._id}`,
-            method: 'PUT',
+            method: 'PATCH',
             data: user,
             headers: getAuthorizationHeader(token)
         });

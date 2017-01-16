@@ -9,7 +9,8 @@
 (DONE)- fix error with changing fromcontrol values by adding empty string default values to updatable
 (DONE)- add a possibility for regular users to update their info (should be relatively easy)
 (DONE)- add a possibility to RUD (no C) users
-- have some config where e.g. all updatable props are stores (instead of several places in the code)
+(DONE)- replace PUT with PATCH
+- have some config where e.g. all updatable props are stored (instead of several places in the code)
 - create a 'lessons' section for the admin page
 - add proper validation to form fields (need to figure out a general one)
 
@@ -21,7 +22,7 @@
 - add filters and limits to user (and other lists)
 - consider looping through the form control and creating them dynamically instead of having separate entries
 
-
+- optionally add the PUT method as well, but make sure it works as expected
 - Add JSDoc to components (research this a bit as well)
 
 Bugs:
