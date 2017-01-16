@@ -7,26 +7,21 @@ class AuthStore {
     constructor() {
         this.bindActions(AuthActions);
 
-        this.token = localStorage.getItem('id_token');
         this.userId = localStorage.getItem('user_id');
-    }
-
-    onGetToken() {
-        return this.token;
-    }
-
-    onAuthUserId() {
-        return this.userId;
+        this.userIsAdmin = localStorage.getItem('user_is_admin') === 'true';
+        this.token = localStorage.getItem('id_token');
     }
 
     onLoginUser(args) {
-        const { userId, token } = args;
+        const { user, token } = args;
 
-        localStorage.setItem('user_id', userId);
+        localStorage.setItem('user_id', user._id);
+        localStorage.setItem('user_is_admin', user.is_admin);
         localStorage.setItem('id_token', token);
 
+        this.userId = user._id;
+        this.userIsAdmin = user.is_admin;
         this.token = token;
-        this.userId = userId;
 
         browserHistory.replace('/');
 
@@ -45,6 +40,7 @@ class AuthStore {
 
     _logOutUser() {
         localStorage.removeItem('user_id');
+        localStorage.removeItem('user_is_admin');
         localStorage.removeItem('id_token');
 
         this.token = null;

@@ -21,17 +21,17 @@ export const httpErrorHandler = e => {
 
 export const httpSuccessHandler = data => console.log('Data received: ', data);
 
-export const objectIsEmpty = obj => {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
-
 export const isEmailValid = email => {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 };
 
-export const isValueBoolean =  val => {
-    return typeof val === 'boolean' || val === 'true' || val === 'false';
+export const getEmailValidationState = email => {
+    return getIsEmailValidOrEmpty(email) ? null : 'error';
+};
+
+export const getIsEmailValidOrEmpty = email => {
+    return isEmailValid(email) || email === '';
 };
 
 export const httpStatusCode = {

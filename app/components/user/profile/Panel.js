@@ -3,7 +3,6 @@ import React from 'react';
 import ProfileData from './Data';
 
 class ProfilePanel extends React.Component {
-
     render() {
         return (
                 <div className="panel panel-default krav-maga-panel" >
@@ -16,7 +15,6 @@ class ProfilePanel extends React.Component {
                 </div>
         );
     }
-
 }
 
 export default ProfilePanel;

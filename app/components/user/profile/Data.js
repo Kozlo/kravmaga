@@ -10,23 +10,18 @@ import UserActions from '../../../actions/UserActions';
 import ManageProfile from './Manage';
 
 class ProfileData extends React.Component {
-
     static getStores() {
-        return [AuthStore, UserStore];
+        return [UserStore];
     }
 
     static getPropsFromStores() {
-        return {
-            auth: AuthStore.getState(),
-            user: UserStore.getState()
-        };
+        return UserStore.getState();
     }
 
     componentDidMount() {
-        const { user } = this.props.user;
-        const { userId, token } = this.props.auth;
+        const { userId, token } = AuthStore.getState();
 
-        return UserActions.checkForUser(user, userId, token);
+        UserActions.getUser(userId, token);
     }
 
     updateProfile(user) {
@@ -37,7 +32,7 @@ class ProfileData extends React.Component {
     }
 
     render() {
-        const { user } = this.props.user;
+        const { user } = this.props;
         const { gender, given_name, family_name, picture, email } = user;
         const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
         const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
@@ -81,7 +76,6 @@ class ProfileData extends React.Component {
             </Row>
         );
     }
-
 }
 
 export default connectToStores(ProfileData);

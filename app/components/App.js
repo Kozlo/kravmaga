@@ -4,7 +4,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 
 class App extends React.Component {
-
     constructor(props) {
         super(props);
 
@@ -25,7 +24,6 @@ class App extends React.Component {
             </div>
         );
     }
-
 }
 
 export default App;

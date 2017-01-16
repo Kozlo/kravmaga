@@ -9,27 +9,23 @@ import UserActions from '../../../actions/UserActions';
 import UserEntry from './Entry';
 
 class UserData extends React.Component {
-
     static getStores() {
-        return [AuthStore, UserStore];
+        return [UserStore];
     }
 
     static getPropsFromStores() {
-        return {
-            auth: AuthStore.getState(),
-            user: UserStore.getState()
-        };
+        return UserStore.getState();
     }
 
     componentDidMount() {
-        const { token } = this.props.auth;
-        const { filters } = this.props.user;
+        const { filters } = this.props;
+        const { token } = AuthStore.getState();
 
         UserActions.getUserList(filters, token);
     }
 
     render() {
-        const { userList } = this.props.user;
+        const { userList } = this.props;
 
         return (
             <Row>
@@ -61,7 +57,6 @@ class UserData extends React.Component {
             </Row>
         );
     }
-
 }
 
 export default connectToStores(UserData);

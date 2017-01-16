@@ -4,38 +4,29 @@ import { Link } from 'react-router';
 import { Button } from 'react-bootstrap';
 
 import AuthStore from '../stores/AuthStore';
-import UserStore from '../stores/UserStore';
-
 import AuthActions from '../actions/AuthActions';
-import UserActions from '../actions/UserActions';
 
 class Navbar extends React.Component {
-
     static getStores() {
-        return [AuthStore, UserStore];
+        return [AuthStore];
     }
 
     static getPropsFromStores() {
-        return {
-            auth: AuthStore.getState(),
-            user: UserStore.getState()
-        }
+        return AuthStore.getState();
     }
 
-    componentDidMount() {
-        const { user } = this.props.user;
-        const { userId, token } = this.props.auth;
-
-        UserActions.checkForUser(user, userId, token);
+    onLogoutClicked() {
+        AuthActions.logoutUser();
     }
 
     render() {
-        const { user, auth } = this.props;
-        const isLoggedIn = !!auth.token;
-        const isAdmin = user.user.is_admin === true;
+        const { userIsAdmin, token } = this.props;
+        const isLoggedIn = !!token;
+        const isAdmin = userIsAdmin === true;
         const logoutBtnStyle = { marginRight: '15px' };
 
         return (
+            // TODO: replace with react-bootstrap
             <nav className='navbar navbar-default navbar-static-top'>
                 <div className='navbar-header'>
                     <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#navbar'>
@@ -52,7 +43,7 @@ class Navbar extends React.Component {
                         {isLoggedIn && isAdmin && <li><Link activeClassName="active" to='/admin'>Admin Panelis</Link></li>}
                     </ul>
                     {isLoggedIn &&
-                        <Button className="btn btn-default navbar-btn pull-right" onClick={AuthActions.logoutUser.bind(this)} style={logoutBtnStyle} >
+                        <Button className="btn btn-default navbar-btn pull-right" onClick={this.onLogoutClicked.bind(this)} style={logoutBtnStyle} >
                             <span className="glyphicon glyphicon-log-out"></span> Iziet
                         </Button>
                     }

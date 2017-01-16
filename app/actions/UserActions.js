@@ -3,13 +3,11 @@ import {
     httpStatusCode,
     httpSuccessHandler,
     httpErrorHandler,
-    objectIsEmpty,
     getAuthorizationHeader,
     encodeJsonUrl
 } from '../utils/utils';
 
 class UserActions {
-
     constructor() {
         this.generateActions(
             'getCurrentUser',
@@ -77,20 +75,11 @@ class UserActions {
         });
     }
 
-    checkForUser(user, userId, token) {
-        if (objectIsEmpty(user) && userId && token) {
-            return this.getUser(userId, token);
-        }
-
-        return false;
-    }
-
     _sendRequest(request) {
         return $.ajax(request)
             .done(data => httpSuccessHandler(data))
             .fail(error => httpErrorHandler(error));
     }
-
 }
 
 export default alt.createActions(UserActions);

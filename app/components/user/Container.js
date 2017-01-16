@@ -3,7 +3,6 @@ import React from 'react';
 import ProfilePanel from './profile/Panel';
 
 class UserContainer extends React.Component {
-
     render() {
         return (
             <div className='container'>
@@ -12,7 +11,6 @@ class UserContainer extends React.Component {
             </div>
         );
     }
-
 }
 
 export default UserContainer;

@@ -2,14 +2,11 @@ import alt from '../alt';
 import { httpStatusCode, httpSuccessHandler, httpErrorHandler, getAuthorizationHeader } from '../utils/utils';
 
 class AuthActions {
-
     constructor() {
         this.generateActions(
-            'getToken',
-            'getAuthUserId',
             'loginUser',
             'logoutUser',
-            'silentLogoutUser'
+            'silentLogoutUser',
         );
     }
 
@@ -27,7 +24,7 @@ class AuthActions {
     }
 
     checkProfile(token, profile) {
-        const statusCode = $.extend({ 200: user => this.loginUser({ token, userId: user._id }) }, httpStatusCode);
+        const statusCode = $.extend({ 200: user => this.loginUser({ token, user }) }, httpStatusCode);
         const request = {
             statusCode,
             data: profile,
@@ -44,7 +41,6 @@ class AuthActions {
             .done(data => httpSuccessHandler(data))
             .fail(e => httpErrorHandler(e));
     }
-
 }
 
 export default alt.createActions(AuthActions);

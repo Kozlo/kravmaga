@@ -4,7 +4,6 @@ import ManageUser from './Manage';
 import UserData from './Data';
 
 class UserPanel extends React.Component {
-
     render() {
         return (
             <div className="panel panel-default krav-maga-panel" >
@@ -20,7 +19,6 @@ class UserPanel extends React.Component {
             </div>
         );
     }
-
 }
 
 export default UserPanel;

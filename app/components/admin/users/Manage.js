@@ -2,27 +2,24 @@ import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
-import { isEmailValid, isValueBoolean } from '../../../utils/utils';
+import { isEmailValid } from '../../../utils/utils';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
+
 import UserActions from '../../../actions/UserActions';
 
 class ManageUser extends React.Component {
-
     static getStores() {
-        return [AuthStore, UserStore];
+        return [UserStore];
     }
 
     static getPropsFromStores() {
-        return {
-            auth: AuthStore.getState(),
-            user: UserStore.getState()
-        };
+        return UserStore.getState();
     }
 
     handleChange(prop, event) {
-        const { updatable } = this.props.user;
+        const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
 
@@ -30,7 +27,7 @@ class ManageUser extends React.Component {
     }
 
     handleSubmit(event) {
-        const { updatable } = this.props.user;
+        const { updatable } = this.props;
         const { email } = updatable;
 
         event.preventDefault();
@@ -43,7 +40,7 @@ class ManageUser extends React.Component {
     }
 
     getEmailValidationState() {
-        const { email } = this.props.user.updatable;
+        const { email } = this.props.updatable;
 
         return this._getIsEmailValidOrEmpty(email) ? null : 'error';
     }
@@ -53,7 +50,7 @@ class ManageUser extends React.Component {
     }
 
     _updateUser(user) {
-        const { token } = this.props.auth;
+        const { token } = AuthStore.getState();
 
         $('#manageUserSubmitBtn').prop('disabled', true);
 
@@ -70,7 +67,7 @@ class ManageUser extends React.Component {
     }
 
     render() {
-        const { given_name, family_name, email, gender, picture, is_blocked, is_admin } = this.props.user.updatable;
+        const { given_name, family_name, email, gender, picture, is_blocked, is_admin } = this.props.updatable;
         const imageStyle = { maxWidth: '100%' };
 
         return (

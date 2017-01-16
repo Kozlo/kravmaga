@@ -2,27 +2,24 @@ import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
-import { isEmailValid, isValueBoolean } from '../../../utils/utils';
+import { getEmailValidationState, getIsEmailValidOrEmpty } from '../../../utils/utils';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
+
 import UserActions from '../../../actions/UserActions';
 
 class ManageUser extends React.Component {
-
     static getStores() {
-        return [AuthStore, UserStore];
+        return [UserStore];
     }
 
     static getPropsFromStores() {
-        return {
-            auth: AuthStore.getState(),
-            user: UserStore.getState()
-        };
+        return UserStore.getState();
     }
 
     handleChange(prop, event) {
-        const { updatable } = this.props.user;
+        const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
 
@@ -30,52 +27,37 @@ class ManageUser extends React.Component {
     }
 
     handleSubmit(event) {
-        const { updatable } = this.props.user;
+        const { updatable } = this.props;
         const { email } = updatable;
 
         event.preventDefault();
 
-        if (this._getIsEmailValidOrEmpty(email)) {
+        if (getIsEmailValidOrEmpty(email)) {
             this._updateUser(updatable);
         } else {
             toastr.error('Lūdzu aizpildiet visus nepieciešamos laukus!');
         }
     }
 
-    getEmailValidationState() {
-        const { email } = this.props.user.updatable;
-
-        return this._getIsEmailValidOrEmpty(email) ? null : 'error';
-    }
-
-    _getIsEmailValidOrEmpty(email) {
-        return isEmailValid(email) || email === '';
-    }
-
     _updateUser(user) {
-        const { token } = this.props.auth;
+        const { token } = AuthStore.getState();
 
         $('#manageUserSubmitBtn').prop('disabled', true);
 
         UserActions
             .updateUser(user, token)
-            .done(() => this._onReplyReceived())
-            .fail(() => this._onReplyReceived());
+            .then(() => this._onReplyReceived())
 
     }
 
     _onReplyReceived() {
-        const { userId, token } = this.props.auth;
-
         $('#manageProfileCloseBtn').click();
         $('#manageProfileSubmitBtn').prop('disabled', false);
-
-        UserActions.getUser(userId, token);
     }
 
 
     render() {
-        const { given_name, family_name, email, gender, picture } = this.props.user.updatable;
+        const { given_name, family_name, email, gender, picture } = this.props.updatable;
         const imageStyle = { maxWidth: '100%' };
 
         return (
@@ -134,7 +116,7 @@ class ManageUser extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12}>
-                                        <FormGroup controlId="email" validationState={this.getEmailValidationState()}>
+                                        <FormGroup controlId="email" validationState={getEmailValidationState(email)}>
                                             <ControlLabel>E-pasts</ControlLabel>
                                             <FormControl
                                                 type="text"

@@ -3,7 +3,6 @@ import React from 'react';
 import UserPanel from './users/Panel';
 
 class AdminContainer extends React.Component {
-
     render() {
         return (
             <div className='container'>
@@ -12,7 +11,6 @@ class AdminContainer extends React.Component {
             </div>
         );
     }
-
 }
 
 export default AdminContainer;

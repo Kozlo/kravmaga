@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default class Footer extends React.Component {
-
     render() {
         const year = new Date().getFullYear();
 
@@ -17,5 +16,4 @@ export default class Footer extends React.Component {
             </footer>
         );
     }
-
 }

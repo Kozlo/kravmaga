@@ -6,7 +6,6 @@ import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 
 class Login extends React.Component {
-
     static getStores() {
         return [AuthStore];
     }
@@ -17,7 +16,6 @@ class Login extends React.Component {
 
     componentDidMount() {
         this._initLock();
-        // TODO: add auto popup opening
     }
 
     componentWillUnmount() {
