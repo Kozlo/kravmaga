@@ -1,6 +1,8 @@
 import alt from '../alt';
 import UserActions from '../actions/UserActions';
 
+import { objectIsEmpty } from '../utils/utils';
+
 class UserStore {
     constructor() {
         this.bindActions(UserActions);
@@ -35,6 +37,7 @@ class UserStore {
             if (user._id === updatedUser._id) {
                 this.userList.splice(index, 1);
                 this.userList.unshift(updatedUser);
+                this._checkForUserUpdate(updatedUser);
 
                 return true;
             }
@@ -49,6 +52,13 @@ class UserStore {
 
     onSetUpdatableUser(updatable) {
         this.updatable = updatable;
+    }
+
+    _checkForUserUpdate(updatedUser) {
+        // if the current user updates seld via the admin panel, the profile data should reflect the changes too
+        if (objectIsEmpty(this.user) || this.user._id === updatedUser._id) {
+            this.user = updatedUser;
+        }
     }
 
 }
