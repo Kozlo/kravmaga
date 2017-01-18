@@ -4,15 +4,14 @@
 module.exports = app => {
 
     const auth = require('express-jwt')({
-        secret: new Buffer(process.env.JWT_SECRET, 'base64'),
-        audience: process.env.JWT_AUDIENCE,
+        secret: process.env.JWT_SECRET,
         userProperty: 'payload'
     });
-    const controller = require('../controllers/index');
+    const index = require('../controllers/index');
 
     require('./auth')(app, auth);
     require('./users')(app, auth);
 
-    app.get('*', controller.main);
+    app.get('*', index.main);
 
 };

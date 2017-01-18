@@ -10,13 +10,18 @@
 (DONE)- add a possibility for regular users to update their info (should be relatively easy)
 (DONE)- add a possibility to RUD (no C) users
 (DONE)- replace PUT with PATCH
-- have some config where e.g. all updatable props are stored (instead of several places in the code)
+(DONE)- reply to Ronalds
+- re-do the authentication according to Ronald's request
+  - create the new functionality
+  - add a default admin user script
+  - make the necessary front-end changes
+  - test the new code
+- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
+- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
+- switch to webpack and add hot module re-load
 - create a 'lessons' section for the admin page
 - add proper validation to form fields (need to figure out a general one)
 
-
-- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
-- switch to webpack and add hot module re-load
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - add filters and limits to user (and other lists)

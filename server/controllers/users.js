@@ -18,20 +18,20 @@ module.exports = {
      * @param {Object} res Response object
      */
     create(req, res) {
-        const profile = req.body;
-        const auth_id = profile.user_id;
+        const authUserId = req.payload.sub;
 
-        if (!userHelpers.isUserIdValid(res, auth_id)) return;
+        User.findById(authUserId)
+            .then(authUser => {
+                userHelpers.confirmUserIsValidAdmin(res, authUser, authUserId);
 
-        User.findOne({ auth_id })
-            .then(user => {
-                if (user) helpers.throwError(res, `User with auth_id ${auth_id} already exists`, 409);
+                return User.findOne({ email: req.body.email })
+            })
+            .then(existingUser => {
+                userHelpers.confirmUserDoesNotExist(res, existingUser);
 
-                const userProps = userHelpers.createUser(res, profile);
+                const newUserProps = userHelpers.createUser(res, req.body);
 
-                if (!userProps) helpers.throwError(res, 'Some of the user props for profile are not valid', 400);
-
-                return User.create(userProps);
+                return User.create(newUserProps);
             })
             .then(user => res.status(200).send(user))
             .catch(err => helpers.handleError(res, err, 'Error creating user'));
@@ -47,20 +47,13 @@ module.exports = {
      * @param {Object} res Response object
      */
     get(req, res) {
-        const auth_id = req.payload.sub;
+        const authUserId = req.payload.sub;
 
-        // TODO: add filters
-
-        User.findOne({ auth_id })
+        User.findById(authUserId)
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
+                userHelpers.confirmUserIsValidAdmin(res, authUser, authUserId);
 
-                // TODO: add auth_id filter and allow users to get their own user data based on auth_id
-                if (authUser.is_admin !== true) {
-                    helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
-                } else if (authUser.is_blocked !== false) {
-                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
-                }
+                // TODO: add filter validation
 
                 return User.find().sort({ 'updatedAt': -1 });
             })
@@ -79,20 +72,16 @@ module.exports = {
      */
     getOne(req, res) {
         const id = req.params.id;
-        const auth_id = req.payload.sub;
+        const authUserId = req.payload.sub;
 
         if (!userHelpers.isUserIdValid(res, id)) return;
-        if (!userHelpers.isUserIdValid(res, auth_id)) return;
+        if (!userHelpers.isUserIdValid(res, authUserId)) return;
 
-        User.findOne({ auth_id })
+        User.findById(authUserId)
             .then(authUser => {
-                if (!authUser) {
-                    helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
-                } else if (!authUser._id.equals(id) && authUser.is_admin !== true) {
-                    helpers.throwError(res, `Only admins can view other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
-                } else if (authUser.is_blocked !== false) {
-                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
-                }
+                userHelpers.confirmUserExists(res, authUser, authUserId);
+                userHelpers.confirmUserIsNotBlocked(res, authUser);
+                userHelpers.confirmUserHasRights(res, authUser, id);
 
                 return User.findById(id);
             })
@@ -115,38 +104,31 @@ module.exports = {
      * @param {Object} res Response object
      */
     update(req, res) {
-        const id = req.params.id;
-        const profile = req.body;
-        const auth_id = req.payload.sub;
+        const updatableUserId = req.params.id;
+        const authUserId = req.payload.sub;
 
-        if (!userHelpers.isUserIdValid(res, id)) return;
-        if (!userHelpers.isUserIdValid(res, auth_id)) return;
+        if (!userHelpers.isUserIdValid(res, updatableUserId)) return;
+        if (!userHelpers.isUserIdValid(res, authUserId)) return;
 
-        User.findOne({ auth_id })
+        User.findById(authUserId)
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
+                userHelpers.confirmUserExists(res, authUser, authUserId);
+                userHelpers.confirmUserIsNotBlocked(res, authUser);
+                userHelpers.confirmUserHasRights(res, authUser, updatableUserId);
 
-                if (!authUser._id.equals(id) && authUser.is_admin !== true) {
-                    helpers.throwError(res, `Only admins can update other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
-                } else if (authUser.is_blocked !== false) {
-                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
-                }
-
-                const newProps = userHelpers.updateUser(res, profile, authUser);
-
-                if (!newProps) helpers.throwError(res, `User with ID ${id} could not be updated`, 403);
-
-                // make sure the new resource is returned, not the old one
+                const updatableProps = req.body;
+                // TODO: replace this with something else
+                const newProps = userHelpers.updateUser(res, updatableProps, authUser);
                 const options = { 'new': true };
 
-                return User.findByIdAndUpdate(id, newProps, options);
+                return User.findByIdAndUpdate(updatableUserId, newProps, options);
             })
-            .then(user => {
-                if (!user) helpers.throwError(res, `User with ID ${id} not found`, 404);
+            .then(updatedUser => {
+                userHelpers.confirmUserExists(res, updatedUser, updatableUserId);
 
-                res.status(200).send(user);
+                res.status(200).send(updatedUser);
             })
-            .catch(err => helpers.handleError(res, err, `Error updating user with ID ${id}`));
+            .catch(err => helpers.handleError(res, err, `Error updating user with ID ${updatableUserId}`));
     },
 
     /**
@@ -159,27 +141,23 @@ module.exports = {
      * @param {Object} res Response object
      */
     delete(req, res) {
-        const id = req.params.id;
-        const auth_id = req.payload.sub;
+        const deletableUserId = req.params.id;
+        const authUserId = req.payload.sub;
 
-        User.findOne({ auth_id })
+        User.findById(authUserId)
             .then(authUser => {
-                if (!authUser) helpers.throwError(res, `Authenticated user with auth_id ${auth_id} not found`, 404);
+                userHelpers.confirmUserExists(res, authUser, authUserId);
+                userHelpers.confirmUserIsNotBlocked(res, authUser);
+                userHelpers.confirmUserHasRights(res, authUser, deletableUserId);
 
-                if (authUser.is_admin !== true) {
-                    helpers.throwError(res, `Only admins can delete other users. Authenticated user with ID ${authUser._id} is not an admin`, 403);
-                } else if (authUser.is_blocked !== false) {
-                    helpers.throwError(res, `User with auth_id ${authUser.auth_id} is blocked`, 403);
-                }
-
-                return User.findByIdAndRemove(id);
+                return User.findByIdAndRemove(deletableUserId);
             })
-            .then(user => {
-                if (!user) helpers.throwError(res, `User with ID ${id} not found`, 404);
+            .then(deletedUser => {
+                userHelpers.confirmUserExists(res, deletedUser, deletableUserId);
 
-                res.status(200).send(user);
+                res.status(200).send(deletedUser);
             })
-            .catch(err => helpers.handleError(res, err, `Error deleting user with ID ${id}`));
+            .catch(err => helpers.handleError(res, err, `Error deleting user with ID ${deletableUserId}`));
     }
 
 };

@@ -14,6 +14,11 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+// Passport-related variables
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const authController = require('./controllers/auth');
+
 //=================
 // DB setup
 //=================
@@ -25,6 +30,15 @@ mongoose.connect(database, () => console.log(`Successfully connected to the DB: 
 mongoose.connection.on('error', () => console.info(`Error: Could not connect to MongoDB ${database}: `, err));
 
 //=================
+// Auth setup
+//=================
+
+// Passport (authentication) setup
+passport.use(new LocalStrategy({ usernameField: 'email' }, authController.authenticate));
+passport.serializeUser(authController.serializeUser);
+passport.deserializeUser(authController.deserializeUser);
+
+//=================
 // App setup
 //=================
 
@@ -33,6 +47,7 @@ const app = express();
 // Express middleware
 app.set('port', process.env.PORT || 3000);
 // TODO: change this according to the environment
+// TODO: read more on logger and what it does
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

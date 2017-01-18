@@ -2,7 +2,13 @@
  * Common helpers.
  */
 
+const User = require('../models/user');
 const helpers = require('./common');
+const config = require('../config');
+
+// TODO: consider moving these to config
+const optStringPropNames = ['given_name', 'family_name', 'gender', 'picture'];
+const optBoolProps = ['is_admin', 'is_blocked'];
 
 module.exports = {
 
@@ -15,114 +21,181 @@ module.exports = {
      * @returns {boolean|undefined} Flag showing if the user id if valid or undefined if not
      */
     isUserIdValid(res, userId) {
-        return helpers.isValidString(userId) ? true : helpers.handleError(res, null, 'User ID is not valid', 401);
-    },
+        if (!helpers.isValidString(userId)) {
+            const errorMessage = 'User ID is not valid';
 
-    /**
-     * Creates a new user based on the passed profile. Tries to extract usable data from the profile.
-     *
-     * In case some profile properties were not valid, returns undefined.
-     *
-     * @param {Object} res Response to use in case of errors.
-     * @param {Object} profile Profile the user is using to log in.
-     * @returns {User|undefined} Created user.
-     */
-    createUser(res, profile) {
-        if (this.isUserIdValid(res, profile.user_id)) {
-            return this._getValidUser(res, profile);
-        } else {
-            return helpers.handleError(res, null, `The passed auth_id ${profile.auth_id} is not a valid string`, 403);
+            return helpers.throwError(res, errorMessage, 401);
         }
+
+        return true;
+    },
+
+    confirmUserIsValidAdmin(res, authUser, authUserId) {
+        if (!this.confirmUserExists(res, authUser, authUserId)) return false;
+        if (!this.confirmUserIsAdmin(res, authUser)) return false;
+        if (!this.confirmUserIsNotBlocked(res, authUser)) return false;
+
+        return true;
+    },
+
+    confirmUserExists(res, user, userId) {
+        if (!user) {
+            const errorMessage = `User with ID ${userId} not found`;
+
+            return helpers.throwError(res, errorMessage, 404);
+        }
+
+        return true;
+    },
+
+    confirmUserIsAdmin(res, user) {
+        if (user.is_admin !== true) {
+            const errorMessage = `User with ID ${user._id} is not an admin`;
+
+            return helpers.throwError(res, errorMessage, 403);
+        }
+
+        return true;
+    },
+
+    confirmUserIsNotBlocked(res, user) {
+        if (user.is_blocked !== false) {
+            const errorMessage = `User with auth_id ${user._id} is blocked`;
+
+            return helpers.throwError(res, errorMessage, 403);
+        }
+
+        return true;
+    },
+
+    confirmUserHasRights(res, user, id) {
+        const userViewingOwnProfile = user._id.equals(id);
+        const userIsAdmin = user.is_admin === true;
+
+        if (!userViewingOwnProfile && !userIsAdmin) {
+            const errorMessage = `Only admins can CRUD other users. User with ID ${user._id} is not an admin`;
+
+            return helpers.throwError(res, errorMessage, 403);
+        }
+
+        return true;
+    },
+
+    confirmUserDoesNotExist(res, user) {
+        if (user) {
+            const errorMessage = `User with email ${user.email} already exists. ID: ${user._id}`;
+
+            return helpers.throwError(res, errorMessage, 409);
+        }
+
+        return false;
     },
 
     /**
-     * Constructs an object with valid properties that can be updated or returns undefined if something was wrong.
+     * Validates all passed user properties and returns the constructed object if appropriate.
      *
      * @public
      * @param {Object} res Response to use in case of errors.
-     * @param {Object} profile Profile being updated.
-     * @param {Object} authUser User who is trying to create the user.
-     * @returns {Object|undefined}
-     */
-    updateUser(res, profile, authUser) {
-        return this._getValidUser(res, profile, authUser);
-    },
-
-    /**
-     * Validates all passed user properties and returns the constructed object is appropriate.
-     *
-     * Excludes auth_id as it
-     *
-     * @private
-     * @param {Object} res Response to use in case of errors.
-     * @param {Object} profile Profile user is using to log in or create user.
-     * @param {Object} [authUser] User who is trying to create or update the user.
+     * @param {Object} props Properties for the new user.
      * @returns {Object|undefined} Object with valid user properties if validated.
      */
-    _getValidUser(res, profile, authUser) {
-        if (!helpers.isObject(profile)) return helpers.handleError(res, null, 'The passed profile not a valid object', 400);
+    createUser(res, props) {
+        if (this._validatePropsObject) return;
 
-        const user = {};
-        const { user_id, email, given_name, family_name, gender, picture, is_admin, is_blocked } = profile;
+        const user = new User();
+        const { email, password } = props;
 
-        if (typeof user_id !== 'undefined') {
-            if (this.isUserIdValid(res, user_id) || user_id === '') {
-                user.auth_id = user_id;
-            } else {
-                return helpers.handleError(res, null, `The passed user_id ${user_id} is not a valid string`, 400);
-            }
-        }
-        if (typeof email !== 'undefined') {
-            if (helpers.isValidEmail(email) || email === '') {
-                user.email = email
-            } else {
-                return helpers.handleError(res, null, `The passed email ${email} is not valid`, 400);
-            }
-        }
-        if (typeof given_name !== 'undefined') {
-            if (helpers.isValidString(given_name) || given_name === '') {
-                user.given_name = given_name;
-            } else {
-                return helpers.handleError(res, null, `The passed given_name ${given_name} is not a valid string`, 400);
-            }
-        }
-        if (typeof family_name !== 'undefined') {
-            if (helpers.isValidString(family_name) || family_name === '') {
-                user.family_name = family_name;
-            } else {
-                return helpers.handleError(res, null, `The passed family_name ${family_name} is not a valid string`, 400);
-            }
-        }
-        if (typeof gender !== 'undefined') {
-            if (helpers.isValidString(gender) || gender === '') {
-                user.gender = gender;
-            } else {
-                return helpers.handleError(res, null, `The passed gender ${gender} is not a valid string`, 400);
-            }
-        }
-        if (typeof picture !== 'undefined') {
-            if (helpers.isValidString(picture) || picture === '') {
-                user.picture = picture;
-            } else {
-                return helpers.handleError(res, null, `The passed picture ${picture} is not a valid string`, 400);
-            }
-        }
-        if (helpers.isBooleanValue(is_admin) || is_admin === '')  {
-            if (authUser && authUser.is_admin === true) {
-                user.is_admin = is_admin;
-            } else {
-                return helpers.handleError(res, null, 'Only admin users are allowed to change the role for other users', 403);
-            }
-        }
-        if (helpers.isBooleanValue(is_blocked) || is_blocked === '')  {
-            if (authUser && authUser.is_admin === true) {
-                user.is_blocked = is_blocked;
-            } else {
-                return helpers.handleError(res, null, 'Only admin users are allowed to block/unblock other users', 403);
-            }
-        }
+        // validate mandatory properties
+        if (!this._validateEmail(res, email, user)) return;
+        if (!this._validatePassword(res, password, user)) return;
+
+        // validate optional properties
+        const { strings, boolean } = config.user.propertyNames.optional;
+
+        if (!this._validateProps(res, strings, user, this._validateOptionalBoolProp)) return;
+        if (!this._validateProps(res, boolean, user, this._validateOptionalStringProp)) return;
 
         return user;
-    }
+    },
 
+    _validatePropsObject() {
+        if (!helpers.isObject(props)) {
+            const errorMessage = 'Properties must be passed as a valid object';
+
+            return helpers.throwError(res, errorMessage, 400);
+        }
+
+        return true;
+    },
+
+    _validateEmail(res, email, user) {
+        if (!helpers.isValidEmail(email)) {
+            const errorMessage = `The passed email ${email} is not valid`;
+
+            return helpers.throwError(res, errorMessage, 400);
+        }
+
+        user.email = email;
+
+        return true;
+    },
+
+    _validatePassword(res, password, user) {
+        if (!helpers.isValidPassword(password)) {
+            const errorMessage = `The passed password ${password} is not valid`;
+
+            return helpers.throwError(res, errorMessage, 400);
+        }
+
+        user.setPassword(password);
+
+        return true;
+    },
+
+    _validateProps(res, props, user, validator) {
+        for (let i = 0; i < props.length; i++) {
+            const name = props[i];
+            const result = validator(res, name, props, user);
+
+            if (!result) return false;
+        }
+
+        return true;
+    },
+
+    _validateOptionalStringProp(res, name, props, user) {
+        const value = props[name];
+
+        if (typeof value === 'undefined') {
+            return true;
+        }
+
+        if (!helpers.isTypeString(value)) {
+            const errorMessage = `The passed user optional string property ${name} value ${value} is not valid`;
+
+            return helpers.throwError(res, errorMessage, 400);
+        }
+
+        user[name] = value;
+
+        return true;
+    },
+
+    _validateOptionalBoolProp(res, name, props, user) {
+        const value = props[name];
+
+        if (typeof value === 'undefined') {
+            return true;
+        }
+
+        if (helpers.isTypeBooleanOrEmptyString(value)) {
+            user[name] = value;
+
+            return true;
+        }
+
+        const errorMessage = `The passed user optional boolean property ${name} with value ${value} is not valid`;
+
+        return helpers.throwError(res, errorMessage, 400);
+    }
 };

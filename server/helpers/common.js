@@ -1,6 +1,10 @@
 /**
  * Common helpers.
  */
+
+const config = require('../config');
+
+// TODO: put all error messages in one place
 module.exports = {
 
     /**
@@ -11,11 +15,38 @@ module.exports = {
      * @returns {boolean} Flag showing is the value is a valid string.
      */
     isValidString(val) {
-        return typeof val === 'string' && val.trim() !== '';
+        return this.isValueTypeString(val) && val.trim() !== '';
     },
 
-    isBooleanValue(val) {
-        return typeof val === 'boolean' || val === 'true' || val === 'false';
+    /**
+     * Checks if the passed values type is string.
+     * This can also be used for empty strings.
+     *
+     * @param {*} val Value to check.
+     * @returns {boolean} Flag showing is the value is a string.
+     */
+    isTypeString(val) {
+        return typeof val === 'string';
+    },
+
+    /**
+     * Checks if the passed value is boolean or an empty string.
+     *
+     * @param {*} val Value to check.
+     * @returns {boolean} Flag showing is the value is boolean or an empty string.
+     */
+    isTypeBooleanOrEmptyString(val) {
+        return this.isTypeBoolean(val) || val === '';
+    },
+
+    /**
+     * Checks if the passed value is boolean is valid.
+     *
+     * @param {*} val Value to check.
+     * @returns {boolean} Flag showing is the value is boolean.
+     */
+    isTypeBoolean(val) {
+        return typeof val === 'boolean';
     },
 
     /**
@@ -38,8 +69,21 @@ module.exports = {
      * @returns {boolean} Flag showing is the value is a valid e-mail.
      */
     isValidEmail(val) {
+        // TODO: try req.sanitize('email').normalizeEmail({ remove_dots: false });
         let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(val);
+    },
+
+    /**
+     * Checks if the passed password is valid.
+     *
+     * @public
+     * @param {*} val Value to check.
+     * @returns {boolean} Flag showing is the value is a valid password.
+     */
+    isValidPassword(password) {
+        // TODO: try req.assert('password', 'Password cannot be blank').notEmpty();
+        return typeof password === 'string' && password.length >= config.minPasswordLength;
     },
 
     /**
