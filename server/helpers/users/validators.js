@@ -5,6 +5,9 @@
  */
 
 const helpers = require('../index');
+const config = require('../../config');
+const errors = config.error.validation.props;
+const badRequest = config.error.status.badRequest;
 
 module.exports = {
     propsObject() {
@@ -41,18 +44,32 @@ module.exports = {
         return true;
     },
 
-    props(res, props, user, validator) {
+    optionalProps(props, user, validator) {
         for (let i = 0; i < props.length; i++) {
             const name = props[i];
-            const result = validator(res, name, props, user);
 
-            if (!result) return false;
+            // TODO: check if the property is undefined here and skip if so as it's optional
+            // TODO: remove typeof undefined cehck in thei optional prop check methods
+            // TODO: in the prop check methods only return true/false and act accordingly here
+            // TODO: in the callee: 1) check if the returned is an error 2) pass the correct params (Currently worng)
+
+            const isValid = validator(res, name, props, user);
+
+            if (isValid) {
+
+            }
+            else {
+                return {
+                    error: errors.optional.boolean(name, value),
+                    status: badRequest
+                };
+            }
         }
 
         return true;
     },
 
-    optStringProp(res, name, props, user) {
+    stringProp(res, name, props, user) {
         const value = props[name];
 
         if (helpers.isTypeUndefined(value)) {
@@ -70,21 +87,17 @@ module.exports = {
         return true;
     },
 
-    optBoolProp(res, name, props, user) {
+    boolProp(name, props, user) {
         const value = props[name];
 
         if (helpers.isTypeUndefined(value)) {
-            return true;
+            return value;
         }
 
         if (helpers.isTypeBooleanOrEmptyString(value)) {
             user[name] = value;
 
-            return true;
+            return value;
         }
-
-        const errorMessage = `The passed user optional boolean property ${name} with value ${value} is not valid`;
-
-        return helpers.throwError(res, errorMessage, 400);
     }
 };

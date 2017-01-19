@@ -104,11 +104,12 @@ module.exports = {
         if (!validate.email(res, email, user)) return false;
         if (!validate.password(res, password, user)) return false;
 
+
+        // TODO: move this to validators in a new method called add/create optional properties
         // validate optional properties
         const { strings, boolean } = config.user.propNames.optional;
-
-        if (!validate.props(res, strings, user, validate.optStringProp)) return false;
-        if (!validate.props(res, boolean, user, validate.optBoolProp)) return false;
+        if (!validate.optionalProps(strings, validate.stringProp)) return false;
+        if (!validate.optionalProps(boolean, validate.boolProp)) return false;
 
         return user;
     }

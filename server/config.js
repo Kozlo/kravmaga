@@ -13,5 +13,17 @@ module.exports = {
                 boolean: ['is_admin', 'is_blocked']
             }
         }
+    },
+    error: {
+        status: {
+            badRequest: 400
+        },
+        validation: {
+            props: {
+                optional:  {
+                    boolean: (name, value) => `The passed user optional boolean property ${name} with value ${value} is not valid`
+                }
+            }
+        }
     }
 };

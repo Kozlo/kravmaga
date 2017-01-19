@@ -93,7 +93,7 @@ module.exports = {
      */
     isValidPassword(password) {
         // TODO: try req.assert('password', 'Password cannot be blank').notEmpty();
-        return typeof password === 'string' && password.length >= config.minPasswordLength;
+        return typeof password === 'string' && password.length >= config.user.minPasswordLength;
     },
 
     /**
