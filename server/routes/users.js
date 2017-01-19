@@ -3,18 +3,18 @@
  */
 module.exports = (app, auth) => {
 
-    const users = require('../controllers/users');
+    const usersController = require('../controllers/users');
 
-    app.post('/users', users.create);
+    app.post('/users', usersController.create);
 
-    app.get('/users', auth, users.get);
+    app.get('/users', auth, usersController.get);
 
-    app.get('/users/:id', auth, users.getOne);
+    app.get('/users/:id', auth, usersController.getOne);
 
-    app.patch('/users/:id', auth, users.update);
+    app.patch('/users/:id', auth, usersController.update);
 
     // TODO: Add a PUT route as well
 
-    app.delete('/users/:id', auth, users.delete);
+    app.delete('/users/:id', auth, usersController.delete);
 
 };

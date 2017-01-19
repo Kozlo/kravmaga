@@ -7,11 +7,11 @@ module.exports = app => {
         secret: process.env.JWT_SECRET,
         userProperty: 'payload'
     });
-    const index = require('../controllers/index');
+    const indexController = require('../controllers/index');
 
     require('./auth')(app, auth);
     require('./users')(app, auth);
 
-    app.get('*', index.main);
+    app.get('*', indexController.main);
 
 };

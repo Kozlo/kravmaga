@@ -4,7 +4,7 @@
 module.exports = {
     user: {
         minPasswordLength: 5,
-        propertyNames: {
+        propNames: {
             mandatory: {
                 special:['email', 'password']
             },

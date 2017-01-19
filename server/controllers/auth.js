@@ -8,23 +8,25 @@ const User = require('../models/user');
 
 module.exports = {
 
-    /**
-     * Retrieves authentication-related config stored in environmental variables.
-     *
-     * @public
-     * @param {Object} req Request object.
-     * @param {Object} res Response object
-     */
-    getConfig(req, res) {
-        const jwt_audience = process.env.JWT_AUDIENCE;
-        const auth0_id = process.env.AUTH0_ID;
+    // TODO: remove as this is not needed anymore
+    // /**
+    //  * Retrieves authentication-related config stored in environmental variables.
+    //  *
+    //  * @public
+    //  * @param {Object} req Request object.
+    //  * @param {Object} res Response object
+    //  */
+    // getConfig(req, res) {
+    //     const jwt_audience = process.env.JWT_AUDIENCE;
+    //     const auth0_id = process.env.AUTH0_ID;
+    //
+    //     if (!jwt_audience) return handleError(res, null, 'JWT_AUDIENCE environmental variable not set', 500);
+    //     if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
+    //
+    //     res.status(200).json({ jwt_audience, auth0_id });
+    // },
 
-        if (!jwt_audience) return handleError(res, null, 'JWT_AUDIENCE environmental variable not set', 500);
-        if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
-
-        res.status(200).json({ jwt_audience, auth0_id });
-    },
-
+    // TODO: make this a login route
     /**
      * Checks if the user exists and returns the user if yes. Otherwise creates the user.
      *

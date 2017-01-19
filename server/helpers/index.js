@@ -15,7 +15,7 @@ module.exports = {
      * @returns {boolean} Flag showing is the value is a valid string.
      */
     isValidString(val) {
-        return this.isValueTypeString(val) && val.trim() !== '';
+        return this.isTypeString(val) && val.trim() !== '';
     },
 
     /**
@@ -47,6 +47,16 @@ module.exports = {
      */
     isTypeBoolean(val) {
         return typeof val === 'boolean';
+    },
+
+    /**
+     * Checks if the passed value has type undefined.
+     *
+     * @param {*} val Value to check.
+     * @returns {boolean} Flag showing is the value is undefined.
+     */
+    isTypeUndefined(val) {
+        return typeof val === 'undefined';
     },
 
     /**

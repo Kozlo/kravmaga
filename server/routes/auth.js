@@ -3,9 +3,9 @@
  */
 module.exports = app => {
 
-    const auth = require('../controllers/auth');
+    const authController = require('../controllers/auth');
 
-    // TODO: check if a logout route is necessary
+    // TODO: add a logout route
 
-    app.post('/login', auth.login);
+    app.post('/login', authController.login);
 };
