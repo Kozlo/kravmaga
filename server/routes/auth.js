@@ -7,5 +7,5 @@ module.exports = app => {
 
     // TODO: add a logout route
 
-    app.post('/login', authController.login);
+    // app.post('/login', authController.login);
 };

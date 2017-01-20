@@ -53,17 +53,27 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
+// passport-related middleware
+app.use(require('cookie-parser')());
+app.use(require('express-session')({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Routes
 require('./routes/index')(app);
 
+const errorHandler = require('./errorHandler');
+
+// add error handlers
+app.use(errorHandler);
+
 // Catch unauthorised errors
-// TODO: figure out why this isn't caught
-app.use((err, req, res, next) => {
-    if (err.name === 'UnauthorizedError') {
-        console.error('Unauthorized error:', err);
-        res.status(401).json({ 'message': `${err.name}: ${err.message}` });
-    }
-});
+// app.use((err, req, res, next) => {
+//     if (err.name === 'UnauthorizedError') {
+//         console.error('Unauthorized error:', err);
+//         res.status(401).json({ 'message': `${err.name}: ${err.message}` });
+//     }
+// });
 
 app.listen(app.get('port'), () => {
     console.log(`Express server listening on port ${app.get('port')}`);

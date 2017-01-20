@@ -33,6 +33,13 @@
 Bugs:
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
 
+Morten:
+- move adminUserScript outside server folder
+- use middleware for admin user
+- user authentication middleware for all routes
+- remove some checks and make mongoose catch them
+- improve the config file if I leave it (prolly not)
+
 -----------------------------------------------
 Later
 - add filters to get users route

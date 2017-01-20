@@ -2,7 +2,7 @@
  * Authentication controller.
  */
 
-const helpers = require('../helpers/common');
+const helpers = require('../helpers/index');
 const userHelpers = require('../helpers/users');
 const User = require('../models/user');
 
@@ -58,5 +58,55 @@ module.exports = {
                 }
             })
             .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${auth_id}`));
+    },
+
+    /** Authentication method that attempts to find the specified user based on the email.
+     * And then trues to authenticate the user with the passed password.
+     *
+     * @param {username} username User's username (email)
+     * @param {string} password User's password
+     * @param {Function} done Callback
+     */
+    authenticate(username, password, done) {
+        User.findOne({ email: username })
+            .then(user => {
+                // Return if user not found in database
+                if (!user) {
+                    return done(null, false, {
+                        message: 'User not found'
+                    });
+                }
+                // Return if password is wrong
+                if (!user.validPassword(password)) {
+                    return done(null, false, {
+                        message: 'Password is wrong'
+                    });
+                }
+                // If credentials are correct, return the user object
+                return done(null, user);
+            })
+            .catch(err => done(err));
+    },
+
+    /**
+     * Saves the authenticated user's info into a session.
+     *
+     * @param {Object} user Authenticated user
+     * @param {Function} cb Callback
+     */
+    serializeUser: (user, cb) => {
+        cb(null, user.id);
+    },
+
+    /**
+     * Finds the user in the database based on the ID stored in the session.
+     *
+     * @param {string} id User's id
+     * @param {Function} cb Callback
+     */
+    deserializeUser: (id, cb) => {
+        User.findById(id)
+            .then(user => cb(null, user))
+            .catch(err => cb(err));
     }
 };

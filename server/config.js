@@ -1,29 +1,23 @@
 /**
  * Configurable properties used throughout the app.
  */
-module.exports = {
-    user: {
-        minPasswordLength: 5,
-        propNames: {
-            mandatory: {
-                special:['email', 'password']
-            },
-            optional: {
-                strings: ['given_name', 'family_name', 'gender', 'picture'],
-                boolean: ['is_admin', 'is_blocked']
-            }
-        }
-    },
-    error: {
-        status: {
-            badRequest: 400
-        },
-        validation: {
-            props: {
-                optional:  {
-                    boolean: (name, value) => `The passed user optional boolean property ${name} with value ${value} is not valid`
-                }
-            }
-        }
-    }
+const httpStatusCodes = {
+    ok: 200,
+    created: 201,
+    noContent: 204,
+    movedPermanently: 301,
+    notModified: 304,
+    badRequest: 400,
+    unauthorized: 401,
+    forbidden: 403,
+    notFound: 404,
+    internalServerError: 500,
+    notImplemented: 501,
+    serviceUnavailable: 503
 };
+
+const errors = {
+    'UnauthorizedError': httpStatusCodes.unauthorized,
+    'ValidationError': httpStatusCodes.badRequest
+};
+module.exports = { httpStatusCodes, errors };
