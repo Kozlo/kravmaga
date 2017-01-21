@@ -8,56 +8,27 @@ const User = require('../models/user');
 
 module.exports = {
 
-    // TODO: remove as this is not needed anymore
-    // /**
-    //  * Retrieves authentication-related config stored in environmental variables.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object.
-    //  * @param {Object} res Response object
-    //  */
-    // getConfig(req, res) {
-    //     const jwt_audience = process.env.JWT_AUDIENCE;
-    //     const auth0_id = process.env.AUTH0_ID;
-    //
-    //     if (!jwt_audience) return handleError(res, null, 'JWT_AUDIENCE environmental variable not set', 500);
-    //     if (!auth0_id) return handleError(res, null, 'AUTH0_ID environmental variable not set', 500);
-    //
-    //     res.status(200).json({ jwt_audience, auth0_id });
-    // },
-
-    // TODO: make this a login route
     /**
-     * Checks if the user exists and returns the user if yes. Otherwise creates the user.
+     * Attempts to login the user using the local authentication strategy.
      *
      * @public
-     * @param {Object} req Request object.
+     * @param {Object} req Request object
      * @param {Object} res Response object
      */
-    checkProfile(req, res) {
-        const auth_id = req.payload.sub;
+    login: (req, res) => {
+        passport.authenticate('local', (err, user, info) => {
+            // If Passport throws/catches an error
+            if (err) throw err;//;return helpers.handleError(res, err, `Error finding user ${user}`, 500);
 
-        if (!userHelpers.isUserIdValid(res, auth_id)) return;
-
-        User.findOne({ auth_id })
-            .then(authUser => {
-                if (authUser) return authUser;
-
-                const profile = req.body;
-                const userProps = userHelpers.createUser(res, profile);
-
-                if (!userProps) helpers.throwError(res, 'Some of the user props for profile are not valid', 400);
-
-                return User.create(userProps);
-            })
-            .then(user => {
-                if (user.is_blocked !== false) {
-                    res.status(403).send(`User with auth_id ${user.auth_id} is blocked`);
-                } else {
-                    res.status(200).send(user);
-                }
-            })
-            .catch(err => helpers.handleError(res, err, `Error logging in user with ID ${auth_id}`));
+            // If a user is found
+            if (user){
+                // TODO: instead of returning all info only return the relevant one (e.g. no hash or salt)
+                res.status(200).json({ user, token: user.generateJwt() });
+            } else {
+                // If user is not found
+                res.status(401).json(info);
+            }
+        })(req, res);
     },
 
     /** Authentication method that attempts to find the specified user based on the email.

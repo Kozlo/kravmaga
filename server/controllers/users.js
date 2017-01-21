@@ -5,6 +5,7 @@
 const helpers = require('../helpers/index');
 const userHelpers = require('../helpers/users');
 const User = require('../models/user');
+// const { errorHandler } = require('../errorHandlers');
 
 module.exports = {
 
@@ -14,22 +15,21 @@ module.exports = {
      * Checks if the authenticated user is an admin.
      *
      * @public
-     * @param {Object} req Request object.
-     * @param {Object} res Response object
+     * @param {Request} req Request object.
+     * @param {Response} res Response object
+     * @param {Function} next Method that continus execution
      */
-    create(req, res) {
+    create(req, res, next) {
         // const newUserProps = userHelpers.createUser(res, req.body);
         const newUserProps = req.body;
 
         // TODO: somehow add password validation (preferable in the mongoose model)
+        // TODO: add validation that the passed user is an admin
 
         // User.create(newUserProps)
         User.create(newUserProps)
             .then(user => res.status(200).send(user))
-            .catch(err => {
-                console.log("ERROR:", err);
-                helpers.handleError(res, err, 'Error creating user')
-            });
+            .catch(err => next(err));
     }//,
 
     // /**

@@ -59,21 +59,26 @@ app.use(require('express-session')({ secret: process.env.JWT_SECRET, resave: fal
 app.use(passport.initialize());
 app.use(passport.session());
 
+//=================
 // Routes
-require('./routes/index')(app);
+//=================
+const routes = require('./routes/index');
 
-const errorHandler = require('./errorHandler');
+app.use('/', routes);
 
-// add error handlers
+//=================
+// Error handling
+//=================
+
+const { logErrors, clientErrorHandler, errorHandler } = require('./errorHandlers');
+
+app.use(logErrors);
+app.use(clientErrorHandler);
 app.use(errorHandler);
 
-// Catch unauthorised errors
-// app.use((err, req, res, next) => {
-//     if (err.name === 'UnauthorizedError') {
-//         console.error('Unauthorized error:', err);
-//         res.status(401).json({ 'message': `${err.name}: ${err.message}` });
-//     }
-// });
+//=================
+// Start the app
+//=================
 
 app.listen(app.get('port'), () => {
     console.log(`Express server listening on port ${app.get('port')}`);

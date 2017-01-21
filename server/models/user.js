@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+// TODO: add validation to all of these
+
 const schemaProps = {
     email: { type: String, unique: true, required: true },
     hash: String,

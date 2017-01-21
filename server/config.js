@@ -1,6 +1,7 @@
 /**
  * Configurable properties used throughout the app.
  */
+
 const httpStatusCodes = {
     ok: 200,
     created: 201,

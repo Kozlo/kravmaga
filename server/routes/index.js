@@ -1,17 +1,17 @@
 /**
  * Index routes.
  */
-module.exports = app => {
 
-    const auth = require('express-jwt')({
-        secret: process.env.JWT_SECRET,
-        userProperty: 'payload'
-    });
-    const indexController = require('../controllers/index');
+const router = require('express').Router();
+const usersRoutes = require('./users');
+const indexController = require('../controllers/index');
+const authController = require('../controllers/auth');
 
-    require('./auth')(app, auth);
-    require('./users')(app, auth);
+router.post('/login', authController.login);
+// TODO: add a logout route
 
-    app.get('*', indexController.main);
+router.use('/users', usersRoutes);
 
-};
+router.get('*', indexController.main);
+
+module.exports = router;
