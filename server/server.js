@@ -62,7 +62,7 @@ app.use(passport.session());
 //=================
 // Routes
 //=================
-const routes = require('./routes/index');
+const routes = require('./routes');
 
 app.use('/', routes);
 

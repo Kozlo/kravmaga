@@ -2,6 +2,11 @@
  * Configurable properties used throughout the app.
  */
 
+const userConfig = {
+    minPasswordLength: 5,
+    roles: ['admin', 'user']
+};
+
 const httpStatusCodes = {
     ok: 200,
     created: 201,
@@ -17,8 +22,18 @@ const httpStatusCodes = {
     serviceUnavailable: 503
 };
 
-const errors = {
-    'UnauthorizedError': httpStatusCodes.unauthorized,
-    'ValidationError': httpStatusCodes.badRequest
+const errorNames = {
+    badRequestError: 'BadRequestError',
+    unauthorizedError: 'UnauthorizedError',
+    validationError: 'ValidationError',
+    forbiddenError: 'ForbiddenError'
 };
-module.exports = { httpStatusCodes, errors };
+
+const errorStatusCodes = {
+    'UnauthorizedError': httpStatusCodes.unauthorized,
+    'ValidationError': httpStatusCodes.badRequest,
+    'ForbiddenError': httpStatusCodes.forbidden,
+    'BadRequestError': httpStatusCodes.badRequest
+};
+
+module.exports = { httpStatusCodes, errorNames, errorStatusCodes, userConfig };

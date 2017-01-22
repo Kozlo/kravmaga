@@ -2,14 +2,14 @@
  * Common helpers.
  */
 
-const config = require('../config');
+const { userConfig } = require('../config');
 
-// TODO: put all error messages in one place
+// TODO: remove all unused methods
 module.exports = {
 
     /**
      * Checks if the passed string is valid.
-     * Also trips the spaces from the start/end.
+     * Also trips the spaces from the start/end to check if the string is not empty.
      *
      * @param {*} val Value to check.
      * @returns {boolean} Flag showing is the value is a valid string.
@@ -78,8 +78,7 @@ module.exports = {
      * @param {*} val Value to check.
      * @returns {boolean} Flag showing is the value is a valid e-mail.
      */
-    isValidEmail(val) {
-        // TODO: try req.sanitize('email').normalizeEmail({ remove_dots: false });
+    isEmailValid(val) {
         let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(val);
     },
@@ -91,43 +90,24 @@ module.exports = {
      * @param {*} val Value to check.
      * @returns {boolean} Flag showing is the value is a valid password.
      */
-    isValidPassword(password) {
+    isPasswordValid(password) {
         // TODO: try req.assert('password', 'Password cannot be blank').notEmpty();
-        return typeof password === 'string' && password.length >= config.user.minPasswordLength;
+        return typeof password === 'string' && password.length >= userConfig.minPasswordLength;
     },
 
     /**
-     * Calls the error handler and throws a new error.
+     * Created an error with the specified message and name.
      *
      * @public
      * @param {Object} res Response object
      * @param {string} msg Error message
      * @param {number} status Status code
      */
-    throwError(res, msg, status) {
-        this.handleError(res, null, msg, status);
-        throw new Error(msg);
-    },
+    createError(message, name) {
+        const error = new Error(message);
 
-    /**
-     * Error handler logs the error and the message (if any) to the server and sends a response with the appropriate status code.
-     *
-     * Checks if the headers have already been sent before sending the response to avoid an error.
-     *
-     * @public
-     * @param {Object} res Response object
-     * @param {Object} error Error object
-     * @param {string} [message] Error message
-     * @param {number} [status] Status code
-     */
-    handleError(res, error, message = 'Internal server error', status = 500) {
-        const fullError = { error, message};
+        error.name = name;
 
-        console.error(fullError);
-
-        // TODO: test of generic mongoose errors contain status codes and add that is possible
-
-        if (!res.headersSent) res.status(status).send(fullError);
+        return error;
     }
-
 };

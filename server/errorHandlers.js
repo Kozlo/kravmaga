@@ -1,13 +1,16 @@
 /**
  * Error handlers.
  */
+
+const { errorStatusCodes, httpStatusCodes } = require('./config');
+
 module.exports = {
     /**
      * Logs the caught error to the console and calls the next method.
      *
      * @param {Error} err Error
-     * @param {Request} req Request object
-     * @param {Response} res Response object
+     * @param {Object} req Request object
+     * @param {Object} res Response object
      * @param {Function} next Method for continuing execution
      */
     logErrors(err, req, res, next) {
@@ -19,12 +22,13 @@ module.exports = {
      * Tries to identify the type of error and send a response with the apporiate error status code.
      *
      * @param {Error} err Error
-     * @param {Request} req Request object
-     * @param {Response} res Response object
+     * @param {Object} req Request object
+     * @param {Object} res Response object
      * @param {Function} next Method for continuing execution
      */
     clientErrorHandler(err, req, res, next) {
-        const statusCode = require('./config').errors[err.name];
+        const { name, status } = err;
+        const statusCode = status || errorStatusCodes[name];
 
         if (typeof statusCode === 'undefined') {
             return next(err);
@@ -39,15 +43,15 @@ module.exports = {
      * Checks if the error has a status code. Uses 500 if none is found.
      *
      * @param {Error} err Error
-     * @param {Request} req Request object
-     * @param {Response} res Response object
+     * @param {Object} req Request object
+     * @param {Object} res Response object
      * @param {Function} next Method for continuing execution
      */
     errorHandler(err, req, res, next) {
         // TODO: test this http://expressjs.com/en/guide/error-handling.html
         if (res.headersSent) return next(err);
 
-        const status = err.status || 500;
+        const status = err.status || httpStatusCodes.internalServerError;
 
         res.status(status).json({
             message: 'An unexpected error occurred',

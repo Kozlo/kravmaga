@@ -2,9 +2,11 @@
  * Index routes.
  */
 
-const router = require('express').Router();
+const express = require('express');
+const router = express.Router();
+
 const usersRoutes = require('./users');
-const indexController = require('../controllers/index');
+const mainController = require('../controllers/');
 const authController = require('../controllers/auth');
 
 router.post('/login', authController.login);
@@ -12,6 +14,6 @@ router.post('/login', authController.login);
 
 router.use('/users', usersRoutes);
 
-router.get('*', indexController.main);
+router.get('*', mainController.getAll);
 
 module.exports = router;

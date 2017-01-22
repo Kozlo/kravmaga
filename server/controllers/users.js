@@ -2,157 +2,110 @@
  * Users controller.
  */
 
-const helpers = require('../helpers/index');
-const userHelpers = require('../helpers/users');
+const config = require('../config');
+const userHelpers = require('../helpers/userHelpers');
 const User = require('../models/user');
-// const { errorHandler } = require('../errorHandlers');
+
+const { httpStatusCodes } = config;
 
 module.exports = {
 
     /**
-     * Retrieves all users based on the passed filters.
+     * Create a user based on the passed params.
      *
-     * Checks if the authenticated user is an admin.
+     * Checks if the password is valid.
      *
      * @public
-     * @param {Request} req Request object.
-     * @param {Response} res Response object
-     * @param {Function} next Method that continus execution
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
      */
-    create(req, res, next) {
-        // const newUserProps = userHelpers.createUser(res, req.body);
-        const newUserProps = req.body;
+    createOne(req, res, next) {
+        const error = userHelpers.passwordIsNotValid(req.body.password);
 
-        // TODO: somehow add password validation (preferable in the mongoose model)
-        // TODO: add validation that the passed user is an admin
+        if (error) return next(error);
 
-        // User.create(newUserProps)
-        User.create(newUserProps)
-            .then(user => res.status(200).send(user))
+        User.create(req.body)
+            .then(user => res.status(httpStatusCodes.ok).send(user))
             .catch(err => next(err));
-    }//,
+    },
 
-    // /**
-    //  * Retrieves all users based on the passed filters.
-    //  *
-    //  * Checks if the authenticated user is an admin.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object.
-    //  * @param {Object} res Response object
-    //  */
-    // get(req, res) {
-    //     const authUserId = req.payload.sub;
-    //
-    //     User.findById(authUserId)
-    //         .then(authUser => {
-    //             userHelpers.confirmUserIsValidAdmin(res, authUser, authUserId);
-    //
-    //             // TODO: add filter validation
-    //
-    //             return User.find().sort({ 'updatedAt': -1 });
-    //         })
-    //         .then(users => res.status(200).send(users))
-    //         .catch(err => handleError(res, err, 'Error retrieving users'));
-    // },
-    //
-    // /**
-    //  * Retrieves a single user.
-    //  *
-    //  * Checks if the authenticated user checks his/her own profile or is an admin.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object.
-    //  * @param {Object} res Response object
-    //  */
-    // getOne(req, res) {
-    //     const id = req.params.id;
-    //     const authUserId = req.payload.sub;
-    //
-    //     if (!userHelpers.isUserIdValid(res, id)) return;
-    //     if (!userHelpers.isUserIdValid(res, authUserId)) return;
-    //
-    //     User.findById(authUserId)
-    //         .then(authUser => {
-    //             userHelpers.confirmUserExists(res, authUser, authUserId);
-    //             userHelpers.confirmUserIsNotBlocked(res, authUser);
-    //             userHelpers.confirmUserHasRights(res, authUser, id);
-    //
-    //             return User.findById(id);
-    //         })
-    //         .then(user => {
-    //             if (!user) helpers.throwError(res, `User with ID ${id} not found`, 404);
-    //
-    //             return res.status(200).send(user);
-    //         })
-    //         .catch(err => helpers.handleError(res, err, `Error retrieving user with ID ${id}`));
-    //
-    // },
-    //
-    // /**
-    //  * Updated the specified user.
-    //  *
-    //  * Checks if the authenticated user updates his/her own profile or is an admin.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object.
-    //  * @param {Object} res Response object
-    //  */
-    // update(req, res) {
-    //     const updatableUserId = req.params.id;
-    //     const authUserId = req.payload.sub;
-    //
-    //     if (!userHelpers.isUserIdValid(res, updatableUserId)) return;
-    //     if (!userHelpers.isUserIdValid(res, authUserId)) return;
-    //
-    //     User.findById(authUserId)
-    //         .then(authUser => {
-    //             userHelpers.confirmUserExists(res, authUser, authUserId);
-    //             userHelpers.confirmUserIsNotBlocked(res, authUser);
-    //             userHelpers.confirmUserHasRights(res, authUser, updatableUserId);
-    //
-    //             const updatableProps = req.body;
-    //             // TODO: replace this with something else
-    //             const newProps = userHelpers.updateUser(res, updatableProps, authUser);
-    //             const options = { 'new': true };
-    //
-    //             return User.findByIdAndUpdate(updatableUserId, newProps, options);
-    //         })
-    //         .then(updatedUser => {
-    //             userHelpers.confirmUserExists(res, updatedUser, updatableUserId);
-    //
-    //             res.status(200).send(updatedUser);
-    //         })
-    //         .catch(err => helpers.handleError(res, err, `Error updating user with ID ${updatableUserId}`));
-    // },
-    //
-    // /**
-    //  * Deletes the specified user.
-    //  *
-    //  * Checks if the authenticated user is an admin.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object.
-    //  * @param {Object} res Response object
-    //  */
-    // delete(req, res) {
-    //     const deletableUserId = req.params.id;
-    //     const authUserId = req.payload.sub;
-    //
-    //     User.findById(authUserId)
-    //         .then(authUser => {
-    //             userHelpers.confirmUserExists(res, authUser, authUserId);
-    //             userHelpers.confirmUserIsNotBlocked(res, authUser);
-    //             userHelpers.confirmUserHasRights(res, authUser, deletableUserId);
-    //
-    //             return User.findByIdAndRemove(deletableUserId);
-    //         })
-    //         .then(deletedUser => {
-    //             userHelpers.confirmUserExists(res, deletedUser, deletableUserId);
-    //
-    //             res.status(200).send(deletedUser);
-    //         })
-    //         .catch(err => helpers.handleError(res, err, `Error deleting user with ID ${deletableUserId}`));
-    // }
+    /**
+     * Retrieves all users based on the passed filters.
+     *
+     * Sorts users by the last update in a descending order by default.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    getAll(req, res, next) {
+        const filters = req.filters || {};
+        const sorters = req.sorters || { 'updatedAt': -1 };
+
+        User.find(filters)
+            .sort(sorters)
+            .then(users => res.status(httpStatusCodes.ok).send(users))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Retrieves a single user based on the ID.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    getOne(req, res, next) {
+        User.findById(req.params.id)
+            .then(user => res.status(httpStatusCodes.ok).send(user))
+            .catch(err => next(err));
+
+    },
+
+    /**
+     * Updated the specified user.
+     *
+     * Raises an error if the password is not undefined and invalid.
+     * Also checks if the user is admin if admin_fields are not undefined.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    updateOne(req, res, next) {
+        const passwordError = userHelpers.passwordIsNotValid(req.body.password, true);
+
+        if (passwordError) {
+            return next(passwordError);
+        }
+
+        const privilegeError = userHelpers.privilegeCheck(req.authUserIsAdmin, req.body.admin_fields);
+
+        if (privilegeError) {
+            return next(privilegeError);
+        }
+
+        User.findByIdAndUpdate(req.params.id, req.body, { 'new': true })
+            .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Deletes the specified user.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Method for further execution
+     */
+    deleteOne(req, res, next) {
+        User.findByIdAndRemove(req.params.id)
+            .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
+            .catch(err => next(err));
+    }
 
 };

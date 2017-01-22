@@ -11,6 +11,7 @@
 (DONE)- add a possibility to RUD (no C) users
 (DONE)- replace PUT with PATCH
 (DONE)- reply to Ronalds
+- test if I need a 404 route for back-end (test with Postman)
 - re-do the authentication according to Ronald's request
   - create the new functionality
   - add a default admin user script
@@ -42,6 +43,7 @@ Morten:
 
 -----------------------------------------------
 Later
+- consider lazy loading for components to reduce initial JS file size
 - add filters to get users route
 - check out react bootstarp and how to use it... and if I'm using ir correctly
 - play around with the styles (currently using the one from the tutorial)
@@ -71,31 +73,3 @@ Later
 
 -----------------------------------------------
 Notes:
-- Auth0 gives the following info for profile:
-clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
-user_id: "auth0|57b560d73fa4e89a29e99a0d"
-provider:
-  connection: "Username-Password-Authentication"
-  isSocial: false
-  provider: "auth0"
-  user_id: "57b560d73fa4e89a29e99a0d"
-
-
-Google:
-clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
-user_id: "google-oauth2|107376329887259877921"
-provider:
-  connection: "google-oauth2"
-  isSocial:true
-  provider: "google-oauth2"
-  user_id: "107376329887259877921"
-
-
-Facebook
-clientID: "Mr8dVDOpvKRoMPH6rj0hHnHYNJJcV5Cf"
-user_id: "facebook|10211758406534749"
-provider:
-  connection: "facebook"
-  isSocial: true
-  provider: "facebook"
-  user_id: "10211758406534749"
