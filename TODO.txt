@@ -43,6 +43,7 @@ Morten:
 
 -----------------------------------------------
 Later
+- add a 'PUT' handler
 - consider lazy loading for components to reduce initial JS file size
 - add filters to get users route
 - check out react bootstarp and how to use it... and if I'm using ir correctly

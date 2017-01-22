@@ -19,7 +19,7 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     addIsAdmin(req, res, next) {
-        const authUserId = req.payload.sub;
+        const authUserId = req.payload._id;
 
         User.findById(authUserId)
             .then(authUser => {

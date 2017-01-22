@@ -3,6 +3,7 @@
  */
 
 const config = require('../config');
+const helpers = require('../helpers');
 const passport = require('passport');
 const User = require('../models/user');
 
@@ -25,6 +26,13 @@ module.exports = {
             if (err) return next(err);
 
             if (user) {
+                if (user.admin_fields.is_blocked === true) {
+                    const message = 'User is blocked.';
+                    const forbiddenError = helpers.createError(message, config.httpStatusCodes.forbidden);
+
+                    return next(forbiddenError);
+                }
+
                 const token = user.generateJwt(jwtSecret);
 
                 res.status(httpStatusCodes.ok).json({ user, token });

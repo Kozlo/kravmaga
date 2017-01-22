@@ -3,7 +3,7 @@
  */
 
 const config = require('../config');
-const userHelpers = require('../helpers/userHelpers');
+const userHelpers = require('../helpers/usersHelpers');
 const User = require('../models/user');
 
 const { httpStatusCodes } = config;
@@ -23,11 +23,24 @@ module.exports = {
     createOne(req, res, next) {
         const error = userHelpers.passwordIsNotValid(req.body.password);
 
-        if (error) return next(error);
+        if (error) {
+            return next(error);
+        }
 
-        User.create(req.body)
+        const user = new User(req.body);
+
+        user.setPassword(req.body.password);
+        user.save(req.body)
             .then(user => res.status(httpStatusCodes.ok).send(user))
-            .catch(err => next(err));
+            .catch(err => {
+                const userExistsError = userHelpers.userExistsError(err);
+
+                if (userExistsError) {
+                    return next(userExistsError);
+                }
+
+                next(err)
+            });
     },
 
     /**
@@ -83,7 +96,7 @@ module.exports = {
             return next(passwordError);
         }
 
-        const privilegeError = userHelpers.privilegeCheck(req.authUserIsAdmin, req.body.admin_fields);
+        const privilegeError = userHelpers.privilegeCheck(req.body.admin_fields, req.authUserIsAdmin, req.payload._id);
 
         if (privilegeError) {
             return next(privilegeError);

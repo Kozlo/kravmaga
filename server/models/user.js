@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const { userConfig } = require('../config');
-const { setPassword, validPassword, generateJwt } = require('../helpers/users/model');
+const { userConfig, userRoles } = require('../config');
+const { setPassword, validPassword, generateJwt } = require('../helpers/usersHelpers');
 const { isEmailValid } = require('../helpers/index');
 
 /**
@@ -25,7 +25,7 @@ const properties = {
         trim: true,
         validate: {
             validator: isEmailValid,
-            message: '{VALUE} is not a valid phone number!'
+            message: '{VALUE} is not a valid email!'
         }
     },
     hash: { type: String, required: true },
@@ -34,7 +34,7 @@ const properties = {
     family_name: { type: String, trim: true },
     picture: { type: String, trim: true },
     admin_fields: {
-        role: { type: String, required: true, enum: userConfig.roles },
+        role: { type: String, required: true, enum: userConfig.availableRoles, default: userRoles.user },
         is_blocked: { type: Boolean, required: true, default: false }
     }
 };

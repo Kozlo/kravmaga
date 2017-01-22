@@ -8,7 +8,9 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const helpers = require('./');
 
-const { badRequestError, forbiddenError } = config.errorNames;
+const { httpStatusCodes } = config;
+const mongoError = 'MongoError';
+const mongoDupKeyErrorCode = 11000;
 
 module.exports = {
 
@@ -19,8 +21,9 @@ module.exports = {
     /**
      * Checks if the authenticated user is trying to edit admin fields that can only be edited by admin.
      *
-     * @param {string|undefined} password Password
-     * @param {boolean} [isOptional] Flag showing if password property is mandatory
+     * @param {object|undefined} adminFields User fields only editable by an admin
+     * @param {boolean} authUserIsAdmin Flag showing if the authenticated user is an admin
+     * @param {boolean} authUserId Id of the authenticated user
      * @returns {boolean|Error} False or an error
      */
     privilegeCheck(adminFields, authUserIsAdmin, authUserId) {
@@ -30,7 +33,7 @@ module.exports = {
 
         const message = `Only admin users are allowed to modify admin_fields for a user. The authenticated user with ID  ${authUserId} is not an admin.`;
 
-        return helpers.createError(message, forbiddenError);
+        return helpers.createError(message, httpStatusCodes.forbidden);
     },
 
     /**
@@ -54,7 +57,25 @@ module.exports = {
         const constraint = isOptional ? 'optional' : 'mandatory';
         const message = `The passed ${constraint} user property password ${password} is not valid.`;
 
-        return helpers.createError(message, config.errorNames.badRequestError);
+        return helpers.createError(message, httpStatusCodes.badRequest);
+    },
+
+    /**
+     * Checks if the error is a duplicate key error.
+     *
+     * If this error occurs then the user already exists.
+     *
+     * @param err {Object} Error
+     * @returns {Object|boolean} Error or false
+     */
+    userExistsError(err) {
+        if (err.name === mongoError && err.code === mongoDupKeyErrorCode) {
+            const message = 'User already exists.';
+
+            return helpers.createError(message, httpStatusCodes.conflict);
+        }
+
+        return false;
     },
 
     //=======================================

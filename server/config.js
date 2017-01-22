@@ -2,9 +2,14 @@
  * Configurable properties used throughout the app.
  */
 
+const userRoles = {
+    admin: 'admin',
+    user: 'user'
+};
+
 const userConfig = {
     minPasswordLength: 5,
-    roles: ['admin', 'user']
+    availableRoles: [userRoles.admin, userRoles.user]
 };
 
 const httpStatusCodes = {
@@ -17,23 +22,18 @@ const httpStatusCodes = {
     unauthorized: 401,
     forbidden: 403,
     notFound: 404,
+    conflict: 409,
     internalServerError: 500,
     notImplemented: 501,
     serviceUnavailable: 503
 };
 
-const errorNames = {
-    badRequestError: 'BadRequestError',
-    unauthorizedError: 'UnauthorizedError',
-    validationError: 'ValidationError',
-    forbiddenError: 'ForbiddenError'
-};
-
 const errorStatusCodes = {
-    'UnauthorizedError': httpStatusCodes.unauthorized,
-    'ValidationError': httpStatusCodes.badRequest,
+    'BadRequestError': httpStatusCodes.badRequest,
+    'ConflictError': httpStatusCodes.conflict,
     'ForbiddenError': httpStatusCodes.forbidden,
-    'BadRequestError': httpStatusCodes.badRequest
+    'UnauthorizedError': httpStatusCodes.unauthorized,
+    'ValidationError': httpStatusCodes.badRequest
 };
 
-module.exports = { httpStatusCodes, errorNames, errorStatusCodes, userConfig };
+module.exports = { httpStatusCodes, errorStatusCodes, userRoles, userConfig };

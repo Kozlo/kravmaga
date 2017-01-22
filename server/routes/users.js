@@ -23,7 +23,7 @@ const {
 } = middleware;
 const {
     getAll, createOne, getOne,
-    /*updateOne, replaceOne,*/deleteOne
+    updateOne,/* replaceOne,*/deleteOne
 } = usersController;
 
 /**
@@ -47,7 +47,7 @@ router.route('/')
  */
 router.route('/:id')
      .get(canAccessSelfUnlessAdmin, getOne)
-     //.patch(canAccessSelfUnlessAdmin, updateOne)
+     .patch(canAccessSelfUnlessAdmin, updateOne)
      //.put(requireIsAdmin, replaceOne)
      .delete(requireIsAdmin, deleteOne);
 
