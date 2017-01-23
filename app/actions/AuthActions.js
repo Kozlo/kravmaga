@@ -1,5 +1,5 @@
 import alt from '../alt';
-import { httpStatusCode, httpSuccessHandler, httpErrorHandler, getAuthorizationHeader } from '../utils/utils';
+import { httpStatusCode, httpSuccessHandler, httpErrorHandler } from '../utils/utils';
 
 class AuthActions {
     constructor() {
@@ -10,26 +10,12 @@ class AuthActions {
         );
     }
 
-    getAuthConfig(successHandler) {
-        const statusCode = $.extend({ 200: users => successHandler(users)}, httpStatusCode);
+    login(email, password) {
+        const statusCode = $.extend({ 200: data => this.loginUser(data) }, httpStatusCode);
         const request = {
             statusCode,
-            url: '/auth-config',
-            method: 'GET'
-        };
-
-        return $.ajax(request)
-            .done(data => httpSuccessHandler(data))
-            .fail(e => httpErrorHandler(e));
-    }
-
-    checkProfile(token, profile) {
-        const statusCode = $.extend({ 200: user => this.loginUser({ token, user }) }, httpStatusCode);
-        const request = {
-            statusCode,
-            data: profile,
-            headers: getAuthorizationHeader(token),
-            url: '/check-profile',
+            data: { email, password },
+            url: '/login',
             method: 'POST'
         };
 

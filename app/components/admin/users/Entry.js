@@ -22,22 +22,14 @@ class UserEntry extends React.Component {
         }
     }
 
-    _getAuthorizationType(auth_id) {
-        if (auth_id.includes('google')) return 'Google';
-        if (auth_id.includes('facebook')) return 'Facebook';
-        if (auth_id.includes('auth0')) return 'E-pasts';
-
-        return 'Nenoteikts';
-    }
-
     render() {
         const { user, index } = this.props;
-        const { given_name, family_name, email, gender, picture, auth_id } = user;
         const imageStyle = { maxWidth: '40px', maxHeight: '40xp' };
-        const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
-        const role = user.is_admin ? 'admin' : 'lietotājs';
-        const status = user.is_blocked ? 'bloķēts' : 'aktīvs';
-        const authType = this._getAuthorizationType(auth_id);
+        const { given_name, family_name, email, picture } = user;
+        const admin_fields = user.admin_fields || {};
+        const { is_admin, is_blocked } = admin_fields;
+        const role = is_admin ? 'admin' : 'lietotājs';
+        const status = is_blocked ? 'bloķēts' : 'aktīvs';
 
         return (
             <tr>
@@ -46,8 +38,6 @@ class UserEntry extends React.Component {
                 <td>{given_name}</td>
                 <td>{family_name}</td>
                 <td>{email}</td>
-                <td>{genderValue}</td>
-                <td>{authType}</td>
                 <td>{status}</td>
                 <td>{role}</td>
                 <td>

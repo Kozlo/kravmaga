@@ -43,6 +43,9 @@ Morten:
 
 -----------------------------------------------
 Later
+- consider renaming login to get token
+  - maybe also consider some refresh token method (research this)
+- research dependencies. maybe I don't nee both react and react-dom
 - add a 'PUT' handler
 - consider lazy loading for components to reduce initial JS file size
 - add filters to get users route

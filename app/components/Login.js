@@ -1,62 +1,34 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Button } from 'react-bootstrap'
+import { Button, Row, Col, FormGroup, FormControl, HelpBlock, ControlLabel } from 'react-bootstrap'
 
 import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 
 class Login extends React.Component {
-    static getStores() {
-        return [AuthStore];
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            email: '',
+            password: ''
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    static getPropsFromStores() {
-        return AuthStore.getState();
+    handleChange(event) {
+        this.setState({ [event.target.id]: event.target.value });
     }
 
-    componentDidMount() {
-        this._initLock();
-    }
+    handleSubmit() {
 
-    componentWillUnmount() {
-        // TODO: research if I need to do anything here
     }
 
     login() {
-        this._lock.show();
-    }
 
-    _initLock() {
-        AuthActions.getAuthConfig(this._onAuthConfigReceived.bind(this));
-    }
-
-    _onAuthConfigReceived(authConfig) {
-        this._lock = new Auth0Lock(authConfig.jwt_audience, authConfig.auth0_id, {
-            auth: {
-                redirectUrl: `${window.location.origin}/login`,
-                responseType: 'token'
-            }
-        });
-
-        // TODO: test if I need to get rid of this on componentWillUnmount
-        this._lock.on('authenticated', authResult => this._onAuthenticated(authResult));
-    }
-
-    _onAuthenticated(authResult) {
-        this._lock.getUserInfo(
-            authResult.accessToken,
-            (error, profile) => this._onProfileReceived(error, authResult.idToken, profile)
-        );
-    }
-
-    _onProfileReceived(error, token, profile) {
-        if (error) {
-            console.error(error);
-            toastr.error('Autorizācija neveiksmīga!');
-            return;
-        }
-
-        AuthActions.checkProfile(token, profile);
     }
 
     render() {
@@ -64,13 +36,41 @@ class Login extends React.Component {
             <div className='container'>
                 <div className='text-center'>
                     <h2>Krav Maga</h2>
-                    <Button className="btn btn-default btn-lg" onClick={this.login.bind(this)}>
-                        <span className="glyphicon glyphicon-log-in"></span> Ienākt/Reģistrēties
-                    </Button>
+                    <Row>
+                        <Col xs={12} md={6} mdPush={3} lg={4} lgPush={4}>
+                            <form id="registrationForm" onSubmit={this.handleSubmit.bind(this)}>
+                                <FormGroup controlId="email">
+                                    <ControlLabel>Email</ControlLabel>
+                                    <FormControl
+                                        type="email"
+                                        placeholder="E-pasts"
+                                        value={this.state.email}
+                                        onChange={this.handleChange.bind(this)}
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock>Lietotāja parole.</HelpBlock>
+                                </FormGroup>
+                                <FormGroup controlId="password">
+                                    <ControlLabel>Password</ControlLabel>
+                                    <FormControl
+                                        type="password"
+                                        placeholder="Parole"
+                                        value={this.state.password}
+                                        onChange={this.handleChange.bind(this)}
+                                    />
+                                    <FormControl.Feedback />
+                                    <HelpBlock>Lietotāja e-pasts.</HelpBlock>
+                                </FormGroup>
+                                <Button className="btn btn-default btn-lg" onClick={this.login.bind(this)}>
+                                    <span className="glyphicon glyphicon-log-in"></span> Ienākt
+                                </Button>
+                            </form>
+                        </Col>
+                    </Row>
                 </div>
             </div>
         );
     }
 }
 
-export default connectToStores(Login);
+export default Login;

@@ -19,14 +19,14 @@ class UserActions {
         );
     }
 
-    createUser(profile, successHandler) {
-        const statusCode = $.extend({ 200: user => successHandler(user)}, httpStatusCode);
+    createUser(props, successHandler) {
+        const statusCode = $.extend({ 201: user => successHandler(user)}, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
             url: '/users',
             method: 'POST',
-            data: profile,
+            data: props,
         });
     }
 
