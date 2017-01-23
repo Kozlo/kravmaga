@@ -31,7 +31,7 @@ module.exports = {
 
         user.setPassword(req.body.password);
         user.save(req.body)
-            .then(user => res.status(httpStatusCodes.ok).send(user))
+            .then(user => res.status(httpStatusCodes.created).send(user))
             .catch(err => {
                 const userExistsError = userHelpers.userExistsError(err);
 
