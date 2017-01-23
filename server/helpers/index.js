@@ -4,7 +4,6 @@
 
 const { userConfig } = require('../config');
 
-// TODO: remove all unused methods
 module.exports = {
 
     /**
@@ -15,18 +14,7 @@ module.exports = {
      * @returns {boolean} Flag showing is the value is a valid string.
      */
     isValidString(val) {
-        return this.isTypeString(val) && val.trim() !== '';
-    },
-
-    /**
-     * Checks if the passed values type is string.
-     * This can also be used for empty strings.
-     *
-     * @param {*} val Value to check.
-     * @returns {boolean} Flag showing is the value is a string.
-     */
-    isTypeString(val) {
-        return typeof val === 'string';
+        return typeof val === 'string' && val.trim() !== '';
     },
 
     /**
