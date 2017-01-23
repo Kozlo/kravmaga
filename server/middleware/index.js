@@ -19,7 +19,7 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     addIsAdmin(req, res, next) {
-        const authUserId = req.authUser._id;
+        const authUserId = req.user._id;
 
         User.findById(authUserId)
             .then(authUser => {
@@ -53,7 +53,7 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     requireIsAdmin(req, res, next) {
-        const authUserId = req.authUser._id;
+        const authUserId = req.user._id;
 
         if (req.authUserIsAdmin !== true) {
             const message = `The requested resource can only be used by admins. Authenticated user with ID ${authUserId} id not an admin.`;
@@ -77,10 +77,10 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     canAccessSelfUnlessAdmin(req, res, next) {
-        const authUserId = req.authUser._id;
+        const authUserId = req.user._id;
 
         if (req.params.id !== authUserId && !req.authUserIsAdmin) {
-            const message = `Only admin users can view other users. Authenticated use with ID ${authUserId} is not an admin.`;
+            const message = `Only admin users can access other users. Authenticated use with ID ${authUserId} is not an admin.`;
             const error = helpers.createError(message, httpStatusCodes.forbidden);
 
             return next(error);

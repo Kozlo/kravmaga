@@ -12,8 +12,7 @@ const usersController = require('../controllers/users');
 
 const router = express.Router();
 const requireAuth = expressJwt({
-    secret: process.env.JWT_SECRET,
-    userProperty: 'authUser'
+    secret: process.env.JWT_SECRET
 });
 
 const {

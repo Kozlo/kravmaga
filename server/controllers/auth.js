@@ -42,18 +42,25 @@ module.exports = {
         })(req, res);
     },
 
-    /**
-     * Lgs the user out.
-     *
-     * @public
-     * @param {Object} req Request object
-     * @param {Object} res Response object
-     */
-    logout(req, res) {
-        // TODO: figure out why this is not working. could be I need to end the session manually
-        req.logout();
-        res.status(httpStatusCodes.ok).send('User logged out successfully!');
-    },
+    // // TODO: figure out if this is necessary
+    // /**
+    //  * Logs the user out.
+    //  *
+    //  * @public
+    //  * @param {Object} req Request object
+    //  * @param {Object} res Response object
+    //  */
+    // logout(req, res) {
+    //     console.log('pre:', req.session);
+    //     req.logOut();
+    //     req.logout();
+    //     req.session.destroy(err => {
+    //         if (err) return next(err);
+    //
+    //         console.log('post:', req.session);
+    //         res.status(httpStatusCodes.ok).send('User logged out successfully!');
+    //     });
+    // },
 
     /**
      * Attempts to find the specified user based on the email.

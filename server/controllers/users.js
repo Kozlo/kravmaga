@@ -96,7 +96,7 @@ module.exports = {
             return next(passwordError);
         }
 
-        const privilegeError = userHelpers.privilegeCheck(req.body, req.authUserIsAdmin, req.authUser._id);
+        const privilegeError = userHelpers.privilegeCheck(req.body, req.userIsAdmin, req.user._id);
 
         if (privilegeError) {
             return next(privilegeError);
