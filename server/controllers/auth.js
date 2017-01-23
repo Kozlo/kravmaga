@@ -43,6 +43,19 @@ module.exports = {
     },
 
     /**
+     * Lgs the user out.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     */
+    logout(req, res) {
+        // TODO: figure out why this is not working. could be I need to end the session manually
+        req.logout();
+        res.status(httpStatusCodes.ok).send('User logged out successfully!');
+    },
+
+    /**
      * Attempts to find the specified user based on the email.
      * And then trues to authenticate the user with the passed password.
      *
@@ -55,13 +68,13 @@ module.exports = {
             .then(user => {
                 if (!user) {
                     return done(null, false, {
-                        message: 'User not found'
+                        message: 'User not found.'
                     });
                 }
 
                 if (!user.validPassword(password)) {
                     return done(null, false, {
-                        message: 'Password is wrong'
+                        message: 'Password is wrong.'
                     });
                 }
 

@@ -5,15 +5,19 @@
 const express = require('express');
 const router = express.Router();
 
+const authRoutes = require('./auth');
 const usersRoutes = require('./users');
-const mainController = require('../controllers/');
-const authController = require('../controllers/auth');
+const { getAll } = require('../controllers/');
 
-router.post('/login', authController.login);
-// TODO: add a logout route
-
+/**
+ * Authentication and user routes.
+ */
+router.use('/', authRoutes);
 router.use('/users', usersRoutes);
 
-router.get('*', mainController.getAll);
+/**
+ * Route for unrecognized get requests.
+ */
+router.get('*', getAll);
 
 module.exports = router;
