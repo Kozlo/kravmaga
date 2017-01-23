@@ -9,6 +9,7 @@ const userRoles = {
 
 const userConfig = {
     minPasswordLength: 5,
+    adminFieldsPropName: 'admin_fields',
     availableRoles: [userRoles.admin, userRoles.user]
 };
 

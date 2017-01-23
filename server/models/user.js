@@ -33,7 +33,7 @@ const properties = {
     given_name: { type: String, trim: true },
     family_name: { type: String, trim: true },
     picture: { type: String, trim: true },
-    admin_fields: {
+    [userConfig.adminFieldsPropName]: {
         role: { type: String, required: true, enum: userConfig.availableRoles, default: userRoles.user },
         is_blocked: { type: Boolean, required: true, default: false }
     }

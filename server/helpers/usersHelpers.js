@@ -21,13 +21,20 @@ module.exports = {
     /**
      * Checks if the authenticated user is trying to edit admin fields that can only be edited by admin.
      *
-     * @param {object|undefined} adminFields User fields only editable by an admin
+     * The check is done by checking if the passed properties contain the name of the admin fields.
+     * Allows the user to edit either if there are no admin fields or if the auth user is an admin.
+     *
+     * @param {Object} userProps User property fields
      * @param {boolean} authUserIsAdmin Flag showing if the authenticated user is an admin
      * @param {boolean} authUserId Id of the authenticated user
      * @returns {boolean|Error} False or an error
      */
-    privilegeCheck(adminFields, authUserIsAdmin, authUserId) {
-        if (helpers.isTypeUndefined(adminFields) || authUserIsAdmin) {
+    privilegeCheck(userProps, authUserIsAdmin, authUserId) {
+        const { adminFieldsPropName } = config.userConfig;
+        const propKeys = Object.keys(userProps);
+        const containsAdminFields = propKeys.some(val => val.includes(adminFieldsPropName));
+
+        if (!containsAdminFields || authUserIsAdmin) {
             return false;
         }
 

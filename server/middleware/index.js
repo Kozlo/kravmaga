@@ -3,7 +3,7 @@
  */
 
 const helpers = require('../helpers/index');
-const { errorNames } = require('../config');
+const { httpStatusCodes } = require('../config');
 const User = require('../models/user');
 
 module.exports = {
@@ -19,20 +19,20 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     addIsAdmin(req, res, next) {
-        const authUserId = req.payload._id;
+        const authUserId = req.authUser._id;
 
         User.findById(authUserId)
             .then(authUser => {
                 if (!authUser) {
                     const message = `Authenticated user with ID ${authUserId} does not exist`;
-                    const error = helpers.createError(message, errorNames.unauthorizedError);
+                    const error = helpers.createError(message, httpStatusCodes.unauthorized);
 
                     return next(error);
                 }
 
                 if (authUser.admin_fields.is_blocked === true) {
                     const message = `Authenticated user with ID ${authUserId} is blocked`;
-                    const error = helpers.createError(message, errorNames.forbiddenError);
+                    const error = helpers.createError(message, httpStatusCodes.forbidden);
 
                     return next(error);
                 }
@@ -53,11 +53,11 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     requireIsAdmin(req, res, next) {
-        const authUserId = req.payload.sub;
+        const authUserId = req.authUser._id;
 
         if (req.authUserIsAdmin !== true) {
             const message = `The requested resource can only be used by admins. Authenticated user with ID ${authUserId} id not an admin.`;
-            const error = helpers.createError(message, errorNames.forbiddenError);
+            const error = helpers.createError(message, httpStatusCodes.forbidden);
 
             return next(error);
         }
@@ -77,11 +77,11 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     canAccessSelfUnlessAdmin(req, res, next) {
-        const authUserId = req.payload.sub;
+        const authUserId = req.authUser._id;
 
         if (req.params.id !== authUserId && !req.authUserIsAdmin) {
             const message = `Only admin users can view other users. Authenticated use with ID ${authUserId} is not an admin.`;
-            const error = helpers.createError(message, errorNames.forbiddenError);
+            const error = helpers.createError(message, httpStatusCodes.forbidden);
 
             return next(error);
         }
