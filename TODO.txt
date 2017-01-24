@@ -11,6 +11,12 @@
 (DONE)- add a possibility to RUD (no C) users
 (DONE)- replace PUT with PATCH
 (DONE)- reply to Ronalds
+- re-do user manage page:
+  - remove the updatable user property from store and on manage create a copy of the user data (maybe re-think)
+- re-do admin page
+  - fix updating a user
+  - add create user
+  - add empty table for lessons (for demo)
 - test if I need a 404 route for back-end (test with Postman)
 - re-do the authentication according to Ronald's request
   - create the new functionality
