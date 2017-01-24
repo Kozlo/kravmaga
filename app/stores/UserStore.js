@@ -1,5 +1,6 @@
 import alt from '../alt';
 import UserActions from '../actions/UserActions';
+import { userFields } from '../utils/config';
 
 class UserStore {
     constructor() {
@@ -7,7 +8,9 @@ class UserStore {
 
         this.user = {};
         this.userList = [];
-        this.updatable = { given_name : '', family_name: '', email: '', picture: '', is_blocked: '', is_admin: '' };
+        this.updatable = { admin_fields: {} };
+
+        this._generateUpdatableFields(userFields);
     }
 
     onGetCurrentUser() {
@@ -53,10 +56,19 @@ class UserStore {
         this.updatable = updatable;
     }
 
+    onUserUpdateConflict() {
+        toastr.error('Lietotājs ar norādīto e-pastu jau eksistē');
+    }
+
     _checkForUserUpdate(updatedUser) {
         if (this.user._id === updatedUser._id) {
             this.user = updatedUser;
         }
+    }
+
+    _generateUpdatableFields(fields) {
+        fields.general.forEach(fieldName => this.updatable[fieldName] = '');
+        fields.admin_fields.forEach(fieldName => this.updatable.admin_fields[fieldName] = '');
     }
 
 }

@@ -104,7 +104,15 @@ module.exports = {
 
         User.findByIdAndUpdate(req.params.id, req.body, { 'new': true })
             .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
-            .catch(err => next(err));
+            .catch(err => {
+                const userExistsError = userHelpers.userExistsError(err);
+
+                if (userExistsError) {
+                    return next(userExistsError);
+                }
+
+                next(err)
+            });
     },
 
     /**

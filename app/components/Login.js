@@ -31,7 +31,7 @@ class Login extends React.Component {
                                         placeholder="E-pasts"
                                     />
                                     <FormControl.Feedback />
-                                    <HelpBlock>Lietotāja parole.</HelpBlock>
+                                    <HelpBlock>Lietotāja e-pasts.</HelpBlock>
                                 </FormGroup>
                                 <FormGroup controlId="password">
                                     <ControlLabel>Parole</ControlLabel>
@@ -40,7 +40,7 @@ class Login extends React.Component {
                                         placeholder="Parole"
                                     />
                                     <FormControl.Feedback />
-                                    <HelpBlock>Lietotāja e-pasts.</HelpBlock>
+                                    <HelpBlock>Lietotāja parole.</HelpBlock>
                                 </FormGroup>
                                 <Button type="submit" className="btn btn-default btn-lg">
                                     <span className="glyphicon glyphicon-log-in"></span> Ienākt

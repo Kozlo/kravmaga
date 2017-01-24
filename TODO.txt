@@ -1,18 +1,4 @@
-(DONE)- remove server-side rendering
-(DONE)- move the index file from view to public
-(DONE)- create all CRUD routes for users
-(DONE)- fix routes and make them RESTful
-(DONE)- figure out the best way to organize back-end code (would need some controller)
-(DONE)- replace user_id field with auth_id to avoid confusion
-(DONE)- adjust all routes in front-end with the new system
-(DONE)- move the notifications bar to a different position (not on top of the logout button)
-(DONE)- fix error with changing fromcontrol values by adding empty string default values to updatable
-(DONE)- add a possibility for regular users to update their info (should be relatively easy)
-(DONE)- add a possibility to RUD (no C) users
-(DONE)- replace PUT with PATCH
-(DONE)- reply to Ronalds
-- re-do user manage page:
-  - remove the updatable user property from store and on manage create a copy of the user data (maybe re-think)
+- re-do user manage page
 - re-do admin page
   - fix updating a user
   - add create user
@@ -49,38 +35,15 @@ Morten:
 
 -----------------------------------------------
 Later
+- consider https://www.npmjs.com/package/react-bootstrap-validation for validation
 - add validation to forms (validation states, maybe disable buttons before a valid state has been reached etc.)
 - consider renaming login to get token
   - maybe also consider some refresh token method (research this)
 - research dependencies. maybe I don't nee both react and react-dom
 - add a 'PUT' handler
 - consider lazy loading for components to reduce initial JS file size
-- add filters to get users route
-- check out react bootstarp and how to use it... and if I'm using ir correctly
-- play around with the styles (currently using the one from the tutorial)
-- check out Auth0 to see if it's possible to replace the popup with a regular form
-- check out Auth0 to see what other options there are (e.g. faster popup animation, custom fields, language etc.)
-- make a better footer
-- add active styles for links in navbar
-- figure out if it's possible to not show the login page if the user is to be redirected
-- add Latvian language to Auht0
-- add other logon options (FB, Google+ etc.)
-- Read on SPA routing/navigation logic best practices and (DONE) amend routing/navbar accordingly
-- add login with FB option (currently only Google)
 - should test routes for profile info, maybe need to logout user if authorization isn't fine on server,
 - If the user is logging in with an unauthorized email (regardless of type - email/FB/GOOG), ask them to vertify the account first (indicate if it's email, FB, or GOOGLE)
-- Krav Maga user account linking:
-  -) make emails unique
-  -) remove identities entry to an account and create 3 separate fields: auht0ID, facebookID, googleID
-  -) first check if the id (1 of 3) exists in the DB (assume if the user got this far, the email is vertified)
-    - if yes, then login the user
-    - if no, then find a user based on the email
-      - if not found create a brand new user
-  	- if yes (the email exists in the DB), link the account to the email
-  -) check out the following link for linking the accounts on Auth0 side as well: https://auth0.com/docs/link-accounts
-  -) at very login, check if the passed profile has some data that the user doesn't have in the DB, and update it
-- think about what happens when the use changes his/her password after having signed up with e-mail
-  - probably would need to change the user on auth0 side via the API
 
 -----------------------------------------------
 Notes:
@@ -96,6 +59,6 @@ admin:
  - grupu sadalja
 
 
-profila dati: 
+profila dati:
   - atstat dzimumu
   - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs

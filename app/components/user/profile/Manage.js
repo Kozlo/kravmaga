@@ -2,12 +2,12 @@ import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
-import { getEmailValidationState, getIsEmailValidOrEmpty } from '../../../utils/utils';
+import { isEmailValid, isPasswordValid } from '../../../utils/utils';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
-
 import UserActions from '../../../actions/UserActions';
+import { assets } from '../../../utils/config';
 
 class ManageUser extends React.Component {
     static getStores() {
@@ -28,15 +28,14 @@ class ManageUser extends React.Component {
 
     handleSubmit(event) {
         const { updatable } = this.props;
-        const { email } = updatable;
 
         event.preventDefault();
 
-        if (getIsEmailValidOrEmpty(email)) {
-            this._updateUser(updatable);
-        } else {
-            toastr.error('Lūdzu aizpildiet visus nepieciešamos laukus!');
+        if (!isEmailValid(updatable.email)) {
+            return toastr.error('E-pasts ievadīts kļūdaini!');
         }
+
+        this._updateUser(updatable);
     }
 
     _updateUser(user) {
@@ -47,7 +46,6 @@ class ManageUser extends React.Component {
         UserActions
             .updateUser(user, token)
             .then(() => this._onReplyReceived())
-
     }
 
     _onReplyReceived() {
@@ -57,8 +55,8 @@ class ManageUser extends React.Component {
 
 
     render() {
-        const { given_name, family_name, email, picture, gender } = this.props.updatable;
-        const imgSrc = picture || './assets/generic_user.svg';
+        const { given_name, family_name, email, picture, phone, gender } = this.props.updatable;
+        const imgSrc = picture || assets.defaultImage;
         const imageStyle = { maxWidth: '100%' };
 
         return (
@@ -117,13 +115,26 @@ class ManageUser extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12}>
-                                        <FormGroup controlId="email" validationState={getEmailValidationState(email)}>
+                                        <FormGroup controlId="email">
                                             <ControlLabel>E-pasts</ControlLabel>
                                             <FormControl
                                                 type="text"
                                                 placeholder="E-pasts"
                                                 value={email}
                                                 onChange={this.handleChange.bind(this, 'email')}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12}>
+                                        <FormGroup controlId="phone">
+                                            <ControlLabel>Telefona numurs</ControlLabel>
+                                            <FormControl
+                                                type="text"
+                                                placeholder="Telefona numurs"
+                                                value={phone}
+                                                onChange={this.handleChange.bind(this, 'phone')}
                                             />
                                         </FormGroup>
                                     </Col>

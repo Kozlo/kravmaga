@@ -26,12 +26,12 @@ export const isEmailValid = email => {
     return re.test(email);
 };
 
-export const getEmailValidationState = email => {
-    return getIsEmailValidOrEmpty(email) ? null : 'error';
+export const isPasswordValid = password => {
+    return typeof password === 'string' && password.length >= 5;
 };
 
-export const getIsEmailValidOrEmpty = email => {
-    return isEmailValid(email) || email === '';
+export const getGenderValue = gender => {
+    return gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
 };
 
 export const httpStatusCode = {

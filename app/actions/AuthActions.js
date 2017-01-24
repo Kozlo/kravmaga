@@ -11,7 +11,7 @@ class AuthActions {
     }
 
     login(email, password) {
-        const statusCode = $.extend({ 200: data => this.userLoggedIn(data) }, httpStatusCode);
+        const statusCode = Object.assign({ 200: data => this.userLoggedIn(data) }, httpStatusCode);
         const request = {
             statusCode,
             data: { email, password },

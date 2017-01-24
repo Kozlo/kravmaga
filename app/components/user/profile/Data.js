@@ -4,10 +4,10 @@ import { Row, Col, Button } from 'react-bootstrap';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
-
 import UserActions from '../../../actions/UserActions';
-
 import ManageProfile from './Manage';
+import { getGenderValue } from '../../../utils/utils';
+import { userFields, assets } from '../../../utils/config';
 
 class ProfileData extends React.Component {
     static getStores() {
@@ -25,38 +25,52 @@ class ProfileData extends React.Component {
     }
 
     updateProfile(user) {
-        const { _id, given_name, family_name, email, gender, picture } = user;
-        const updatableUser = { _id, given_name, family_name, email, gender, picture };
+        const updatableUser = { };
+
+        userFields.general.forEach(fieldName => updatableUser[fieldName] = user[fieldName] || '');
 
         UserActions.setUpdatableUser(updatableUser);
     }
 
     render() {
         const { user } = this.props;
-        const { gender, given_name, family_name, email } = user;
-        const picture = user.picture || './assets/generic_user.svg';
-        const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
-        const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
-        const btnStyle = { float: 'right', marginRight: '10px' };
+        const { gender, given_name, family_name, phone, email } = user;
+        const imgSrc = user.picture || assets.defaultImage;
+        const genderValue = getGenderValue(gender);
+        const imageStyle = {
+            float: 'left',
+            margin: '0 15px 15px 0',
+            maxWidth: '130px'
+        };
+        const btnStyle = {
+            float: 'right',
+            marginRight: '10px'
+        };
 
         return (
             <Row>
                 <Col xs={12}>
                     <Row>
                         <Col xs={12} sm={5}>
-                            <img src={picture} alt="User Image" style={imageStyle} />
+                            <img src={imgSrc} alt="User Image" style={imageStyle} />
                             <dl>
                                 <dt>Vārds, Uzvārds</dt>
                                 <dd>{given_name} {family_name}</dd>
                             </dl>
                         </Col>
-                        <Col xs={6} sm={4}>
+                        <Col xs={6} sm={3}>
                             <dl>
                                 <dt>E-pasts</dt>
                                 <dd>{email}</dd>
                             </dl>
                         </Col>
-                        <Col xs={6} sm={3}>
+                        <Col xs={6} sm={2}>
+                            <dl>
+                                <dt>Telefona nr.</dt>
+                                <dd>{phone}</dd>
+                            </dl>
+                        </Col>
+                        <Col xs={6} sm={2}>
                             <dl>
                                 <dt>Dzimums</dt>
                                 <dd>{genderValue}</dd>

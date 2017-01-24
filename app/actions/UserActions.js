@@ -14,13 +14,14 @@ class UserActions {
             'userReceived',
             'userDeleted',
             'userUpdated',
+            'userUpdateConflict',
             'userListReceived',
             'setUpdatableUser',
         );
     }
 
     createUser(props, successHandler) {
-        const statusCode = $.extend({ 201: user => successHandler(user)}, httpStatusCode);
+        const statusCode = Object.assign({ 201: user => successHandler(user)}, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
@@ -31,7 +32,7 @@ class UserActions {
     }
 
     getUser(id, token) {
-        const statusCode = $.extend({ 200: user => this.userReceived(user) }, httpStatusCode);
+        const statusCode = Object.assign({ 200: user => this.userReceived(user) }, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
@@ -42,7 +43,7 @@ class UserActions {
     }
 
     getUserList(filters, token) {
-        const statusCode = $.extend({ 200: users => this.userListReceived(users)}, httpStatusCode);
+        const statusCode = Object.assign({ 200: users => this.userListReceived(users)}, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
@@ -53,7 +54,11 @@ class UserActions {
     }
 
     updateUser(user, token) {
-        const statusCode = $.extend({ 200: updatedUser => this.userUpdated(updatedUser) }, httpStatusCode);
+        const statusCode = Object.assign(
+            { 200: updatedUser => this.userUpdated(updatedUser) },
+            httpStatusCode,
+            { 409: () => this.userUpdateConflict() }
+        );
 
         return this._sendRequest({
             statusCode,
@@ -65,7 +70,7 @@ class UserActions {
     }
 
     deleteUser(id, token) {
-        const statusCode = $.extend({ 200: (deletedUser) => this.userDeleted(deletedUser) }, httpStatusCode);
+        const statusCode = Object.assign({ 200: (deletedUser) => this.userDeleted(deletedUser) }, httpStatusCode);
 
         return this._sendRequest({
             statusCode,
