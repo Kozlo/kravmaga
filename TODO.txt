@@ -84,3 +84,18 @@ Later
 
 -----------------------------------------------
 Notes:
+Meeting notes (24th Feb):
+
+- nodarbibas:
+  - laukI: datums/laiks/grupa/vieta (drop-down + opcija briva teksta formata)/komentars (neobligats)
+  - iespeja uzlikt ies/neies no lietotaja puses
+  -
+
+admin:
+ - nodarbibu sadalja (cilveku skaits, kas pieteikusies, ne visi cilveki)
+ - grupu sadalja
+
+
+profila dati: 
+  - atstat dzimumu
+  - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs

@@ -57,7 +57,8 @@ class ManageUser extends React.Component {
 
 
     render() {
-        const { given_name, family_name, email, gender, picture } = this.props.updatable;
+        const { given_name, family_name, email, picture, gender } = this.props.updatable;
+        const imgSrc = picture || './assets/generic_user.svg';
         const imageStyle = { maxWidth: '100%' };
 
         return (
@@ -85,7 +86,7 @@ class ManageUser extends React.Component {
                                         </FormGroup>
                                     </Col>
                                     <Col xs={4}>
-                                        <img src={picture} alt="User Image" style={imageStyle} />
+                                        <img src={imgSrc} alt="User Image" style={imageStyle} />
                                     </Col>
                                 </Row>
                                 <Row>

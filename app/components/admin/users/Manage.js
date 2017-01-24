@@ -1,6 +1,10 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import {
+    Row, Col, Button,
+    FormGroup, FormControl,
+    ControlLabel, HelpBlock
+} from 'react-bootstrap';
 
 import { isEmailValid } from '../../../utils/utils';
 
@@ -56,8 +60,7 @@ class ManageUser extends React.Component {
 
         UserActions
             .updateUser(user, token)
-            .done(() => this._onReplyReceived())
-            .fail(() => this._onReplyReceived());
+            .then(() => this._onReplyReceived());
 
     }
 

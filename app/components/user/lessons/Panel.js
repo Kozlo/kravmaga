@@ -1,20 +1,20 @@
 import React from 'react';
 
-import ProfileData from './Data';
+// import LessonsData from './Data';
 
-class ProfilePanel extends React.Component {
+class LessonsPanel extends React.Component {
     render() {
         return (
             <div className="panel panel-default krav-maga-panel" >
                 <div className="panel-heading">
-                    <h3>Mans profils</h3>
+                    <h3>Manas nodarbības</h3>
                 </div>
                 <div className="panel-body">
-                    <ProfileData />
+                    {/*<LessonsData />*/}
                 </div>
             </div>
         );
     }
 }
 
-export default ProfilePanel;
+export default LessonsPanel;

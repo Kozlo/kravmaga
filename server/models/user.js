@@ -13,6 +13,8 @@ const { isEmailValid } = require('../helpers/index');
  * @property {String} [given_name] User's given (first) name
  * @property {String} [family_name] User's family (last) name
  * @property {String} [picture] URL to the user's picture
+ * @property {String} [phone] User's phone number
+ * @property {String} [gender] User's gender
  * @property {Object} admin_fields Fields only an admin user can modify
  * @property {String} admin_fields.role User's role
  * @property {Boolean} admin_fields.is_blocked Flag showing if the user has been blocked or not
@@ -33,6 +35,8 @@ const properties = {
     given_name: { type: String, trim: true },
     family_name: { type: String, trim: true },
     picture: { type: String, trim: true },
+    phone: { type: String },
+    gender: { type: String, enum: ['male', 'female'] },
     [userConfig.adminFieldsPropName]: {
         role: { type: String, required: true, enum: userConfig.availableRoles, default: userRoles.user },
         is_blocked: { type: Boolean, required: true, default: false }
