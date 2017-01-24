@@ -7,7 +7,7 @@ class UserStore {
 
         this.user = {};
         this.userList = [];
-        this.updatable = { given_name : '', family_name: '', email: '', gender: '', picture: '', is_blocked: '', is_admin: '' };
+        this.updatable = { given_name : '', family_name: '', email: '', picture: '', is_blocked: '', is_admin: '' };
     }
 
     onGetCurrentUser() {

@@ -4,14 +4,14 @@ import { httpStatusCode, httpSuccessHandler, httpErrorHandler } from '../utils/u
 class AuthActions {
     constructor() {
         this.generateActions(
-            'loginUser',
+            'userLoggedIn',
             'logoutUser',
             'silentLogoutUser',
         );
     }
 
     login(email, password) {
-        const statusCode = $.extend({ 200: data => this.loginUser(data) }, httpStatusCode);
+        const statusCode = $.extend({ 200: data => this.userLoggedIn(data) }, httpStatusCode);
         const request = {
             statusCode,
             data: { email, password },

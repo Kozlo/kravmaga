@@ -1,34 +1,19 @@
 import React from 'react';
-import connectToStores from 'alt-utils/lib/connectToStores';
-import { Button, Row, Col, FormGroup, FormControl, HelpBlock, ControlLabel } from 'react-bootstrap'
+import {
+    Button, Row, Col,
+    FormGroup, FormControl,
+    ControlLabel, HelpBlock
+} from 'react-bootstrap'
 
-import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 
 class Login extends React.Component {
+    handleSubmit(event) {
+        const { email, password } = event.target;
 
-    constructor(props) {
-        super(props);
+        event.preventDefault();
 
-        this.state = {
-            email: '',
-            password: ''
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({ [event.target.id]: event.target.value });
-    }
-
-    handleSubmit() {
-
-    }
-
-    login() {
-
+        AuthActions.login(email.value, password.value);
     }
 
     render() {
@@ -40,28 +25,24 @@ class Login extends React.Component {
                         <Col xs={12} md={6} mdPush={3} lg={4} lgPush={4}>
                             <form id="registrationForm" onSubmit={this.handleSubmit.bind(this)}>
                                 <FormGroup controlId="email">
-                                    <ControlLabel>Email</ControlLabel>
+                                    <ControlLabel>E-pasts</ControlLabel>
                                     <FormControl
                                         type="email"
                                         placeholder="E-pasts"
-                                        value={this.state.email}
-                                        onChange={this.handleChange.bind(this)}
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock>Lietotāja parole.</HelpBlock>
                                 </FormGroup>
                                 <FormGroup controlId="password">
-                                    <ControlLabel>Password</ControlLabel>
+                                    <ControlLabel>Parole</ControlLabel>
                                     <FormControl
                                         type="password"
                                         placeholder="Parole"
-                                        value={this.state.password}
-                                        onChange={this.handleChange.bind(this)}
                                     />
                                     <FormControl.Feedback />
                                     <HelpBlock>Lietotāja e-pasts.</HelpBlock>
                                 </FormGroup>
-                                <Button className="btn btn-default btn-lg" onClick={this.login.bind(this)}>
+                                <Button type="submit" className="btn btn-default btn-lg">
                                     <span className="glyphicon glyphicon-log-in"></span> Ienākt
                                 </Button>
                             </form>

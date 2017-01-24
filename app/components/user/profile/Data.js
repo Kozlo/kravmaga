@@ -33,7 +33,8 @@ class ProfileData extends React.Component {
 
     render() {
         const { user } = this.props;
-        const { gender, given_name, family_name, picture, email } = user;
+        const { gender, given_name, family_name, email } = user;
+        const picture = user.picture || './assets/generic_user.svg';
         const genderValue = gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
         const imageStyle = { float: 'left',  margin: '0 15px 15px 0', maxWidth: '130px' };
         const btnStyle = { float: 'right', marginRight: '10px' };

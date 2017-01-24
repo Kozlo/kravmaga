@@ -7,20 +7,21 @@ class AuthStore {
     constructor() {
         this.bindActions(AuthActions);
 
-        this.userId = localStorage.getItem('user_id');
-        this.userIsAdmin = localStorage.getItem('user_is_admin') === 'true';
-        this.token = localStorage.getItem('id_token');
+        this.userId = localStorage.getItem('userId');
+        this.userIsAdmin = localStorage.getItem('userIsAdmin') === 'true';
+        this.token = localStorage.getItem('token');
     }
 
-    onLoginUser(args) {
+    onUserLoggedIn(args) {
         const { user, token } = args;
+        const userIsAdmin = user.admin_fields.role === 'admin';
 
-        localStorage.setItem('user_id', user._id);
-        localStorage.setItem('user_is_admin', user.is_admin);
-        localStorage.setItem('id_token', token);
+        localStorage.setItem('userId', user._id);
+        localStorage.setItem('userIsAdmin', userIsAdmin);
+        localStorage.setItem('token', token);
 
         this.userId = user._id;
-        this.userIsAdmin = user.is_admin;
+        this.userIsAdmin = userIsAdmin;
         this.token = token;
 
         browserHistory.replace('/');
@@ -39,12 +40,13 @@ class AuthStore {
     }
 
     _logOutUser() {
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('user_is_admin');
-        localStorage.removeItem('id_token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userIsAdmin');
+        localStorage.removeItem('token');
 
         this.token = null;
         this.userId = null;
+        this.userIsAdmin = null;
 
         browserHistory.replace('/login');
     }

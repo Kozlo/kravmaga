@@ -7,7 +7,6 @@ import UserContainer from './components/user/Container';
 import AdminContainer from './components/admin/Container';
 
 import AuthStore from './stores/AuthStore';
-import UserStore from './stores/UserStore';
 
 // validate authentication for private routes
 const requireAuth = (nextState, replace) => {
@@ -29,12 +28,11 @@ const userLoggedOn = (nextState, replace) => {
 
 // requires the user to be logged in and an admin
 const isAdmin = (nextState, replace) => {
-    const { token } = AuthStore.getState();
-    const { is_admin } = UserStore.getState().user;
+    const { token, userIsAdmin } = AuthStore.getState();
 
     if (!token) {
         replace({pathname: '/login'})
-    } else if (is_admin !== true) {
+    } else if (userIsAdmin !== true) {
         replace({pathname: '/'})
     }
 };

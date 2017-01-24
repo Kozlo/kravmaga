@@ -43,6 +43,7 @@ Morten:
 
 -----------------------------------------------
 Later
+- add validation to forms (validation states, maybe disable buttons before a valid state has been reached etc.)
 - consider renaming login to get token
   - maybe also consider some refresh token method (research this)
 - research dependencies. maybe I don't nee both react and react-dom
