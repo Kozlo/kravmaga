@@ -1,5 +1,7 @@
 import AuthActions from '../actions/AuthActions';
 
+// TODO: split these up into separate files
+
 export const getAuthorizationHeader = token => {
     return { 'Authorization': `Bearer ${token}` };
 };
@@ -32,6 +34,14 @@ export const isPasswordValid = password => {
 
 export const getGenderValue = gender => {
     return gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
+};
+
+export const getRoleValue = role => {
+    return role === 'admin' ? 'admins' : (role === 'user' ? 'lietotājs' : '');
+};
+
+export const getStatusValue = is_blocked => {
+    return is_blocked === true ? 'bloķēts' : (is_blocked === false ? 'aktīvs' : '');
 };
 
 export const httpStatusCode = {

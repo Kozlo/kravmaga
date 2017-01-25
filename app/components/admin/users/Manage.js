@@ -6,12 +6,10 @@ import {
     ControlLabel, HelpBlock
 } from 'react-bootstrap';
 
-import { isEmailValid } from '../../../utils/utils';
-
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
-
 import UserActions from '../../../actions/UserActions';
+import { isEmailValid } from '../../../utils/utils';
 
 class ManageUser extends React.Component {
     static getStores() {
@@ -36,21 +34,11 @@ class ManageUser extends React.Component {
 
         event.preventDefault();
 
-        if (this._getIsEmailValidOrEmpty(email)) {
-            this._updateUser(updatable);
-        } else {
-            toastr.error('Lūdzu aizpildiet visus nepieciešamos laukus!');
+        if (!isEmailValid(email)) {
+            return toastr.error('Lūdzu aizpildiet visus nepieciešamos laukus!');
         }
-    }
 
-    getEmailValidationState() {
-        const { email } = this.props.updatable;
-
-        return this._getIsEmailValidOrEmpty(email) ? null : 'error';
-    }
-
-    _getIsEmailValidOrEmpty(email) {
-        return isEmailValid(email) || email === '';
+        this._updateUser(updatable);
     }
 
     _updateUser(user) {
@@ -71,6 +59,7 @@ class ManageUser extends React.Component {
 
     render() {
         const { given_name, family_name, email, gender, picture, is_blocked, is_admin } = this.props.updatable;
+        // TODO: fix these
         const imageStyle = { maxWidth: '100%' };
 
         return (
@@ -129,7 +118,7 @@ class ManageUser extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12}>
-                                        <FormGroup controlId="email" validationState={this.getEmailValidationState()}>
+                                        <FormGroup controlId="email">
                                             <ControlLabel>E-pasts</ControlLabel>
                                             <FormControl
                                                 type="text"

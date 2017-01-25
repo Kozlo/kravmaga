@@ -35,6 +35,8 @@ Morten:
 
 -----------------------------------------------
 Later
+- consider splitting up updatable user OR do object copying inside the action (pass a flag for user or admin OR user the existing is_admin)
+- split up utils code into separate files
 - consider https://www.npmjs.com/package/react-bootstrap-validation for validation
 - add validation to forms (validation states, maybe disable buttons before a valid state has been reached etc.)
 - consider renaming login to get token

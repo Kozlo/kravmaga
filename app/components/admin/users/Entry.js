@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
+import { getRoleValue, getStatusValue } from '../../../../utils/utils';
 
 class UserEntry extends React.Component {
     updateUser(user) {
@@ -14,22 +15,25 @@ class UserEntry extends React.Component {
 
     deleteUser(user) {
         const { token } = AuthStore.getState();
-        const role = user.is_admin ? 'admin' : 'lietotājs';
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${user.given_name} ${user.family_name} ar e-pastu ${user.email} un lomu ${role}?`;
+        const { _id, given_name, family_name, email, admin_fields } = user;
+        const role = getRoleValue(admin_fields.role);
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${role}?`;
 
         if (confirm(confirmText)) {
-            UserActions.deleteUser(user._id, token);
+            UserActions.deleteUser(_id, token);
         }
     }
 
     render() {
         const { user, index } = this.props;
-        const imageStyle = { maxWidth: '40px', maxHeight: '40xp' };
-        const { given_name, family_name, email, picture } = user;
-        const admin_fields = user.admin_fields || {};
-        const { is_admin, is_blocked } = admin_fields;
-        const role = is_admin ? 'admin' : 'lietotājs';
-        const status = is_blocked ? 'bloķēts' : 'aktīvs';
+        const { given_name, family_name, email, phone, picture, admin_fields } = user;
+        const { role, is_blocked } = admin_fields;
+        const role = getRoleValue(role);
+        const status = getStatusValue(is_blocked);
+        const imageStyle = {
+            maxWidth: '40px',
+            maxHeight: '40xp'
+        };
 
         return (
             <tr>
@@ -38,6 +42,7 @@ class UserEntry extends React.Component {
                 <td>{given_name}</td>
                 <td>{family_name}</td>
                 <td>{email}</td>
+                <td>{phone}</td>
                 <td>{status}</td>
                 <td>{role}</td>
                 <td>
