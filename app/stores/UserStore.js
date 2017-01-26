@@ -1,5 +1,6 @@
 import alt from '../alt';
 import UserActions from '../actions/UserActions';
+import { createObject } from '../utils/utils';
 import { userFields } from '../utils/config';
 
 class UserStore {
@@ -8,9 +9,8 @@ class UserStore {
 
         this.user = {};
         this.userList = [];
-        this.updatable = { admin_fields: {} };
-
-        this._generateUpdatableFields(userFields);
+        this.updatable = createObject(userFields.general, {});
+        this.updatable.admin_fields = createObject(userFields.admin_fields, {});
     }
 
     onGetCurrentUser() {
@@ -43,7 +43,9 @@ class UserStore {
             }
         });
 
-        this._checkForUserUpdate(updatedUser);
+        if (this.user._id === updatedUser._id) {
+            this.user = updatedUser;
+        }
 
         toastr.success('Lietotāja info veiksmīgi atjaunināta');
     }
@@ -59,18 +61,6 @@ class UserStore {
     onUserUpdateConflict() {
         toastr.error('Lietotājs ar norādīto e-pastu jau eksistē');
     }
-
-    _checkForUserUpdate(updatedUser) {
-        if (this.user._id === updatedUser._id) {
-            this.user = updatedUser;
-        }
-    }
-
-    _generateUpdatableFields(fields) {
-        fields.general.forEach(fieldName => this.updatable[fieldName] = '');
-        fields.admin_fields.forEach(fieldName => this.updatable.admin_fields[fieldName] = '');
-    }
-
 }
 
 export default alt.createStore(UserStore, 'UserStore');

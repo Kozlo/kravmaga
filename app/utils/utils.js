@@ -44,6 +44,30 @@ export const getStatusValue = is_blocked => {
     return is_blocked === true ? 'bloķēts' : (is_blocked === false ? 'aktīvs' : '');
 };
 
+/**
+ * Creates an object with the specified properties from the source object.
+ * If the properties are not there, initializes them as empty strings.
+ *
+ * @param {string[]} propNames Property names to copy
+ * @param {Object} sourceObject Object to copy the properties from
+ * @returns {Object} The new object
+ */
+export const createObject = (propNames, sourceObject) => {
+    const newObject = {};
+
+    propNames.forEach(propName => {
+        const sourceValue = sourceObject[propName];
+
+        if (typeof sourceValue !== 'undefined') {
+            newObject[propName] = sourceValue;
+        } else {
+            newObject[propName] = '';
+        }
+    });
+
+    return newObject;
+};
+
 export const httpStatusCode = {
     400: res => {
         console.error(res);

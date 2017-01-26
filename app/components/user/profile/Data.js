@@ -1,13 +1,13 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Image } from 'react-bootstrap';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
 import ManageProfile from './Manage';
 import { getGenderValue } from '../../../utils/utils';
-import { userFields, assets } from '../../../utils/config';
+import { assets } from '../../../utils/config';
 
 class ProfileData extends React.Component {
     static getStores() {
@@ -24,17 +24,13 @@ class ProfileData extends React.Component {
         UserActions.getUser(userId, token);
     }
 
-    updateProfile(user) {
-        const updatableUser = { };
-
-        userFields.general.forEach(fieldName => updatableUser[fieldName] = user[fieldName] || '');
-
-        UserActions.setUpdatableUser(updatableUser);
+    updateUser(user) {
+        UserActions.clearUpdatableUser(user);
     }
 
     render() {
         const { user } = this.props;
-        const { gender, given_name, family_name, phone, email } = user;
+        const { gender, given_name, family_name, phone, email } = this.props.user;
         const imgSrc = user.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const imageStyle = {
@@ -52,7 +48,7 @@ class ProfileData extends React.Component {
                 <Col xs={12}>
                     <Row>
                         <Col xs={12} sm={5}>
-                            <img src={imgSrc} alt="User Image" style={imageStyle} />
+                            <Image src={imgSrc} style={imageStyle} responsive />
                             <dl>
                                 <dt>Vārds, Uzvārds</dt>
                                 <dd>{given_name} {family_name}</dd>
@@ -84,7 +80,7 @@ class ProfileData extends React.Component {
                             style={btnStyle}
                             data-toggle="modal"
                             data-target="#profileModal"
-                            onClick={this.updateProfile.bind(this, user)}>Labot Info</Button>
+                            onClick={this.updateUser.bind(this, user)}>Labot Info</Button>
 
                 </Col>
                 <ManageProfile />

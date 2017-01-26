@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
-import { getRoleValue, getStatusValue } from '../../../../utils/utils';
+import { getRoleValue, getStatusValue } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
     updateUser(user) {
@@ -28,7 +28,7 @@ class UserEntry extends React.Component {
         const { user, index } = this.props;
         const { given_name, family_name, email, phone, picture, admin_fields } = user;
         const { role, is_blocked } = admin_fields;
-        const role = getRoleValue(role);
+        const roleValue = getRoleValue(role);
         const status = getStatusValue(is_blocked);
         const imageStyle = {
             maxWidth: '40px',
@@ -44,7 +44,7 @@ class UserEntry extends React.Component {
                 <td>{email}</td>
                 <td>{phone}</td>
                 <td>{status}</td>
-                <td>{role}</td>
+                <td>{roleValue}</td>
                 <td>
                     <Button className="btn btn-info"
                             data-toggle="modal"

@@ -1,10 +1,12 @@
 import alt from '../alt';
+import { userFields } from '../utils/config';
 import {
     httpStatusCode,
     httpSuccessHandler,
     httpErrorHandler,
     getAuthorizationHeader,
-    encodeJsonUrl
+    encodeJsonUrl,
+    createObject
 } from '../utils/utils';
 
 class UserActions {
@@ -16,7 +18,7 @@ class UserActions {
             'userUpdated',
             'userUpdateConflict',
             'userListReceived',
-            'setUpdatableUser',
+            'setUpdatableUser'
         );
     }
 
@@ -78,6 +80,21 @@ class UserActions {
             method: 'DELETE',
             headers: getAuthorizationHeader(token)
         });
+    }
+
+    /**
+     * Creates and sets a new updatable user based on the passed user's properties.
+     *
+     * @param {Object} user User to take the properties from
+     * @returns {Promise}
+     */
+    clearUpdatableUser(user, addAdminFields = false) {
+        const { general, admin_fields } = userFields;
+        const updatableUser = createObject(general, user);
+
+        updatableUser.admin_fields = createObject(admin_fields, user.admin_fields);
+
+        return this.setUpdatableUser(updatableUser);
     }
 
     _sendRequest(request) {

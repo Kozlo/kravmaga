@@ -1,8 +1,12 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Row, Col, Button, FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import {
+    Row, Col, Button, Modal,
+    FormGroup, FormControl,
+    ControlLabel, HelpBlock
+} from 'react-bootstrap';
 
-import { isEmailValid, isPasswordValid } from '../../../utils/utils';
+import { isEmailValid } from '../../../utils/utils';
 
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
@@ -40,11 +44,14 @@ class ManageUser extends React.Component {
 
     _updateUser(user) {
         const { token } = AuthStore.getState();
+        const userProps = Object.assign({}, user);
+
+        delete userProps.admin_fields;
 
         $('#manageUserSubmitBtn').prop('disabled', true);
 
         UserActions
-            .updateUser(user, token)
+            .updateUser(userProps, token)
             .then(() => this._onReplyReceived())
     }
 
@@ -53,19 +60,21 @@ class ManageUser extends React.Component {
         $('#manageProfileSubmitBtn').prop('disabled', false);
     }
 
-
     render() {
         const { given_name, family_name, email, picture, phone, gender } = this.props.updatable;
         const imgSrc = picture || assets.defaultImage;
         const imageStyle = { maxWidth: '100%' };
 
+        // TODO: replace default modal attrs with react-bootstrap
+        // TODO: move the general fields to a separate (common component) and re-use for profile and user update modals
+        // TODO: re-use the modal as well, but separate by passing child props (general fields for profile and additionally admin fields for user update)
         return (
             <div className="modal fade" id="profileModal" tabIndex="-1" role="dialog" aria-labelledby="Profile Modal">
                 <div className="modal-dialog" role="document">
                     <form onSubmit={this.handleSubmit.bind(this)}>
                         <div className="modal-content">
                             <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <Button className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></Button>
                                 <h4 className="modal-title">{given_name} {family_name}</h4>
                             </div>
                             <div className="modal-body">
