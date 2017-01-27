@@ -1,13 +1,20 @@
+// dependencies
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 
+// stores and actions
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
-import ManageProfile from './Manage';
-import { getGenderValue } from '../../../utils/utils';
-import { assets } from '../../../utils/config';
+
+// components
+import ManageUser from '../../shared/users/ManageUser';
+import UserFields from '../../shared/users/UserFields';
+
+// utility methods and config
+import { getGenderValue, createObject, isEmailValid } from '../../../utils/utils';
+import { assets, userFieldNames } from '../../../utils/config';
 
 class ProfileData extends React.Component {
     static getStores() {
@@ -26,11 +33,45 @@ class ProfileData extends React.Component {
 
     updateUser(user) {
         UserActions.clearUpdatableUser(user);
+        UserActions.setIsUpdating(true);
+    }
+
+    closeHandler() {
+        UserActions.setIsUpdating(false);
+    }
+
+    submitHandler(event) {
+        const { updatable } = this.props;
+
+        event.preventDefault();
+
+        // TODO: replace validation with react-validation
+        if (!isEmailValid(updatable.email)) {
+            return toastr.error('E-pasts ievadīts kļūdaini!');
+        }
+
+        const { token } = AuthStore.getState();
+        const updatableProps = createObject(userFieldNames.general, updatable);
+
+        UserActions.setIsRequesting(true);
+        UserActions
+            .updateUser(updatableProps, token)
+            .done(() => {
+                UserActions.setIsUpdating(false);
+                UserActions.setIsRequesting(false);
+            })
+            .fail(() => UserActions.setIsRequesting(false));
     }
 
     render() {
-        const { user } = this.props;
-        const { gender, given_name, family_name, phone, email } = this.props.user;
+        const { user, isUpdating } = this.props;
+        const {
+            given_name,
+            family_name,
+            email,
+            phone,
+            gender,
+        } = this.props.user;
         const imgSrc = user.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const imageStyle = {
@@ -75,15 +116,19 @@ class ProfileData extends React.Component {
                     </Row>
                 </Col>
                 <Col xs={12}>
-                    <Button type="button"
-                            className="btn btn-default"
-                            style={btnStyle}
-                            data-toggle="modal"
-                            data-target="#profileModal"
-                            onClick={this.updateUser.bind(this, user)}>Labot Info</Button>
+                    <Button 
+                        style={btnStyle}
+                        onClick={this.updateUser.bind(this, user)}>
+                        Labot Info
+                    </Button>
 
                 </Col>
-                <ManageProfile />
+                <ManageUser
+                    shouldShow={isUpdating}
+                    submitHandler={this.submitHandler.bind(this)}
+                    closeHandler={this.closeHandler.bind(this)}>
+                    <UserFields />
+                </ManageUser>
             </Row>
         );
     }

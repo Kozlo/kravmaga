@@ -2,15 +2,8 @@
  * Configurable properties used throughout the app.
  */
 
-const userRoles = {
-    admin: 'admin',
-    user: 'user'
-};
-
 const userConfig = {
-    minPasswordLength: 5,
-    adminFieldsPropName: 'admin_fields',
-    availableRoles: [userRoles.admin, userRoles.user]
+    minPasswordLength: 5
 };
 
 const httpStatusCodes = {
@@ -37,4 +30,4 @@ const errorStatusCodes = {
     'ValidationError': httpStatusCodes.badRequest
 };
 
-module.exports = { httpStatusCodes, errorStatusCodes, userRoles, userConfig };
+module.exports = { httpStatusCodes, errorStatusCodes, userConfig };

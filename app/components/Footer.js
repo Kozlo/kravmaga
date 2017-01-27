@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 
 export default class Footer extends React.Component {
     render() {
@@ -6,13 +7,13 @@ export default class Footer extends React.Component {
 
         return (
             <footer>
-                <div className='container'>
-                    <div className='row'>
-                        <div className='col-xs-12'>
+                <Grid>
+                    <Row>
+                        <Col xs={12}>
                             <h3 className='lead'><strong>SIA "Drošā distance"</strong> <strong>Visas tiesības pasargātas {year}</strong></h3>
-                        </div>
-                    </div>
-                </div>
+                        </Col>
+                    </Row>
+                </Grid>
             </footer>
         );
     }

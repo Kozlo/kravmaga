@@ -1,25 +1,17 @@
 import React from 'react';
 
-import ManageUser from './Manage';
+import PagePanel from '../../shared/PagePanel';
 import UserData from './Data';
 
-class UserPanel extends React.Component {
+class UsersPanel extends React.Component {
     render() {
         return (
-            <div className="panel panel-default krav-maga-panel" >
-                <div className="panel-heading">
-                    <h3>Lietotāji</h3>
-                </div>
-                <div className="panel-body">
-                    <UserData />
-                </div>
-
-                <ManageUser />
-
-            </div>
+            <PagePanel title="Lietotāji">
+                <UserData />
+            </PagePanel>
         );
     }
 }
 
-export default UserPanel;
+export default UsersPanel;
 

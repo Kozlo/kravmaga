@@ -1,10 +1,13 @@
 import React from 'react';
-import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import {
+    Router, IndexRoute,
+    Route, browserHistory
+} from 'react-router';
 
 import App from './components/App';
-import Login from './components/Login';
-import UserContainer from './components/user/Container';
-import AdminContainer from './components/admin/Container';
+import LoginPage from './components/login/Page';
+import UserPage from './components/user/Page';
+import AdminPage from './components/admin/Page';
 
 import AuthStore from './stores/AuthStore';
 
@@ -40,10 +43,10 @@ const isAdmin = (nextState, replace) => {
 export default (
     <Router history={browserHistory}>
         <Route path="/" component={App}>
-            <IndexRoute component={UserContainer} onEnter={requireAuth} />
-            <Route path='admin' component={AdminContainer} onEnter={isAdmin} />
-            <Route path='login' component={Login} onEnter={userLoggedOn} />
-            <Route path='*' component={UserContainer} onEnter={requireAuth} />
+            <IndexRoute component={UserPage} onEnter={requireAuth} />
+            <Route path='admin' component={AdminPage} onEnter={isAdmin} />
+            <Route path='login' component={LoginPage} onEnter={userLoggedOn} />
+            <Route path='*' component={UserPage} onEnter={requireAuth} />
         </Route>
     </Router>
 );

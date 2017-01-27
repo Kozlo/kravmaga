@@ -1,3 +1,8 @@
+- center  the login page
+- add util method for creating props with a dot for admin fields
+- restyle the profile page
+- add a create user button
+- fix commits and users (wink wink)
 - re-do user manage page
 - re-do admin page
   - fix updating a user
@@ -35,6 +40,9 @@ Morten:
 
 -----------------------------------------------
 Later
+- add 'loading' state instead of just disabling the button: https://react-bootstrap.github.io/components.html#buttons-loading
+- add a possibility in the API to select which fields to load (e.g. no need to get the hash and the salt and also _v for the user in the front-end)
+- for admin panel in actions use: https://react-bootstrap.github.io/components.html#btn-groups-toolbar
 - consider splitting up updatable user OR do object copying inside the action (pass a flag for user or admin OR user the existing is_admin)
 - split up utils code into separate files
 - consider https://www.npmjs.com/package/react-bootstrap-validation for validation
@@ -46,6 +54,7 @@ Later
 - consider lazy loading for components to reduce initial JS file size
 - should test routes for profile info, maybe need to logout user if authorization isn't fine on server,
 - If the user is logging in with an unauthorized email (regardless of type - email/FB/GOOG), ask them to vertify the account first (indicate if it's email, FB, or GOOGLE)
+- when done with phase 1, read on releases and make it a major release
 
 -----------------------------------------------
 Notes:
@@ -53,7 +62,7 @@ Meeting notes (24th Feb):
 
 - nodarbibas:
   - laukI: datums/laiks/grupa/vieta (drop-down + opcija briva teksta formata)/komentars (neobligats)
-  - iespeja uzlikt ies/neies no lietotaja puses
+  - iespeja uzlikt ies/neies no lietotaja puses (prolly use active state and a button group)
   -
 
 admin:
@@ -63,4 +72,4 @@ admin:
 
 profila dati:
   - atstat dzimumu
-  - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs
+  - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs, grupas (probably use react-boostrap multiple select control)

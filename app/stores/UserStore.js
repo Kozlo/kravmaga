@@ -1,20 +1,20 @@
 import alt from '../alt';
 import UserActions from '../actions/UserActions';
 import { createObject } from '../utils/utils';
-import { userFields } from '../utils/config';
+import { userFieldNames } from '../utils/config';
 
 class UserStore {
     constructor() {
+        const { general, admin_fields } = userFieldNames;
+
         this.bindActions(UserActions);
 
         this.user = {};
         this.userList = [];
-        this.updatable = createObject(userFields.general, {});
-        this.updatable.admin_fields = createObject(userFields.admin_fields, {});
-    }
-
-    onGetCurrentUser() {
-        return this.user;
+        this.isUpdating = false;
+        this.isRequesting = false;
+        this.updatable = createObject(general, {});
+        this.updatable.admin_fields = createObject(admin_fields, {});
     }
 
     onUserReceived(user) {
@@ -56,6 +56,14 @@ class UserStore {
 
     onSetUpdatableUser(updatable) {
         this.updatable = updatable;
+    }
+
+    onSetIsUpdating(isUpdating) {
+        this.isUpdating = isUpdating;
+    }
+
+    onSetIsRequesting(isRequesting) {
+        this.isRequesting = isRequesting;
     }
 
     onUserUpdateConflict() {

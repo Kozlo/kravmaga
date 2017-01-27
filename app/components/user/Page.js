@@ -1,19 +1,19 @@
 import React from 'react';
 
+import Page from '../shared/Page';
 import ProfilePanel from './profile/Panel';
 import LessonsPanel from './lessons/Panel';
 
-class UserContainer extends React.Component {
+class UserPage extends React.Component {
     render() {
         return (
-            <div className='container'>
-                <h2>Krav Maga</h2>
+            <Page title="Krav Maga">
                 <ProfilePanel />
                 <LessonsPanel />
-            </div>
+            </Page>
         );
     }
 }
 
-export default UserContainer;
+export default UserPage;
 

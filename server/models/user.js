@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-const { userConfig, userRoles } = require('../config');
 const { setPassword, validPassword, generateJwt } = require('../helpers/usersHelpers');
 const { isEmailValid } = require('../helpers/index');
 
@@ -37,8 +36,8 @@ const properties = {
     picture: { type: String, trim: true },
     phone: { type: String },
     gender: { type: String, enum: ['male', 'female'] },
-    [userConfig.adminFieldsPropName]: {
-        role: { type: String, required: true, enum: userConfig.availableRoles, default: userRoles.user },
+    admin_fields: {
+        role: { type: String, required: true, enum: ['admin', 'user'], default: 'user' },
         is_blocked: { type: Boolean, required: true, default: false }
     }
 };

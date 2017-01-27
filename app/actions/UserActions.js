@@ -1,5 +1,5 @@
 import alt from '../alt';
-import { userFields } from '../utils/config';
+import { userFieldNames } from '../utils/config';
 import {
     httpStatusCode,
     httpSuccessHandler,
@@ -18,7 +18,9 @@ class UserActions {
             'userUpdated',
             'userUpdateConflict',
             'userListReceived',
-            'setUpdatableUser'
+            'setUpdatableUser',
+            'setIsUpdating',
+            'setIsRequesting',
         );
     }
 
@@ -89,7 +91,7 @@ class UserActions {
      * @returns {Promise}
      */
     clearUpdatableUser(user, addAdminFields = false) {
-        const { general, admin_fields } = userFields;
+        const { general, admin_fields } = userFieldNames;
         const updatableUser = createObject(general, user);
 
         updatableUser.admin_fields = createObject(admin_fields, user.admin_fields);
