@@ -11,21 +11,19 @@ import { getRoleValue, getStatusValue } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
     updateUser(user) {
-        const updatableUser = Object.assign({}, user);
-
-        UserActions.setUpdatableUser(updatableUser);
+        UserActions.clearUpdatableUser(user);
         UserActions.setIsUpdating(true);
     }
 
     deleteUser(user) {
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${role}?`;
+        const { _id, given_name, family_name, email, admin_fields } = user;
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${admin_fields.role}?`;
 
         if (!confirm(confirmText)) {
             return;
         }
 
         const { token } = AuthStore.getState();
-        const { _id, given_name, family_name, email, admin_fields } = user;
         const role = getRoleValue(admin_fields.role);
 
         UserActions.deleteUser(_id, token);

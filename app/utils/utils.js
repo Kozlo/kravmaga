@@ -45,6 +45,45 @@ export const getStatusValue = is_blocked => {
 };
 
 /**
+ * Replaces admin fields property with prefixed admin fields on the parent object.
+ *
+ * Creates a new object and deletes the admin_fields object as it's not needed anymore.
+ *
+ * @param {Object} props User properties
+ * @returns {Object} Updated properties
+ */
+export const prefixAdminFields = props => {
+    const { admin_fields } = props;
+
+    if (!admin_fields) {
+        return props;
+    }
+
+    const newAdminFields = prefixProps(props.admin_fields, 'admin_fields');
+    const newProps = Object.assign({}, props, newAdminFields);
+
+    delete newProps.admin_fields;
+
+    return newProps;
+};
+
+/**
+ * Creates a new object with prefixed property names.
+ *
+ * @param {Object} obj Object to take properties from
+ * @param {string} prefix Prefix to use
+ * @returns {Object} Prefixed object
+ */
+export const prefixProps = (obj, prefix) => {
+    const dotObj = {};
+
+    Object.keys(obj).forEach(key => dotObj[`${prefix}.${key}`] = obj[key]);
+
+    return dotObj;
+};
+
+
+/**
  * Creates an object with the specified properties from the source object.
  * If the properties are not there, initializes them as empty strings.
  *

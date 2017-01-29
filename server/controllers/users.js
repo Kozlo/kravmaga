@@ -39,7 +39,7 @@ module.exports = {
                     return next(userExistsError);
                 }
 
-                next(err)
+                next(err);
             });
     },
 
@@ -111,7 +111,7 @@ module.exports = {
                     return next(userExistsError);
                 }
 
-                next(err)
+                next(err);
             });
     },
 

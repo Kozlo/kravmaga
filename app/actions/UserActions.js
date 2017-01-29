@@ -6,7 +6,8 @@ import {
     httpErrorHandler,
     getAuthorizationHeader,
     encodeJsonUrl,
-    createObject
+    createObject,
+    prefixAdminFields,
 } from '../utils/utils';
 
 class UserActions {
@@ -26,6 +27,8 @@ class UserActions {
 
     createUser(props, successHandler) {
         const statusCode = Object.assign({ 201: user => successHandler(user)}, httpStatusCode);
+
+        props = prefixAdminFields(props);
 
         return this._sendRequest({
             statusCode,
@@ -49,6 +52,8 @@ class UserActions {
     getUserList(filters, token) {
         const statusCode = Object.assign({ 200: users => this.userListReceived(users)}, httpStatusCode);
 
+        // TODO: add prefixed (dot notation) fields
+
         return this._sendRequest({
             statusCode,
             url: `/users?filters=${encodeJsonUrl(filters)}`,
@@ -57,18 +62,20 @@ class UserActions {
         });
     }
 
-    updateUser(user, token) {
+    updateUser(props, token) {
         const statusCode = Object.assign(
             { 200: updatedUser => this.userUpdated(updatedUser) },
             httpStatusCode,
             { 409: () => this.userUpdateConflict() }
         );
 
+        props = prefixAdminFields(props);
+
         return this._sendRequest({
             statusCode,
-            url: `/users/${user._id}`,
+            url: `/users/${props._id}`,
             method: 'PATCH',
-            data: user,
+            data: props,
             headers: getAuthorizationHeader(token)
         });
     }
@@ -90,7 +97,7 @@ class UserActions {
      * @param {Object} user User to take the properties from
      * @returns {Promise}
      */
-    clearUpdatableUser(user, addAdminFields = false) {
+    clearUpdatableUser(user) {
         const { general, admin_fields } = userFieldNames;
         const updatableUser = createObject(general, user);
 
