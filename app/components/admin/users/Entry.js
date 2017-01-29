@@ -10,7 +10,7 @@ import UserActions from '../../../actions/UserActions';
 import { getRoleValue, getStatusValue } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
-    updateUser(user) {
+    initUpdateUser(user) {
         UserActions.clearUpdatableUser(user);
         UserActions.setIsUpdating(true);
     }
@@ -54,7 +54,7 @@ class UserEntry extends React.Component {
                     <ButtonToolbar>
                         <Button
                             bsStyle="info"
-                            onClick={this.updateUser.bind(this, user)}>
+                            onClick={this.initUpdateUser.bind(this, user)}>
                             Labot
                         </Button>
                         {/*TODO: probably remove from production to avoid unexpected problems*/}

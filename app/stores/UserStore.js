@@ -12,6 +12,7 @@ class UserStore {
         this.user = {};
         this.userList = [];
         this.isUpdating = false;
+        this.isCreating = false;
         this.isRequesting = false;
         this.updatable = createObject(general, {});
         this.updatable.admin_fields = createObject(admin_fields, {});
@@ -31,6 +32,10 @@ class UserStore {
         });
 
         toastr.success('Lietotājs veiksmīgi izdzēsts');
+    }
+
+    onUserCreated(user) {
+        this.userList.unshift(user);
     }
 
     onUserUpdated(updatedUser) {
@@ -60,6 +65,10 @@ class UserStore {
 
     onSetIsUpdating(isUpdating) {
         this.isUpdating = isUpdating;
+    }
+
+    onSetIsCreating(isUpdating) {
+        this.isCreating = isUpdating;
     }
 
     onSetIsRequesting(isRequesting) {

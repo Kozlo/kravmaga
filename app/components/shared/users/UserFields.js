@@ -85,7 +85,7 @@ class UserFields extends React.Component {
                         <FormGroup>
                             <ControlLabel>E-pasts</ControlLabel>
                             <FormControl
-                                type="text"
+                                type="email"
                                 placeholder="E-pasts"
                                 value={email}
                                 onChange={this.handleChange.bind(this, 'email')}
@@ -96,7 +96,7 @@ class UserFields extends React.Component {
                         <FormGroup>
                             <ControlLabel>Telefona numurs</ControlLabel>
                             <FormControl
-                                type="text"
+                                type="tel"
                                 placeholder="Telefona numurs"
                                 value={phone}
                                 onChange={this.handleChange.bind(this, 'phone')}

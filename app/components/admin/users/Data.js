@@ -1,6 +1,6 @@
 // dependencies
 import React from 'react';
-import { Row, Col, Table } from 'react-bootstrap';
+import { Button, Row, Col, Table } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
@@ -60,6 +60,11 @@ class UserData extends React.Component {
         }
     }
 
+    initCreateUser() {
+        UserActions.clearUpdatableUser({});
+        UserActions.setIsCreating(true);
+    }
+
     updateUser(updatable, token) {
         UserActions.updateUser(updatable, token)
             .done(() => {
@@ -87,6 +92,13 @@ class UserData extends React.Component {
             <Row>
                 <Col xs={12}>
                     <h4>Dati</h4>
+                </Col>
+                <Col xs={12}>
+                    <Button
+                        bsStyle="success"
+                        onClick={this.initCreateUser.bind(this)}>
+                        Izveidot
+                    </Button>
                 </Col>
                 <Col xs={12}>
                     <Table responsive>

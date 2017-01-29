@@ -14,6 +14,7 @@ class UserActions {
     constructor() {
         this.generateActions(
             'getCurrentUser',
+            'userCreated',
             'userReceived',
             'userDeleted',
             'userUpdated',
@@ -21,11 +22,12 @@ class UserActions {
             'userListReceived',
             'setUpdatableUser',
             'setIsUpdating',
+            'setIsCreating',
             'setIsRequesting',
         );
     }
 
-    createUser(props, successHandler) {
+    createUser(props, token) {
         const statusCode = Object.assign({ 201: user => successHandler(user)}, httpStatusCode);
 
         props = prefixAdminFields(props);
@@ -35,6 +37,7 @@ class UserActions {
             url: '/users',
             method: 'POST',
             data: props,
+            headers: getAuthorizationHeader(token),
         });
     }
 
@@ -45,7 +48,7 @@ class UserActions {
             statusCode,
             url: `/users/${id}`,
             method: 'GET',
-            headers: getAuthorizationHeader(token)
+            headers: getAuthorizationHeader(token),
         });
     }
 
@@ -58,7 +61,7 @@ class UserActions {
             statusCode,
             url: `/users?filters=${encodeJsonUrl(filters)}`,
             method: 'GET',
-            headers: getAuthorizationHeader(token)
+            headers: getAuthorizationHeader(token),
         });
     }
 
@@ -87,7 +90,7 @@ class UserActions {
             statusCode,
             url: `/users/${id}`,
             method: 'DELETE',
-            headers: getAuthorizationHeader(token)
+            headers: getAuthorizationHeader(token),
         });
     }
 
@@ -101,7 +104,7 @@ class UserActions {
         const { general, admin_fields } = userFieldNames;
         const updatableUser = createObject(general, user);
 
-        updatableUser.admin_fields = createObject(admin_fields, user.admin_fields);
+        updatableUser.admin_fields = createObject(admin_fields, user.admin_fields || {});
 
         return this.setUpdatableUser(updatableUser);
     }

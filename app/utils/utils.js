@@ -111,7 +111,6 @@ export const httpStatusCode = {
     400: res => {
         console.error(res);
         toastr.error('Pieprasījuma kļūda - mēģiniet vēlreiz!');
-        AuthActions.silentLogoutUser();
     },
     401: res => {
         console.error(res);
@@ -126,16 +125,13 @@ export const httpStatusCode = {
     404: res => {
         console.error(res);
         toastr.error('Pieprasītais saturs netika atrasts - sazinieties ar administratoru!');
-        AuthActions.silentLogoutUser();
     },
     409: res => {
         console.error(res);
         toastr.error('Noticis datu apstrādes konflikts - sazinieties ar administratoru!');
-        AuthActions.silentLogoutUser();
     },
     500: res => {
         console.error(res);
         toastr.error('Servera kļūda - mēģiniet vēlreiz!');
-        AuthActions.silentLogoutUser();
     }
 };
