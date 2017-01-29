@@ -107,6 +107,13 @@ export const createObject = (propNames, sourceObject) => {
     return newObject;
 };
 
+export const fetchData = request => {
+    // TODO: replace jQuery with something else
+    return $.ajax(request)
+        .done(data => httpSuccessHandler(data))
+        .fail(error => httpErrorHandler(error));
+};
+
 export const httpStatusCode = {
     400: res => {
         console.error(res);

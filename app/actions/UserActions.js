@@ -2,8 +2,7 @@ import alt from '../alt';
 import { userFieldNames } from '../utils/config';
 import {
     httpStatusCode,
-    httpSuccessHandler,
-    httpErrorHandler,
+    fetchData,
     getAuthorizationHeader,
     encodeJsonUrl,
     createObject,
@@ -32,7 +31,7 @@ class UserActions {
 
         props = prefixAdminFields(props);
 
-        return this._sendRequest({
+        return fetchData({
             statusCode,
             url: '/users',
             method: 'POST',
@@ -44,7 +43,7 @@ class UserActions {
     getUser(id, token) {
         const statusCode = Object.assign({ 200: user => this.userReceived(user) }, httpStatusCode);
 
-        return this._sendRequest({
+        return fetchData({
             statusCode,
             url: `/users/${id}`,
             method: 'GET',
@@ -57,7 +56,7 @@ class UserActions {
 
         // TODO: add prefixed (dot notation) fields
 
-        return this._sendRequest({
+        return fetchData({
             statusCode,
             url: `/users?filters=${encodeJsonUrl(filters)}`,
             method: 'GET',
@@ -74,7 +73,7 @@ class UserActions {
 
         props = prefixAdminFields(props);
 
-        return this._sendRequest({
+        return fetchData({
             statusCode,
             url: `/users/${props._id}`,
             method: 'PATCH',
@@ -86,7 +85,7 @@ class UserActions {
     deleteUser(id, token) {
         const statusCode = Object.assign({ 200: (deletedUser) => this.userDeleted(deletedUser) }, httpStatusCode);
 
-        return this._sendRequest({
+        return fetchData({
             statusCode,
             url: `/users/${id}`,
             method: 'DELETE',
@@ -107,12 +106,6 @@ class UserActions {
         updatableUser.admin_fields = createObject(admin_fields, user.admin_fields || {});
 
         return this.setUpdatableUser(updatableUser);
-    }
-
-    _sendRequest(request) {
-        return $.ajax(request)
-            .done(data => httpSuccessHandler(data))
-            .fail(error => httpErrorHandler(error));
     }
 }
 

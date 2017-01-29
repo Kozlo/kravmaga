@@ -1,5 +1,5 @@
 import alt from '../alt';
-import { httpStatusCode, httpSuccessHandler, httpErrorHandler } from '../utils/utils';
+import { httpStatusCode, fetchData } from '../utils/utils';
 
 class AuthActions {
     constructor() {
@@ -19,13 +19,7 @@ class AuthActions {
             method: 'POST'
         };
 
-        return this._sendRequest(request);
-    }
-
-    _sendRequest(request) {
-        return $.ajax(request)
-            .done(data => httpSuccessHandler(data))
-            .fail(e => httpErrorHandler(e));
+        return fetchData(request);
     }
 }
 

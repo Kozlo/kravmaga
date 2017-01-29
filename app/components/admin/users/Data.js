@@ -91,9 +91,6 @@ class UserData extends React.Component {
         return (
             <Row>
                 <Col xs={12}>
-                    <h4>Dati</h4>
-                </Col>
-                <Col xs={12}>
                     <Button
                         bsStyle="success"
                         onClick={this.initCreateUser.bind(this)}>
