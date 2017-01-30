@@ -13,10 +13,8 @@ import { Button, Modal } from 'react-bootstrap';
 class DataModal extends React.Component {
     render() {
         const {
-            shouldShow,
-            title,
-            closeHandler,
-            submitHandler,
+            shouldShow, title,
+            closeHandler, submitHandler,
             isDisabled,
         } = this.props;
 

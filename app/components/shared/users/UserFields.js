@@ -29,11 +29,9 @@ class UserFields extends React.Component {
 
     render() {
         const {
-            given_name,
-            family_name,
             picture,
-            email,
-            phone,
+            given_name, family_name,
+            email, phone,
             gender,
         } = this.props.updatable;
         const imgSrc = picture || assets.defaultImage;
