@@ -22,6 +22,7 @@ class UserActions {
             'setUpdatableUser',
             'setIsUpdating',
             'setIsCreating',
+            'setIsChangingPassword',
             'setIsRequesting',
         );
     }

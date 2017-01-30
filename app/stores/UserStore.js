@@ -13,6 +13,7 @@ class UserStore {
         this.userList = [];
         this.isUpdating = false;
         this.isCreating = false;
+        this.isChangingPassword = false;
         this.isRequesting = false;
         this.updatable = createObject(general, {});
         this.updatable.admin_fields = createObject(admin_fields, {});
@@ -69,6 +70,10 @@ class UserStore {
 
     onSetIsCreating(isUpdating) {
         this.isCreating = isUpdating;
+    }
+
+    onSetIsChangingPassword(isChangingPassword) {
+        this.isChangingPassword = isChangingPassword;
     }
 
     onSetIsRequesting(isRequesting) {

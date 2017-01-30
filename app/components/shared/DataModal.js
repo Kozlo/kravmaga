@@ -15,7 +15,7 @@ class DataModal extends React.Component {
         const {
             shouldShow, title,
             closeHandler, submitHandler,
-            isDisabled,
+            isDisabled
         } = this.props;
 
         return (

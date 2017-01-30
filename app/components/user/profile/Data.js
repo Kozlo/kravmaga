@@ -1,7 +1,10 @@
 // dependencies
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import { Row, Col, Button, Image } from 'react-bootstrap';
+import {
+    Row, Col, Button,
+    ButtonToolbar, Image
+} from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
@@ -11,6 +14,7 @@ import UserActions from '../../../actions/UserActions';
 // components
 import ManageUser from '../../shared/users/ManageUser';
 import UserFields from '../../shared/users/UserFields';
+import PasswordChange from '../../shared/users/PasswordChange';
 
 // utility methods and config
 import { getGenderValue, createObject, isEmailValid } from '../../../utils/utils';
@@ -34,6 +38,11 @@ class ProfileData extends React.Component {
     updateUser(user) {
         UserActions.clearUpdatableUser(user);
         UserActions.setIsUpdating(true);
+    }
+
+    initChangePassword(user) {
+        UserActions.clearUpdatableUser(user);
+        UserActions.setIsChangingPassword(true);
     }
 
     closeHandler() {
@@ -116,12 +125,18 @@ class ProfileData extends React.Component {
                     </Row>
                 </Col>
                 <Col xs={12}>
-                    <Button 
-                        style={btnStyle}
-                        onClick={this.updateUser.bind(this, user)}>
-                        Labot Info
-                    </Button>
-
+                    <ButtonToolbar>
+                        <Button
+                            style={btnStyle}
+                            onClick={this.updateUser.bind(this, user)}>
+                            Labot Info
+                        </Button>
+                        <Button
+                            bsStyle="warning"
+                            onClick={this.initChangePassword.bind(this, user)}>
+                            Mainīt Paroli
+                        </Button>
+                    </ButtonToolbar>
                 </Col>
                 <ManageUser
                     shouldShow={isUpdating}
@@ -129,6 +144,7 @@ class ProfileData extends React.Component {
                     closeHandler={this.closeHandler.bind(this)}>
                     <UserFields />
                 </ManageUser>
+                <PasswordChange />
             </Row>
         );
     }

@@ -35,9 +35,7 @@ module.exports = {
             .catch(err => {
                 const userExistsError = userHelpers.userExistsError(err);
 
-                if (userExistsError) {
-                    return next(userExistsError);
-                }
+                if (userExistsError) return next(userExistsError);
 
                 next(err);
             });
@@ -81,8 +79,7 @@ module.exports = {
     /**
      * Updated the specified user.
      *
-     * Raises an error if the password is not undefined and invalid.
-     * Also checks if the user is admin if admin_fields are not undefined.
+     * If password is passed, checks if it's valid and updates it.
      *
      * @public
      * @param {Object} req Request object
@@ -90,7 +87,8 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     updateOne(req, res, next) {
-        const passwordError = userHelpers.passwordIsNotValid(req.body.password, true);
+        const { password } = req.body;
+        const passwordError = userHelpers.passwordIsNotValid(password, true);
 
         if (passwordError) {
             return next(passwordError);
@@ -103,13 +101,21 @@ module.exports = {
         }
 
         User.findByIdAndUpdate(req.params.id, req.body, { 'new': true })
+            .then(updatedUser => {
+                console.log(updatedUser);
+                if (typeof password !== 'undefined') {
+                    updatedUser.setPassword(password);
+
+                    return updatedUser.save();
+                } else {
+                    res.status(httpStatusCodes.ok).send(updatedUser)
+                }
+            })
             .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
             .catch(err => {
                 const userExistsError = userHelpers.userExistsError(err);
 
-                if (userExistsError) {
-                    return next(userExistsError);
-                }
+                if (userExistsError) return next(userExistsError);
 
                 next(err);
             });

@@ -13,6 +13,7 @@ import UserEntry from './Entry';
 import ManageUser from '../../shared/users/ManageUser';
 import UserFields from '../../shared/users/UserFields';
 import AdminUserFields from '../../shared/users/AdminUserFields';
+import PasswordChange from '../../shared/users/PasswordChange';
 
 // utils
 import { isEmailValid } from '../../../utils/utils';
@@ -114,6 +115,7 @@ class UserData extends React.Component {
                     <UserFields />
                     <AdminUserFields />
                 </ManageUser>
+                <PasswordChange />
             </Row>
         );
     }

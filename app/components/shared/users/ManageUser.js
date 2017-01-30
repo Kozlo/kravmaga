@@ -15,11 +15,9 @@ class ManageUser extends React.Component {
 
     render() {
         const {
-            shouldShow,
-            updatable,
-            closeHandler,
-            submitHandler,
-            isRequesting,
+            shouldShow, isRequesting,
+            closeHandler, submitHandler,
+            updatable
         } = this.props;
         const { given_name, family_name } = updatable;
         const title = `Lietotājs: ${given_name} ${family_name}`;

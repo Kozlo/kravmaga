@@ -15,6 +15,11 @@ class UserEntry extends React.Component {
         UserActions.setIsUpdating(true);
     }
 
+    initChangePassword(user) {
+        UserActions.clearUpdatableUser(user);
+        UserActions.setIsChangingPassword(true);
+    }
+
     deleteUser(user) {
         const { _id, given_name, family_name, email, admin_fields } = user;
         const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${admin_fields.role}?`;
@@ -34,7 +39,7 @@ class UserEntry extends React.Component {
         const { given_name, family_name, email, phone, picture, admin_fields } = user;
         const roleValue = getRoleValue(admin_fields.role);
         const status = getStatusValue(admin_fields.is_blocked);
-        const btnColStyle = { minWidth: '11em' };
+        const btnColStyle = { minWidth: '18.75em' };
         const imageStyle = {
             maxWidth: '2.5em',
             maxHeight: '2.5em'
@@ -56,6 +61,11 @@ class UserEntry extends React.Component {
                             bsStyle="info"
                             onClick={this.initUpdateUser.bind(this, user)}>
                             Labot
+                        </Button>
+                        <Button
+                            bsStyle="warning"
+                            onClick={this.initChangePassword.bind(this, user)}>
+                            Mainīt Paroli
                         </Button>
                         {/*TODO: probably remove from production to avoid unexpected problems*/}
                         <Button
