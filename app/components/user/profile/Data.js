@@ -17,7 +17,7 @@ import UserFields from '../../shared/users/UserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
 
 // utility methods and config
-import { getGenderValue, createObject, isEmailValid } from '../../../utils/utils';
+import { getGenderValue, createObject, isEmailValid, formatDateString } from '../../../utils/utils';
 import { assets, userFieldNames } from '../../../utils/config';
 
 class ProfileData extends React.Component {
@@ -80,9 +80,11 @@ class ProfileData extends React.Component {
             email,
             phone,
             gender,
+            member_since
         } = this.props.user;
         const imgSrc = user.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
+        const memberSince = formatDateString(member_since);
         const imageStyle = {
             float: 'left',
             margin: '0 15px 15px 0',
@@ -120,6 +122,12 @@ class ProfileData extends React.Component {
                             <dl>
                                 <dt>Dzimums</dt>
                                 <dd>{genderValue}</dd>
+                            </dl>
+                        </Col>
+                        <Col xs={6} sm={2}>
+                            <dl>
+                                <dt>Kluba biedrs kopš</dt>
+                                <dd>{memberSince}</dd>
                             </dl>
                         </Col>
                     </Row>

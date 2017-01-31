@@ -2,6 +2,11 @@
  * Configurable data used withing the application.
  */
 
+export const generalConfig = {
+    dateFormat: 'DD/MM/YYYY',
+    defaultUserRole: 'user'
+};
+
 /**
  * User field names.
  *

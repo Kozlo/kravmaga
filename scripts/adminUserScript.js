@@ -7,12 +7,19 @@ const mongoose = require('mongoose');
 // models
 const User = require('../server/models/user.js');
 // constants
+const databaseName = process.env.DB_URI;
 const defaultAdminEmail = 'admin@kravmaga.lv';
 const defaultAdminPassword = 'admin';
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URI, () => {
-    console.log(`Successfully connected to the DB: ${process.env.DB_URI}`);
+mongoose.connect(databaseName, err => {
+    if (err) {
+        console.error(`Error connecting to the DB: ${databaseName}`)
+        throw err;
+    }
+
+    console.log(`Successfully connected to the DB: ${databaseName}`);
+
     checkForAdmin();
 });
 mongoose.connection.on('error', err => console.error('Error: Could not connect to MongoDB: ', err));

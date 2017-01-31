@@ -15,8 +15,9 @@ import UserFields from '../../shared/users/UserFields';
 import AdminUserFields from '../../shared/users/AdminUserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
 
-// utils
+// utils and config
 import { isEmailValid } from '../../../utils/utils';
+import { generalConfig } from '../../../utils/config';
 
 class UserData extends React.Component {
     static getStores() {
@@ -62,7 +63,15 @@ class UserData extends React.Component {
     }
 
     initCreateUser() {
-        UserActions.clearUpdatableUser({});
+        const { defaultUserRole } = generalConfig;
+        const newUser = {
+            admin_fields: {
+                role: defaultUserRole,
+                is_blocked: false
+            }
+        };
+
+        UserActions.clearUpdatableUser(newUser);
         UserActions.setIsCreating(true);
     }
 
@@ -87,7 +96,7 @@ class UserData extends React.Component {
     render() {
         const { userList, isUpdating, isCreating, updatable } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Statuss', 'Loma', 'Darbības'];
+        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
 
         return (
             <Row>

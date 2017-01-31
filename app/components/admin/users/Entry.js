@@ -7,7 +7,7 @@ import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
 
 // utility methods
-import { getRoleValue, getStatusValue } from '../../../utils/utils';
+import { getRoleValue, getStatusValue, formatDateString } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
     initUpdateUser(user) {
@@ -36,10 +36,11 @@ class UserEntry extends React.Component {
 
     render() {
         const { user, index } = this.props;
-        const { given_name, family_name, email, phone, picture, admin_fields } = user;
+        const { picture, given_name, family_name, email, phone, member_since, admin_fields } = user;
         const roleValue = getRoleValue(admin_fields.role);
         const status = getStatusValue(admin_fields.is_blocked);
-        const btnColStyle = { minWidth: '18.75em' };
+        const memberSince = member_since ? formatDateString(member_since) : '';
+        const btnColStyle = { minWidth: '19em' };
         const imageStyle = {
             maxWidth: '2.5em',
             maxHeight: '2.5em'
@@ -53,6 +54,7 @@ class UserEntry extends React.Component {
                 <td>{family_name}</td>
                 <td>{email}</td>
                 <td>{phone}</td>
+                <td>{memberSince}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>
                 <td style={btnColStyle}>
