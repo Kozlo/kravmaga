@@ -1,8 +1,9 @@
 {
-  "name": "newedenfaces",
+  "name": "kravmaga",
   "dependencies": {
     "jquery": "^2.1.4",
     "magnific-popup": "^1.0.0",
-    "toastr": "^2.1.1"
+    "toastr": "^2.1.1",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
   }
 }

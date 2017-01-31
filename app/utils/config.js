@@ -10,7 +10,7 @@
  * @property {String[]} Roles available to users
  */
 export const userFieldNames = {
-    general: ['_id', 'picture', 'given_name', 'family_name', 'email', 'phone', 'gender'],
+    general: ['_id', 'picture', 'given_name', 'family_name', 'email', 'phone', 'gender', 'member_since'],
     admin_fields: ['role', 'is_blocked']
 };
 

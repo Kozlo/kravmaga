@@ -34,8 +34,9 @@ const properties = {
     given_name: { type: String, trim: true },
     family_name: { type: String, trim: true },
     picture: { type: String, trim: true },
-    phone: { type: String },
+    phone: { type: String, trim: true },
     gender: { type: String, enum: ['male', 'female'] },
+    member_since: String,
     admin_fields: {
         role: { type: String, required: true, enum: ['admin', 'user'], default: 'user' },
         is_blocked: { type: Boolean, required: true, default: false }

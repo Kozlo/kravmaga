@@ -31,7 +31,9 @@ const dependencies = [
 gulp.task('vendor', function() {
     return gulp.src([
         'bower_components/jquery/dist/jquery.js',
+        'bower_components/moment/min/moment.min.js',
         'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
+        'bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'bower_components/toastr/toastr.js'
     ]).pipe(concat('vendor.js'))
         .pipe(gulpif(production, uglify({ mangle: false })))

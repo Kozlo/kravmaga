@@ -1,24 +1,23 @@
 (DONE)- center  the login page
 (DONE)- add util method for creating props with a dot for admin fields
+(DONE)- add a create user button
+(DONE)- fix commits and users (wink wink)
+(DONE)- re-do user manage page
+(DONE)- re-do admin page
+(DONE)- re-do the authentication according to Ronald's request
+(DONE)- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
+(DONE)- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
+- add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
+  (DONE)- phone number
+  - member since date
+  - birthdate
+  - groups array (will implement the group types separately
+
+- create initial lessons section
 - restyle the profile page
-- add a create user button
-- fix commits and users (wink wink)
-- re-do user manage page
-- re-do admin page
-  - fix updating a user
-  - add create user
-  - add empty table for lessons (for demo)
-- test if I need a 404 route for back-end (test with Postman)
-- re-do the authentication according to Ronald's request
-  - create the new functionality
-  - add a default admin user script
-  - make the necessary front-end changes
-  - test the new code
-- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
-- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
+- add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load
 - create a 'lessons' section for the admin page
-- add proper validation to form fields (need to figure out a general one)
 
 - check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
@@ -40,6 +39,7 @@ Morten:
 
 -----------------------------------------------
 Later
+- adda 404 page for the API
 - add 'loading' state instead of just disabling the button: https://react-bootstrap.github.io/components.html#buttons-loading
 - add a possibility in the API to select which fields to load (e.g. no need to get the hash and the salt and also _v for the user in the front-end)
 - for admin panel in actions use: https://react-bootstrap.github.io/components.html#btn-groups-toolbar
@@ -70,6 +70,6 @@ admin:
  - grupu sadalja
 
 
-profila dati:
+(DONE)profila dati:
   - atstat dzimumu
   - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs, grupas (probably use react-boostrap multiple select control)
