@@ -28,15 +28,19 @@ class UserActions {
     }
 
     createUser(props, token) {
-        const statusCode = Object.assign({ 201: user => successHandler(user)}, httpStatusCode);
+        const statusCode = Object.assign({ 201: user => this.userCreated(user)}, httpStatusCode);
 
         props = prefixAdminFields(props);
+
+        const newUser = Object.assign({}, props)
+
+        delete newUser._id;
 
         return fetchData({
             statusCode,
             url: '/users',
             method: 'POST',
-            data: props,
+            data: newUser,
             headers: getAuthorizationHeader(token),
         });
     }

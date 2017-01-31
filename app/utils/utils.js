@@ -1,4 +1,5 @@
 import AuthActions from '../actions/AuthActions';
+import { generalConfig } from './config';
 
 // TODO: split these up into separate files
 
@@ -43,6 +44,53 @@ export const getRoleValue = role => {
 export const getStatusValue = is_blocked => {
     return is_blocked === true ? 'bloķēts' : (is_blocked === false ? 'aktīvs' : '');
 };
+
+/**
+ * Converts the passed date string to date and return it in the format DD/MM/YYY.
+ *
+ * @param {string} dateString Date string
+ * @returns {string} Formated date string or an emprt string
+ */
+export const formatDateString = dateString => {
+    if (!dateString) {
+        return '';
+    }
+
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+};
+
+/**
+ * Initializes the datetime picker with the specified ID.
+ *
+ * Additionally adds the default date if it's passed.
+ *
+ * @param {string} datetimePickerSelector Control selector
+ * @param {string} Default date string
+ * @param {Function} dateChangedHandler Date changed event handler
+ */
+export const initDateTimePicker = (datetimePickerSelector, defaultDate, dateChangedHandler) => {
+    $(() => {
+        const { dateFormat } = generalConfig;
+        const dateTimePicker = $(datetimePickerSelector);
+        const options = { format: dateFormat };
+
+        if (defaultDate) {
+            options.date = defaultDate;
+        }
+
+        dateTimePicker.datetimepicker(options);
+        dateTimePicker.on("dp.change", e => dateChangedHandler(e.date.toString()));
+    });
+
+    $(datetimePickerSelector).show('slow', function() {
+        $(this).trigger('isVisible');
+    });
+}
 
 /**
  * Replaces admin fields property with prefixed admin fields on the parent object.

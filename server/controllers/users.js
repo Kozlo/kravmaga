@@ -13,7 +13,7 @@ module.exports = {
     /**
      * Create a user based on the passed params.
      *
-     * Checks if the password is valid.
+     * Checks if the password is valid. If no password is passed, sets it as the email.
      *
      * @public
      * @param {Object} req Request object
@@ -21,7 +21,13 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     createOne(req, res, next) {
-        const error = userHelpers.passwordIsNotValid(req.body.password);
+        let { password, email } = req.body;
+
+        if (typeof password === 'undefined') {
+            password = email;
+        }
+
+        const error = userHelpers.passwordIsNotValid(password);
 
         if (error) {
             return next(error);
@@ -29,7 +35,7 @@ module.exports = {
 
         const user = new User(req.body);
 
-        user.setPassword(req.body.password);
+        user.setPassword(password);
         user.save(req.body)
             .then(user => res.status(httpStatusCodes.created).send(user))
             .catch(err => {

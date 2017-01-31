@@ -9,6 +9,7 @@ import {
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
 import { assets } from '../../../utils/config';
+import { initDateTimePicker } from '../../../utils/utils';
 
 class UserFields extends React.Component {
     static getStores() {
@@ -19,47 +20,25 @@ class UserFields extends React.Component {
         return UserStore.getState();
     }
 
-    /////////////////////////////////////////////////////////////
-
-    // TODO: add componentWillReceiveProps to see if values can be passed to datetime picker without binding the string to the control itself
-
     componentDidMount() {
-        this.initDateTimePicker('#memberSince', this.handleDateChange.bind(this));
+        const { member_since } = this.props.updatable;
+
+        initDateTimePicker('#memberSince', member_since, this.handleDateChange.bind(this, 'member_since'));
     }
 
-    initDateTimePicker(datetimePickerSelector, dateChangedHandler) {
-        $(() => {
-            const dateTimePicker = $(datetimePickerSelector);
-
-            // TODO: move the format to config and re-use
-            dateTimePicker.datetimepicker({
-                format: 'DD/MM/YYYY'
-            });
-            dateTimePicker.on("dp.change", e => dateChangedHandler(e.date));
-        });
-
-        $(datetimePickerSelector).show('slow', function() {
-            $(this).trigger('isVisible');
-        });
-    }
-
-    handleDateChange(date) {
-        // TODO: see if this is necessary or can be replaced by regular change handler
+    handleDateChange(prop, date) {
         date = date && date !== 'false' ? date : '';
 
-        this._updateData('timestamp', date);
+        this._updateData(prop, date);
     }
 
     _updateData(prop, value) {
-        // TODO: see if this is necessary or can be replaced by regular change handler
         const user = this.props.updatable;
 
         user[prop] = value;
-debugger;
+
         UserActions.setUpdatableUser(user);
     }
-
-    /////////////////////////////////////////////////////////////
 
     handleChange(prop, event) {
         const { updatable } = this.props;
@@ -74,7 +53,7 @@ debugger;
             picture,
             given_name, family_name,
             email, phone,
-            gender, member_since
+            gender
         } = this.props.updatable;
         const imgSrc = picture || assets.defaultImage;
 
@@ -159,7 +138,7 @@ debugger;
                     </Col>
                     <Col xs={12}>
                         <FormGroup controlId="timestamp">
-                            <ControlLabel>Kluba biedrs no</ControlLabel>
+                            <ControlLabel>Kluba biedrs kopš</ControlLabel>
                             <InputGroup id='memberSince'>
                                 <FormControl
                                     type="text"
