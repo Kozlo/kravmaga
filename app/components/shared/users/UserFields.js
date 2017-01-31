@@ -21,9 +21,10 @@ class UserFields extends React.Component {
     }
 
     componentDidMount() {
-        const { member_since } = this.props.updatable;
+        const { member_since, birthdate } = this.props.updatable;
 
         initDateTimePicker('#memberSince', member_since, this.handleDateChange.bind(this, 'member_since'));
+        initDateTimePicker('#birthdate', birthdate, this.handleDateChange.bind(this, 'birthdate'));
     }
 
     handleDateChange(prop, date) {
@@ -137,7 +138,22 @@ class UserFields extends React.Component {
                         </FormGroup>
                     </Col>
                     <Col xs={12}>
-                        <FormGroup controlId="timestamp">
+                        <FormGroup>
+                            <ControlLabel>Dzimšanas datums</ControlLabel>
+                            <InputGroup id='birthdate'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Datums"
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="calendar" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                            <HelpBlock>Lietotāja dzimšanas datusm.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup>
                             <ControlLabel>Kluba biedrs kopš</ControlLabel>
                             <InputGroup id='memberSince'>
                                 <FormControl

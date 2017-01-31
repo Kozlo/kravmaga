@@ -75,16 +75,15 @@ class ProfileData extends React.Component {
     render() {
         const { user, isUpdating } = this.props;
         const {
-            given_name,
-            family_name,
-            email,
-            phone,
+            given_name, family_name,
+            email, phone,
             gender,
-            member_since
+            birthdate, member_since
         } = this.props.user;
         const imgSrc = user.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
-        const memberSince = formatDateString(member_since);
+        const birthdateValue = formatDateString(birthdate);
+        const memberSinceValue = formatDateString(member_since);
         const imageStyle = {
             float: 'left',
             margin: '0 15px 15px 0',
@@ -124,10 +123,18 @@ class ProfileData extends React.Component {
                                 <dd>{genderValue}</dd>
                             </dl>
                         </Col>
-                        <Col xs={6} sm={2}>
+                    </Row>
+                    <Row>
+                        <Col xs={6}>
+                            <dl>
+                                <dt>Dzimšanas datums</dt>
+                                <dd>{birthdateValue}</dd>
+                            </dl>
+                        </Col>
+                        <Col xs={6}>
                             <dl>
                                 <dt>Kluba biedrs kopš</dt>
-                                <dd>{memberSince}</dd>
+                                <dd>{memberSinceValue}</dd>
                             </dl>
                         </Col>
                     </Row>
