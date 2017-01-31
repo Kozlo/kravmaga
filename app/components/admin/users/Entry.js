@@ -46,8 +46,6 @@ class UserEntry extends React.Component {
         const status = getStatusValue(admin_fields.is_blocked);
         const birthdateValue = formatDateString(birthdate);
         const memberSinceValue = formatDateString(member_since);
-        const midSizeColStyle = { minWidth: '9em' };
-        const largeSizeColStyle = { minWidth: '10.5em' };
         const btnColStyle = { minWidth: '19em' };
         const imageStyle = {
             maxWidth: '2.5em',
@@ -61,9 +59,9 @@ class UserEntry extends React.Component {
                 <td>{given_name}</td>
                 <td>{family_name}</td>
                 <td>{email}</td>
-                <td style={midSizeColStyle}>{phone}</td>
-                <td style={largeSizeColStyle}>{birthdateValue}</td>
-                <td style={largeSizeColStyle}>{memberSinceValue}</td>
+                <td>{phone}</td>
+                <td>{birthdateValue}</td>
+                <td>{memberSinceValue}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>
                 <td style={btnColStyle}>
