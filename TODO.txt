@@ -9,10 +9,10 @@
 (DONE)- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
 - add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
   (DONE)- phone number
-  - member since date
-  - birthdate
-  - groups array (will implement the group types separately
-
+  (DONE)- member since date
+  (DONE)- birthdate
+  - groups array (will implement the group types separately)
+- create groups section
 - create initial lessons section
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
