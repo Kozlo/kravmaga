@@ -36,10 +36,16 @@ class UserEntry extends React.Component {
 
     render() {
         const { user, index } = this.props;
-        const { picture, given_name, family_name, email, phone, member_since, admin_fields } = user;
+        const {
+            given_name, family_name,
+            email, phone,
+            birthdate, member_since,
+            picture, admin_fields
+        } = user;
         const roleValue = getRoleValue(admin_fields.role);
         const status = getStatusValue(admin_fields.is_blocked);
-        const memberSince = member_since ? formatDateString(member_since) : '';
+        const birthdateValue = formatDateString(birthdate);
+        const memberSinceValue = formatDateString(member_since);
         const btnColStyle = { minWidth: '19em' };
         const imageStyle = {
             maxWidth: '2.5em',
@@ -54,7 +60,7 @@ class UserEntry extends React.Component {
                 <td>{family_name}</td>
                 <td>{email}</td>
                 <td>{phone}</td>
-                <td>{memberSince}</td>
+                <td>{memberSinceValue}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>
                 <td style={btnColStyle}>
