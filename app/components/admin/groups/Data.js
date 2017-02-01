@@ -12,6 +12,7 @@ import GroupActions from '../../../actions/GroupActions';
 import GroupEntry from './Entry';
 import ManageGroup from './ManageGroup';
 import GroupFields from './GroupFields';
+import { getGroupMemberCount } from '../../../utils/utils';
 
 
 class GroupData extends React.Component {
@@ -24,10 +25,10 @@ class GroupData extends React.Component {
     }
 
     componentDidMount() {
-        const { filters } = this.props;
         const { token } = AuthStore.getState();
 
-        GroupActions.getGroupList(filters, token);
+        // TODO: add back when the API is done
+        // GroupActions.getGroupList(token);
     }
 
     closeHandler(isUpdating) {
@@ -80,11 +81,26 @@ class GroupData extends React.Component {
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
+    renderGroupList(group, index, groupMembers) {
+        const memberCount = getGroupMemberCount(group._id, groupMembers);
+
+        return (
+            <GroupEntry
+                key={`GroupEntry${index}`}
+                index={index}
+                group={group}
+                memberCount={memberCount} />
+        );
+    }
+
     render() {
-        const { userList, isUpdating, isCreating, updatable } = this.props;
+        const {
+            groupList, groupMembers,
+            isUpdating, isCreating,
+            updatable
+        } = this.props;
         const shouldShow = isUpdating || isCreating;
         const columns = ['#', 'Nosaukums', 'Dalībnieku skaits', 'Darbības'];
-
         return (
             <Row>
                 <Col xs={12}>
@@ -100,7 +116,7 @@ class GroupData extends React.Component {
                             <tr>{columns.map((col, index) => <th key={`GroupTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
-                            {groupList.map((user, index) => <UserEntry key={`GroupEntry${index}`} index={index} group={group} />)}
+                            {groupList.map((group, index) => this.renderGroupList(group, index, groupMembers) )}
                         </tbody>
                     </Table>
                 </Col>

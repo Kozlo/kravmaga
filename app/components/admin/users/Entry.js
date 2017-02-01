@@ -22,14 +22,14 @@ class UserEntry extends React.Component {
 
     deleteUser(user) {
         const { _id, given_name, family_name, email, admin_fields } = user;
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${admin_fields.role}?`;
+        const role = getRoleValue(admin_fields.role);
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${role}?`;
 
         if (!confirm(confirmText)) {
             return;
         }
 
         const { token } = AuthStore.getState();
-        const role = getRoleValue(admin_fields.role);
 
         UserActions.deleteUser(_id, token);
     }

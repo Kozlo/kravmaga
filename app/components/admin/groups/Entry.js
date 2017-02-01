@@ -1,28 +1,42 @@
 // dependencies
 import React from 'react';
-import { Button, Image, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import UserActions from '../../../actions/UserActions';
+import GroupActions from '../../../actions/GroupActions';
 
 // utility methods
-import { getRoleValue, getStatusValue, formatDateString } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
-    initUpdateGroup() { }
+    initUpdateGroup(group) {
+        GroupActions.clearUpdatableGroup(group);
+        GroupActions.setIsUpdating(true);
+    }
 
-    deleteGroup() { }
+    deleteGroup(group, memberCount) {
+        const { _id, name } = group;
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst grupu ${name} ar ${memberCount} lietotājiem?`;
+
+        if (!confirm(confirmText)) {
+            return;
+        }
+
+        const { token } = AuthStore.getState();
+
+        GroupActions.deleteGroup(_id, token);
+    }
 
     render() {
-        const { group } = this.props;
+        const { index, group, memberCount } = this.props;
         const { name } = group;
-        const btnColStyle = { minWidth: '19em' };
+        const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
                 <td>{name}</td>
+                <td>{memberCount}</td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button

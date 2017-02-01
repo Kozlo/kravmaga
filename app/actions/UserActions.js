@@ -32,7 +32,7 @@ class UserActions {
 
         props = prefixAdminFields(props);
 
-        const newUser = Object.assign({}, props)
+        const newUser = Object.assign({}, props);
 
         delete newUser._id;
 
