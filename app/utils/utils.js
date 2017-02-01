@@ -70,7 +70,7 @@ export const formatDateString = dateString => {
  * Additionally adds the default date if it's passed.
  *
  * @param {string} datetimePickerSelector Control selector
- * @param {string} Default date string
+ * @param {string} defaultDate date string
  * @param {Function} dateChangedHandler Date changed event handler
  */
 export const initDateTimePicker = (datetimePickerSelector, defaultDate, dateChangedHandler) => {
@@ -90,7 +90,7 @@ export const initDateTimePicker = (datetimePickerSelector, defaultDate, dateChan
     $(datetimePickerSelector).show('slow', function() {
         $(this).trigger('isVisible');
     });
-}
+};
 
 /**
  * Replaces admin fields property with prefixed admin fields on the parent object.
@@ -130,6 +130,18 @@ export const prefixProps = (obj, prefix) => {
     return dotObj;
 };
 
+/**
+ * Calculates how many members there are in a group.
+ *
+ * @param {string} groupId Group id
+ * @param {Object[]} groupMembers Group members object containing all group members
+ * @returns {number} Group member count
+ */
+export const getGroupMemberCount = (groupId, groupMembers) => {
+    const members = groupMembers[groupId];
+
+    return members ? members.length : 0;
+};
 
 /**
  * Creates an object with the specified properties from the source object.
