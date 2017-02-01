@@ -39,6 +39,14 @@ Morten:
 
 -----------------------------------------------
 Later
+- research about auth0 and JWT, should the token be automatically refreshed after a while if the user is active?
+- read on node.js/Express security and consider adding https://www.npmjs.com/package/helmet
+- add and use Node Security Project on the proejct https://blog.risingstack.com/node-js-security-checklist/ ALDO snyk (checks and fixes issues in your codebase)
+- limit how long input can be (e.g. no 100+ char long emails)
+- check what algo crypto is using and see if can be updated if SHA1 (unsecure)
+- add CSRF protection: https://blog.risingstack.com/node-js-security-checklist/
+- test and add brute force protection to authentication: https://blog.risingstack.com/node-js-security-checklist/
+- add es-list rules, based on air-bnb rules: https://github.com/airbnb/javascript#properties
 - adda 404 page for the API
 - add 'loading' state instead of just disabling the button: https://react-bootstrap.github.io/components.html#buttons-loading
 - add a possibility in the API to select which fields to load (e.g. no need to get the hash and the salt and also _v for the user in the front-end)
