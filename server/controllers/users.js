@@ -12,7 +12,7 @@ const { httpStatusCodes } = config;
 module.exports = {
 
     /**
-     * Create a user based on the passed params.
+     * Create an entry based on the passed params.
      *
      * Checks if the password is valid. If no password is passed, sets it as the email.
      *
@@ -22,8 +22,8 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     createOne(req, res, next) {
-        const userProps = req.body;
-        let { password, email } = req.body;
+        const entryProps = req.body;
+        let { password, email } = entryProps;
 
         if (typeof password === 'undefined') {
             password = email;
@@ -35,24 +35,24 @@ module.exports = {
             return next(error);
         }
 
-        const user = new User(userProps);
+        const entry = new User(entryProps);
 
-        user.setPassword(password);
-        user.save()
-            .then(user => res.status(httpStatusCodes.created).send(user))
+        entry.setPassword(password);
+        entry.save()
+            .then(entry => res.status(httpStatusCodes.created).send(entry))
             .catch(err => {
-                const userExistsError = helpers.entryExistsError(err);
+                const entryExistsError = helpers.entryExistsError(err);
 
-                if (userExistsError) return next(userExistsError);
+                if (entryExistsError) return next(entryExistsError);
 
                 next(err);
             });
     },
 
     /**
-     * Retrieves all users based on the passed filters.
+     * Retrieves all entries based on the passed filters.
      *
-     * Sorts users by the last update in a descending order by default.
+     * Sorts entries by the last update in a descending order by default.
      *
      * @public
      * @param {Object} req Request object
@@ -65,12 +65,12 @@ module.exports = {
 
         User.find(filters)
             .sort(sorters)
-            .then(users => res.status(httpStatusCodes.ok).send(users))
+            .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
 
     /**
-     * Retrieves a single user based on the ID.
+     * Retrieves a single entry based on the ID.
      *
      * @public
      * @param {Object} req Request object
@@ -78,16 +78,16 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getOne(req, res, next) {
-        const userId = req.params.id;
+        const entryId = req.params.id;
 
-        User.findById(userId)
-            .then(user => res.status(httpStatusCodes.ok).send(user))
+        User.findById(entryId)
+            .then(entry => res.status(httpStatusCodes.ok).send(entry))
             .catch(err => next(err));
 
     },
 
     /**
-     * Updated the specified user.
+     * Updates the specified entry.
      *
      * If password is passed, checks if it's valid and updates it.
      *
@@ -97,23 +97,23 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     updateOne(req, res, next) {
-        const userProps = req.body;
-        const userId = req.params.id;
+        const entryProps = req.body;
+        const entryId = req.params.id;
         const authUserId = req.user._id;
-        const { password } = userProps;
+        const { password } = entryProps;
         const passwordError = userHelpers.passwordIsNotValid(password, true);
 
         if (passwordError) {
             return next(passwordError);
         }
 
-        const privilegeError = userHelpers.privilegeCheck(userProps, userProps.userIsAdmin, authUserId);
+        const privilegeError = userHelpers.privilegeCheck(entryProps, entryProps.userIsAdmin, authUserId);
 
         if (privilegeError) {
             return next(privilegeError);
         }
 
-        User.findByIdAndUpdate(userId, userProps, { 'new': true })
+        User.findByIdAndUpdate(entryId, entryProps, { 'new': true })
             .then(updatedUser => {
                 if (typeof password !== 'undefined') {
                     updatedUser.setPassword(password);
@@ -125,16 +125,16 @@ module.exports = {
             })
             .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
             .catch(err => {
-                const userExistsError = helpers.entryExistsError(err);
+                const entryExistsError = helpers.entryExistsError(err);
 
-                if (userExistsError) return next(userExistsError);
+                if (entryExistsError) return next(entryExistsError);
 
                 next(err);
             });
     },
 
     /**
-     * Deletes the specified user.
+     * Deletes the specified entry.
      *
      * @public
      * @param {Object} req Request object
@@ -142,9 +142,9 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     deleteOne(req, res, next) {
-        const userId = req.params.id;
+        const entryId = req.params.id;
 
-        User.findByIdAndRemove(userId)
+        User.findByIdAndRemove(entryId)
             .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
             .catch(err => next(err));
     }
