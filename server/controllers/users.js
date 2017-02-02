@@ -21,6 +21,7 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     createOne(req, res, next) {
+        const userProps = req.body;
         let { password, email } = req.body;
 
         if (typeof password === 'undefined') {
@@ -33,10 +34,10 @@ module.exports = {
             return next(error);
         }
 
-        const user = new User(req.body);
+        const user = new User(userProps);
 
         user.setPassword(password);
-        user.save(req.body)
+        user.save()
             .then(user => res.status(httpStatusCodes.created).send(user))
             .catch(err => {
                 const userExistsError = userHelpers.userExistsError(err);
@@ -76,7 +77,9 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getOne(req, res, next) {
-        User.findById(req.params.id)
+        const userId = req.params.id;
+
+        User.findById(userId)
             .then(user => res.status(httpStatusCodes.ok).send(user))
             .catch(err => next(err));
 
@@ -93,22 +96,24 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     updateOne(req, res, next) {
-        const { password } = req.body;
+        const userProps = req.body;
+        const userId = req.params.id;
+        const authUserId = req.user._id;
+        const { password } = userProps;
         const passwordError = userHelpers.passwordIsNotValid(password, true);
 
         if (passwordError) {
             return next(passwordError);
         }
 
-        const privilegeError = userHelpers.privilegeCheck(req.body, req.userIsAdmin, req.user._id);
+        const privilegeError = userHelpers.privilegeCheck(userProps, userProps.userIsAdmin, authUserId);
 
         if (privilegeError) {
             return next(privilegeError);
         }
 
-        User.findByIdAndUpdate(req.params.id, req.body, { 'new': true })
+        User.findByIdAndUpdate(userId, userProps, { 'new': true })
             .then(updatedUser => {
-                console.log(updatedUser);
                 if (typeof password !== 'undefined') {
                     updatedUser.setPassword(password);
 
@@ -136,7 +141,9 @@ module.exports = {
      * @param {Function} next Method for further execution
      */
     deleteOne(req, res, next) {
-        User.findByIdAndRemove(req.params.id)
+        const userId = req.params.id;
+
+        User.findByIdAndRemove(userId)
             .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
             .catch(err => next(err));
     }
