@@ -13,6 +13,8 @@
   (DONE)- birthdate
   - groups array (will implement the group types separately)
 - create groups section
+  - create UI
+  - create API
 - create initial lessons section
 - restyle the profile page
 - add proper validation to form fields (use react validate module)

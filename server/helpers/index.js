@@ -3,6 +3,11 @@
  */
 
 const { userConfig } = require('../config');
+const config = require('../config');
+
+const { httpStatusCodes } = config;
+const mongoError = 'MongoError';
+const mongoDupKeyErrorCode = 11000;
 
 module.exports = {
 
@@ -60,5 +65,23 @@ module.exports = {
      */
     createError(message, status) {
         return { message, status };
+    },
+
+    /**
+     * Checks if the error is a duplicate key error.
+     *
+     * If this error occurs then the entry already exists.
+     *
+     * @param err {Object} Error
+     * @returns {Object|boolean} Error or false
+     */
+    entryExistsError(err) {
+        if (err.name === mongoError && err.code === mongoDupKeyErrorCode) {
+            const message = 'Entry already exists.';
+
+            return helpers.createError(message, httpStatusCodes.conflict);
+        }
+
+        return false;
     }
 };
