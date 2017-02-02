@@ -8,7 +8,7 @@ const express = require('express');
 const expressJwt = require('express-jwt');
 
 const middleware = require('../middleware/index');
-const usersController = require('../controllers/users');
+const controller = require('../controllers/users');
 
 const router = express.Router();
 const requireAuth = expressJwt({
@@ -16,14 +16,13 @@ const requireAuth = expressJwt({
 });
 
 const {
-    addIsAdmin,
-    requireIsAdmin,
+    addIsAdmin, requireIsAdmin,
     canAccessSelfUnlessAdmin
 } = middleware;
 const {
     getAll, createOne, getOne,
-    updateOne,/* replaceOne,*/deleteOne
-} = usersController;
+    updateOne, deleteOne
+} = controller;
 
 /**
  * Add middleware that confirms that the user is authenticated,
@@ -47,7 +46,6 @@ router.route('/')
 router.route('/:id')
      .get(canAccessSelfUnlessAdmin, getOne)
      .patch(canAccessSelfUnlessAdmin, updateOne)
-     //.put(requireIsAdmin, replaceOne)
      .delete(requireIsAdmin, deleteOne);
 
 module.exports = router;
