@@ -9,8 +9,6 @@ const config = require('../config');
 const helpers = require('./');
 
 const { httpStatusCodes } = config;
-const mongoError = 'MongoError';
-const mongoDupKeyErrorCode = 11000;
 
 module.exports = {
 
@@ -65,24 +63,6 @@ module.exports = {
         const message = `The passed ${constraint} user property password ${password} is not valid.`;
 
         return helpers.createError(message, httpStatusCodes.badRequest);
-    },
-
-    /**
-     * Checks if the error is a duplicate key error.
-     *
-     * If this error occurs then the user already exists.
-     *
-     * @param err {Object} Error
-     * @returns {Object|boolean} Error or false
-     */
-    userExistsError(err) {
-        if (err.name === mongoError && err.code === mongoDupKeyErrorCode) {
-            const message = 'User already exists.';
-
-            return helpers.createError(message, httpStatusCodes.conflict);
-        }
-
-        return false;
     },
 
     //=======================================

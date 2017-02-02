@@ -3,6 +3,7 @@
  */
 
 const config = require('../config');
+const helpers = require('../helpers');
 const userHelpers = require('../helpers/usersHelpers');
 const User = require('../models/user');
 
@@ -40,7 +41,7 @@ module.exports = {
         user.save()
             .then(user => res.status(httpStatusCodes.created).send(user))
             .catch(err => {
-                const userExistsError = userHelpers.userExistsError(err);
+                const userExistsError = helpers.entryExistsError(err);
 
                 if (userExistsError) return next(userExistsError);
 
@@ -124,7 +125,7 @@ module.exports = {
             })
             .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
             .catch(err => {
-                const userExistsError = userHelpers.userExistsError(err);
+                const userExistsError = helpers.entryExistsError(err);
 
                 if (userExistsError) return next(userExistsError);
 
