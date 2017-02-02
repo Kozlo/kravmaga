@@ -28,9 +28,8 @@ module.exports = {
      * @returns {boolean|Error} False or an error
      */
     privilegeCheck(userProps, authUserIsAdmin, authUserId) {
-        const { adminFieldsPropName } = config.userConfig;
         const propKeys = Object.keys(userProps);
-        const containsAdminFields = propKeys.some(val => val.includes(adminFieldsPropName));
+        const containsAdminFields = propKeys.some(val => val.includes('admin_fields'));
 
         if (!containsAdminFields || authUserIsAdmin) {
             return false;
