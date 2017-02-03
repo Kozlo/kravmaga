@@ -3,63 +3,63 @@ import GroupActions from '../actions/GroupActions';
 import { createObject } from '../utils/utils';
 import { groupFieldNames } from '../utils/config';
 
+const entryName = 'Grupa';
+
 class GroupStore {
     constructor() {
         this.bindActions(GroupActions);
 
-        this.groupList = [];
-        this.groupMembers = {};
+        this.list = [];
+        // TODO: leave 'members' as group-specific
+        this.members = {};
         this.isUpdating = false;
         this.isCreating = false;
         this.isRequesting = false;
         this.updatable = createObject(groupFieldNames, {});
     }
 
-    onGroupDeleted(deletedGroup) {
-        this.groupList.some((group, index) => {
-            if (group._id === deletedGroup._id) {
-                this.groupList.splice(index, 1);
+    onDeleted(deletedEntry) {
+        this.list.some((entry, index) => {
+            if (entry._id === deletedEntry._id) {
+                this.list.splice(index, 1);
 
                 return true;
             }
         });
 
-        toastr.success('Grupa veiksmīgi izdzēsta');
+        toastr.success(`${entryName} veiksmīgi izdzēsta`);
     }
 
-    onGroupCreated(group) {
-        this.groupList.unshift(group);
+    onCreated(entry) {
+        this.list.unshift(entry);
     }
 
-    onGroupUpdated(updatedGroup) {
-        this.groupList.some((group, index) => {
-            if (group._id === updatedGroup._id) {
-                this.groupList.splice(index, 1);
-                this.groupList.unshift(updatedGroup);
+    onUpdated(updatedEntry) {
+        this.list.some((entry, index) => {
+            if (entry._id === updatedEntry._id) {
+                this.list.splice(index, 1);
+                this.list.unshift(updatedEntry);
 
                 return true;
             }
         });
 
-        if (this.group._id === updatedGroup._id) {
-            this.group = updatedGroup;
-        }
-
-        toastr.success('Grupas info veiksmīgi atjaunināta');
+        toastr.success('Info veiksmīgi atjaunināta');
     }
 
-    onGroupListReceived(groupList) {
-        this.groupList = groupList;
+    onListReceived(list) {
+        this.list = list;
     }
 
-    onSetUpdatableGroup(updatable) {
+    onSetUpdatable(updatable) {
         this.updatable = updatable;
     }
 
-    onGroupMembersReceived(data) {
+    // TODO: leave this as group-specific
+    onMembersReceived(data) {
         const { groupId, groupMembers } = data;
 
-        this.groupMembers[groupId] = groupMembers;
+        this.members[groupId] = groupMembers;
     }
 
     onSetIsUpdating(isUpdating) {
@@ -70,16 +70,12 @@ class GroupStore {
         this.isCreating = isUpdating;
     }
 
-    onSetIsChangingPassword(isChangingPassword) {
-        this.isChangingPassword = isChangingPassword;
-    }
-
     onSetIsRequesting(isRequesting) {
         this.isRequesting = isRequesting;
     }
 
-    onGroupUpdateConflict() {
-        toastr.error('Grupa ar norādīto nosaukumu jau eksistē');
+    onUpdateConflict() {
+        toastr.error(`${entryName} jau eksistē`);
     }
 }
 

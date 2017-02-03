@@ -1,112 +1,118 @@
 import alt from '../alt';
+import { groupFieldNames } from '../utils/config';
 import {
     httpStatusCode, fetchData,
-    getAuthorizationHeader,
+    getAuthorizationHeader, createObject
 } from '../utils/utils';
 
+const url = '/groups';
+
+// TODO: try to make an abstract store/actions for data updates
 class GroupActions {
     constructor() {
         this.generateActions(
-            'groupCreated',
-            'groupDeleted',
-            'groupUpdated',
-            'groupUpdateConflict',
-            'groupListReceived',
-            'groupMembersReceived',
-            'setUpdatableGroup',
+            'created',
+            'deleted',
+            'updated',
+            'updateConflict',
+            'listReceived',
+            'membersReceived',
+            'setUpdatable',
             'setIsUpdating',
             'setIsCreating',
             'setIsRequesting',
         );
     }
 
-    createGroup(props, token) {
-        const statusCode = Object.assign({ 201: group => this.groupCreated(group)}, httpStatusCode);
-        const newGroup = Object.assign({}, props);
-
-        delete newGroup._id;
-
-        return fetchData({
-            statusCode,
-            url: '/groups',
-            method: 'POST',
-            data: newGroup,
-            headers: getAuthorizationHeader(token),
-        });
-    }
-
-    getGroup(id, token) {
-        const statusCode = Object.assign({ 200: group => this.groupReceived(group) }, httpStatusCode);
-
-        return fetchData({
-            statusCode,
-            url: `/groups/${id}`,
-            method: 'GET',
-            headers: getAuthorizationHeader(token),
-        });
-    }
-
-    getGroupList(token) {
-        const statusCode = Object.assign({ 200: groups => this.groupListReceived(groups)}, httpStatusCode);
-
-        return fetchData({
-            statusCode,
-            url: '/groups',
-            method: 'GET',
-            headers: getAuthorizationHeader(token),
-        });
-    }
-
-    updateGroup(props, token) {
+    create(props, token) {
         const statusCode = Object.assign(
-            { 200: updatedGroup => this.groupUpdated(updatedGroup) },
+            { 201: entry => this.created(entry)},
             httpStatusCode,
-            { 409: () => this.groupUpdateConflict() }
+            { 409: () => this.updateConflict() }
+        );
+        const newEntry = Object.assign({}, props);
+
+        delete newEntry._id;
+
+        return fetchData({
+            statusCode, url,
+            method: 'POST',
+            data: newEntry,
+            headers: getAuthorizationHeader(token),
+        });
+    }
+
+    get(id, token) {
+        const statusCode = Object.assign({ 200: entry => this.received(entry) }, httpStatusCode);
+
+        return fetchData({
+            statusCode,
+            url: `${url}/${id}`,
+            method: 'GET',
+            headers: getAuthorizationHeader(token),
+        });
+    }
+
+    getList(token) {
+        const statusCode = Object.assign({ 200: entries => this.listReceived(entries)}, httpStatusCode);
+
+        return fetchData({
+            statusCode, url,
+            method: 'GET',
+            headers: getAuthorizationHeader(token),
+        });
+    }
+
+    update(props, token) {
+        const statusCode = Object.assign(
+            { 200: updatedEntry => this.updated(updatedEntry) },
+            httpStatusCode,
+            { 409: () => this.updateConflict() }
         );
 
         return fetchData({
             statusCode,
-            url: `/groups/${props._id}`,
+            url: `${url}/${props._id}`,
             method: 'PATCH',
             data: props,
             headers: getAuthorizationHeader(token)
         });
     }
 
-    deleteGroup(id, token) {
-        const statusCode = Object.assign({ 200: deletedGroup => this.groupDeleted(deletedGroup) }, httpStatusCode);
+    delete(id, token) {
+        const statusCode = Object.assign({ 200: deletedEntry => this.deleted(deletedEntry) }, httpStatusCode);
 
         return fetchData({
             statusCode,
-            url: `/groups/${id}`,
+            url: `${url}/${id}`,
             method: 'DELETE',
             headers: getAuthorizationHeader(token),
         });
     }
 
-    getGroupMembers(groupId, token) {
-        const statusCode = Object.assign({ 200: groupMembers => this.groupMembersReceived({ groupId, groupMembers} ) }, httpStatusCode);
+    getMembers(id, token) {
+        const statusCode = Object.assign({ 200: members => this.membersReceived({ id, members} ) }, httpStatusCode);
 
         // TODO: figure out how to filter users with a specific groups correctly
 
         return fetchData({
             statusCode,
-            url: `/users?filters=groupId${groupId}`,
+            url: `${url}?filters=groupId=${id}`,
             method: 'GET',
             headers: getAuthorizationHeader(token),
         });
     }
 
     /**
-     * Creates and sets a new updatable group based on the passed group's properties.
+     * Creates and sets a new updatable based on the passed entry's properties.
      *
-     * @param {Object} group Group to take the properties from
+     * @param {Object} entry Entry to take the properties from
      * @returns {Promise}
      */
-    clearUpdatableGroup(group) {
-        const updatableGroup = Object.assign({}, group);
+    clearUpdatable(entry) {
+        const updatable = createObject(groupFieldNames, entry);
 
-        return this.setUpdatableGroup(updatableGroup);
+        return this.setUpdatable(updatable);
     }
 }
 

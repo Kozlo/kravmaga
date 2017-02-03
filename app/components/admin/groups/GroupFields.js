@@ -22,7 +22,7 @@ class GroupFields extends React.Component {
 
         updatable[prop] = event.target.value;
 
-        GroupActions.setUpdatableGroup(updatable);
+        GroupActions.setUpdatable(updatable);
     }
 
     render() {

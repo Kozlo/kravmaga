@@ -79,7 +79,7 @@ module.exports = {
         if (err.name === mongoError && err.code === mongoDupKeyErrorCode) {
             const message = 'Entry already exists.';
 
-            return helpers.createError(message, httpStatusCodes.conflict);
+            return this.createError(message, httpStatusCodes.conflict);
         }
 
         return false;

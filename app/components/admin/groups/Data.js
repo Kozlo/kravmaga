@@ -28,7 +28,7 @@ class GroupData extends React.Component {
         const { token } = AuthStore.getState();
 
         // TODO: add back when the API is done
-        // GroupActions.getGroupList(token);
+        GroupActions.getList(token);
     }
 
     closeHandler(isUpdating) {
@@ -52,19 +52,19 @@ class GroupData extends React.Component {
         GroupActions.setIsRequesting(true);
 
         if (isUpdating) {
-            this.updateGroup(updatable, token);
+            this.update(updatable, token);
         } else {
-            this.createGroup(updatable, token);
+            this.create(updatable, token);
         }
     }
 
-    initCreateGroup() {
-        GroupActions.clearUpdatableGroup({});
+    initCreate() {
+        GroupActions.clearUpdatable({});
         GroupActions.setIsCreating(true);
     }
 
-    updateGroup(updatable, token) {
-        GroupActions.updateGroup(updatable, token)
+    update(updatable, token) {
+        GroupActions.update(updatable, token)
             .done(() => {
                 GroupActions.setIsRequesting(false);
                 GroupActions.setIsUpdating(false);
@@ -72,8 +72,8 @@ class GroupData extends React.Component {
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
-    createGroup(updatable, token) {
-        GroupActions.createGroup(updatable, token)
+    create(updatable, token) {
+        GroupActions.create(updatable, token)
             .done(() => {
                 GroupActions.setIsCreating(false);
                 GroupActions.setIsRequesting(false);
@@ -81,23 +81,22 @@ class GroupData extends React.Component {
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
-    renderGroupList(group, index, groupMembers) {
-        const memberCount = getGroupMemberCount(group._id, groupMembers);
+    renderList(entry, index, members) {
+        const memberCount = getGroupMemberCount(entry._id, members);
 
         return (
             <GroupEntry
                 key={`GroupEntry${index}`}
                 index={index}
-                group={group}
+                entry={entry}
                 memberCount={memberCount} />
         );
     }
 
     render() {
         const {
-            groupList, groupMembers,
-            isUpdating, isCreating,
-            updatable
+            list, members, updatable,
+            isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
         const columns = ['#', 'Nosaukums', 'Dalībnieku skaits', 'Darbības'];
@@ -106,7 +105,7 @@ class GroupData extends React.Component {
                 <Col xs={12}>
                     <Button
                         bsStyle="success"
-                        onClick={this.initCreateGroup.bind(this)}>
+                        onClick={this.initCreate.bind(this)}>
                         Izveidot
                     </Button>
                 </Col>
@@ -116,7 +115,7 @@ class GroupData extends React.Component {
                             <tr>{columns.map((col, index) => <th key={`GroupTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
-                            {groupList.map((group, index) => this.renderGroupList(group, index, groupMembers) )}
+                        {list.map((entry, index) => this.renderList(entry, index, members) )}
                         </tbody>
                     </Table>
                 </Col>

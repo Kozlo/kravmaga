@@ -28,7 +28,11 @@ class UserActions {
     }
 
     createUser(props, token) {
-        const statusCode = Object.assign({ 201: user => this.userCreated(user)}, httpStatusCode);
+        const statusCode = Object.assign(
+            { 201: user => this.userCreated(user)},
+            httpStatusCode,
+            { 409: () => this.userUpdateConflict() }
+        );
 
         props = prefixAdminFields(props);
 

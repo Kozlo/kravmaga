@@ -18,10 +18,10 @@ class ManageGroup extends React.Component {
         const {
             shouldShow, isRequesting,
             closeHandler, submitHandler,
-            updatable, groupMembers
+            updatable, members
         } = this.props;
         const { name } = updatable;
-        const memberCount = getGroupMemberCount(updatable._id, groupMembers);
+        const memberCount = getGroupMemberCount(updatable._id, members);
         const title = `Grupa ${name} (${memberCount} lietotāji)`;
 
         return (

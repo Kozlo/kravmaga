@@ -6,16 +6,14 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import AuthStore from '../../../stores/AuthStore';
 import GroupActions from '../../../actions/GroupActions';
 
-// utility methods
-
-class UserEntry extends React.Component {
-    initUpdateGroup(group) {
-        GroupActions.clearUpdatableGroup(group);
+class GroupEntry extends React.Component {
+    initUpdateEntry(entry) {
+        GroupActions.clearUpdatable(entry);
         GroupActions.setIsUpdating(true);
     }
 
-    deleteGroup(group, memberCount) {
-        const { _id, name } = group;
+    delete(entry, memberCount) {
+        const { _id, name } = entry;
         const confirmText = `Vai esi drošs, ka vēlies izdzēst grupu ${name} ar ${memberCount} lietotājiem?`;
 
         if (!confirm(confirmText)) {
@@ -24,12 +22,12 @@ class UserEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        GroupActions.deleteGroup(_id, token);
+        GroupActions.delete(_id, token);
     }
 
     render() {
-        const { index, group, memberCount } = this.props;
-        const { name } = group;
+        const { index, entry, memberCount } = this.props;
+        const { name } = entry;
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
@@ -41,12 +39,12 @@ class UserEntry extends React.Component {
                     <ButtonToolbar>
                         <Button
                             bsStyle="info"
-                            onClick={this.initUpdateGroup.bind(this, group)}>
+                            onClick={this.initUpdateEntry.bind(this, entry)}>
                             Labot
                         </Button>
                         <Button
                             bsStyle="danger"
-                            onClick={this.deleteGroup.bind(this, group)}>
+                            onClick={this.delete.bind(this, entry)}>
                             Izdzēst
                         </Button>
                     </ButtonToolbar>
@@ -56,4 +54,4 @@ class UserEntry extends React.Component {
     }
 }
 
-export default UserEntry;
+export default GroupEntry;

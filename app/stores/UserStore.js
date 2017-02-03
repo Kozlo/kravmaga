@@ -49,6 +49,7 @@ class UserStore {
             }
         });
 
+        // TODO: levae this as user specific
         if (this.user._id === updatedUser._id) {
             this.user = updatedUser;
         }
