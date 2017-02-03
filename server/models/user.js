@@ -52,10 +52,10 @@ const properties = {
  * @property {boolean} timestamps Flag showing if createdAd and updatedAt fields should be generated for each user
  */
 const config = { timestamps: true };
-const userSchema = new mongoose.Schema(properties, config);
+const schema = new mongoose.Schema(properties, config);
 
-userSchema.methods.setPassword = setPassword;
-userSchema.methods.validPassword = validPassword;
-userSchema.methods.generateJwt = generateJwt;
+schema.methods.setPassword = setPassword;
+schema.methods.validPassword = validPassword;
+schema.methods.generateJwt = generateJwt;
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', schema);
