@@ -14,6 +14,6 @@ const properties = {
     }
 };
 
-const userSchema = new mongoose.Schema(properties);
+const schema = new mongoose.Schema(properties);
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Group', schema);
