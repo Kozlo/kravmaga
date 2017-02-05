@@ -1,16 +1,16 @@
-import { groupFieldNames } from '../utils/config';
 import {
     httpStatusCode, fetchData,
-    getAuthorizationHeader, createObject
+    getAuthorizationHeader
 } from '../utils/utils';
 
 
 class EntryActions {
     constructor() {
         this.generateActions(
+            'received',
             'created',
-            'deleted',
             'updated',
+            'deleted',
             'updateConflict',
             'listReceived',
             'setUpdatable',
@@ -30,19 +30,19 @@ class EntryActions {
         delete newEntry._id;
         const requestProps = {
             statusCode,
-            url: this._url,
+            url: this.url,
             method: 'POST',
             data: newEntry,
         };
 
-        return fetchData(requestProps, token);
+        return this._sendRequest(requestProps, token);
     }
 
     get(id, token) {
         const statusCode = Object.assign({ 200: entry => this.received(entry) }, httpStatusCode);
         const requestProps = {
             statusCode,
-            url: `${this._url}/${id}`,
+            url: `${this.url}/${id}`,
             method: 'GET',
         };
 
@@ -53,7 +53,7 @@ class EntryActions {
         const statusCode = Object.assign({ 200: entries => this.listReceived(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
-            url: this._url,
+            url: this.url,
             method: 'GET',
         };
 
@@ -68,7 +68,7 @@ class EntryActions {
         );
         const requestProps = {
             statusCode,
-            url: `${this._url}/${props._id}`,
+            url: `${this.url}/${props._id}`,
             method: 'PATCH',
             data: props,
         };
@@ -80,23 +80,11 @@ class EntryActions {
         const statusCode = Object.assign({ 200: deletedEntry => this.deleted(deletedEntry) }, httpStatusCode);
         const requestProps = {
             statusCode,
-            url: `${this._url}/${id}`,
+            url: `${this.url}/${id}`,
             method: 'DELETE',
         };
 
         return this._sendRequest(requestProps, token);
-    }
-
-    /**
-     * Creates and sets a new updatable based on the passed entry's properties.
-     *
-     * @param {Object} entry Entry to take the properties from
-     * @returns {Promise}
-     */
-    clearUpdatable(entry) {
-        const updatable = createObject(groupFieldNames, entry);
-
-        return this.setUpdatable(updatable);
     }
 
     /**

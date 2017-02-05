@@ -1,6 +1,7 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
-import { httpStatusCode } from '../utils/utils';
+import { httpStatusCode, createObject } from '../utils/utils';
+import { groupFieldNames } from '../utils/config';
 
 // TODO: move to config
 const url = '/groups';
@@ -14,7 +15,7 @@ class GroupActions extends EntryActions {
             'membersReceived',
         );
 
-        this._url = url;
+        this.url = url;
     }
 
     getMembers(id, token) {
@@ -25,9 +26,19 @@ class GroupActions extends EntryActions {
             method: 'GET',
         };
 
-        // TODO: figure out how to filter users with a specific groups correctly
-
         return this._sendRequest(requestProps, token);
+    }
+
+    /**
+     * Creates and sets a new updatable based on the passed entry's properties.
+     *
+     * @param {Object} entry Entry to take the properties from
+     * @returns {Promise}
+     */
+    clearUpdatable(entry) {
+        const updatable = createObject(groupFieldNames, entry);
+
+        return this.setUpdatable(updatable);
     }
 }
 

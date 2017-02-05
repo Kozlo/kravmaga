@@ -4,22 +4,15 @@ class EntryStore {
     constructor() {
         this.bindActions(EntryActions);
 
+        this.entry = {};
         this.list = [];
         this.isUpdating = false;
         this.isCreating = false;
         this.isRequesting = false;
     }
 
-    onDeleted(deletedEntry) {
-        this.list.some((entry, index) => {
-            if (entry._id === deletedEntry._id) {
-                this.list.splice(index, 1);
-
-                return true;
-            }
-        });
-
-        toastr.success('Izdzēšana notikusi veiksmīgi');
+    onReceived(entry) {
+        this.entry = entry;
     }
 
     onCreated(entry) {
@@ -36,7 +29,23 @@ class EntryStore {
             }
         });
 
+        if (this.entry._id === updatedEntry._id) {
+            this.entry = updatedEntry;
+        }
+
         toastr.success('Info veiksmīgi atjaunināta');
+    }
+
+    onDeleted(deletedEntry) {
+        this.list.some((entry, index) => {
+            if (entry._id === deletedEntry._id) {
+                this.list.splice(index, 1);
+
+                return true;
+            }
+        });
+
+        toastr.success('Izdzēšana notikusi veiksmīgi');
     }
 
     onListReceived(list) {

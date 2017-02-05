@@ -38,7 +38,7 @@ class UserFields extends React.Component {
 
         user[prop] = value;
 
-        UserActions.setUpdatableUser(user);
+        UserActions.setUpdatable(user);
     }
 
     handleChange(prop, event) {
@@ -46,7 +46,7 @@ class UserFields extends React.Component {
 
         updatable[prop] = event.target.value;
 
-        UserActions.setUpdatableUser(updatable);
+        UserActions.setUpdatable(updatable);
     }
 
     render() {

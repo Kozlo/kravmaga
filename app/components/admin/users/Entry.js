@@ -10,17 +10,17 @@ import UserActions from '../../../actions/UserActions';
 import { getRoleValue, getStatusValue, formatDateString } from '../../../utils/utils';
 
 class UserEntry extends React.Component {
-    initUpdateUser(user) {
-        UserActions.clearUpdatableUser(user);
+    initUpdate(user) {
+        UserActions.clearUpdatable(user);
         UserActions.setIsUpdating(true);
     }
 
     initChangePassword(user) {
-        UserActions.clearUpdatableUser(user);
+        UserActions.clearUpdatable(user);
         UserActions.setIsChangingPassword(true);
     }
 
-    deleteUser(user) {
+    delete(user) {
         const { _id, given_name, family_name, email, admin_fields } = user;
         const role = getRoleValue(admin_fields.role);
         const confirmText = `Vai esi drošs, ka vēlies izdzēst lietotāju ${given_name} ${family_name} ar e-pastu ${email} un lomu ${role}?`;
@@ -31,7 +31,7 @@ class UserEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        UserActions.deleteUser(_id, token);
+        UserActions.delete(_id, token);
     }
 
     render() {
@@ -68,7 +68,7 @@ class UserEntry extends React.Component {
                     <ButtonToolbar>
                         <Button
                             bsStyle="info"
-                            onClick={this.initUpdateUser.bind(this, user)}>
+                            onClick={this.initUpdate.bind(this, user)}>
                             Labot
                         </Button>
                         <Button
@@ -79,7 +79,7 @@ class UserEntry extends React.Component {
                         {/*TODO: probably remove from production to avoid unexpected problems*/}
                         <Button
                             bsStyle="danger"
-                            onClick={this.deleteUser.bind(this, user)}>
+                            onClick={this.delete.bind(this, user)}>
                             Izdzēst
                         </Button>
                     </ButtonToolbar>

@@ -100,6 +100,7 @@ module.exports = {
         const entryProps = req.body;
         const entryId = req.params.id;
         const authUserId = req.user._id;
+        const { authUserIsAdmin } = req;
         const { password } = entryProps;
         const passwordError = userHelpers.passwordIsNotValid(password, true);
 
@@ -107,7 +108,7 @@ module.exports = {
             return next(passwordError);
         }
 
-        const privilegeError = userHelpers.privilegeCheck(entryProps, entryProps.userIsAdmin, authUserId);
+        const privilegeError = userHelpers.privilegeCheck(entryProps, authUserIsAdmin, authUserId);
 
         if (privilegeError) {
             return next(privilegeError);
