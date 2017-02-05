@@ -100,6 +100,7 @@ class GroupData extends React.Component {
         } = this.props;
         const shouldShow = isUpdating || isCreating;
         const columns = ['#', 'Nosaukums', 'Dalībnieku skaits', 'Darbības'];
+
         return (
             <Row>
                 <Col xs={12}>
