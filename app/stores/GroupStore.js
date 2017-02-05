@@ -21,4 +21,4 @@ class GroupStore extends EntryStore {
     }
 }
 
-export default alt.createStore(GroupStore, 'GroupStore');
+export default alt.createStore(GroupStore);

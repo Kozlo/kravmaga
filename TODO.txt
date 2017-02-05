@@ -11,10 +11,12 @@
   (DONE)- phone number
   (DONE)- member since date
   (DONE)- birthdate
-  - groups array (will implement the group types separately)
+  - add a list of groups and the ability to add other groups from a list (use pills most likely)
+    - BUT store user list in group doc to easier permission management
 - create groups section
-  - create UI
-  - create API
+  (DONE)- create UI
+  (DONE)- create API
+  - add ability to add/remove users
 - create initial lessons section
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
@@ -31,13 +33,14 @@
 
 Bugs:
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
+- When using date time picker: Deprecation warning: value provided is not in a recognized ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non ISO date formats are discouraged and will be removed in an upcoming major release
 
 Morten:
-- move adminUserScript outside server folder
-- use middleware for admin user
-- user authentication middleware for all routes
-- remove some checks and make mongoose catch them
-- improve the config file if I leave it (prolly not)
+(DONE)- move adminUserScript outside server folder
+(DONE)- use middleware for admin user
+(DONE)- user authentication middleware for all routes
+(DONE)- remove some checks and make mongoose catch them
+(DONE)- improve the config file if I leave it (prolly not)
 
 -----------------------------------------------
 Later

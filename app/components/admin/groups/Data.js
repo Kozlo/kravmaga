@@ -14,7 +14,6 @@ import ManageGroup from './ManageGroup';
 import GroupFields from './GroupFields';
 import { getGroupMemberCount } from '../../../utils/utils';
 
-
 class GroupData extends React.Component {
     static getStores() {
         return [GroupStore];

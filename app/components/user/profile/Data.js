@@ -32,16 +32,16 @@ class ProfileData extends React.Component {
     componentDidMount() {
         const { userId, token } = AuthStore.getState();
 
-        UserActions.getUser(userId, token);
+        UserActions.get(userId, token);
     }
 
-    updateUser(user) {
-        UserActions.clearUpdatableUser(user);
+    update(entry) {
+        UserActions.clearUpdatable(entry);
         UserActions.setIsUpdating(true);
     }
 
-    initChangePassword(user) {
-        UserActions.clearUpdatableUser(user);
+    initChangePassword(entry) {
+        UserActions.clearUpdatable(entry);
         UserActions.setIsChangingPassword(true);
     }
 
@@ -64,7 +64,7 @@ class ProfileData extends React.Component {
 
         UserActions.setIsRequesting(true);
         UserActions
-            .updateUser(updatableProps, token)
+            .update(updatableProps, token)
             .done(() => {
                 UserActions.setIsUpdating(false);
                 UserActions.setIsRequesting(false);
@@ -73,14 +73,14 @@ class ProfileData extends React.Component {
     }
 
     render() {
-        const { user, isUpdating } = this.props;
+        const { entry, isUpdating } = this.props;
         const {
             given_name, family_name,
             email, phone,
             gender,
             birthdate, member_since
-        } = this.props.user;
-        const imgSrc = user.picture || assets.defaultImage;
+        } = entry;
+        const imgSrc = entry.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const birthdateValue = formatDateString(birthdate);
         const memberSinceValue = formatDateString(member_since);
@@ -143,12 +143,12 @@ class ProfileData extends React.Component {
                     <ButtonToolbar>
                         <Button
                             style={btnStyle}
-                            onClick={this.updateUser.bind(this, user)}>
+                            onClick={this.update.bind(this, entry)}>
                             Labot Info
                         </Button>
                         <Button
                             bsStyle="warning"
-                            onClick={this.initChangePassword.bind(this, user)}>
+                            onClick={this.initChangePassword.bind(this, entry)}>
                             Mainīt Paroli
                         </Button>
                     </ButtonToolbar>

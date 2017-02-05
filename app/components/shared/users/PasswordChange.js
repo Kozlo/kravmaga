@@ -44,7 +44,7 @@ class PasswordChange extends React.Component {
         const userProps = { _id, password };
 
         UserActions.setIsRequesting(true);
-        UserActions.updateUser(userProps, token)
+        UserActions.update(userProps, token)
             .done(() => {
                 UserActions.setIsRequesting(false);
                 UserActions.setIsChangingPassword(false);

@@ -16,7 +16,7 @@ import AdminUserFields from '../../shared/users/AdminUserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
 
 // utils and config
-import { isEmailValid } from '../../../utils/utils';
+import { isEmailValid, prefixAdminFields } from '../../../utils/utils';
 import { generalConfig } from '../../../utils/config';
 
 class UserData extends React.Component {
@@ -29,10 +29,9 @@ class UserData extends React.Component {
     }
 
     componentDidMount() {
-        const { filters } = this.props;
         const { token } = AuthStore.getState();
 
-        UserActions.getUserList(filters, token);
+        UserActions.getList(token);
     }
 
     closeHandler(isUpdating) {
@@ -56,13 +55,13 @@ class UserData extends React.Component {
         UserActions.setIsRequesting(true);
 
         if (isUpdating) {
-            this.updateUser(updatable, token);
+            this.update(updatable, token);
         } else {
-            this.createUser(updatable, token);
+            this.create(updatable, token);
         }
     }
 
-    initCreateUser() {
+    initCreate() {
         const { defaultUserRole } = generalConfig;
         const newUser = {
             admin_fields: {
@@ -71,12 +70,14 @@ class UserData extends React.Component {
             }
         };
 
-        UserActions.clearUpdatableUser(newUser);
+        UserActions.clearUpdatable(newUser);
         UserActions.setIsCreating(true);
     }
 
-    updateUser(updatable, token) {
-        UserActions.updateUser(updatable, token)
+    update(updatable, token) {
+        const props = prefixAdminFields(updatable);
+
+        UserActions.update(props, token)
             .done(() => {
                 UserActions.setIsRequesting(false);
                 UserActions.setIsUpdating(false);
@@ -84,8 +85,10 @@ class UserData extends React.Component {
             .fail(() => UserActions.setIsRequesting(false));
     }
 
-    createUser(updatable, token) {
-        UserActions.createUser(updatable, token)
+    create(updatable, token) {
+        const props = prefixAdminFields(updatable);
+
+        UserActions.create(props, token)
             .done(() => {
                 UserActions.setIsCreating(false);
                 UserActions.setIsRequesting(false);
@@ -94,7 +97,7 @@ class UserData extends React.Component {
     }
 
     render() {
-        const { userList, isUpdating, isCreating, updatable } = this.props;
+        const { list, isUpdating, isCreating, updatable } = this.props;
         const shouldShow = isUpdating || isCreating;
         const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimšanas datums', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
 
@@ -103,7 +106,7 @@ class UserData extends React.Component {
                 <Col xs={12}>
                     <Button
                         bsStyle="success"
-                        onClick={this.initCreateUser.bind(this)}>
+                        onClick={this.initCreate.bind(this)}>
                         Izveidot
                     </Button>
                 </Col>
@@ -113,7 +116,7 @@ class UserData extends React.Component {
                             <tr>{columns.map((col, index) => <th key={`UserTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
-                            {userList.map((user, index) => <UserEntry key={`UserEntry${index}`} index={index} user={user} />)}
+                            {list.map((user, index) => <UserEntry key={`UserEntry${index}`} index={index} user={user} />)}
                         </tbody>
                     </Table>
                 </Col>

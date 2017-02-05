@@ -1,9 +1,8 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Row, Col, Img,
-    FormGroup, FormControl,
-    ControlLabel, HelpBlock
+    Row, Col, FormGroup,
+    FormControl, ControlLabel, HelpBlock
 } from 'react-bootstrap';
 
 import UserStore from '../../../stores/UserStore';
@@ -24,7 +23,7 @@ class UserFields extends React.Component {
 
         admin_fields[prop] = event.target.value;
 
-        UserActions.setUpdatableUser(updatable);
+        UserActions.setUpdatable(updatable);
     }
 
     render() {
