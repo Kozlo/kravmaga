@@ -11,6 +11,11 @@ const properties = {
         unique: true,
         required: true,
         trim: true
+    },
+    members: {
+        type: [mongoose.Schema.Types.ObjectId],
+        unique: true,
+        default: []
     }
 };
 

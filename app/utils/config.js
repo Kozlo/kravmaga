@@ -10,7 +10,11 @@
  */
 export const generalConfig = {
     dateFormat: 'DD/MM/YYYY',
-    defaultUserRole: 'user'
+    defaultUserRole: 'user',
+    api: {
+        usersUrl: '/users',
+        groupsUrl: '/groups'
+    }
 };
 
 /**
@@ -28,7 +32,7 @@ export const userFieldNames = {
 /**
  * Group field names.
  */
-export const groupFieldNames = ['_id', 'name'];
+export const groupFieldNames = ['_id', 'name', 'members'];
 
 /**
  * Links to assets used within the app.

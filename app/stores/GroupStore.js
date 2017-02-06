@@ -13,12 +13,26 @@ class GroupStore extends EntryStore {
         this.updatable = createObject(groupFieldNames, {});
     }
 
-    // TODO: leave this as group-specific
     onMembersReceived(data) {
-        const { groupId, groupMembers } = data;
+        const { groupId, members } = data;
 
-        this.members[groupId] = groupMembers;
+        this.members[groupId] = members || [];
     }
+
+    onMemberAdded(data) {
+        const { groupId, member } = data;
+
+        this.members[groupId].push(member);
+    }
+
+    onMemberRemoved(data) {
+        const { groupId, member } = data;
+        const groupMembers = this.members[groupId];
+        const memberIndex = groupMembers.indexOf(member);
+
+        groupMembers.splice(memberIndex, 1);
+    }
+
 }
 
 export default alt.createStore(GroupStore);

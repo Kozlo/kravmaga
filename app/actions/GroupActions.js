@@ -1,28 +1,29 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
-import { httpStatusCode, createObject } from '../utils/utils';
-import { groupFieldNames } from '../utils/config';
+import { groupFieldNames, generalConfig } from '../utils/config';
+import { httpStatusCode, createObject, encodeJsonUrl } from '../utils/utils';
 
-// TODO: move to config
-const url = '/groups';
-
-// TODO: try to make an abstract store/actions for data updates
 class GroupActions extends EntryActions {
     constructor(props) {
         super(props);
 
         this.generateActions(
             'membersReceived',
+            'memberAdded',
+            'memberRemoved',
         );
 
-        this.url = url;
+        this.url = generalConfig.api.groupsUrl;
     }
 
-    getMembers(id, token) {
-        const statusCode = Object.assign({ 200: members => this.membersReceived({ id, members} ) }, httpStatusCode);
+    getMembers(group, token) {
+        const { usersUrl } = generalConfig.api;
+        const statusCode = Object.assign({ 200: members => this.membersReceived({ groupId: group._id, members }) }, httpStatusCode);
+        const filters = { _id: { $in: group.members } };
+        const encodedFilters = encodeJsonUrl(filters);
+        const url = `${usersUrl}?filters=${encodedFilters}`;
         const requestProps = {
-            statusCode,
-            url: `${this._url}?filters=groupId=${id}`,
+            statusCode, url,
             method: 'GET',
         };
 
