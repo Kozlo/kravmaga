@@ -39,6 +39,8 @@ class GroupActions extends EntryActions {
     clearUpdatable(entry) {
         const updatable = createObject(groupFieldNames, entry);
 
+        updatable.members = updatable.members || [];
+
         return this.setUpdatable(updatable);
     }
 }

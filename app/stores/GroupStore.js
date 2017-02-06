@@ -9,28 +9,22 @@ class GroupStore extends EntryStore {
         super(props);
 
         this.bindActions(GroupActions);
-        this.members = {};
+        this.members = [];
         this.updatable = createObject(groupFieldNames, {});
     }
 
-    onMembersReceived(data) {
-        const { groupId, members } = data;
-
-        this.members[groupId] = members || [];
+    onMembersReceived(members) {
+        this.members = members;
     }
 
-    onMemberAdded(data) {
-        const { groupId, member } = data;
-
-        this.members[groupId].push(member);
+    onMemberAdded(member) {
+        this.members.push(member);
     }
+    
+    onMemberRemoved(member) {
+        const memberIndex = this.members.indexOf(member);
 
-    onMemberRemoved(data) {
-        const { groupId, member } = data;
-        const groupMembers = this.members[groupId];
-        const memberIndex = groupMembers.indexOf(member);
-
-        groupMembers.splice(memberIndex, 1);
+        this.members.splice(memberIndex, 1);
     }
 
 }
