@@ -1,6 +1,6 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
-import { userFieldNames } from '../utils/config';
+import { userFieldNames, generalConfig } from '../utils/config';
 import { createObject } from '../utils/utils';
 
 class UserActions extends EntryActions {
@@ -12,7 +12,7 @@ class UserActions extends EntryActions {
             'setIsChangingPassword',
         );
 
-        this.url = '/users';
+        this.url = generalConfig.api.usersUrl;
     }
 
     /**

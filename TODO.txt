@@ -7,12 +7,7 @@
 (DONE)- re-do the authentication according to Ronald's request
 (DONE)- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
 (DONE)- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
-- add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
-  (DONE)- phone number
-  (DONE)- member since date
-  (DONE)- birthdate
-  - add a list of groups and the ability to add other groups from a list (use pills most likely)
-    - BUT store user list in group doc to easier permission management
+(DONE)- add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
 - create groups section
   (DONE)- create UI
   (DONE)- create API
