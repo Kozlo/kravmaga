@@ -1,8 +1,9 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Button, Row, Col, FormGroup,
-    FormControl, ControlLabel
+    Button, Row, Col, Well,
+    FormGroup, FormControl,
+    ControlLabel, Glyphicon
 } from 'react-bootstrap';
 
 import AuthStore from '../../../stores/AuthStore';
@@ -24,13 +25,16 @@ class GroupFields extends React.Component {
 
     componentWillMount() {
         const { token } = AuthStore.getState();
-        const { updatable } = this.props;
+        const { updatable, isUpdating } = this.props.groups;
 
-        GroupActions.getMembers(updatable, token);
+        // TODO: fix retreival by ID and remove this
+        if (isUpdating && updatable.members.length > 0) {
+            GroupActions.getMembers(updatable, token);
+        }
     }
 
     handleChange(prop, event) {
-        const { updatable } = this.props;
+        const { updatable } = this.props.groups;
 
         updatable[prop] = event.target.value;
 
@@ -38,33 +42,38 @@ class GroupFields extends React.Component {
     }
 
     addMember(updatable, event) {
-        const member = event.target.value;
+        const user = event.target.value;
 
-        updatable.members.push(member);
+        updatable.members.push(user._id);
 
-        GroupActions.setUpdatable();
-        GroupActions.memberAdded(member)
+        GroupActions.setUpdatable(user);
+        GroupActions.memberAdded(user)
     }
 
     removeMember(member) {
         GroupActions.memberRemoved(member);
     }
 
-    renderUser(user) {
+    renderUser(user, index) {
         const { given_name, family_name, email } = user;
         const userInfo = `${email} (${given_name} ${family_name})`;
 
         return (
-            <option value={user}>{userInfo}</option>
+            <option
+                key={`UserOption${index}`}
+                value={user}>
+                {userInfo}
+            </option>
         );
     }
 
-    renderMember(member) {
+    renderMember(member, index) {
         const { given_name, family_name, email } = member;
         const memberInfo = `${email} (${given_name} ${family_name})`;
 
         return (
             <Button
+                key={`GroupMember${index}`}
                 bsSize="small"
                 onClick={this.removeMember.bind(this, member)}>
                 {memberInfo} <Glyphicon glyph="remove" />
@@ -77,7 +86,6 @@ class GroupFields extends React.Component {
         const userList = users.list;
         const { updatable, members } = groups;
         const { _id, name } = updatable;
-        const groupMembers = members[_id] || [];
 
         return (
             <div>
@@ -101,14 +109,16 @@ class GroupFields extends React.Component {
                                 placeholder="Pievienot biedru"
                                 onChange={this.addMember.bind(this, updatable)}>
                                 <option value=''></option>
-                                {userList.map(user => this.renderUser(user))}
+                                {userList.map((user, index) => this.renderUser(user, index))}
                             </FormControl>
                         </FormGroup>
                     </Col>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Grupas biedri</ControlLabel>
-                            {groupMembers.map(member => this.renderMember(member))}
+                            <Well bsSize="small">
+                                {members.map((member, index) => this.renderMember(member, index))}
+                            </Well>
                         </FormGroup>
                     </Col>
                 </Row>

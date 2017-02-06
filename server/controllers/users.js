@@ -2,6 +2,7 @@
  * Users controller.
  */
 
+const mongoose = require('mongoose');
 const config = require('../config');
 const helpers = require('../helpers');
 const userHelpers = require('../helpers/usersHelpers');
@@ -60,8 +61,9 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        const filters = req.filters || {};
-        const sorters = req.sorters || { 'updatedAt': -1 };
+        // const filters = req.query.filters || {};
+        const filters = req.query.filters || {};
+        const sorters = req.query.sorters || { 'updatedAt': -1 };
 
         User.find(filters)
             .sort(sorters)
