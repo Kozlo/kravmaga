@@ -3,6 +3,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 import LessonStore from '../../../stores/LessonStore';
 import DataModal from '../../shared/DataModal';
+import { formatDateString } from '../../../utils/utils';
 
 class ManageLesson extends React.Component {
     static getStores() {
@@ -16,11 +17,11 @@ class ManageLesson extends React.Component {
     render() {
         const {
             shouldShow, isRequesting,
-            closeHandler, submitHandler,
-            updatable, members
+            closeHandler, submitHandler, updatable
         } = this.props;
         const { date, attendees } = updatable;
-        const title = `Nodarbība ${date} (${attendees.length} pieteikušies dalībnieki)`;
+        const formattedDate = formatDateString(date, true);
+        const title = `Nodarbībai ${formattedDate} (${attendees.length} pieteikušies dalībnieki)`;
 
         return (
             <DataModal
