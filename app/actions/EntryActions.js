@@ -49,8 +49,8 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
-    getList(token) {
-        const statusCode = Object.assign({ 200: entries => this.listReceived(entries)}, httpStatusCode);
+    getList(token, successHandler = this.listReceived) {
+        const statusCode = Object.assign({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: this.url,

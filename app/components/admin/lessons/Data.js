@@ -5,35 +5,36 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import GroupStore from '../../../stores/GroupStore';
-import GroupActions from '../../../actions/GroupActions';
+import LessonStore from '../../../stores/LessonStore';
+import LessonActions from '../../../actions/LessonActions';
 
 // components
-import GroupEntry from './Entry';
-import ManageGroup from './ManageGroup';
-import GroupFields from './GroupFields';
-import { getGroupMemberCount } from '../../../utils/utils';
+import LessonEntry from './Entry';
+import ManageLesson from './ManageLesson';
+import LessonFields from './LessonFields';
 
 class GroupData extends React.Component {
     static getStores() {
-        return [GroupStore];
+        return [LessonStore];
     }
 
     static getPropsFromStores() {
-        return GroupStore.getState();
+        return LessonStore.getState();
     }
 
     componentDidMount() {
         const { token } = AuthStore.getState();
 
-        GroupActions.getList(token);
+        LessonActions.getList(token);
+
+        // TODO: get groups based on the existing groups to get their names
     }
 
     closeHandler(isUpdating) {
         if (isUpdating) {
-            GroupActions.setIsUpdating(false);
+            LessonActions.setIsUpdating(false);
         } else {
-            GroupActions.setIsCreating(false);
+            LessonActions.setIsCreating(false);
         }
     }
 
@@ -43,11 +44,15 @@ class GroupData extends React.Component {
         event.preventDefault();
 
         // TODO: replace validation with react-validation
-        if (!updatable.name) {
-            return toastr.error('Grupas nosaukums ievadīts kļūdaini');
+        const mandatoryFields = ['date', 'group', 'location'];
+
+        for (let i = 0; i < mandatoryFields.length; i++) {
+            if (!updatable[mandatoryFields[i]]) {
+                return toastr.error('Lūdzu aizpildiet visus obligātos laukus!');
+            }
         }
 
-        GroupActions.setIsRequesting(true);
+        LessonActions.setIsRequesting(true);
 
         if (isUpdating) {
             this.update(updatable, token);
@@ -57,59 +62,45 @@ class GroupData extends React.Component {
     }
 
     initCreate() {
-        GroupActions.clearUpdatable({});
-        GroupActions.setIsCreating(true);
+        LessonActions.clearUpdatable({});
+        LessonActions.setIsCreating(true);
     }
 
-    /**
-     * Sends an update request to the back-end.
-     *
-     * Sets the members to null as an empty array won't be sent.
-     *
-     * @param {Object} updatable Updatable entry
-     * @param {string} token Authentication token
-     */
     update(updatable, token) {
-        if (updatable.members.length === 0) {
-            updatable.members = null;
-        }
-
-        GroupActions.update(updatable, token)
+        LessonActions.update(updatable, token)
             .done(() => {
-                GroupActions.setIsRequesting(false);
-                GroupActions.setIsUpdating(false);
+                LessonActions.setIsRequesting(false);
+                LessonActions.setIsUpdating(false);
             })
-            .fail(() => GroupActions.setIsRequesting(false));
+            .fail(() => LessonActions.setIsRequesting(false));
     }
 
     create(updatable, token) {
-        GroupActions.create(updatable, token)
+        LessonActions.create(updatable, token)
             .done(() => {
-                GroupActions.setIsCreating(false);
-                GroupActions.setIsRequesting(false);
+                LessonActions.setIsCreating(false);
+                LessonActions.setIsRequesting(false);
             })
-            .fail(() => GroupActions.setIsRequesting(false));
+            .fail(() => LessonActions.setIsRequesting(false));
     }
 
     renderList(entry, index, members) {
-        const memberCount = getGroupMemberCount(entry._id, members);
 
         return (
-            <GroupEntry
-                key={`GroupEntry${index}`}
+            <LessonEntry
+                key={`LessonEntry${index}`}
                 index={index}
-                entry={entry}
-                memberCount={memberCount} />
+                entry={entry}/>
         );
     }
 
     render() {
         const {
-            list, members, updatable,
+            list, updatable,
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Nosaukums', 'Dalībnieku skaits', 'Darbības'];
+        const columns = ['#', 'Datums', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs'];
 
         return (
             <Row>
@@ -123,19 +114,19 @@ class GroupData extends React.Component {
                 <Col xs={12}>
                     <Table responsive>
                         <thead>
-                            <tr>{columns.map((col, index) => <th key={`GroupTableHeader${index}`}>{col}</th>)}</tr>
+                            <tr>{columns.map((col, index) => <th key={`LessonTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
-                        {list.map((entry, index) => this.renderList(entry, index, members) )}
+                        {list.map((entry, index) => this.renderList(entry, index) )}
                         </tbody>
                     </Table>
                 </Col>
-                <ManageGroup
+                <ManageLesson
                     shouldShow={shouldShow}
                     closeHandler={this.closeHandler.bind(this, isUpdating)}
                     submitHandler={this.submitHandler.bind(this, isUpdating, updatable)}>
-                    <GroupFields />
-                </ManageGroup>
+                    <LessonFields />
+                </ManageLesson>
             </Row>
         );
     }
