@@ -7,6 +7,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
+import GroupActions from '../../../actions/GroupActions';
 
 // components
 import LessonEntry from './Entry';
@@ -27,7 +28,7 @@ class GroupData extends React.Component {
 
         LessonActions.getList(token);
 
-        // TODO: get groups based on the existing groups to get their names
+        GroupActions.getList(token, LessonActions.groupsReceived);
     }
 
     closeHandler(isUpdating) {

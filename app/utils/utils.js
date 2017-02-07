@@ -51,7 +51,7 @@ export const getStatusValue = is_blocked => {
  * @param {string} dateString Date string
  * @returns {string} Formated date string or an emprt string
  */
-export const formatDateString = dateString => {
+export const formatDateString = (dateString, addTime = false) => {
     if (!dateString) {
         return '';
     }
@@ -60,8 +60,16 @@ export const formatDateString = dateString => {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
+    let formattedDate = `${day}/${month}/${year}`;
 
-    return `${day}/${month}/${year}`;
+    if (!addTime) {
+        return formattedDate;
+    } else {
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+
+        return `${formattedDate} ${hours}:${minutes}`;
+    }
 };
 
 /**
@@ -70,17 +78,19 @@ export const formatDateString = dateString => {
  * Additionally adds the default date if it's passed.
  *
  * @param {string} datetimePickerSelector Control selector
- * @param {string} defaultDate date string
  * @param {Function} dateChangedHandler Date changed event handler
+ * @param {string} [defaultDate] date string
+ * @param {boolean} [addTime] Flag showing if time should be added instead of only date
  */
-export const initDateTimePicker = (datetimePickerSelector, defaultDate, dateChangedHandler) => {
+export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, defaultDate, addTime = false) => {
     $(() => {
-        const { dateFormat } = generalConfig;
         const dateTimePicker = $(datetimePickerSelector);
-        const options = { format: dateFormat };
+        const { dateOnlyFormat, dateTimeFormat } = generalConfig;
+        const format = addTime ? dateTimeFormat : dateOnlyFormat;
+        const options = { format };
 
         if (defaultDate) {
-            options.date = defaultDate;
+            options.date = new Date(defaultDate);
         }
 
         dateTimePicker.datetimepicker(options);

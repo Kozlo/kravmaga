@@ -4,7 +4,11 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
+import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
+
+// utils
+import { formatDateString } from '../../../utils/utils';
 
 class LessonEntry extends React.Component {
     initUpdateEntry(entry) {
@@ -26,16 +30,25 @@ class LessonEntry extends React.Component {
         LessonActions.delete(_id, token);
     }
 
+    findGroupName(groupId) {
+        const { groups } = LessonStore.getState();
+        const foundGroup = groups.filter(group => group._id === groupId)[0];
+
+        return foundGroup ? foundGroup.name : 'Nezināma grupa';
+    }
+
     render() {
         const { index, entry } = this.props;
         const { date, group, location, attendees, comment } = entry;
+        const formattedDate = formatDateString(date, true);
+        const groupName = this.findGroupName(group);
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
-                <td>{date}</td>
-                <td>{group}</td>
+                <td>{formattedDate}</td>
+                <td>{groupName}</td>
                 <td>{location}</td>
                 <td>{attendees.length}</td>
                 <td>{comment}</td>

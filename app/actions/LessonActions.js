@@ -14,7 +14,7 @@ class LessonActions extends EntryActions {
             'groupsReceived',
         );
 
-        this.url = generalConfig.api.lessonUrl;
+        this.url = generalConfig.api.lessonsUrl;
     }
 
     /**
