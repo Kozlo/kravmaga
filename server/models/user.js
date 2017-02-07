@@ -49,7 +49,7 @@ const properties = {
 /**
  * User schema config.
  *
- * @property {boolean} timestamps Flag showing if createdAd and updatedAt fields should be generated for each user
+ * @property {boolean} timestamps Flag showing if createdAt and updatedAt fields should be generated for each user
  */
 const config = { timestamps: true };
 const schema = new mongoose.Schema(properties, config);

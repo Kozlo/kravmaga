@@ -13,6 +13,7 @@
   (DONE)- create API
   - add ability to add/remove users
 - create initial lessons section
+  - find out if the 'location' for lessons should be stored as config (free text for now)
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load
@@ -39,6 +40,7 @@ Morten:
 
 -----------------------------------------------
 Later
+- when deleting a user, should also remove his ID from groups and lessons
 - research about auth0 and JWT, should the token be automatically refreshed after a while if the user is active?
 - read on node.js/Express security and consider adding https://www.npmjs.com/package/helmet
 - add and use Node Security Project on the proejct https://blog.risingstack.com/node-js-security-checklist/ ALDO snyk (checks and fixes issues in your codebase)
@@ -69,7 +71,7 @@ Notes:
 Meeting notes (24th Feb):
 
 - nodarbibas:
-  - laukI: datums/laiks/grupa/vieta (drop-down + opcija briva teksta formata)/komentars (neobligats)
+  - lauki: datums/laiks/grupa/vieta (drop-down + opcija briva teksta formata)/komentars (neobligats)
   - iespeja uzlikt ies/neies no lietotaja puses (prolly use active state and a button group)
   -
 
