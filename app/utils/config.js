@@ -13,7 +13,8 @@ export const generalConfig = {
     defaultUserRole: 'user',
     api: {
         usersUrl: '/users',
-        groupsUrl: '/groups'
+        groupsUrl: '/groups',
+        lessonUrl: '/lessons'
     }
 };
 
@@ -33,6 +34,11 @@ export const userFieldNames = {
  * Group field names.
  */
 export const groupFieldNames = ['_id', 'name', 'members'];
+
+/**
+ * Lesson field names.
+ */
+export const lessonFieldNames = ['_id', 'date', 'group', 'location', 'attendees', 'comment'];
 
 /**
  * Links to assets used within the app.
