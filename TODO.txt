@@ -1,37 +1,12 @@
-(DONE)- center  the login page
-(DONE)- add util method for creating props with a dot for admin fields
-(DONE)- add a create user button
-(DONE)- fix commits and users (wink wink)
-(DONE)- re-do user manage page
-(DONE)- re-do admin page
-(DONE)- re-do the authentication according to Ronald's request
-(DONE)- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
-(DONE)- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
-(DONE)- add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
-- FIX admin user script
-- figure out how to fix adding array of users to groups (currenty compains about duplicate if one user is in several groups)
-  - could be I need to re-make the DB
-- create groups section
-  (DONE)- create UI
-  (DONE)- create API
-  - add ability to add/remove users
-(DONE)- create initial lessons section
-  (DONE)- find groups and their names when group list is loaded to show the group name not the ID
-  (DONE)- date & time
-    (DONE)- show time for the date time picker when creating a lessons
-    (DONE)- conver the date and time to more user-friendly version (possibly split them up)
-  - add lessons to users profiles
-    - add a table that's filtered based on the user's group
-    - enable attendee adding (based on group users)
-  - find out if the 'location' for lessons should be stored as config (free text for now)
-  - for now make attendees viewable only
-    - later maybe make it possible to add the group's members too
+- add lessons to the profile
+ - list of lessons for my user
+ - ability to select if going
+- make it possible to add/remove attendees to lessons
+  -
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load
-- create a 'lessons' section for the admin page
 
-- check if on logout the token also needs to be disabled (like request to back-end and auht0)
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - add filters and limits to user (and other lists)
 - consider looping through the form control and creating them dynamically instead of having separate entries
@@ -41,14 +16,6 @@
 
 Bugs:
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
-- When using date time picker: Deprecation warning: value provided is not in a recognized ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non ISO date formats are discouraged and will be removed in an upcoming major release
-
-Morten:
-(DONE)- move adminUserScript outside server folder
-(DONE)- use middleware for admin user
-(DONE)- user authentication middleware for all routes
-(DONE)- remove some checks and make mongoose catch them
-(DONE)- improve the config file if I leave it (prolly not)
 
 -----------------------------------------------
 Later
@@ -57,25 +24,18 @@ Later
 - read on node.js/Express security and consider adding https://www.npmjs.com/package/helmet
 - add and use Node Security Project on the proejct https://blog.risingstack.com/node-js-security-checklist/ ALDO snyk (checks and fixes issues in your codebase)
 - limit how long input can be (e.g. no 100+ char long emails)
+  - maybe check mongoose/mongodb defaults
 - check what algo crypto is using and see if can be updated if SHA1 (unsecure)
 - add CSRF protection: https://blog.risingstack.com/node-js-security-checklist/
 - test and add brute force protection to authentication: https://blog.risingstack.com/node-js-security-checklist/
 - add es-list rules, based on air-bnb rules: https://github.com/airbnb/javascript#properties
 - adda 404 page for the API
 - add 'loading' state instead of just disabling the button: https://react-bootstrap.github.io/components.html#buttons-loading
-- add a possibility in the API to select which fields to load (e.g. no need to get the hash and the salt and also _v for the user in the front-end)
 - for admin panel in actions use: https://react-bootstrap.github.io/components.html#btn-groups-toolbar
-- consider splitting up updatable user OR do object copying inside the action (pass a flag for user or admin OR user the existing is_admin)
 - split up utils code into separate files
-- consider https://www.npmjs.com/package/react-bootstrap-validation for validation
-- add validation to forms (validation states, maybe disable buttons before a valid state has been reached etc.)
-- consider renaming login to get token
-  - maybe also consider some refresh token method (research this)
 - research dependencies. maybe I don't nee both react and react-dom
 - add a 'PUT' handler
 - consider lazy loading for components to reduce initial JS file size
-- should test routes for profile info, maybe need to logout user if authorization isn't fine on server,
-- If the user is logging in with an unauthorized email (regardless of type - email/FB/GOOG), ask them to vertify the account first (indicate if it's email, FB, or GOOGLE)
 - when done with phase 1, read on releases and make it a major release
 
 -----------------------------------------------
