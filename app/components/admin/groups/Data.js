@@ -62,7 +62,19 @@ class GroupData extends React.Component {
         GroupActions.setIsCreating(true);
     }
 
+    /**
+     * Sends an update request to the back-end.
+     *
+     * Sets the members to null as an empty array won't be sent.
+     *
+     * @param {Object} updatable Updatable entry
+     * @param {string} token Authentication token
+     */
     update(updatable, token) {
+        if (updatable.members.length === 0) {
+            updatable.members = null;
+        }
+
         GroupActions.update(updatable, token)
             .done(() => {
                 GroupActions.setIsRequesting(false);

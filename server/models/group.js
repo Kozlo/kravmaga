@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { areMembersValid } = require('../helpers');
 
 /**
  * User schema properties.
@@ -13,9 +14,13 @@ const properties = {
         trim: true
     },
     members: {
-        type: [mongoose.Schema.Types.ObjectId],
-        unique: true,
-        default: []
+        type: [String],
+        unique: false,
+        default: [],
+        validate: {
+            validator: areMembersValid,
+            message: '{VALUE} is not a valid array of unique member IDs!'
+        }
     }
 };
 

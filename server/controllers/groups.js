@@ -66,6 +66,8 @@ module.exports = {
     /**
      * Updates the specified entry.
      *
+     * Sets the members property to an empty array if it's defined, but not valid.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -75,11 +77,15 @@ module.exports = {
         const entryId = req.params.id;
         const entryProps = req.body;
 
+        if (typeof entryProps.members !== 'undefined' && !entryProps.members) {
+            entryProps.members = []
+        }
+
         Group.findByIdAndUpdate(entryId, entryProps, { 'new': true })
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
-
+                console.log(err);
                 if (entryExistsError) return next(entryExistsError);
 
                 next(err);

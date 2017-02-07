@@ -50,7 +50,7 @@ app.set('port', process.env.PORT || 3000);
 // TODO: read more on logger and what it does
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 // passport-related middleware

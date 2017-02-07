@@ -6,7 +6,6 @@ import {
     ControlLabel, Glyphicon
 } from 'react-bootstrap';
 
-import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
@@ -24,13 +23,11 @@ class GroupFields extends React.Component {
     }
 
     componentWillMount() {
-        const { token } = AuthStore.getState();
-        const { updatable, isUpdating } = this.props.groups;
+        const { users, groups } = this.props;
+        const { updatable } = groups;
+        const memberProfiles = users.list.filter(user => updatable.members.indexOf(user._id) > -1);
 
-        // TODO: fix retreival by ID and remove this
-        if (isUpdating && updatable.members.length > 0) {
-            GroupActions.getMembers(updatable, token);
-        }
+        GroupActions.membersReceived(memberProfiles);
     }
 
     handleChange(prop, event) {
@@ -42,32 +39,43 @@ class GroupFields extends React.Component {
     }
 
     addMember(updatable, event) {
-        const user = event.target.value;
+        const userId = event.target.value;
 
-        updatable.members.push(user._id);
+        if (updatable.members.indexOf(userId) > -1) {
+            return toastr.error('Lietotājs jau grupai ir pievienots');
+        }
 
-        GroupActions.setUpdatable(user);
+        const user = this.props.users.list.filter(user => user._id === userId)[0];
+
+        updatable.members.push(userId);
+
+        GroupActions.setUpdatable(updatable);
         GroupActions.memberAdded(user)
     }
 
-    removeMember(member) {
+    removeMember(updatable, member) {
+        const memberIndex = updatable.members.indexOf(member._id);
+
+        updatable.members.splice(memberIndex, 1);
+
+        GroupActions.setUpdatable(updatable);
         GroupActions.memberRemoved(member);
     }
 
     renderUser(user, index) {
-        const { given_name, family_name, email } = user;
+        const { _id, given_name, family_name, email } = user;
         const userInfo = `${email} (${given_name} ${family_name})`;
 
         return (
             <option
                 key={`UserOption${index}`}
-                value={user}>
+                value={_id}>
                 {userInfo}
             </option>
         );
     }
 
-    renderMember(member, index) {
+    renderMember(updatable, member, index) {
         const { given_name, family_name, email } = member;
         const memberInfo = `${email} (${given_name} ${family_name})`;
 
@@ -75,7 +83,7 @@ class GroupFields extends React.Component {
             <Button
                 key={`GroupMember${index}`}
                 bsSize="small"
-                onClick={this.removeMember.bind(this, member)}>
+                onClick={this.removeMember.bind(this, updatable, member)}>
                 {memberInfo} <Glyphicon glyph="remove" />
             </Button>
         );
@@ -85,7 +93,7 @@ class GroupFields extends React.Component {
         const { users, groups } = this.props;
         const userList = users.list;
         const { updatable, members } = groups;
-        const { _id, name } = updatable;
+        const { name } = updatable;
 
         return (
             <div>
@@ -107,6 +115,7 @@ class GroupFields extends React.Component {
                             <FormControl
                                 componentClass="select"
                                 placeholder="Pievienot biedru"
+                                value=""
                                 onChange={this.addMember.bind(this, updatable)}>
                                 <option value=''></option>
                                 {userList.map((user, index) => this.renderUser(user, index))}
@@ -114,12 +123,10 @@ class GroupFields extends React.Component {
                         </FormGroup>
                     </Col>
                     <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Grupas biedri</ControlLabel>
-                            <Well bsSize="small">
-                                {members.map((member, index) => this.renderMember(member, index))}
-                            </Well>
-                        </FormGroup>
+                        <ControlLabel>Grupas biedri</ControlLabel>
+                        <Well bsSize="small">
+                            {members.map((member, index) => this.renderMember(updatable, member, index))}
+                        </Well>
                     </Col>
                 </Row>
             </div>

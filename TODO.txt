@@ -8,6 +8,9 @@
 (DONE)- change the back-end code to make sure all ES6 types are used (e.g. import/export instead od require)
 (DONE)- replace all regular bootstrap with react-bootstrap and see if it can be removed completely
 (DONE)- add the fields for users that Ronalds asked (might need calendar support, but could do with regulat HTML5 calendar)
+- FIX admin user script
+- figure out how to fix adding array of users to groups (currenty compains about duplicate if one user is in several groups)
+  - could be I need to re-make the DB
 - create groups section
   (DONE)- create UI
   (DONE)- create API

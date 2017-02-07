@@ -1,7 +1,7 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
 import { groupFieldNames, generalConfig } from '../utils/config';
-import { httpStatusCode, createObject, encodeJsonUrl } from '../utils/utils';
+import { createObject } from '../utils/utils';
 
 class GroupActions extends EntryActions {
     constructor(props) {
@@ -16,20 +16,6 @@ class GroupActions extends EntryActions {
         this.url = generalConfig.api.groupsUrl;
     }
 
-    getMembers(group, token) {
-        const { usersUrl } = generalConfig.api;
-        const statusCode = Object.assign({ 200: members => this.membersReceived({ groupId: group._id, members }) }, httpStatusCode);
-        const filters = { _id: { $in: group.members } };
-        const encodedFilters = encodeJsonUrl(filters);
-        const url = `${usersUrl}?filters=${encodedFilters}`;
-        const requestProps = {
-            statusCode, url,
-            method: 'GET',
-        };
-
-        return this._sendRequest(requestProps, token);
-    }
-
     /**
      * Creates and sets a new updatable based on the passed entry's properties.
      *
@@ -39,7 +25,11 @@ class GroupActions extends EntryActions {
     clearUpdatable(entry) {
         const updatable = createObject(groupFieldNames, entry);
 
-        updatable.members = updatable.members || [];
+        if (Array.isArray(entry.members)) {
+            updatable.members = entry.members.slice();
+        } else {
+            updatable.members = [];
+        }
 
         return this.setUpdatable(updatable);
     }

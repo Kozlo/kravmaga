@@ -57,6 +57,30 @@ module.exports = {
     },
 
     /**
+     * Checks if the group members are valid an unique.
+     *
+     * Loops through the array until an invalid entry is found (if any).
+     *
+     * @param {string[]} members Groups members
+     * @returns {boolean} Flag showing if the members are valid
+     */
+    areMembersValid(members) {
+        const sortedMembers = members.slice().sort();
+
+        for (var i = 0; i < sortedMembers.length - 1; i++) {
+            if (typeof sortedMembers[i] !== 'string' || sortedMembers[i].trim() === '') {
+                return false
+            }
+
+            if (sortedMembers[i + 1] === sortedMembers[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    /**
      * Created an error with the specified message and name.
      *
      * @public

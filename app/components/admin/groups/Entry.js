@@ -26,15 +26,15 @@ class GroupEntry extends React.Component {
     }
 
     render() {
-        const { index, entry, memberCount } = this.props;
-        const { name } = entry;
+        const { index, entry } = this.props;
+        const { name, members } = entry;
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
                 <td>{name}</td>
-                <td>{memberCount}</td>
+                <td>{members.length}</td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button
