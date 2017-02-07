@@ -20,7 +20,7 @@ class GroupStore extends EntryStore {
     onMemberAdded(member) {
         this.members.push(member);
     }
-    
+
     onMemberRemoved(member) {
         const memberIndex = this.members.indexOf(member);
 

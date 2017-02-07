@@ -5,16 +5,22 @@
 /**
  * General configuration used withing the app.
  *
- * @property {string} dateFormat Format for date-only date strings
+ * @property {string} dateOnlyFormat Format for date-only date strings
+ * @property {string} dateTimeFormat Format for dates with time as well
  * @property {string} defaultUserRole Role used for new users by default
+ * @property {Object} api Config for the api
+ * @property {string} api.usersUrl Url for users
+ * @property {string} api.groupsUrl Url for groups
+ * @property {string} api.lessonUrl Url for lessons
  */
 export const generalConfig = {
-    dateFormat: 'DD/MM/YYYY',
+    dateOnlyFormat: 'DD-MM-YYYY',
+    dateTimeFormat: 'DD-MM-YYYY H:m',
     defaultUserRole: 'user',
     api: {
         usersUrl: '/users',
         groupsUrl: '/groups',
-        lessonUrl: '/lessons'
+        lessonsUrl: '/lessons'
     }
 };
 

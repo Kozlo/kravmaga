@@ -12,12 +12,14 @@
   (DONE)- create UI
   (DONE)- create API
   - add ability to add/remove users
-- create initial lessons section
-  - find groups and their names when group list is loaded to show the group name not the ID
-  - date & time
-    - show time for the date time picker when creating a lessons
-    - conver the date and time to more user-friendly version (possibly split them up)
-  - enable attendee adding (based on group users)
+(DONE)- create initial lessons section
+  (DONE)- find groups and their names when group list is loaded to show the group name not the ID
+  (DONE)- date & time
+    (DONE)- show time for the date time picker when creating a lessons
+    (DONE)- conver the date and time to more user-friendly version (possibly split them up)
+  - add lessons to users profiles
+    - add a table that's filtered based on the user's group
+    - enable attendee adding (based on group users)
   - find out if the 'location' for lessons should be stored as config (free text for now)
   - for now make attendees viewable only
     - later maybe make it possible to add the group's members too
