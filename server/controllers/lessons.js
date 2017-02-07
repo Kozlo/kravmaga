@@ -106,6 +106,53 @@ module.exports = {
         Lesson.findByIdAndRemove(entryId)
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
-    }
+    },
 
+    /**
+     * Adds an attendee to a lesson's attendance list.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    markAttending(req, res, next) {
+        const entryId = req.params.id;
+        const attendeeId = req.params.attendeeId;
+
+        Lesson.findById(entryId)
+            .then(entry => {
+                entry.attendees.push(attendeeId);
+
+                return entry.save();
+            })
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(entry))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Removes an attendee from a lesson's attendance list.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    removeAttending(req, res, next) {
+        const entryId = req.params.id;
+        const attendeeId = req.params.attendeeId;
+
+        Lesson.findById(entryId)
+            .then(entry => {
+                const attendeeIndex = entry.attendees.indexOf(attendeeId);
+
+                if (attendeeIndex > -1) {
+                    entry.attendees.splice(attendeeIndex, 1);
+                }
+
+                return entry.save();
+            })
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(entry))
+            .catch(err => next(err));
+    }
 };

@@ -85,7 +85,7 @@ class LessonData extends React.Component {
             .fail(() => LessonActions.setIsRequesting(false));
     }
 
-    renderList(entry, index, members) {
+    renderList(entry, index) {
 
         return (
             <LessonEntry
@@ -101,7 +101,7 @@ class LessonData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Datums', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs'];
+        const columns = ['#', 'Datums', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs', 'Darbības'];
 
         return (
             <Row>

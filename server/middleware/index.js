@@ -87,5 +87,27 @@ module.exports = {
         }
 
         next();
+    },
+
+    /**
+     * Checks if the user is trying to add/remove own id as an attendee.
+     *
+     * @public
+     * @param {Object} req Request object.
+     * @param {Object} res Response object
+     * @param {Function} next Method for further execution
+     */
+    attendanceForSelfOnly(req, res, next) {
+        const authUserId = req.user._id;
+        const attendeeId = req.params.attendeeId;
+
+        if (attendeeId !== authUserId) {
+            const message = `Attendance can only be marked for own user.`;
+            const error = helpers.createError(message, httpStatusCodes.forbidden);
+
+            return next(error);
+        }
+
+        next();
     }
 };
