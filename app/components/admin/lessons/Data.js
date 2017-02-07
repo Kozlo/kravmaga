@@ -14,7 +14,7 @@ import LessonEntry from './Entry';
 import ManageLesson from './ManageLesson';
 import LessonFields from './LessonFields';
 
-class GroupData extends React.Component {
+class LessonData extends React.Component {
     static getStores() {
         return [LessonStore];
     }
@@ -133,4 +133,4 @@ class GroupData extends React.Component {
     }
 }
 
-export default connectToStores(GroupData);
+export default connectToStores(LessonData);

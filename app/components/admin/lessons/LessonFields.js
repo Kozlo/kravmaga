@@ -1,8 +1,8 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Button, Row, Col, Well,
-    FormGroup, FormControl, InputGroup,
+    Row, Col, FormGroup,
+    FormControl, InputGroup,
     HelpBlock, ControlLabel, Glyphicon
 } from 'react-bootstrap';
 
