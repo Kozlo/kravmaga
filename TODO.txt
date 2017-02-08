@@ -14,6 +14,10 @@
 - Add JSDoc to components (research this a bit as well)
 
 Bugs:
+(DONE)- Object.assign doesn't work on IE (should replce with jQuery)
+- cannot create groups with a name that has the same starting letter as others
+- when a group is added and I try to create a lesson, the list isn't udpated
+- Object.assing doesn't work on IE
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
 
 -----------------------------------------------

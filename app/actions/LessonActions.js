@@ -30,7 +30,7 @@ class LessonActions extends EntryActions {
      * @returns {Promise} Request promise
      */
     getUserLessonList(token, userId, successHandler = this.listReceived) {
-        const statusCode = Object.assign({ 200: entries => successHandler(entries)}, httpStatusCode);
+        const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}${this.userLessonUrl}/${userId}`,
@@ -97,7 +97,7 @@ class LessonActions extends EntryActions {
      * @returns {Promise} Request promise
      */
     _updateAttendance(token, lessonId, attendeeId, attendanceUrl) {
-        const statusCode = Object.assign({ 200: entry => this.updated(entry)}, httpStatusCode);
+        const statusCode = $.extend({ 200: entry => this.updated(entry)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}/${lessonId}${attendanceUrl}/${attendeeId}`,

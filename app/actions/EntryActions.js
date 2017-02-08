@@ -21,12 +21,12 @@ class EntryActions {
     }
 
     create(props, token) {
-        const statusCode = Object.assign(
+        const statusCode = $.extend(
             { 201: entry => this.created(entry)},
             httpStatusCode,
             { 409: () => this.updateConflict() }
         );
-        const newEntry = Object.assign({}, props);
+        const newEntry = $.extend({}, props);
         delete newEntry._id;
         const requestProps = {
             statusCode,
@@ -39,7 +39,7 @@ class EntryActions {
     }
 
     get(id, token) {
-        const statusCode = Object.assign({ 200: entry => this.received(entry) }, httpStatusCode);
+        const statusCode = $.extend({ 200: entry => this.received(entry) }, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}/${id}`,
@@ -50,7 +50,7 @@ class EntryActions {
     }
 
     getList(token, successHandler = this.listReceived) {
-        const statusCode = Object.assign({ 200: entries => successHandler(entries)}, httpStatusCode);
+        const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: this.url,
@@ -61,7 +61,7 @@ class EntryActions {
     }
 
     update(props, token) {
-        const statusCode = Object.assign(
+        const statusCode = $.extend(
             { 200: updatedEntry => this.updated(updatedEntry) },
             httpStatusCode,
             { 409: () => this.updateConflict() }
@@ -77,7 +77,7 @@ class EntryActions {
     }
 
     delete(id, token) {
-        const statusCode = Object.assign({ 200: deletedEntry => this.deleted(deletedEntry) }, httpStatusCode);
+        const statusCode = $.extend({ 200: deletedEntry => this.deleted(deletedEntry) }, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}/${id}`,
@@ -96,7 +96,7 @@ class EntryActions {
      * @returns {Promise} Request promise
      */
     _sendRequest(requestProps, token) {
-        const request = Object.assign(requestProps, {
+        const request = $.extend(requestProps, {
             headers: getAuthorizationHeader(token),
         });
 

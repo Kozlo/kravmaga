@@ -118,7 +118,7 @@ export const prefixAdminFields = props => {
     }
 
     const newAdminFields = prefixProps(props.admin_fields, 'admin_fields');
-    const newProps = Object.assign({}, props, newAdminFields);
+    const newProps = $.extend({}, props, newAdminFields);
 
     delete newProps.admin_fields;
 
