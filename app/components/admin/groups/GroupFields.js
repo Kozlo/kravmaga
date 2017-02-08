@@ -64,7 +64,7 @@ class GroupFields extends React.Component {
 
     renderUser(user, index) {
         const { _id, given_name, family_name, email } = user;
-        const userInfo = `${email} (${given_name} ${family_name})`;
+        const userInfo = this._constructUserInfo(email, given_name, family_name);
 
         return (
             <option
@@ -77,7 +77,7 @@ class GroupFields extends React.Component {
 
     renderMember(updatable, member, index) {
         const { given_name, family_name, email } = member;
-        const memberInfo = `${email} (${given_name} ${family_name})`;
+        const memberInfo = this._constructUserInfo(email, given_name, family_name);
 
         return (
             <Button
@@ -87,6 +87,10 @@ class GroupFields extends React.Component {
                 {memberInfo} <Glyphicon glyph="remove" />
             </Button>
         );
+    }
+
+    _constructUserInfo(email, given_name, family_name) {
+        return `${email} (${given_name || ''} ${family_name || ''})`;
     }
 
     render() {
