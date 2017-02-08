@@ -23,22 +23,8 @@ class UserFields extends React.Component {
     componentDidMount() {
         const { member_since, birthdate } = this.props.updatable;
 
-        initDateTimePicker('#memberSince', member_since, this.handleDateChange.bind(this, 'member_since'));
-        initDateTimePicker('#birthdate', birthdate, this.handleDateChange.bind(this, 'birthdate'));
-    }
-
-    handleDateChange(prop, date) {
-        date = date && date !== 'false' ? date : '';
-
-        this._updateData(prop, date);
-    }
-
-    _updateData(prop, value) {
-        const user = this.props.updatable;
-
-        user[prop] = value;
-
-        UserActions.setUpdatableUser(user);
+        initDateTimePicker('#memberSince', this._handleDateChange.bind(this, 'member_since'), member_since);
+        initDateTimePicker('#birthdate', this._handleDateChange.bind(this, 'birthdate'), birthdate);
     }
 
     handleChange(prop, event) {
@@ -46,7 +32,21 @@ class UserFields extends React.Component {
 
         updatable[prop] = event.target.value;
 
-        UserActions.setUpdatableUser(updatable);
+        UserActions.setUpdatable(updatable);
+    }
+
+    _handleDateChange(prop, date) {
+        date = date && date !== 'false' ? date : '';
+
+        this._updateData(prop, date);
+    }
+
+    _updateData(prop, value) {
+        const { updatable } = this.props;
+
+        updatable[prop] = value;
+
+        UserActions.setUpdatable(updatable);
     }
 
     render() {

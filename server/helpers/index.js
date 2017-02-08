@@ -3,6 +3,11 @@
  */
 
 const { userConfig } = require('../config');
+const config = require('../config');
+
+const { httpStatusCodes } = config;
+const mongoError = 'MongoError';
+const mongoDupKeyErrorCode = 11000;
 
 module.exports = {
 
@@ -52,6 +57,30 @@ module.exports = {
     },
 
     /**
+     * Checks if the group members are valid an unique.
+     *
+     * Loops through the array until an invalid entry is found (if any).
+     *
+     * @param {string[]} members Groups members
+     * @returns {boolean} Flag showing if the members are valid
+     */
+    areMembersValid(members) {
+        const sortedMembers = members.slice().sort();
+
+        for (var i = 0; i < sortedMembers.length - 1; i++) {
+            if (typeof sortedMembers[i] !== 'string' || sortedMembers[i].trim() === '') {
+                return false
+            }
+
+            if (sortedMembers[i + 1] === sortedMembers[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    },
+
+    /**
      * Created an error with the specified message and name.
      *
      * @public
@@ -60,5 +89,23 @@ module.exports = {
      */
     createError(message, status) {
         return { message, status };
+    },
+
+    /**
+     * Checks if the error is a duplicate key error.
+     *
+     * If this error occurs then the entry already exists.
+     *
+     * @param err {Object} Error
+     * @returns {Object|boolean} Error or false
+     */
+    entryExistsError(err) {
+        if (err.name === mongoError && err.code === mongoDupKeyErrorCode) {
+            const message = 'Entry already exists.';
+
+            return this.createError(message, httpStatusCodes.conflict);
+        }
+
+        return false;
     }
 };

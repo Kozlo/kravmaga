@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import LessonsData from './Data';
+import LessonsData from './Data';
 
 class LessonsPanel extends React.Component {
     render() {
@@ -10,7 +10,7 @@ class LessonsPanel extends React.Component {
                     <h3>Manas nodarbības</h3>
                 </div>
                 <div className="panel-body">
-                    {/*<LessonsData />*/}
+                    <LessonsData />
                 </div>
             </div>
         );

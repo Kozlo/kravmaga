@@ -1,12 +1,10 @@
 /**
- * Users controller.
+ * Groups controller.
  */
 
-const mongoose = require('mongoose');
 const config = require('../config');
 const helpers = require('../helpers');
-const userHelpers = require('../helpers/usersHelpers');
-const User = require('../models/user');
+const Group = require('../models/group');
 
 const { httpStatusCodes } = config;
 
@@ -15,8 +13,6 @@ module.exports = {
     /**
      * Create an entry based on the passed params.
      *
-     * Checks if the password is valid. If no password is passed, sets it as the email.
-     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -24,22 +20,8 @@ module.exports = {
      */
     createOne(req, res, next) {
         const entryProps = req.body;
-        let { password, email } = entryProps;
 
-        if (typeof password === 'undefined') {
-            password = email;
-        }
-
-        const error = userHelpers.passwordIsNotValid(password);
-
-        if (error) {
-            return next(error);
-        }
-
-        const entry = new User(entryProps);
-
-        entry.setPassword(password);
-        entry.save()
+        Group.create(entryProps)
             .then(entry => res.status(httpStatusCodes.created).send(entry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
@@ -51,9 +33,7 @@ module.exports = {
     },
 
     /**
-     * Retrieves all entries based on the passed filters.
-     *
-     * Sorts entries by the last update in a descending order by default.
+     * Retrieves all entries.
      *
      * @public
      * @param {Object} req Request object
@@ -61,12 +41,7 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        // const filters = req.query.filters || {};
-        const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'updatedAt': -1 };
-
-        User.find(filters)
-            .sort(sorters)
+        Group.find()
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
@@ -82,7 +57,7 @@ module.exports = {
     getOne(req, res, next) {
         const entryId = req.params.id;
 
-        User.findById(entryId)
+        Group.findById(entryId)
             .then(entry => res.status(httpStatusCodes.ok).send(entry))
             .catch(err => next(err));
 
@@ -91,7 +66,7 @@ module.exports = {
     /**
      * Updates the specified entry.
      *
-     * If password is passed, checks if it's valid and updates it.
+     * Sets the members property to an empty array if it's defined, but not valid.
      *
      * @public
      * @param {Object} req Request object
@@ -99,37 +74,18 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     updateOne(req, res, next) {
-        const entryProps = req.body;
         const entryId = req.params.id;
-        const authUserId = req.user._id;
-        const { authUserIsAdmin } = req;
-        const { password } = entryProps;
-        const passwordError = userHelpers.passwordIsNotValid(password, true);
+        const entryProps = req.body;
 
-        if (passwordError) {
-            return next(passwordError);
+        if (typeof entryProps.members !== 'undefined' && !entryProps.members) {
+            entryProps.members = []
         }
 
-        const privilegeError = userHelpers.privilegeCheck(entryProps, authUserIsAdmin, authUserId);
-
-        if (privilegeError) {
-            return next(privilegeError);
-        }
-
-        User.findByIdAndUpdate(entryId, entryProps, { 'new': true })
-            .then(updatedUser => {
-                if (typeof password !== 'undefined') {
-                    updatedUser.setPassword(password);
-
-                    return updatedUser.save();
-                } else {
-                    res.status(httpStatusCodes.ok).send(updatedUser)
-                }
-            })
-            .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
+        Group.findByIdAndUpdate(entryId, entryProps, { 'new': true })
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
-
+                console.log(err);
                 if (entryExistsError) return next(entryExistsError);
 
                 next(err);
@@ -147,8 +103,8 @@ module.exports = {
     deleteOne(req, res, next) {
         const entryId = req.params.id;
 
-        User.findByIdAndRemove(entryId)
-            .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
+        Group.findByIdAndRemove(entryId)
+            .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
     }
 

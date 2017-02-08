@@ -14,7 +14,7 @@ const defaultAdminPassword = 'admin';
 mongoose.Promise = global.Promise;
 mongoose.connect(databaseName, err => {
     if (err) {
-        console.error(`Error connecting to the DB: ${databaseName}`)
+        console.error('Error connecting to database:', err);
         throw err;
     }
 
@@ -22,10 +22,11 @@ mongoose.connect(databaseName, err => {
 
     checkForAdmin();
 });
-mongoose.connection.on('error', err => console.error('Error: Could not connect to MongoDB: ', err));
+
+mongoose.connection.on('error', () => console.info(`Error: Could not connect to MongoDB ${databaseName}: `, err));
 
 function checkForAdmin() {
-    const filters = { 'admin.fields.role': 'admin' };
+    const filters = { 'admin_fields.role': 'admin' };
 
     User.findOne(filters)
         .then(user => {

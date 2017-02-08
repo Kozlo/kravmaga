@@ -7,6 +7,8 @@ const router = express.Router();
 
 const authRoutes = require('./auth');
 const usersRoutes = require('./users');
+const groupsRoutes = require('./groups');
+const lessonsRoutes = require('./lessons');
 const { getAll } = require('../controllers/');
 
 /**
@@ -14,6 +16,8 @@ const { getAll } = require('../controllers/');
  */
 router.use('/', authRoutes);
 router.use('/users', usersRoutes);
+router.use('/groups', groupsRoutes);
+router.use('/lessons', lessonsRoutes);
 
 /**
  * Route for unrecognized get requests.

@@ -52,4 +52,4 @@ class AuthStore {
     }
 }
 
-export default alt.createStore(AuthStore, 'AuthStore');
+export default alt.createStore(AuthStore);
