@@ -1,5 +1,5 @@
 - add lessons to the profile
- - list of lessons for my user
+ (DONE)- list of lessons for my user
  - ability to select if going
 - make it possible to add/remove attendees to lessons
   -

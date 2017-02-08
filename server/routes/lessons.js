@@ -16,10 +16,13 @@ const requireAuth = expressJwt({
     secret: process.env.JWT_SECRET
 });
 
-const { addIsAdmin, requireIsAdmin, attendanceForSelfOnly } = middleware;
+const {
+    addIsAdmin, requireIsAdmin,
+    attendanceForSelfOnly, canAccessSelfUnlessAdmin
+} = middleware;
 const {
     getAll, createOne, getOne,
-    updateOne, deleteOne,
+    updateOne, deleteOne, getUserLessons,
     markAttending, removeAttending
 } = controller;
 
@@ -27,6 +30,10 @@ const {
  * Add middleware that confirms that the user is authenticated and is an admin.
  */
 router.all('*', requireAuth, addIsAdmin, requireIsAdmin);
+
+//=================
+// CRUD operations
+//=================
 
 /**
  * Get (all entries) and post (create) route handlers.
@@ -44,12 +51,26 @@ router.route('/:id')
      .patch(updateOne)
      .delete(deleteOne);
 
+//=================
+// Custom routes
+//=================
+
+/**
+ * Routes for retrieving lessons for a specific user.
+ *
+ * Non-admin users can only see lessons for themselves.
+ */
+router.route('/userLessons/:userId')
+    .get(canAccessSelfUnlessAdmin, getUserLessons);
+
 /**
  * Routes for adding/removing an attendee to a lesson.
  *
  * Non-admin users can only add/remove themselves as attendees.
  */
-router.route('/:id/markAttending/:attendeeId').patch(attendanceForSelfOnly, markAttending);
-router.route('/:id/removeAttending/:attendeeId').patch(attendanceForSelfOnly, removeAttending);
+router.route('/:id/markAttending/:attendeeId')
+    .patch(attendanceForSelfOnly, markAttending);
+router.route('/:id/removeAttending/:attendeeId')
+    .patch(attendanceForSelfOnly, removeAttending);
 
 module.exports = router;

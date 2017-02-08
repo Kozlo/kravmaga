@@ -1,10 +1,12 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
 import { lessonFieldNames, generalConfig } from '../utils/config';
-import { httpStatusCode, createObject, encodeJsonUrl } from '../utils/utils';
+import { httpStatusCode, createObject } from '../utils/utils';
 
 class LessonActions extends EntryActions {
     constructor(props) {
+        const { baseUrl, userLessonUrl, attendanceUrls } = generalConfig.api.lessons;
+
         super(props);
 
         this.generateActions(
@@ -14,7 +16,29 @@ class LessonActions extends EntryActions {
             'groupsReceived',
         );
 
-        this.url = generalConfig.api.lessonsUrl;
+        this.url = baseUrl;
+        this.userLessonUrl = userLessonUrl;
+        this.attendanceUrls = attendanceUrls;
+    }
+
+    /**
+     * Retrieved lessons for the specified user.
+     *
+     * @param {string} token Auth token
+     * @param {string} userId User id
+     * @param {Function} [successHandler] Success handler
+     * @returns {Promise} Request promise
+     */
+    getUserLessonList(token, userId, successHandler = this.listReceived) {
+        const statusCode = Object.assign({ 200: entries => successHandler(entries)}, httpStatusCode);
+        const requestProps = {
+            statusCode,
+            url: `${this.url}${this.userLessonUrl}/${userId}`,
+            method: 'GET',
+        };
+
+        return this._sendRequest(requestProps, token);
+
     }
 
     /**
@@ -33,6 +57,54 @@ class LessonActions extends EntryActions {
         }
 
         return this.setUpdatable(updatable);
+    }
+
+    /**
+     * Indicates that the user will attend the lesson.
+     *
+     * @param {string} token Auth token
+     * @param {string} lessonId Lesson id
+     * @param {string} attendeeId User id
+     * @returns {Promise} Request promise
+     */
+    markAttending(token, lessonId, attendeeId) {
+        const { mark } = this.attendanceUrls;
+
+        return this._updateAttendance(token, lessonId, attendeeId, mark)
+    }
+
+    /**
+     * Indicates that the user will not be able to attend the lesson.
+     *
+     * @param {string} token Auth token
+     * @param {string} lessonId Lesson id
+     * @param {string} attendeeId User id
+     * @returns {Promise} Request promise
+     */
+    removeAttending(token, lessonId, attendeeId) {
+        const { remove } = this.attendanceUrls;
+
+        return this._updateAttendance(token, lessonId, attendeeId, remove)
+    }
+
+    /**
+     * Sends a request for updating lesson attendance.
+     *
+     * @param {string} token Auth token
+     * @param {string} lessonId Lesson id
+     * @param {string} attendeeId User id
+     * @param {string} attendanceUrl Url for marking or removing attendance
+     * @returns {Promise} Request promise
+     */
+    _updateAttendance(token, lessonId, attendeeId, attendanceUrl) {
+        const statusCode = Object.assign({ 200: entry => this.updated(entry)}, httpStatusCode);
+        const requestProps = {
+            statusCode,
+            url: `${this.url}/${lessonId}${attendanceUrl}/${attendeeId}`,
+            method: 'PATCH',
+        };
+
+        return this._sendRequest(requestProps, token);
     }
 }
 

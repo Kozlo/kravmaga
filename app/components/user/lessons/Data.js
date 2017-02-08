@@ -6,9 +6,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
-import GroupStore from '../../../stores/GroupStore';
 import LessonActions from '../../../actions/LessonActions';
-import GroupActions from '../../../actions/GroupActions';
 
 // components
 import LessonEntry from './Entry';
@@ -23,15 +21,9 @@ class LessonData extends React.Component {
     }
 
     componentDidMount() {
-        const { token } = AuthStore.getState();
+        const { token, userId } = AuthStore.getState();
 
-        // TODO: get groupIds where the user is in
-        // TODO: get list of lessons based on the group IDs
-        LessonActions.getList(token);
-        GroupActions.getList(token, LessonActions.groupsReceived)
-            .then(() => {
-                console.log('shit', this.props.groups);
-            });
+        LessonActions.getUserLessonList(token, userId);
     }
 
     renderList(entry, index) {

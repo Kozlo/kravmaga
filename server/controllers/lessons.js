@@ -5,6 +5,7 @@
 const config = require('../config');
 const helpers = require('../helpers');
 const Lesson = require('../models/lesson');
+const Group = require('../models/group');
 
 const { httpStatusCodes } = config;
 
@@ -126,7 +127,7 @@ module.exports = {
 
                 return entry.save();
             })
-            .then(updatedEntry => res.status(httpStatusCodes.ok).send(entry))
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => next(err));
     },
 
@@ -152,7 +153,33 @@ module.exports = {
 
                 return entry.save();
             })
-            .then(updatedEntry => res.status(httpStatusCodes.ok).send(entry))
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Retrieves a list of lessons for a user.
+     *
+     * The lessons are determined by which groups a user belongs to.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    getUserLessons(req, res, next) {
+        const sorters = req.query.sorters || { 'updatedAt': -1 };
+        const userId = req.params.userId;
+        const groupFilter = { members: userId };
+
+        Group.find(groupFilter)
+            .then(groups => {
+                const groupIds = groups.map(group => group._id);
+                const lessonFilter = { group: { $in: groupIds } };
+
+                return Lesson.find(lessonFilter).sort(sorters);
+            })
+            .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     }
 };

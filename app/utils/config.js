@@ -20,7 +20,14 @@ export const generalConfig = {
     api: {
         usersUrl: '/users',
         groupsUrl: '/groups',
-        lessonsUrl: '/lessons'
+        lessons:{
+            baseUrl: '/lessons',
+            userLessonUrl: '/userLessons',
+            attendanceUrls: {
+                mark: '/markAttending',
+                remove: '/removeAttending'
+            }
+        }
     }
 };
 
