@@ -169,7 +169,7 @@ module.exports = {
      */
     getUserLessons(req, res, next) {
         const sorters = req.query.sorters || { 'updatedAt': -1 };
-        const userId = req.params.userId;
+        const userId = req.params.id;
         const groupFilter = { members: userId };
 
         Group.find(groupFilter)
