@@ -1,8 +1,8 @@
-- add lessons to the profile
+
+(DONE)- add lessons to the profile
  (DONE)- list of lessons for my user
- - ability to select if going
-- make it possible to add/remove attendees to lessons
-  -
+ (DONE)- ability to select if going
+(DONE)- make it possible to add/remove attendees to lessons
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load
