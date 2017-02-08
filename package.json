@@ -71,6 +71,7 @@
     "react-router": "^3.0.0",
     "request": "^2.79.0",
     "serve-favicon": "^2.3.2",
+    "ssl-root-cas": "^1.2.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0",
