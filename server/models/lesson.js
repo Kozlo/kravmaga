@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
  */
 const properties = {
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     group: {

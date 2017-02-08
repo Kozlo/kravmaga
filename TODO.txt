@@ -1,7 +1,7 @@
-(DONE)- add lessons to the profile
- (DONE)- list of lessons for my user
- (DONE)- ability to select if going
-(DONE)- make it possible to add/remove attendees to lessons
+(DONE)- switch to using type Date, not string in the DB to be able to sort by date
+- implement filters
+- implement config (e.g. to limit how many results should be shown
+- implement sorters
 - restyle the profile page
 - add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load

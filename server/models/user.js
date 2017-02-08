@@ -38,8 +38,8 @@ const properties = {
     picture: { type: String, trim: true },
     phone: { type: String, trim: true },
     gender: { type: String, enum: ['', 'male', 'female'] },
-    birthdate: String,
-    member_since: String,
+    birthdate: Date,
+    member_since: Date,
     admin_fields: {
         role: { type: String, required: true, enum: ['admin', 'user'], default: 'user' },
         is_blocked: { type: Boolean, required: true, default: false }
