@@ -1,4 +1,3 @@
-
 (DONE)- add lessons to the profile
  (DONE)- list of lessons for my user
  (DONE)- ability to select if going
