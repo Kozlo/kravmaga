@@ -32,6 +32,23 @@ export const generalConfig = {
 };
 
 /**
+ * Maximum input length configuration.
+ *
+ * @property {number} regularField Regular field (text, numeric etc.) length
+ * @property {number} email Email
+ * @property {number} password Password
+ * @property {number} phone Phone number
+ * @property {number} textArea Text area (e.g. lesson comment)
+ */
+export const maxInputLength = {
+    regularField: 25,
+    email: 30,
+    password: 30,
+    phone: 20,
+    textArea: 100
+};
+
+/**
  * User field names.
  *
  * @property {String[]} general General fields that users can update for themselves.

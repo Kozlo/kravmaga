@@ -1,4 +1,7 @@
 (DONE)- switch to using type Date, not string in the DB to be able to sort by date
+- merge name/surname fields for users
+- add gender field to user list
+- implement some 'max length' for user list fields (in case of a very long entry)
 - implement filters
 - implement config (e.g. to limit how many results should be shown
 - implement sorters
