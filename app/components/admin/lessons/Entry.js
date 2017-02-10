@@ -16,10 +16,10 @@ class LessonEntry extends React.Component {
         LessonActions.setIsUpdating(true);
     }
 
-    delete(entry, attendeeCount) {
-        const { _id, date } = entry;
-        // TODO: parse the date to something more readable
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst nodarbību ${date} datumā ar ${attendeeCount} pieteikušiem lietotājiem?`;
+    delete(entry) {
+        const { _id, date, attendees } = entry;
+        const formattedDate = formatDateString(date, true);
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst nodarbību ${formattedDate} datumā ar ${attendees.length} pieteikušiem lietotājiem?`;
 
         if (!confirm(confirmText)) {
             return;

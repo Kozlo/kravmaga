@@ -1,6 +1,6 @@
 (DONE)- switch to using type Date, not string in the DB to be able to sort by date
-- don't allow the user to change the date from which he is a member (aka move member_from to 'admin_fields'
-- when a group is created,
+(DONE)- don't allow the user to change the date from which he is a member (aka move member_from to 'admin_fields')
+(DONE)- when a group is created, the list should be updated when creating a lesson
 - for lessons, also add 'end date/time'
   - as an extra feature ask if I should add it so that if an end date isn't specified and starting date is, ending date should be starting + 2 hours?
 - password change changes
@@ -13,14 +13,21 @@
   - for number (and maybe other fields like name/surname) add valid symbols, like numeric and '+' for number, and alphabetic chars for name/surname
   - implement the same rules in the back-end
 - implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
+  - maybe I just need to set the max width for a cell
   - the full entry could be seen when editing a user
 - make it possible to add groups to users (not only vice versa)
+- make it possible to add/remove attendees from lessons directly
+  - make sure the data ir reflected everywhere
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - implement filters
 - implement config (e.g. to limit how many results should be shown
 - implement sorters
 - restyle the profile page
 - switch to webpack and add hot module re-load
+- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
+  - remove user from groups when he's deleted
+  - remove attending lesson when a use is removed from a group
+  - remove lessons when a group is deleted
 
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - add filters and limits to user (and other lists)
@@ -32,9 +39,9 @@
 Bugs:
 (DONE)- Object.assign doesn't work on IE (should replce with jQuery)
 - cannot create groups with a name that has the same starting letter as others
-- when a group is added and I try to create a lesson, the list isn't udpated
-- Object.assing doesn't work on IE
+(DONE)- Object.assing doesn't work on IE
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
+  - maybe I can leave this
 
 -----------------------------------------------
 Later

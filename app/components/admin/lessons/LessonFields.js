@@ -9,8 +9,9 @@ import {
 import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
+import GroupActions from '../../../actions/GroupActions';
 
-import { initDateTimePicker } from '../../../utils/utils';
+import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 class LessonFields extends React.Component {
     static getStores() {
@@ -21,11 +22,18 @@ class LessonFields extends React.Component {
         return LessonStore.getState();
     }
 
+    /**
+     * Initiates the datetime picker and gets the latest group list (in case it's been updated).
+     */
     componentDidMount() {
         const { token } = AuthStore.getState();
-        const { date } = this.props.updatable;
+        const { updatable } = this.props;
+        const { date } = updatable;
+        const dateChangeHandler = handleDateChange.bind(this, 'date', LessonActions, updatable);
 
-        initDateTimePicker('#date', this._handleDateChange.bind(this, 'date'), date, true);
+        initDateTimePicker('#date', dateChangeHandler, date);
+
+        GroupActions.getList(token, LessonActions.groupsReceived);
     }
 
     handleChange(prop, event) {
