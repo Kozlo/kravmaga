@@ -1,12 +1,25 @@
 (DONE)- switch to using type Date, not string in the DB to be able to sort by date
+- don't allow the user to change the date from which he is a member (aka move member_from to 'admin_fields'
+- when a group is created,
+- for lessons, also add 'end date/time'
+  - as an extra feature ask if I should add it so that if an end date isn't specified and starting date is, ending date should be starting + 2 hours?
+- password change changes
+  - ask to enter the password twice
+  - for existing users ask to enter the current password as well
 - merge name/surname fields for users
 - add gender field to user list
-- implement some 'max length' for user list fields (in case of a very long entry)
+- add proper validation to form fields (use react validate module)
+  - implement react valildation package
+  - for number (and maybe other fields like name/surname) add valid symbols, like numeric and '+' for number, and alphabetic chars for name/surname
+  - implement the same rules in the back-end
+- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
+  - the full entry could be seen when editing a user
+- make it possible to add groups to users (not only vice versa)
+- improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - implement filters
 - implement config (e.g. to limit how many results should be shown
 - implement sorters
 - restyle the profile page
-- add proper validation to form fields (use react validate module)
 - switch to webpack and add hot module re-load
 
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
