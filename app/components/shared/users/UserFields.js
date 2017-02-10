@@ -9,7 +9,7 @@ import {
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
 import { assets } from '../../../utils/config';
-import { initDateTimePicker } from '../../../utils/utils';
+import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 class UserFields extends React.Component {
     static getStores() {
@@ -21,30 +21,17 @@ class UserFields extends React.Component {
     }
 
     componentDidMount() {
-        const { member_since, birthdate } = this.props.updatable;
+        const { updatable } = this.props;
+        const { birthdate } = updatable;
+        const dateChangeHandler = handleDateChange.bind(this, 'birthdate', UserActions, updatable);
 
-        initDateTimePicker('#memberSince', this._handleDateChange.bind(this, 'member_since'), member_since);
-        initDateTimePicker('#birthdate', this._handleDateChange.bind(this, 'birthdate'), birthdate);
+        initDateTimePicker('#birthdate', dateChangeHandler, birthdate);
     }
 
     handleChange(prop, event) {
         const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
-
-        UserActions.setUpdatable(updatable);
-    }
-
-    _handleDateChange(prop, date) {
-        date = date && date !== 'false' ? date : '';
-
-        this._updateData(prop, date);
-    }
-
-    _updateData(prop, value) {
-        const { updatable } = this.props;
-
-        updatable[prop] = value;
 
         UserActions.setUpdatable(updatable);
     }
@@ -150,21 +137,6 @@ class UserFields extends React.Component {
                                 </InputGroup.Addon>
                             </InputGroup>
                             <HelpBlock>Lietotāja dzimšanas datusm.</HelpBlock>
-                        </FormGroup>
-                    </Col>
-                    <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Kluba biedrs kopš</ControlLabel>
-                            <InputGroup id='memberSince'>
-                                <FormControl
-                                    type="text"
-                                    placeholder="Datums"
-                                />
-                                <InputGroup.Addon>
-                                    <Glyphicon glyph="calendar" />
-                                </InputGroup.Addon>
-                            </InputGroup>
-                            <HelpBlock>Datums no kura lietotājs ir kluba biedrs.</HelpBlock>
                         </FormGroup>
                     </Col>
                 </Row>

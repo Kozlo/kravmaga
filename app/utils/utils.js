@@ -103,6 +103,24 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
 };
 
 /**
+ * Date field value change handler.
+ *
+ * Uses the passed entry actions to set the updatable.
+ *
+ * @param {string} prop Property name to udpate
+ * @param {Object} entryActions Entry store actions
+ * @param {Object} updatable Updatable entry
+ * @param {Date} date New date value
+ */
+export const handleDateChange = (prop, entryActions, updatable, date) => {
+    date = date && date !== 'false' ? date : '';
+
+    updatable[prop] = date;
+
+    entryActions.setUpdatable(updatable);
+};
+
+/**
  * Replaces admin fields property with prefixed admin fields on the parent object.
  *
  * Creates a new object and deletes the admin_fields object as it's not needed anymore.

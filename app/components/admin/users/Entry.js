@@ -39,13 +39,13 @@ class UserEntry extends React.Component {
         const {
             given_name, family_name,
             email, phone,
-            birthdate, member_since,
-            picture, admin_fields
+            birthdate, picture,
+            admin_fields
         } = user;
+        const birthdateValue = formatDateString(birthdate);
         const roleValue = getRoleValue(admin_fields.role);
         const status = getStatusValue(admin_fields.is_blocked);
-        const birthdateValue = formatDateString(birthdate);
-        const memberSinceValue = formatDateString(member_since);
+        const memberSinceValue = formatDateString(admin_fields.member_since);
         const btnColStyle = { minWidth: '19em' };
         const imageStyle = {
             maxWidth: '2.5em',

@@ -15,10 +15,10 @@ const { isEmailValid } = require('../helpers');
  * @property {String} [phone] User's phone number
  * @property {String} [gender] User's gender
  * @property {String} [birthdate] User's date of birth
- * @property {String} [member_since] Date when the user became a member
  * @property {Object} admin_fields Fields only an admin user can modify
  * @property {String} admin_fields.role User's role
  * @property {Boolean} admin_fields.is_blocked Flag showing if the user has been blocked or not
+ * @property {String} [admin_fields.member_since] Date when the user became a member
  */
 const properties = {
     email: {
@@ -39,10 +39,10 @@ const properties = {
     phone: { type: String, trim: true },
     gender: { type: String, enum: ['', 'male', 'female'] },
     birthdate: Date,
-    member_since: Date,
     admin_fields: {
         role: { type: String, required: true, enum: ['admin', 'user'], default: 'user' },
-        is_blocked: { type: Boolean, required: true, default: false }
+        is_blocked: { type: Boolean, required: true, default: false },
+        member_since: Date
     }
 };
 

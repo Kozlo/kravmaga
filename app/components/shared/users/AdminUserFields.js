@@ -2,11 +2,14 @@ import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
     Row, Col, FormGroup,
-    FormControl, ControlLabel, HelpBlock
+    InputGroup, FormControl,
+    ControlLabel, HelpBlock,
+    Glyphicon
 } from 'react-bootstrap';
 
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
+import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 class UserFields extends React.Component {
     static getStores() {
@@ -15,6 +18,14 @@ class UserFields extends React.Component {
 
     static getPropsFromStores() {
         return UserStore.getState();
+    }
+
+    componentDidMount() {
+        const { updatable } = this.props;
+        const { member_since } = updatable;
+        const dateChangeHandler = handleDateChange.bind(this, 'birthdate', UserActions, updatable);
+
+        initDateTimePicker('#memberSince', dateChangeHandler, member_since);
     }
 
     handleChange(prop, event) {
@@ -57,6 +68,21 @@ class UserFields extends React.Component {
                         </select>
                         <FormControl.Feedback />
                         <HelpBlock>Vai lietotājs ir admins?</HelpBlock>
+                    </FormGroup>
+                </Col>
+                <Col xs={12}>
+                    <FormGroup>
+                        <ControlLabel>Kluba biedrs kopš</ControlLabel>
+                        <InputGroup id='memberSince'>
+                            <FormControl
+                                type="text"
+                                placeholder="Datums"
+                            />
+                            <InputGroup.Addon>
+                                <Glyphicon glyph="calendar" />
+                            </InputGroup.Addon>
+                        </InputGroup>
+                        <HelpBlock>Datums no kura lietotājs ir kluba biedrs.</HelpBlock>
                     </FormGroup>
                 </Col>
             </Row>

@@ -77,13 +77,11 @@ class ProfileData extends React.Component {
         const {
             given_name, family_name,
             email, phone,
-            gender,
-            birthdate, member_since
+            gender, birthdate
         } = entry;
         const imgSrc = entry.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const birthdateValue = formatDateString(birthdate);
-        const memberSinceValue = formatDateString(member_since);
         const imageStyle = {
             float: 'left',
             margin: '0 15px 15px 0',
@@ -129,12 +127,6 @@ class ProfileData extends React.Component {
                             <dl>
                                 <dt>Dzimšanas datums</dt>
                                 <dd>{birthdateValue}</dd>
-                            </dl>
-                        </Col>
-                        <Col xs={6}>
-                            <dl>
-                                <dt>Kluba biedrs kopš</dt>
-                                <dd>{memberSinceValue}</dd>
                             </dl>
                         </Col>
                     </Row>
