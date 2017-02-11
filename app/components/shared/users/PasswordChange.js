@@ -27,6 +27,7 @@ class PasswordChange extends React.Component {
 
     submitHandler(event) {
         const password = event.target.password.value;
+        const passwordDoubleCheck = event.target.passwordDoubleCheck.value;
 
         event.preventDefault();
 
@@ -34,7 +35,10 @@ class PasswordChange extends React.Component {
             return toastr.error('Parole nav derīga');
         }
 
-        // TODO: validate password (here for testing, with dependency for testing)
+        if (password !== passwordDoubleCheck) {
+            return toastr.error('Paroles atšķiras!');
+        }
+        
         this._changePassword(password);
     }
 
@@ -77,6 +81,15 @@ class PasswordChange extends React.Component {
                             />
                             <FormControl.Feedback />
                             <HelpBlock>Parolei jāsastāv no vismaz 5 simboliem.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup controlId="passwordDoubleCheck">
+                            <ControlLabel>Jaunā parole vēlreiz</ControlLabel>
+                            <FormControl
+                                type="password"
+                                placeholder="Jaunā parole vēlreiz"
+                            />
                         </FormGroup>
                     </Col>
                 </Row>
