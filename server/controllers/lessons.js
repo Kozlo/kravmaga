@@ -36,6 +36,8 @@ module.exports = {
     /**
      * Retrieves all entries.
      *
+     * By default sorts the entries by starting date.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -43,9 +45,10 @@ module.exports = {
      */
     getAll(req, res, next) {
         const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'updatedAt': -1 };
+        const sorters = req.query.sorters || { 'start': -1 };
 
         Lesson.find(filters)
+            .sort(sorters)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
@@ -77,12 +80,13 @@ module.exports = {
     updateOne(req, res, next) {
         const entryId = req.params.id;
         const entryProps = req.body;
+        const opts = { 'new': true, runValidators: true };
 
         if (typeof entryProps.attendees !== 'undefined' && !entryProps.attendees) {
             entryProps.attendees = [];
         }
 
-        Lesson.findByIdAndUpdate(entryId, entryProps, { 'new': true })
+        Lesson.findByIdAndUpdate(entryId, entryProps, opts)
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);

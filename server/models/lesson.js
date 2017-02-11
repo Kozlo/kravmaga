@@ -1,18 +1,32 @@
 const mongoose = require('mongoose');
+const { isStartDateValid, isEndDateValid } = require('../helpers/modelValidators');
 
 /**
  * Lesson schema properties.
  *
- * @property {String} date Date
+ * @property {String} start Starting date/time
+ * @property {String} end Ending date/time
  * @property {String} group Target group
  * @property {String} location Location
  * @property {String} [attendees] Users that have indicated that they will attend the lesson
  * @property {String} [comment] Comment
  */
 const properties = {
-    date: {
+    start: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: isStartDateValid,
+            message: '{VALUE} is not a valid start date! It must be a date before the end date!'
+        }
+    },
+    end: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: isEndDateValid,
+            message: '{VALUE} is not a valid end date! It must be a date after the start date!'
+        }
     },
     group: {
         type: String,

@@ -38,7 +38,7 @@ class LessonData extends React.Component {
 
     render() {
         const { list } = this.props;
-        const columns = ['#', 'Datums', 'Grupa', 'Lokācija', 'Komentārs'];
+        const columns = ['#', 'Sākums', 'Beigas', 'Grupa', 'Lokācija', 'Komentārs'];
 
         return (
             <Row>

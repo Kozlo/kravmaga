@@ -116,7 +116,9 @@ module.exports = {
             return next(privilegeError);
         }
 
-        User.findByIdAndUpdate(entryId, entryProps, { 'new': true })
+        const opts = { 'new': true, runValidators: true };
+
+        User.findByIdAndUpdate(entryId, entryProps, opts)
             .then(updatedUser => {
                 if (typeof password !== 'undefined') {
                     updatedUser.setPassword(password);

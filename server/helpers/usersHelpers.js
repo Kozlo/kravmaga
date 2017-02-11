@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config');
 const helpers = require('./');
+const validationHelpers = require('./modelValidators');
 
 const { httpStatusCodes } = config;
 
@@ -50,7 +51,7 @@ module.exports = {
      * @returns {boolean|Error} False or an error
      */
     passwordIsNotValid(password, isOptional = false) {
-        if (helpers.isPasswordValid(password)) {
+        if (validationHelpers.isPasswordValid(password)) {
             return false;
         }
 

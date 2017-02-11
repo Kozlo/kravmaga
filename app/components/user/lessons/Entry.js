@@ -40,15 +40,17 @@ class LessonEntry extends React.Component {
 
     render() {
         const { index, entry } = this.props;
-        const { date, group, location, comment } = entry;
-        const formattedDate = formatDateString(date, true);
+        const { start, end, group, location, comment } = entry;
+        const formattedStartDate = formatDateString(start, true);
+        const formattedEndDate = formatDateString(end, true);
         const groupName = this.findGroupName(group);
         const isAttending = this.determineIsAttending(entry);
 
         return (
             <tr>
                 <td>{index + 1}</td>
-                <td>{formattedDate}</td>
+                <td>{formattedStartDate}</td>
+                <td>{formattedEndDate}</td>
                 <td>{groupName}</td>
                 <td>{location}</td>
                 <td>{comment}</td>

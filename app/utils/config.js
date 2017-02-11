@@ -15,7 +15,7 @@
  */
 export const generalConfig = {
     dateOnlyFormat: 'DD-MM-YYYY',
-    dateTimeFormat: 'DD-MM-YYYY H:m',
+    dateTimeFormat: 'DD-MM-YYYY HH:mm',
     defaultUserRole: 'user',
     api: {
         usersUrl: '/users',
@@ -67,7 +67,7 @@ export const groupFieldNames = ['_id', 'name', 'members'];
 /**
  * Lesson field names.
  */
-export const lessonFieldNames = ['_id', 'date', 'group', 'location', 'attendees', 'comment'];
+export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'attendees', 'comment'];
 
 /**
  * Links to assets used within the app.

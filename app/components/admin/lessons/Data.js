@@ -44,12 +44,18 @@ class LessonData extends React.Component {
         event.preventDefault();
 
         // TODO: replace validation with react-validation
-        const mandatoryFields = ['date', 'group', 'location'];
+        const mandatoryFields = ['start', 'end', 'group', 'location'];
 
         for (let i = 0; i < mandatoryFields.length; i++) {
             if (!updatable[mandatoryFields[i]]) {
                 return toastr.error('Lūdzu aizpildiet visus obligātos laukus!');
             }
+        }
+
+        const { start , end} = updatable;
+
+        if (new Date(start) >=  new Date(end)) {
+            return toastr.error('Beigu datumam un laikam jābūt mazāka par sākuma datumu un laiku!');
         }
 
         LessonActions.setIsRequesting(true);
@@ -100,7 +106,7 @@ class LessonData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Datums', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs', 'Darbības'];
+        const columns = ['#', 'Sākums', 'Beigas', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs', 'Darbības'];
 
         return (
             <Row>

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { areMembersValid } = require('../helpers');
+const { areMembersValid } = require('../helpers/modelValidators');
 
 /**
  * User schema properties.

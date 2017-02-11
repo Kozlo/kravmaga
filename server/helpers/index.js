@@ -2,7 +2,6 @@
  * Common helpers.
  */
 
-const { userConfig } = require('../config');
 const config = require('../config');
 
 const { httpStatusCodes } = config;
@@ -33,51 +32,14 @@ module.exports = {
     },
 
     /**
-     * Checks if the passed e-mail is valid.
+     * Converts the argument to a date and checks if the result is a valid date.
      *
      * @public
-     * @param {*} val Value to check.
-     * @returns {boolean} Flag showing is the value is a valid e-mail.
+     * @param {Date} date Date to check
+     * @returns {boolean} Flag showing if the value is a valid date
      */
-    isEmailValid(val) {
-        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(val);
-    },
-
-    /**
-     * Checks if the passed password is valid.
-     *
-     * @public
-     * @param {*} password User's password.
-     * @returns {boolean} Flag showing is the value is a valid password.
-     */
-    isPasswordValid(password) {
-        // TODO: try req.assert('password', 'Password cannot be blank').notEmpty();
-        return typeof password === 'string' && password.length >= userConfig.minPasswordLength;
-    },
-
-    /**
-     * Checks if the group members are valid an unique.
-     *
-     * Loops through the array until an invalid entry is found (if any).
-     *
-     * @param {string[]} members Groups members
-     * @returns {boolean} Flag showing if the members are valid
-     */
-    areMembersValid(members) {
-        const sortedMembers = members.slice().sort();
-
-        for (var i = 0; i < sortedMembers.length - 1; i++) {
-            if (typeof sortedMembers[i] !== 'string' || sortedMembers[i].trim() === '') {
-                return false
-            }
-
-            if (sortedMembers[i + 1] === sortedMembers[i]) {
-                return false;
-            }
-        }
-
-        return true;
+    isValidDate(date) {
+        return date instanceof Date && date.toString() !== 'Invalid Date';
     },
 
     /**

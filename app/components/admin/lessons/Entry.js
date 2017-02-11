@@ -17,9 +17,10 @@ class LessonEntry extends React.Component {
     }
 
     delete(entry) {
-        const { _id, date, attendees } = entry;
-        const formattedDate = formatDateString(date, true);
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst nodarbību ${formattedDate} datumā ar ${attendees.length} pieteikušiem lietotājiem?`;
+        const { _id, start, end, attendees } = entry;
+        const formattedStartDate = formatDateString(start, true);
+        const formattedEndDate = formatDateString(end, true);
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst nodarbību ${formattedStartDate} - ${formattedEndDate} datumos ar ${attendees.length} pieteikušiem lietotājiem?`;
 
         if (!confirm(confirmText)) {
             return;
@@ -39,15 +40,17 @@ class LessonEntry extends React.Component {
 
     render() {
         const { index, entry } = this.props;
-        const { date, group, location, attendees, comment } = entry;
-        const formattedDate = formatDateString(date, true);
+        const { start, end, group, location, attendees, comment } = entry;
+        const formattedStartDate = formatDateString(start, true);
+        const formattedEndDate = formatDateString(end, true);
         const groupName = this.findGroupName(group);
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
-                <td>{formattedDate}</td>
+                <td>{formattedStartDate}</td>
+                <td>{formattedEndDate}</td>
                 <td>{groupName}</td>
                 <td>{location}</td>
                 <td>{attendees.length}</td>

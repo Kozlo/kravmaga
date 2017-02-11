@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const { setPassword, validPassword, generateJwt } = require('../helpers/usersHelpers');
-const { isEmailValid } = require('../helpers');
+const { isEmailValid } = require('../helpers/modelValidators');
 
 /**
  * User schema properties.

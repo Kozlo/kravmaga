@@ -28,10 +28,12 @@ class LessonFields extends React.Component {
     componentDidMount() {
         const { token } = AuthStore.getState();
         const { updatable } = this.props;
-        const { date } = updatable;
-        const dateChangeHandler = handleDateChange.bind(this, 'date', LessonActions, updatable);
+        const { start, end } = updatable;
+        const startChangeHandler = handleDateChange.bind(this, 'start', LessonActions, updatable);
+        const endChangeHandler = handleDateChange.bind(this, 'end', LessonActions, updatable);
 
-        initDateTimePicker('#date', dateChangeHandler, date);
+        initDateTimePicker('#start', startChangeHandler, start, true);
+        initDateTimePicker('#end', endChangeHandler, end, true);
 
         GroupActions.getList(token, LessonActions.groupsReceived);
     }
@@ -113,24 +115,39 @@ class LessonFields extends React.Component {
 
     render() {
         const { updatable, groups } = this.props;
-        const { _id, date, group, location, attendees, comment } = updatable;
+        const { /*_id,*/ group, location,/* attendees,*/ comment } = updatable;
 
         return (
             <div>
                 <Row>
                     <Col xs={12}>
                         <FormGroup>
-                            <ControlLabel>Datums</ControlLabel>
-                            <InputGroup id='date'>
+                            <ControlLabel>Sākums</ControlLabel>
+                            <InputGroup id='start'>
                                 <FormControl
                                     type="text"
-                                    placeholder="Datums un laiks"
+                                    placeholder="Nodarbības sākuma datums un laiks"
                                 />
                                 <InputGroup.Addon>
                                     <Glyphicon glyph="calendar" />
                                 </InputGroup.Addon>
                             </InputGroup>
-                            <HelpBlock>Nodarbības datums un laiks.</HelpBlock>
+                            <HelpBlock>Nodarbības sākuma datums un laiks.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Beigas</ControlLabel>
+                            <InputGroup id='end'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Nodarbības beigu datums un laiks"
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="calendar" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                            <HelpBlock>Nodarbības beigu datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
                     {/*TODO: reques the group name in a separate request*/}
@@ -186,7 +203,7 @@ class LessonFields extends React.Component {
                     </Col>*/}
                     <Col xs={12}>
                         <FormGroup controlId="comment">
-                            <ControlLabel>Comments (optional)</ControlLabel>
+                            <ControlLabel>Komentāri (ne-obligāti)</ControlLabel>
                             <FormControl
                                 componentClass="textarea"
                                 placeholder="Comments"

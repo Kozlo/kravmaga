@@ -76,12 +76,13 @@ module.exports = {
     updateOne(req, res, next) {
         const entryId = req.params.id;
         const entryProps = req.body;
+        const opts = { 'new': true, runValidators: true };
 
         if (typeof entryProps.members !== 'undefined' && !entryProps.members) {
             entryProps.members = []
         }
 
-        Group.findByIdAndUpdate(entryId, entryProps, { 'new': true })
+        Group.findByIdAndUpdate(entryId, entryProps, opts)
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
