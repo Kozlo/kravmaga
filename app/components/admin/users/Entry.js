@@ -7,7 +7,10 @@ import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
 
 // utility methods
-import { getRoleValue, getStatusValue, formatDateString } from '../../../utils/utils';
+import {
+    getRoleValue, getStatusValue,
+    formatDateString, getGenderValue
+} from '../../../utils/utils';
 
 class UserEntry extends React.Component {
     initUpdate(user) {
@@ -38,11 +41,12 @@ class UserEntry extends React.Component {
         const { user, index } = this.props;
         const {
             given_name, family_name,
-            email, phone,
-            birthdate, picture,
+            email, phone, birthdate,
+            picture, gender,
             admin_fields
         } = user;
         const birthdateValue = formatDateString(birthdate);
+        const genderValue = getGenderValue(gender);
         const roleValue = getRoleValue(admin_fields.role);
         const status = getStatusValue(admin_fields.is_blocked);
         const memberSinceValue = formatDateString(admin_fields.member_since);
@@ -61,6 +65,7 @@ class UserEntry extends React.Component {
                 <td>{email}</td>
                 <td>{phone}</td>
                 <td>{birthdateValue}</td>
+                <td>{genderValue}</td>
                 <td>{memberSinceValue}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>

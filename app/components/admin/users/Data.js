@@ -99,7 +99,7 @@ class UserData extends React.Component {
     render() {
         const { list, isUpdating, isCreating, updatable } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimšanas datums', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
+        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimšanas datums', 'Dzimums', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
 
         return (
             <Row>

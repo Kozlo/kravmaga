@@ -5,7 +5,7 @@
 - password change changes
   - ask to enter the password twice
   - for existing users ask to enter the current password as well
-- add gender field to user list
+(DONE)- add gender field to user list
 - add proper validation to form fields (use react validate module)
   - implement react valildation package
   - for number (and maybe other fields like name/surname) add valid symbols, like numeric and '+' for number, and alphabetic chars for name/surname
