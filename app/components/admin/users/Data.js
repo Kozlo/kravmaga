@@ -127,7 +127,7 @@ class UserData extends React.Component {
                     <UserFields />
                     <AdminUserFields />
                 </ManageUser>
-                <PasswordChange />
+                <PasswordChange checkPass={false} />
             </Row>
         );
     }

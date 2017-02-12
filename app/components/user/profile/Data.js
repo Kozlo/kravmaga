@@ -151,7 +151,7 @@ class ProfileData extends React.Component {
                     closeHandler={this.closeHandler.bind(this)}>
                     <UserFields />
                 </ManageUser>
-                <PasswordChange />
+                <PasswordChange checkPass={true} />
             </Row>
         );
     }
