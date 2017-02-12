@@ -20,20 +20,12 @@ class EntryStore {
     }
 
     onUpdated(updatedEntry) {
-        this.list.some((entry, index) => {
-            if (entry._id === updatedEntry._id) {
-                this.list.splice(index, 1);
-                this.list.unshift(updatedEntry);
-
-                return true;
-            }
-        });
-
-        if (this.entry._id === updatedEntry._id) {
-            this.entry = updatedEntry;
-        }
-
+        this._onUpdated(updatedEntry);
         toastr.success('Info veiksmīgi atjaunināta');
+    }
+
+    onSilentUpdated(updatedEntry) {
+        this._onUpdated(updatedEntry);
     }
 
     onDeleted(deletedEntry) {
@@ -70,6 +62,21 @@ class EntryStore {
 
     onUpdateConflict() {
         toastr.error('Resurss jau eksistē');
+    }
+
+    _onUpdated(updatedEntry) {
+        this.list.some((entry, index) => {
+            if (entry._id === updatedEntry._id) {
+                this.list.splice(index, 1);
+                this.list.unshift(updatedEntry);
+
+                return true;
+            }
+        });
+
+        if (this.entry._id === updatedEntry._id) {
+            this.entry = updatedEntry;
+        }
     }
 }
 

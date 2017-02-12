@@ -41,9 +41,9 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        const filter = req.param.filter || {};
+        const filters = req.query.filters || {};
 
-        Group.find(filter)
+        Group.find(filters)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
@@ -98,6 +98,8 @@ module.exports = {
     /**
      * Adds a member to the specified group.
      *
+     * Checks if the user already is a member before adding.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -109,7 +111,9 @@ module.exports = {
 
         Group.findById(entryId)
             .then(entry => {
-                entry.members.push(memberId);
+                if (entry.members.indexOf(memberId) < 0) {
+                    entry.members.push(memberId);
+                }
 
                 return entry.save();
             })
@@ -131,10 +135,10 @@ module.exports = {
 
         Group.findById(entryId)
             .then(entry => {
-                const memberIndex = entry.attendees.indexOf(memberId);
+                const memberIndex = entry.members.indexOf(memberId);
 
                 if (memberIndex > -1) {
-                    entry.attendees.splice(memberIndex, 1);
+                    entry.members.splice(memberIndex, 1);
                 }
 
                 return entry.save();

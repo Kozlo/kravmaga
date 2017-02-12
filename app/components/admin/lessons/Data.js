@@ -27,7 +27,7 @@ class LessonData extends React.Component {
         const { token } = AuthStore.getState();
 
         LessonActions.getList(token);
-        GroupActions.getList(token, LessonActions.groupsReceived);
+        GroupActions.getList(token, {}, LessonActions.groupsReceived);
     }
 
     closeHandler(isUpdating) {

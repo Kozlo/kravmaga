@@ -53,7 +53,7 @@ class GroupActions extends EntryActions {
      * @returns {Promise} Request promise
      */
     _updateMembership(token, groupId, memberId, action) {
-        const statusCode = $.extend({ 200: updatedEntry => this.updated(updatedEntry)}, httpStatusCode);
+        const statusCode = $.extend({ 200: updatedEntry => this.silentUpdated(updatedEntry)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}/${groupId}/${action}/${memberId}`,

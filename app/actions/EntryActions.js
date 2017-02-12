@@ -10,6 +10,7 @@ class EntryActions {
             'received',
             'created',
             'updated',
+            'silentUpdated',
             'deleted',
             'updateConflict',
             'listReceived',
@@ -49,12 +50,13 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
-    getList(token, successHandler = this.listReceived) {
+    getList(token, filters = {}, successHandler = this.listReceived) {
         const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: this.url,
             method: 'GET',
+            data: { filters }
         };
 
         return this._sendRequest(requestProps, token);

@@ -23,9 +23,11 @@ class UserData extends React.Component {
 
     componentDidMount() {
         const { token } = AuthStore.getState();
+        const { isUpdating, updatable } = this.props;
+        const filters = isUpdating ? { members: updatable._id } : {};
 
-        GroupActions.getList(token, UserActions.groupListReceived);
-        GroupActions.getUserGroups(token, UserActions.userGroupsReceived);
+        GroupActions.getList(token, {}, UserActions.groupListReceived);
+        GroupActions.getList(token, filters, UserActions.userGroupsReceived);
     }
 
     addUserGroupId(groupList, userGroupIds, event) {
@@ -75,7 +77,7 @@ class UserData extends React.Component {
             <Button
                 key={`Group${index}`}
                 bsSize="small"
-                onClick={this.removeUserGroupId.bind(userGroupId)}>
+                onClick={this.removeUserGroupId.bind(this, userGroupId)}>
                 {groupName} <Glyphicon glyph="remove" />
             </Button>
         );

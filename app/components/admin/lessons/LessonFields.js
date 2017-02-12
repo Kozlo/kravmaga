@@ -36,7 +36,7 @@ class LessonFields extends React.Component {
         initDateTimePicker('#start', startChangeHandler, start, true);
         initDateTimePicker('#end', endChangeHandler, end, true);
 
-        GroupActions.getList(token, LessonActions.groupsReceived);
+        GroupActions.getList(token, {}, LessonActions.groupsReceived);
     }
 
     handleChange(prop, event) {

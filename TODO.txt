@@ -6,19 +6,16 @@
 (DONE)- add gender field to user list
 (DONE)- add proper validation to form fields (use react validate module)
 (DONE)- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
-- make it possible to add groups to users (not only vice versa)
-  - make it possible to add/remove groups to users when updating or creating them
-    - add column in user list with groups
-    - update group member count when a user has been updated/created
-    - update user list with groups when updating group member list
-      - perhaps just make a new request for now
-- make it possible to add/remove attendees from lessons directly
-  - make sure the data ir reflected everywhere
-- improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
+(DONE)- make it possible to add groups to users (not only vice versa)
+- increase the max size of the page (so that everything fits)
 - implement filters
 - implement config (e.g. to limit how many results should be shown
 - implement sorters
 - restyle the profile page
+- improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
+- make it possible to add/remove attendees from lessons directly
+  - make sure the data ir reflected everywhere
+- add user groups to table (if needed)
 - switch to webpack and add hot module re-load
 - when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
   - remove user from groups when he's deleted
