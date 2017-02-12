@@ -37,28 +37,29 @@ class PasswordChange extends React.Component {
      * @returns {*}
      */
     submitHandler(checkPass, email, event) {
-        const form = event.target;
-        const currentPassword = form.currentPassword.value;
-
         event.preventDefault();
 
-        if (checkPass){
-            if (!currentPassword) {
-                return toastr.error('Lūdzu ievadiet esošo paroli.');
-            }
+        const form = event.target;
 
-            if (currentPassword === form.password.value) {
-                return toastr.error('Vecajai un jaunajai parole jāatšķiras!')
-            }
-
-            AuthActions.checkPassword(
-                email, currentPassword,
-                () => this._checkEnteredPassword(form),
-                () => this._passwordCheckFailed()
-            );
-        } else {
-            this._checkEnteredPassword(form);
+        if (!checkPass) {
+            return this._checkEnteredPassword(form);
         }
+
+        const currentPassword = form.currentPassword.value;
+
+        if (!currentPassword) {
+            return toastr.error('Lūdzu ievadiet esošo paroli.');
+        }
+
+        if (currentPassword === form.password.value) {
+            return toastr.error('Vecajai un jaunajai parole jāatšķiras!')
+        }
+
+        AuthActions.checkPassword(
+            email, currentPassword,
+            () => this._checkEnteredPassword(form),
+            () => this._passwordCheckFailed()
+        );
     }
 
     /**
