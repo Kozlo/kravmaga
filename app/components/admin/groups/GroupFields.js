@@ -43,6 +43,10 @@ class GroupFields extends React.Component {
     addMember(updatable, event) {
         const userId = event.target.value;
 
+        if (!userId) {
+            return;
+        }
+
         if (updatable.members.indexOf(userId) > -1) {
             return toastr.error('Lietotājs jau grupai ir pievienots');
         }
