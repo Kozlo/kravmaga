@@ -50,9 +50,9 @@ class ProfileData extends React.Component {
     }
 
     submitHandler(event) {
-        const { updatable } = this.props;
-
         event.preventDefault();
+
+        const { updatable } = this.props;
 
         // TODO: replace validation with react-validation
         if (!isEmailValid(updatable.email)) {

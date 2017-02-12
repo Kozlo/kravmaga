@@ -38,9 +38,9 @@ class GroupData extends React.Component {
     }
 
     submitHandler(isUpdating, updatable, event) {
-        const { token } = AuthStore.getState();
-
         event.preventDefault();
+
+        const { token } = AuthStore.getState();
 
         // TODO: replace validation with react-validation
         if (!updatable.name) {

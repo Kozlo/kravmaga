@@ -9,9 +9,9 @@ import AuthActions from '../../actions/AuthActions';
 
 class LoginForm extends React.Component {
     handleSubmit(event) {
-        const { email, password } = event.target;
-
         event.preventDefault();
+
+        const { email, password } = event.target;
 
         AuthActions.login(email.value, password.value);
     }

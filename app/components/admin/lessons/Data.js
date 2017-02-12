@@ -39,9 +39,9 @@ class LessonData extends React.Component {
     }
 
     submitHandler(isUpdating, updatable, event) {
-        const { token } = AuthStore.getState();
-
         event.preventDefault();
+
+        const { token } = AuthStore.getState();
 
         // TODO: replace validation with react-validation
         const mandatoryFields = ['start', 'end', 'group', 'location'];
