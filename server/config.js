@@ -6,6 +6,15 @@ const userConfig = {
     minPasswordLength: 5
 };
 
+const maxFieldLength = {
+    regularField: 25,
+    email: 30,
+    password: 30,
+    phone: 20,
+    textArea: 100,
+    url: 300
+};
+
 const httpStatusCodes = {
     ok: 200,
     created: 201,
@@ -30,4 +39,4 @@ const errorStatusCodes = {
     'ValidationError': httpStatusCodes.badRequest
 };
 
-module.exports = { httpStatusCodes, errorStatusCodes, userConfig };
+module.exports = { httpStatusCodes, errorStatusCodes, maxFieldLength, userConfig };

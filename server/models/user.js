@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
 const { setPassword, validPassword, generateJwt } = require('../helpers/usersHelpers');
-const { isEmailValid } = require('../helpers/modelValidators');
+const {
+    isEmailValid,
+    isTextFieldValid,
+    isUrlFieldValid,
+    isPhoneFieldValid
+} = require('../helpers/modelValidators');
 
 /**
  * User schema properties.
@@ -33,10 +38,38 @@ const properties = {
     },
     hash: { type: String, required: true },
     salt: { type: String, required: true },
-    given_name: { type: String, trim: true },
-    family_name: { type: String, trim: true },
-    picture: { type: String, trim: true },
-    phone: { type: String, trim: true },
+    given_name: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: isTextFieldValid,
+            message: '{VALUE} is not a valid first name'
+        }
+    },
+    family_name: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: isTextFieldValid,
+            message: '{VALUE} is not a valid last name'
+        }
+    },
+    picture: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: isUrlFieldValid,
+            message: '{VALUE} is not a valid url'
+        }
+    },
+    phone: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: isPhoneFieldValid,
+            message: '{VALUE} is not a valid phone number'
+        }
+    },
     gender: { type: String, enum: ['', 'male', 'female'] },
     birthdate: Date,
     admin_fields: {

@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
-const { isStartDateValid, isEndDateValid } = require('../helpers/modelValidators');
+
+const {
+    isStartDateValid,
+    isEndDateValid,
+    isTextFieldValid,
+    isObjectIdArrayValid,
+    isTextAreaValid,
+} = require('../helpers/modelValidators');
 
 /**
  * Lesson schema properties.
@@ -30,17 +37,35 @@ const properties = {
     },
     group: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: isTextFieldValid,
+            message: '{VALUE} is not a valid last name'
+        }
     },
     location: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: isTextFieldValid,
+            message: '{VALUE} is not a valid location'
+        }
     },
     attendees: {
         type: [String],
-        default: []
+        default: [],
+        validate: {
+            validator: isObjectIdArrayValid,
+            message: '{VALUE} is not a valid array of objectIds!'
+        }
     },
-    comment: String
+    comment: {
+        type: String,
+        validate: {
+            validator: isTextAreaValid,
+            message: '{VALUE} is not a valid text area!'
+        }
+    }
 };
 
 /**

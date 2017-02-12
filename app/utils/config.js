@@ -45,7 +45,8 @@ export const maxInputLength = {
     email: 30,
     password: 30,
     phone: 20,
-    textArea: 100
+    textArea: 100,
+    url: 300
 };
 
 /**

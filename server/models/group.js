@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { areMembersValid } = require('../helpers/modelValidators');
+const { areMembersValid, isTextFieldValid } = require('../helpers/modelValidators');
 
 /**
  * User schema properties.
@@ -11,7 +11,11 @@ const properties = {
         type: String,
         unique: true,
         required: true,
-        trim: true
+        trim: true,
+        validate: {
+            validator: isTextFieldValid,
+            message: '{VALUE} is not a valid group name'
+        }
     },
     members: {
         type: [String],

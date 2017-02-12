@@ -2,8 +2,8 @@
  * Common helpers.
  */
 
-const { userConfig } = require('../config');
-const config = require('../config');
+const mongoose = require('mongoose');
+const { userConfig, maxFieldLength } = require('../config');
 const helpers = require('./');
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
      */
     isEmailValid(val) {
         let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(val);
+        return re.test(val) && val.length <= maxFieldLength.email;
     },
 
     /**
@@ -28,7 +28,7 @@ module.exports = {
      * @returns {boolean} Flag showing is the value is a valid password.
      */
     isPasswordValid(password) {
-        return typeof password === 'string' && password.length >= userConfig.minPasswordLength;
+        return typeof password === 'string' && password.length >= userConfig.minPasswordLength && password.length <= maxFieldLength.password;
     },
 
     /**
@@ -81,7 +81,7 @@ module.exports = {
         const sortedMembers = members.slice().sort();
 
         for (var i = 0; i < sortedMembers.length - 1; i++) {
-            if (typeof sortedMembers[i] !== 'string' || sortedMembers[i].trim() === '') {
+            if (typeof sortedMembers[i] !== 'string' || !mongoose.Types.ObjectId.isValid(sortedMembers[i])) {
                 return false
             }
 
@@ -91,5 +91,83 @@ module.exports = {
         }
 
         return true;
+    },
+
+    /**
+     * Checks if the text field is valid.
+     *
+     * @public
+     * @param {string} field
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isTextFieldValid(field) {
+        return typeof field === 'string' && field.length <= maxFieldLength.regularField;
+    },
+
+    /**
+     * Checks if the text area is valid.
+     *
+     * @public
+     * @param {string} field
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isTextAreaValid(field) {
+        return typeof field === 'string' && field.length <= maxFieldLength.textArea;
+    },
+
+    /**
+     * Checks if the URL length valid.
+     *
+     * @public
+     * @param {string} field
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isUrlFieldValid(field) {
+        return typeof field === 'string' && field.length <= maxFieldLength.url;
+    },
+
+    /**
+     * Checks if the phone is valid.
+     *
+     * @public
+     * @param {string} field
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isPhoneFieldValid(field) {
+        return typeof field === 'string' && field.length <= maxFieldLength.phone;
+    },
+
+    /**
+     * Checks if values is a valid array of objectIds.
+     *
+     * @public
+     * @param {string} values
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isObjectIdArrayValid(values) {
+        if (!Array.isArray(values)) {
+            return false;
+        }
+
+        for (let i = 0; i < values.length; i++) {
+            const objectId = values[i];
+
+            if (!objectId || !mongoose.Types.ObjectId.isValid(objectId)) {
+                return false
+            }
+        }
+
+        return true;
+    },
+
+    /**
+     * Checks if values is a valid mongoose objectId.
+     *
+     * @public
+     * @param {string} objectId
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isObjectIdValid(objectId) {
+        return objectId && mongoose.Types.ObjectId.isValid(objectId);
     }
 };
