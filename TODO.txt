@@ -2,17 +2,10 @@
 (DONE)- don't allow the user to change the date from which he is a member (aka move member_from to 'admin_fields')
 (DONE)- when a group is created, the list should be updated when creating a lesson
 (DONE)- for lessons, also add 'end date/time'
-- password change changes
-  - ask to enter the password twice
-  - for existing users ask to enter the current password as well
+(DONE)- password change changes
 (DONE)- add gender field to user list
-- add proper validation to form fields (use react validate module)
-  - implement react valildation package
-  - for number (and maybe other fields like name/surname) add valid symbols, like numeric and '+' for number, and alphabetic chars for name/surname
-  - implement the same rules in the back-end
-- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
-  - maybe I just need to set the max width for a cell
-  - the full entry could be seen when editing a user
+(DONE)- add proper validation to form fields (use react validate module)
+(DONE)- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
 - make it possible to add groups to users (not only vice versa)
 - make it possible to add/remove attendees from lessons directly
   - make sure the data ir reflected everywhere

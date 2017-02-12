@@ -10,6 +10,8 @@ import UserStore from '../../../stores/UserStore';
 import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
 
+import { maxInputLength } from '../../../utils/config';
+
 class GroupFields extends React.Component {
     static getStores() {
         return [UserStore, GroupStore];
@@ -108,6 +110,7 @@ class GroupFields extends React.Component {
                             <FormControl
                                 type="text"
                                 placeholder="Nosaukums"
+                                maxLength={maxInputLength.regularField}
                                 value={name}
                                 onChange={this.handleChange.bind(this, 'name')}
                             />

@@ -11,6 +11,7 @@ import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
 
+import { maxInputLength } from '../../../utils/config';
 import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 class LessonFields extends React.Component {
@@ -172,6 +173,7 @@ class LessonFields extends React.Component {
                             <FormControl
                                 type="text"
                                 placeholder="Lokācija"
+                                maxLength={maxInputLength.regularField}
                                 value={location}
                                 onChange={this.handleChange.bind(this, 'location')}
                             />
@@ -206,7 +208,8 @@ class LessonFields extends React.Component {
                             <ControlLabel>Komentāri (ne-obligāti)</ControlLabel>
                             <FormControl
                                 componentClass="textarea"
-                                placeholder="Comments"
+                                placeholder="Komentārs"
+                                maxLength={maxInputLength.textArea}
                                 value={comment}
                                 onChange={this.handleChange.bind(this, 'comment')}
                             />

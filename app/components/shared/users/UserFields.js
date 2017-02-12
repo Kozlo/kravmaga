@@ -8,7 +8,7 @@ import {
 
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
-import { assets } from '../../../utils/config';
+import { assets , maxInputLength } from '../../../utils/config';
 import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 class UserFields extends React.Component {
@@ -55,6 +55,7 @@ class UserFields extends React.Component {
                                 type="text"
                                 placeholder="Bilde"
                                 value={picture}
+                                maxLength={maxInputLength.url}
                                 onChange={this.handleChange.bind(this, 'picture')}
                             />
                             <FormControl.Feedback />
@@ -73,6 +74,7 @@ class UserFields extends React.Component {
                                 type="text"
                                 placeholder="Vārds"
                                 value={given_name}
+                                maxLength={maxInputLength.regularField}
                                 onChange={this.handleChange.bind(this, 'given_name')}
                             />
                         </FormGroup>
@@ -84,6 +86,7 @@ class UserFields extends React.Component {
                                 type="text"
                                 placeholder="Uzvārds"
                                 value={family_name}
+                                maxLength={maxInputLength.regularField}
                                 onChange={this.handleChange.bind(this, 'family_name')}
                             />
                         </FormGroup>
@@ -95,6 +98,7 @@ class UserFields extends React.Component {
                                 type="email"
                                 placeholder="E-pasts"
                                 value={email}
+                                maxLength={maxInputLength.email}
                                 onChange={this.handleChange.bind(this, 'email')}
                             />
                         </FormGroup>
@@ -106,6 +110,7 @@ class UserFields extends React.Component {
                                 type="tel"
                                 placeholder="Telefona numurs"
                                 value={phone}
+                                maxLength={maxInputLength.phone}
                                 onChange={this.handleChange.bind(this, 'phone')}
                             />
                         </FormGroup>
