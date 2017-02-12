@@ -7,6 +7,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
+import GroupActions from '../../../actions/GroupActions';
 
 // components
 import UserEntry from './Entry';
@@ -14,6 +15,7 @@ import ManageUser from '../../shared/users/ManageUser';
 import UserFields from '../../shared/users/UserFields';
 import AdminUserFields from '../../shared/users/AdminUserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
+import UserGroups from './UserGroups';
 
 // utils and config
 import { isEmailValid, prefixAdminFields } from '../../../utils/utils';
@@ -42,7 +44,7 @@ class UserData extends React.Component {
         }
     }
 
-    submitHandler(isUpdating, updatable, event) {
+    submitHandler(isUpdating, groupList, userGroupIds, updatable, event) {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
@@ -55,9 +57,9 @@ class UserData extends React.Component {
         UserActions.setIsRequesting(true);
 
         if (isUpdating) {
-            this.update(updatable, token);
+            this.update(updatable, groupList, userGroupIds, token);
         } else {
-            this.create(updatable, token);
+            this.create(updatable, userGroupIds, token);
         }
     }
 
@@ -74,30 +76,107 @@ class UserData extends React.Component {
         UserActions.setIsCreating(true);
     }
 
-    update(updatable, token) {
+    update(updatable, groupList, userGroupIds, token) {
         const props = prefixAdminFields(updatable);
 
         UserActions.update(props, token)
-            .done(() => {
-                UserActions.setIsRequesting(false);
-                UserActions.setIsUpdating(false);
-            })
+            .done(updatedUser => this._onUserUpdated(updatedUser._id, groupList, userGroupIds, token))
             .fail(() => UserActions.setIsRequesting(false));
     }
 
-    create(updatable, token) {
+    create(updatable, userGroupIds, token) {
         const props = prefixAdminFields(updatable);
 
         UserActions.create(props, token)
-            .done(() => {
-                UserActions.setIsCreating(false);
-                UserActions.setIsRequesting(false);
-            })
+            .done(createdUser => this._onUserCreated(createdUser._id, userGroupIds, token))
             .fail(() => UserActions.setIsRequesting(false));
     }
 
+    /**
+     * User updated event handler.
+     *
+     * Updates user store props, adds the user to the specified groups, removes from other groups.
+     *
+     * @private
+     * @param {string} userId Created user ID
+     * @param {Object[]} groupList All group list
+     * @param {string[]} userGroupIds IDs of groups the user should be added to
+     * @param {string} token Auth token
+     */
+    _onUserUpdated(userId, groupList, userGroupIds, token) {
+        const removableUserGroupIds = this._findRemovableUserGroupIds(groupList, userGroupIds);
+
+        UserActions.setIsRequesting(false);
+        UserActions.setIsUpdating(false);
+
+        this._removeUserFromGroups(userId, removableUserGroupIds, token);
+        this._addUserToGroups(userId, userGroupIds, token)
+    }
+
+    /**
+     * User created event handler.
+     *
+     * Updates user store props and adds the user to the specified groups.
+     *
+     * @private
+     * @param {string} userId Created user ID
+     * @param {string[]} userGroupIds IDs of groups the user should be added to
+     * @param {string} token Auth token
+     */
+    _onUserCreated(userId, userGroupIds, token) {
+        UserActions.setIsCreating(false);
+        UserActions.setIsRequesting(false);
+
+        this._addUserToGroups(userId, userGroupIds, token)
+    }
+
+    /**
+     * Removes the specified user from all of the groups in the list.
+     *
+     * @private
+     * @param {string} userId User id
+     * @param {string[]} removableUserGroupIds Group IDs where the user should be added to
+     * @param {string} token Auth token
+     */
+    _removeUserFromGroups(userId, removableUserGroupIds, token) {
+        removableUserGroupIds.forEach(removableUserGroupId => {
+            GroupActions.removeMember(token, removableUserGroupId, userId);
+        });
+    }
+
+    /**
+     * Adds the specified user to all of the groups in the list.
+     *
+     * @private
+     * @param {string} userId User id
+     * @param {string[]} userGroupIds Group IDs where the user should be added to
+     * @param {string} token Auth token
+     */
+    _addUserToGroups(userId, userGroupIds, token) {
+        userGroupIds.forEach(userGroupId => {
+            GroupActions.addMember(token, userGroupId, userId);
+        });
+    }
+
+    /**
+     * Finds group IDs of groups the user should be not added to.
+     *
+     * @private
+     * @param {Object[]} groupList List of all groups
+     * @param {string[]} userGroupIds Group IDs the user should be added to
+     * @returns {string[]} List of group IDs that the user should be removed from
+     */
+    _findRemovableUserGroupIds(groupList, userGroupIds) {
+        return groupList
+            .filter(group => userGroupIds.indexOf(group._id) === -1)
+            .map(group => group._id);
+    }
+
     render() {
-        const { list, isUpdating, isCreating, updatable } = this.props;
+        const {
+            list, groupList, userGroupIds,
+            isUpdating, isCreating, updatable
+        } = this.props;
         const shouldShow = isUpdating || isCreating;
         const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimšanas datums', 'Dzimums', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
 
@@ -123,9 +202,10 @@ class UserData extends React.Component {
                 <ManageUser
                     shouldShow={shouldShow}
                     closeHandler={this.closeHandler.bind(this, isUpdating)}
-                    submitHandler={this.submitHandler.bind(this, isUpdating, updatable)}>
+                    submitHandler={this.submitHandler.bind(this, isUpdating, groupList, userGroupIds, updatable)}>
                     <UserFields />
                     <AdminUserFields />
+                    <UserGroups />
                 </ManageUser>
                 <PasswordChange checkPass={false} />
             </Row>

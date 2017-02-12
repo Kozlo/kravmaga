@@ -41,7 +41,9 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        Group.find()
+        const filter = req.param.filter || {};
+
+        Group.find(filter)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
@@ -94,6 +96,54 @@ module.exports = {
     },
 
     /**
+     * Adds a member to the specified group.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    addMember(req, res, next) {
+        const entryId = req.params.id;
+        const memberId = req.params.memberId;
+
+        Group.findById(entryId)
+            .then(entry => {
+                entry.members.push(memberId);
+
+                return entry.save();
+            })
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Removes a member from a group.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    removeMember(req, res, next) {
+        const entryId = req.params.id;
+        const memberId = req.params.memberId;
+
+        Group.findById(entryId)
+            .then(entry => {
+                const memberIndex = entry.attendees.indexOf(memberId);
+
+                if (memberIndex > -1) {
+                    entry.attendees.splice(memberIndex, 1);
+                }
+
+                return entry.save();
+            })
+            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
+            .catch(err => next(err));
+    },
+
+    /**
      * Deletes the specified entry.
      *
      * @public
@@ -108,5 +158,4 @@ module.exports = {
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
     }
-
 };

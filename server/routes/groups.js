@@ -18,7 +18,8 @@ const requireAuth = expressJwt({
 const { addIsAdmin, requireIsAdmin } = middleware;
 const {
     getAll, createOne, getOne,
-    updateOne, deleteOne
+    updateOne, deleteOne,
+    addMember, removeMember,
 } = controller;
 
 /**
@@ -41,5 +42,13 @@ router.route('/:id')
      .get(getOne)
      .patch(updateOne)
      .delete(deleteOne);
+
+/**
+ * Routes for adding/removing to/from a group.
+ */
+router.route('/:id/addMember/:memberId')
+    .patch(addMember);
+router.route('/:id/removeMember/:memberId')
+    .patch(removeMember);
 
 module.exports = router;

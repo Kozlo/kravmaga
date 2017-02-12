@@ -10,6 +10,10 @@ class UserActions extends EntryActions {
         this.generateActions(
             'getCurrentUser',
             'setIsChangingPassword',
+            'groupListReceived',
+            'userGroupsReceived',
+            'userGroupIdAdded',
+            'userGroupIdRemoved',
         );
 
         this.url = generalConfig.api.usersUrl;
