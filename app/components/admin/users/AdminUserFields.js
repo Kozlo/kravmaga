@@ -22,10 +22,28 @@ class UserFields extends React.Component {
 
     componentDidMount() {
         const { updatable } = this.props;
-        const { member_since } = updatable;
-        const dateChangeHandler = handleDateChange.bind(this, 'birthdate', UserActions, updatable);
+        const { member_since } = updatable.admin_fields;
+        const dateChangeHandler = this._handleAdminDateFieldChange.bind(this, 'member_since', updatable);
 
-        initDateTimePicker('#memberSince', dateChangeHandler, member_since);
+        initDateTimePicker('#member_since', dateChangeHandler, member_since);
+    }
+
+    /**
+     * Admin date field date value change handler.
+     *
+     * Uses the passed entry actions to set the updatable.
+     *
+     * @private
+     * @param {string} prop Property name to udpate
+     * @param {Object} updatable Updatable entry
+     * @param {Date} date New date value
+     */
+    _handleAdminDateFieldChange(prop, updatable, date) {
+        date = date && date !== 'false' ? date : '';
+
+        updatable.admin_fields[prop] = date;
+
+        UserActions.setUpdatable(updatable);
     }
 
     handleChange(prop, event) {
@@ -73,7 +91,7 @@ class UserFields extends React.Component {
                 <Col xs={12}>
                     <FormGroup>
                         <ControlLabel>Kluba biedrs kopš</ControlLabel>
-                        <InputGroup id='memberSince'>
+                        <InputGroup id='member_since'>
                             <FormControl
                                 type="text"
                                 placeholder="Datums"

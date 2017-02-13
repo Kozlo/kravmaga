@@ -48,6 +48,7 @@ export const getStatusValue = is_blocked => {
 /**
  * Converts the passed date string to date and return it in the format DD/MM/YYY.
  *
+ * @public
  * @param {string} dateString Date string
  * @returns {string} Formated date string or an emprt string
  */
@@ -77,6 +78,7 @@ export const formatDateString = (dateString, addTime = false) => {
  *
  * Additionally adds the default date if it's passed.
  *
+ * @public
  * @param {string} datetimePickerSelector Control selector
  * @param {Function} dateChangedHandler Date changed event handler
  * @param {string} [defaultDate] date string
@@ -107,6 +109,7 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
  *
  * Uses the passed entry actions to set the updatable.
  *
+ * @public
  * @param {string} prop Property name to udpate
  * @param {Object} entryActions Entry store actions
  * @param {Object} updatable Updatable entry
@@ -125,6 +128,7 @@ export const handleDateChange = (prop, entryActions, updatable, date) => {
  *
  * Creates a new object and deletes the admin_fields object as it's not needed anymore.
  *
+ * @public
  * @param {Object} props User properties
  * @returns {Object} Updated properties
  */
@@ -146,6 +150,7 @@ export const prefixAdminFields = props => {
 /**
  * Creates a new object with prefixed property names.
  *
+ * @public
  * @param {Object} obj Object to take properties from
  * @param {string} prefix Prefix to use
  * @returns {Object} Prefixed object
@@ -161,6 +166,7 @@ export const prefixProps = (obj, prefix) => {
 /**
  * Calculates how many members there are in a group.
  *
+ * @public
  * @param {string} groupId Group id
  * @param {Object[]} groupMembers Group members object containing all group members
  * @returns {number} Group member count
@@ -175,6 +181,7 @@ export const getGroupMemberCount = (groupId, groupMembers) => {
  * Creates an object with the specified properties from the source object.
  * If the properties are not there, initializes them as empty strings.
  *
+ * @public
  * @param {string[]} propNames Property names to copy
  * @param {Object} sourceObject Object to copy the properties from
  * @returns {Object} The new object

@@ -51,12 +51,22 @@ class LessonEntry extends React.Component {
                 <td>{index + 1}</td>
                 <td>{formattedStartDate}</td>
                 <td>{formattedEndDate}</td>
-                <td>{groupName}</td>
-                <td>{location}</td>
-                <td>{comment}</td>
                 <td>
-                    {/*TODO: add pieteikties/atteikties buttson*/}
-
+                    <div className="cell-wrapper comment-cell">
+                        {groupName}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper comment-cell">
+                        {location}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper comment-cell">
+                        {comment}
+                    </div>
+                </td>
+                <td>
                     {
                         !isAttending &&
                         <Button

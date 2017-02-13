@@ -7,6 +7,7 @@
 (DONE)- add proper validation to form fields (use react validate module)
 (DONE)- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
 (DONE)- make it possible to add groups to users (not only vice versa)
+(DONE)- fix cell sizes
 - increase the max size of the page (so that everything fits)
 - implement filters
 - implement config (e.g. to limit how many results should be shown

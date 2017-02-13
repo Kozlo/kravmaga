@@ -29,7 +29,7 @@ class NavigationBar extends React.Component {
         const isAdmin = userIsAdmin === true;
 
         return (
-            <Navbar staticTop={true}>
+            <Navbar staticTop={true} fluid={true}>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <Link to='/' className='navbar-brand'>Krav Maga</Link>

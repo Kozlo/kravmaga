@@ -51,10 +51,22 @@ class LessonEntry extends React.Component {
                 <td>{index + 1}</td>
                 <td>{formattedStartDate}</td>
                 <td>{formattedEndDate}</td>
-                <td>{groupName}</td>
-                <td>{location}</td>
+                <td>
+                    <div className="cell-wrapper">
+                        {groupName}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper">
+                        {location}
+                    </div>
+                </td>
                 <td>{attendees.length}</td>
-                <td>{comment}</td>
+                <td>
+                    <div className="cell-wrapper comment-cell">
+                        {comment}
+                    </div>
+                </td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button

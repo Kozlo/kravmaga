@@ -44,6 +44,23 @@ footer .thumb-md {
  *Other Custom Styles
  */
 
-.krav-maga-panel {
-  margin: auto;
+th {
+  white-space: nowrap;
+}
+
+.cell-wrapper {
+  max-width: 6.250em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &.comment-cell {
+    white-space: normal;
+    max-width: 15.625em;
+  }
+  &.email-cell {
+    max-width: 9.375em;
+  }
+  &.phone-cell {
+    max-width: 7.5em;
+  }
 }

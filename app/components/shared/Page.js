@@ -4,7 +4,7 @@ import { Grid } from 'react-bootstrap';
 class Page extends React.Component {
     render() {
         return (
-            <Grid>
+            <Grid fluid={true}>
                 <h2>{this.props.title}</h2>
                 {this.props.children}
             </Grid>

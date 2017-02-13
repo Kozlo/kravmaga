@@ -42,9 +42,9 @@ export const generalConfig = {
  */
 export const maxInputLength = {
     regularField: 25,
-    email: 30,
+    email: 40,
     password: 30,
-    phone: 20,
+    phone: 25,
     textArea: 100,
     url: 300
 };

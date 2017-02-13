@@ -60,10 +60,26 @@ class UserEntry extends React.Component {
             <tr>
                 <td>{index + 1}</td>
                 <td><Image src={picture} style={imageStyle} responsive /></td>
-                <td>{given_name}</td>
-                <td>{family_name}</td>
-                <td>{email}</td>
-                <td>{phone}</td>
+                <td>
+                    <div className="cell-wrapper">
+                        {given_name}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper">
+                        {family_name}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper email-cell">
+                        {email}
+                    </div>
+                </td>
+                <td>
+                    <div className="cell-wrapper phone-cell">
+                        {phone}
+                    </div>
+                </td>
                 <td>{birthdateValue}</td>
                 <td>{genderValue}</td>
                 <td>{memberSinceValue}</td>

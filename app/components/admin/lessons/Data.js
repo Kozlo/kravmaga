@@ -106,7 +106,7 @@ class LessonData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Sākums', 'Beigas', 'Grupa', 'Lokācija', 'Pieteikušo skaits', 'Komentārs', 'Darbības'];
+        const columns = ['#', 'Sākums', 'Beigas', 'Grupa', 'Lokācija', 'Ieradīsies', 'Komentārs', 'Darbības'];
 
         return (
             <Row>

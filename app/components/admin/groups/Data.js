@@ -109,7 +109,7 @@ class GroupData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Nosaukums', 'Dalībnieku skaits', 'Darbības'];
+        const columns = ['#', 'Nosaukums', 'Dalībnieki', 'Darbības'];
 
         return (
             <Row>

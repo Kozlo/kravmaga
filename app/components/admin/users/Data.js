@@ -13,7 +13,7 @@ import GroupActions from '../../../actions/GroupActions';
 import UserEntry from './Entry';
 import ManageUser from '../../shared/users/ManageUser';
 import UserFields from '../../shared/users/UserFields';
-import AdminUserFields from '../../shared/users/AdminUserFields';
+import AdminUserFields from './AdminUserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
 import UserGroups from './UserGroups';
 
@@ -178,7 +178,7 @@ class UserData extends React.Component {
             isUpdating, isCreating, updatable
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimšanas datums', 'Dzimums', 'Kluba biedrs kopš', 'Statuss', 'Loma', 'Darbības'];
+        const columns = ['#', 'Bilde', 'Vārds', 'Uzvārds', 'E-pasts', 'Telefons', 'Dzimis', 'Dzimums', 'Klubā kopš', 'Statuss', 'Loma', 'Darbības'];
 
         return (
             <Row>
