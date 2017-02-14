@@ -172,16 +172,22 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getUserLessons(req, res, next) {
-        const sorters = req.query.sorters || { 'updatedAt': -1 };
+        const filters = req.query.filters || {};
+        const sorters = req.query.sorters || { 'start': 1 };
+        const limit = req.query.limit;
         const userId = req.params.id;
         const groupFilter = { members: userId };
-
+console.log(filters);
         Group.find(groupFilter)
             .then(groups => {
                 const groupIds = groups.map(group => group._id);
-                const lessonFilter = { group: { $in: groupIds } };
 
-                return Lesson.find(lessonFilter).sort(sorters);
+                filters.group = { $in: groupIds };
+
+                return Lesson
+                    .find(filters)
+                    .sort(sorters)
+                    .limit(limit);
             })
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));

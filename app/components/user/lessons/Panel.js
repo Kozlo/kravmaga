@@ -1,13 +1,18 @@
 import React from 'react';
 
 import PagePanel from '../../shared/PagePanel';
-import LessonsData from './Data';
+import LessonData from './Data';
+import LessonFilters from '../../shared/lessons/Filters';
 
 class LessonsPanel extends React.Component {
     render() {
         return (
             <PagePanel title="Manas Nodarbības">
-                <LessonsData />
+                <h4>Filtri</h4>
+                <LessonFilters />
+
+                <h4>Dati</h4>
+                <LessonData />
             </PagePanel>
         );
     }

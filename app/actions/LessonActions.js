@@ -1,5 +1,7 @@
 import alt from '../alt';
+
 import EntryActions from './EntryActions';
+
 import { lessonFieldNames, generalConfig } from '../utils/config';
 import { httpStatusCode, createObject } from '../utils/utils';
 
@@ -24,17 +26,25 @@ class LessonActions extends EntryActions {
     /**
      * Retrieved lessons for the specified user.
      *
+     * The method relies on jQuery to append the data to the GET request as encoded URI string.
+     *
      * @param {string} token Auth token
      * @param {string} userId User id
+     * @param {Object} filters User lesson filters
+     * @param {number} limit User lesson limit per request
      * @param {Function} [successHandler] Success handler
      * @returns {Promise} Request promise
      */
-    getUserLessonList(token, userId, successHandler = this.listReceived) {
+    getUserLessonList(token, userId, filters, limit, successHandler = this.listReceived) {
         const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}${this.userLessonUrl}/${userId}`,
             method: 'GET',
+            data: {
+                filters: filters,
+                limit: limit
+            }
         };
 
         return this._sendRequest(requestProps, token);

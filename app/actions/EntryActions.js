@@ -18,6 +18,8 @@ class EntryActions {
             'setIsUpdating',
             'setIsCreating',
             'setIsRequesting',
+            'setFilters',
+            'setLimit',
         );
     }
 

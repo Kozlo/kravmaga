@@ -50,6 +50,24 @@ export const maxInputLength = {
 };
 
 /**
+ * Filter config.
+ *
+ * @property {object} lessons Lessons config
+ * @property {number} lessons.count.min Minimum amount of lessons to show
+ * @property {number} lessons.count.max Maximum amount of lessons to show
+ * @property {number} lessons.count.defaultAmount Default amount of lessons to show
+ */
+export const filterConfig = {
+    lessons: {
+        count: {
+            min: 1,
+            max: 99,
+            defaultAmount: 5
+        }
+    }
+};
+
+/**
  * User field names.
  *
  * @property {String[]} general General fields that users can update for themselves.

@@ -2,11 +2,13 @@ import alt from '../alt';
 import EntryStore from './EntryStore';
 import LessonActions from '../actions/LessonActions';
 import { createObject } from '../utils/utils';
-import { lessonFieldNames } from '../utils/config';
+import { lessonFieldNames, filterConfig } from '../utils/config';
 
 class LessonStore extends EntryStore {
     constructor(props) {
         super(props);
+
+        const { defaultAmount } = filterConfig.lessons.count;
 
         this.bindActions(LessonActions);
 
@@ -14,6 +16,8 @@ class LessonStore extends EntryStore {
         this.groups = [];
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
+        this.filters = { start: { '$gte': new Date() } };
+        this.limit = defaultAmount;
     }
 
     onAttendeesReceived(attendees) {

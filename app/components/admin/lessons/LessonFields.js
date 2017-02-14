@@ -151,7 +151,6 @@ class LessonFields extends React.Component {
                             <HelpBlock>Nodarbības beigu datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
-                    {/*TODO: reques the group name in a separate request*/}
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Grupa</ControlLabel>

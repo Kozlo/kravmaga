@@ -64,6 +64,14 @@ class EntryStore {
         toastr.error('Resurss jau eksistē');
     }
 
+    onSetFilters(filters) {
+        this.filters = filters;
+    }
+
+    onSetLimit(limit) {
+        this.limit = limit;
+    }
+
     _onUpdated(updatedEntry) {
         this.list.some((entry, index) => {
             if (entry._id === updatedEntry._id) {
