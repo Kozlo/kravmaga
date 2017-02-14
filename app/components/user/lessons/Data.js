@@ -28,8 +28,8 @@ class LessonData extends React.Component {
         const { token, userId } = AuthStore.getState();
         const { filters, limit } = this.props;
 
-        GroupActions.getList(token, {}, LessonActions.groupsReceived);
-        LessonActions.getUserLessonList(token, userId, filters, limit);
+        GroupActions.getList(token, LessonActions.groupsReceived, {});
+        LessonActions.getUserLessonList(token, userId, LessonActions.listReceived, filters, limit);
     }
 
     renderList(entry, index) {

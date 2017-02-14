@@ -26,8 +26,8 @@ class UserData extends React.Component {
         const { isUpdating, updatable } = this.props;
         const filters = isUpdating ? { members: updatable._id } : {};
 
-        GroupActions.getList(token, {}, UserActions.groupListReceived);
-        GroupActions.getList(token, filters, UserActions.userGroupsReceived);
+        GroupActions.getList(token, UserActions.groupListReceived);
+        GroupActions.getList(token, UserActions.userGroupsReceived, filters);
     }
 
     addUserGroupId(groupList, userGroupIds, event) {

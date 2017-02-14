@@ -52,13 +52,13 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
-    getList(token, filters = {}, successHandler = this.listReceived) {
+    getList(token, successHandler = this.listReceived, filters = {}, limit = null) {
         const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: this.url,
             method: 'GET',
-            data: { filters }
+            data: { filters, limit }
         };
 
         return this._sendRequest(requestProps, token);

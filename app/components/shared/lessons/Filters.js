@@ -45,11 +45,15 @@ class LessonFilters extends React.Component {
         this._requestUserLessons(filters, limit);
     }
 
-    // TODO: move this to the parent and pass it
     _requestUserLessons(filters, limit) {
+        const { userLessonsOnly } = this.props;
         const { token, userId } = AuthStore.getState();
 
-        LessonActions.getUserLessonList(token, userId, filters, limit);
+        if (userLessonsOnly) {
+            LessonActions.getUserLessonList(token, userId, LessonActions.listReceived, filters, limit);
+        } else {
+            LessonActions.getList(token, LessonActions.listReceived, filters, limit);
+        }
     }
 
     _handleDateChange(filters, date) {

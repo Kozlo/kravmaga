@@ -45,10 +45,12 @@ module.exports = {
      */
     getAll(req, res, next) {
         const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'start': -1 };
+        const sorters = req.query.sorters || { 'start': 1 };
+        const limit = req.query.limit;
 
         Lesson.find(filters)
             .sort(sorters)
+            .limit(limit)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },
@@ -177,7 +179,7 @@ module.exports = {
         const limit = req.query.limit;
         const userId = req.params.id;
         const groupFilter = { members: userId };
-console.log(filters);
+
         Group.find(groupFilter)
             .then(groups => {
                 const groupIds = groups.map(group => group._id);

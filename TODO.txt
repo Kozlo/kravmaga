@@ -9,9 +9,9 @@
 (DONE)- make it possible to add groups to users (not only vice versa)
 (DONE)- fix cell sizes
 (DONE)- increase the max size of the page (so that everything fits)
-- implement filters
-- implement config (e.g. to limit how many results should be shown
-- implement sorters
+(DONE)- implement filters
+(DONE)- implement config (e.g. to limit how many results should be shown
+- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - make it possible to add/remove attendees from lessons directly

@@ -9,7 +9,7 @@ class LessonsPanel extends React.Component {
         return (
             <PagePanel title="Manas Nodarbības">
                 <h4>Filtri</h4>
-                <LessonFilters />
+                <LessonFilters userLessonsOnly={true} />
 
                 <h4>Dati</h4>
                 <LessonData />
