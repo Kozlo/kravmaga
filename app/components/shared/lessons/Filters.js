@@ -29,43 +29,39 @@ class LessonFilters extends React.Component {
     }
 
     componentDidMount() {
-        const { filters } = this.props;
-        const { $gte } = filters.start;
-        const startChangeHandler = this._handleDateChange.bind(this, filters);
+        const { $gte } = this.props.filters.start;
+        const startChangeHandler = this._handleDateChange.bind(this);
 
         initDateTimePicker('#startFilter', startChangeHandler, $gte);
     }
 
     handleLimitChange(event) {
-        const { filters } = this.props;
         const limit = event.target.value;
 
         LessonActions.setLimit(limit);
 
-        this._requestUserLessons(filters, limit);
+        this._requestUserLessons();
     }
 
-    _requestUserLessons(filters, limit) {
-        const { userLessonsOnly } = this.props;
+    _requestUserLessons() {
         const { token, userId } = AuthStore.getState();
+        const { filters, sorters, limit, userLessonsOnly } = this.props;
 
         if (userLessonsOnly) {
-            LessonActions.getUserLessonList(token, userId, LessonActions.listReceived, filters, limit);
+            LessonActions.getUserLessonList(token, userId, filters, sorters, limit);
         } else {
             LessonActions.getList(token, LessonActions.listReceived, filters, limit);
         }
     }
 
-    _handleDateChange(filters, date) {
-        const { limit } = this.props;
+    _handleDateChange(date) {
+        const { filters } = this.props;
 
         date = date && date !== 'false' ? date : '';
-
         filters.start = { '$gte': date };
-
         LessonActions.setFilters(filters);
 
-        this._requestUserLessons(filters, limit);
+        this._requestUserLessons();
     }
 
     render() {

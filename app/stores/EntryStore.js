@@ -75,8 +75,7 @@ class EntryStore {
     _onUpdated(updatedEntry) {
         this.list.some((entry, index) => {
             if (entry._id === updatedEntry._id) {
-                this.list.splice(index, 1);
-                this.list.unshift(updatedEntry);
+                this.list[index] = updatedEntry;
 
                 return true;
             }

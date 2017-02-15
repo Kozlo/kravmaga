@@ -63,7 +63,7 @@ module.exports = {
     getAll(req, res, next) {
         // const filters = req.query.filters || {};
         const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'updatedAt': -1 };
+        const sorters = req.query.sorters || {};
 
         User.find(filters)
             .sort(sorters)

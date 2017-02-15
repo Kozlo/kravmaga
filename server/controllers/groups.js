@@ -88,7 +88,7 @@ module.exports = {
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
-                console.log(err);
+
                 if (entryExistsError) return next(entryExistsError);
 
                 next(err);

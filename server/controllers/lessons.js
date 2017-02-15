@@ -45,7 +45,7 @@ module.exports = {
      */
     getAll(req, res, next) {
         const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'start': 1 };
+        const sorters = req.query.sorters || {};
         const limit = req.query.limit;
 
         Lesson.find(filters)
@@ -175,7 +175,7 @@ module.exports = {
      */
     getUserLessons(req, res, next) {
         const filters = req.query.filters || {};
-        const sorters = req.query.sorters || { 'start': 1 };
+        const sorters = req.query.sorters || { };
         const limit = req.query.limit;
         const userId = req.params.id;
         const groupFilter = { members: userId };

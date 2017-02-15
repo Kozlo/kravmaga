@@ -42,26 +42,6 @@ module.exports = {
         })(req, res);
     },
 
-    // // TODO: figure out if this is necessary
-    // /**
-    //  * Logs the user out.
-    //  *
-    //  * @public
-    //  * @param {Object} req Request object
-    //  * @param {Object} res Response object
-    //  */
-    // logout(req, res) {
-    //     console.log('pre:', req.session);
-    //     req.logOut();
-    //     req.logout();
-    //     req.session.destroy(err => {
-    //         if (err) return next(err);
-    //
-    //         console.log('post:', req.session);
-    //         res.status(httpStatusCodes.ok).send('User logged out successfully!');
-    //     });
-    // },
-
     /**
      * Attempts to find the specified user based on the email.
      * And then trues to authenticate the user with the passed password.

@@ -52,6 +52,17 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
+    // TODO: add sorters as well
+    // TODO: replace limit with config as an object where limit and offset can be added
+    /**
+     * Retrieve a list of entries.
+     *
+     * @param {string} token Auth token
+     * @param {Function} successHandler Success handler
+     * @param {Object} filters Entry filters
+     * @param {number} limit Max how many entries to retrieve
+     * @returns {Promise} Request promise
+     */
     getList(token, successHandler = this.listReceived, filters = {}, limit = null) {
         const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {

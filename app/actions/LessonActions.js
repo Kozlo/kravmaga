@@ -30,13 +30,13 @@ class LessonActions extends EntryActions {
      *
      * @param {string} token Auth token
      * @param {string} userId User id
-     * @param {Object} filters User lesson filters
-     * @param {number} limit User lesson limit per request
-     * @param {Function} [successHandler] Success handler
+     * @param {Object} filters Entry filters
+     * @param {Object} sorters Entry sorters
+     * @param {number} limit Entry limit per request
      * @returns {Promise} Request promise
      */
-    getUserLessonList(token, userId, successHandler = this.listReceived, filters, limit) {
-        const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
+    getUserLessonList(token, userId, filters, sorters, limit) {
+        const statusCode = $.extend({ 200: entries => this.listReceived(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: `${this.url}${this.userLessonUrl}/${userId}`,

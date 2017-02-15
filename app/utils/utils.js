@@ -81,7 +81,7 @@ export const formatDateString = (dateString, addTime = false) => {
  * @public
  * @param {string} datetimePickerSelector Control selector
  * @param {Function} dateChangedHandler Date changed event handler
- * @param {string} [defaultDate] date string
+ * @param {Date} [defaultDate] date string
  * @param {boolean} [addTime] Flag showing if time should be added instead of only date
  */
 export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, defaultDate, addTime = false) => {
