@@ -2,11 +2,12 @@ import alt from '../alt';
 import EntryStore from './EntryStore';
 import UserActions from '../actions/UserActions';
 import { createObject } from '../utils/utils';
-import { userFieldNames } from '../utils/config';
+import { userFieldNames, filterConfig } from '../utils/config';
 
 class UserStore extends EntryStore {
     constructor(props) {
         const { general, admin_fields } = userFieldNames;
+        const { defaultAmount } = filterConfig.users.count;
 
         super(props);
 
@@ -17,6 +18,7 @@ class UserStore extends EntryStore {
         this.updatable.admin_fields = createObject(admin_fields, {});
         this.groupList = [];
         this.userGroupIds = [];
+        this.config = { limit: defaultAmount };
     }
 
     onSetIsChangingPassword(isChangingPassword) {

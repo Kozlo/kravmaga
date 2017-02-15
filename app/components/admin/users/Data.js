@@ -32,8 +32,9 @@ class UserData extends React.Component {
 
     componentDidMount() {
         const { token } = AuthStore.getState();
+        const { filters, sorters, config } = this.props;
 
-        UserActions.getList(token);
+        UserActions.getList(token, UserActions.listReceived, filters, sorters, config);
     }
 
     closeHandler(isUpdating) {
@@ -49,7 +50,6 @@ class UserData extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        // TODO: replace validation with react-validation
         if (!isEmailValid(updatable.email)) {
             return toastr.error('E-pasts ievadīts kļūdaini!');
         }

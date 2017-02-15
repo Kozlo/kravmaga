@@ -61,12 +61,16 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        // const filters = req.query.filters || {};
-        const filters = req.query.filters || {};
-        const sorters = req.query.sorters || {};
+        const {
+            filters = {},
+            sorters = {},
+            config = {}
+        } = req.query;
+        const { limit } = config;
 
         User.find(filters)
             .sort(sorters)
+            .limit(limit)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },

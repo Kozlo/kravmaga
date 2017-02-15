@@ -71,7 +71,7 @@ class LessonFilters extends React.Component {
 
         return (
             <Row>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Nodarbību sākuma datums</ControlLabel>
                         <InputGroup id='startFilter'>
@@ -86,7 +86,7 @@ class LessonFilters extends React.Component {
                         <HelpBlock>No kura datuma rādīt nodarbības.</HelpBlock>
                     </FormGroup>
                 </Col>
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Nodabību skaits</ControlLabel>
                         <FormControl

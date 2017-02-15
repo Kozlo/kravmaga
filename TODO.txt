@@ -11,9 +11,11 @@
 (DONE)- increase the max size of the page (so that everything fits)
 (DONE)- implement filters
 (DONE)- implement config (e.g. to limit how many results should be shown
-// TODO: add sorters as well
-// TODO: replace limit with config as an object where limit and offset can be added
-- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
+(DONE)// TODO: add sorters as well
+(DONE)// TODO: replace limit with config as an object where limit and offset can be added
+(DONE)- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
+- send an update to Ronis:
+  - added filters to lesson and users
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - make it possible to add/remove attendees from lessons directly

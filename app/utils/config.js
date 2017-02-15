@@ -53,9 +53,12 @@ export const maxInputLength = {
  * Filter config.
  *
  * @property {object} lessons Lessons config
- * @property {number} lessons.count.min Minimum amount of lessons to show
- * @property {number} lessons.count.max Maximum amount of lessons to show
- * @property {number} lessons.count.defaultAmount Default amount of lessons to show
+ * @property {number} lessons.count.min Minimum amount of entries to show
+ * @property {number} lessons.count.max Maximum amount of entries to show
+ * @property {number} lessons.count.defaultAmount Default amount of entries to show
+ * @property {number} users.count.min Minimum amount of entries to show
+ * @property {number} users.count.max Maximum amount of entries to show
+ * @property {number} user.count.defaultAmount Default amount of entries to show
  */
 export const filterConfig = {
     lessons: {
@@ -63,6 +66,13 @@ export const filterConfig = {
             min: 1,
             max: 99,
             defaultAmount: 5
+        }
+    },
+    users: {
+        count: {
+            min: 1,
+            max: 999,
+            defaultAmount: 10
         }
     }
 };
