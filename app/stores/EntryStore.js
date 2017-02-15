@@ -6,6 +6,9 @@ class EntryStore {
 
         this.entry = {};
         this.list = [];
+        this.filters = {};
+        this.sorters = {};
+        this.config = {};
         this.isUpdating = false;
         this.isCreating = false;
         this.isRequesting = false;
@@ -48,6 +51,18 @@ class EntryStore {
         this.updatable = updatable;
     }
 
+    onSetFilters(filters) {
+        this.filters = filters;
+    }
+
+    onSetSorters(sorters) {
+        this.sorters = sorters;
+    }
+
+    onSetConfig(config) {
+        this.config = config;
+    }
+
     onSetIsUpdating(isUpdating) {
         this.isUpdating = isUpdating;
     }
@@ -62,14 +77,6 @@ class EntryStore {
 
     onUpdateConflict() {
         toastr.error('Resurss jau eksistē');
-    }
-
-    onSetFilters(filters) {
-        this.filters = filters;
-    }
-
-    onSetLimit(limit) {
-        this.limit = limit;
     }
 
     _onUpdated(updatedEntry) {

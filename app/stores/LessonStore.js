@@ -17,7 +17,8 @@ class LessonStore extends EntryStore {
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
         this.filters = { start: { '$gte': new Date() } };
-        this.limit = defaultAmount;
+        this.sorters = { start: 1 };
+        this.config = { limit: defaultAmount };
     }
 
     onAttendeesReceived(attendees) {

@@ -24,11 +24,7 @@ class LessonData extends React.Component {
     }
 
     componentDidMount() {
-        const { token } = AuthStore.getState();
-        const { filters, limit } = this.props;
-
-        LessonActions.getList(token, LessonActions.listReceived, filters, limit);
-        GroupActions.getList(token, LessonActions.groupsReceived);
+        this._requestData();
     }
 
     closeHandler(isUpdating) {
@@ -43,8 +39,6 @@ class LessonData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
-
-        // TODO: replace validation with react-validation
         const mandatoryFields = ['start', 'end', 'group', 'location'];
 
         for (let i = 0; i < mandatoryFields.length; i++) {
@@ -75,30 +69,62 @@ class LessonData extends React.Component {
 
     update(updatable, token) {
         LessonActions.update(updatable, token)
-            .done(() => {
-                LessonActions.setIsRequesting(false);
-                LessonActions.setIsUpdating(false);
-            })
-            .fail(() => LessonActions.setIsRequesting(false));
+            .done(() => this._onRequestDone(LessonActions.setIsUpdating))
+            .fail(() => this._onRequestFailed());
     }
 
     create(updatable, token) {
         LessonActions.create(updatable, token)
-            .done(() => {
-                LessonActions.setIsCreating(false);
-                LessonActions.setIsRequesting(false);
-            })
-            .fail(() => LessonActions.setIsRequesting(false));
+            .done(() => this._onRequestDone(LessonActions.setIsCreating))
+            .fail(() => this._onRequestFailed());
     }
 
     renderList(entry, index) {
-
         return (
             <LessonEntry
                 key={`LessonEntry${index}`}
                 index={index}
                 entry={entry}/>
         );
+    }
+
+    /**
+     * Requests lessons with the applied filters and config,
+     * as well as group info, which is used for displaying groups names.
+     *
+     * @private
+     */
+    _requestData() {
+        const { token } = AuthStore.getState();
+        const { filters, sorters, config } = this.props;
+
+        LessonActions.getList(token, LessonActions.listReceived, filters, sorters, config);
+        GroupActions.getList(token, LessonActions.groupsReceived);
+    }
+
+    /**
+     * Request success handler.
+     * Calls request success action with false - setIsUpdating or setIsCreating for update and create respectively.
+     *
+     * Also calls the method to request new data in order to apply the filters, sorters, config properly.
+     *
+     * @param {Function} action Lesson action to call on success
+     * @private
+     */
+    _onRequestDone(action) {
+        action(false);
+        LessonActions.setIsRequesting(false);
+
+        this._requestData();
+    }
+
+    /**
+     * Request failed handler.
+     *
+     * @private
+     */
+    _onRequestFailed() {
+        LessonActions.setIsRequesting(false)
     }
 
     render() {

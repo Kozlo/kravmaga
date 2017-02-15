@@ -35,22 +35,23 @@ class LessonFilters extends React.Component {
         initDateTimePicker('#startFilter', startChangeHandler, $gte);
     }
 
-    handleLimitChange(event) {
-        const limit = event.target.value;
+    handleConfigChange(prop, event) {
+        const { config } = this.props;
 
-        LessonActions.setLimit(limit);
+        config[prop] = event.target.value;
+        LessonActions.setConfig(config);
 
         this._requestUserLessons();
     }
 
     _requestUserLessons() {
         const { token, userId } = AuthStore.getState();
-        const { filters, sorters, limit, userLessonsOnly } = this.props;
+        const { filters, sorters, config, userLessonsOnly } = this.props;
 
         if (userLessonsOnly) {
-            LessonActions.getUserLessonList(token, userId, filters, sorters, limit);
+            LessonActions.getUserLessonList(token, userId, filters, sorters, config);
         } else {
-            LessonActions.getList(token, LessonActions.listReceived, filters, limit);
+            LessonActions.getList(token, LessonActions.listReceived, filters, sorters, config);
         }
     }
 
@@ -65,7 +66,7 @@ class LessonFilters extends React.Component {
     }
 
     render() {
-        const { limit } = this.props;
+        const { limit } = this.props.config;
         const { min, max } = filterConfig.lessons.count;
 
         return (
@@ -94,10 +95,10 @@ class LessonFilters extends React.Component {
                             min={min}
                             max={max}
                             value={limit}
-                            onChange={this.handleLimitChange.bind(this)}
+                            onChange={this.handleConfigChange.bind(this, 'limit')}
                         />
                         <FormControl.Feedback />
-                        <HelpBlock>Cik nodarbības rādīt (max)?</HelpBlock>
+                        <HelpBlock>Cik nodarbības rādīt (maks.)?</HelpBlock>
                     </FormGroup>
                 </Col>
             </Row>

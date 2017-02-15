@@ -15,11 +15,12 @@ class EntryActions {
             'updateConflict',
             'listReceived',
             'setUpdatable',
+            'setFilters',
+            'setSorters',
+            'setConfig',
             'setIsUpdating',
             'setIsCreating',
             'setIsRequesting',
-            'setFilters',
-            'setLimit',
         );
     }
 
@@ -52,24 +53,23 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
-    // TODO: add sorters as well
-    // TODO: replace limit with config as an object where limit and offset can be added
     /**
      * Retrieve a list of entries.
      *
      * @param {string} token Auth token
-     * @param {Function} successHandler Success handler
-     * @param {Object} filters Entry filters
-     * @param {number} limit Max how many entries to retrieve
+     * @param {Function} [successHandler] Success handler
+     * @param {Object} [filters] Entry filters
+     * @param {Object} [sorters] Entry sorters
+     * @param {Object} [config] Entry config
      * @returns {Promise} Request promise
      */
-    getList(token, successHandler = this.listReceived, filters = {}, limit = null) {
+    getList(token, successHandler = this.listReceived, filters = {}, sorters = {}, config = {}) {
         const statusCode = $.extend({ 200: entries => successHandler(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
             url: this.url,
             method: 'GET',
-            data: { filters, limit }
+            data: { filters, sorters, config }
         };
 
         return this._sendRequest(requestProps, token);
