@@ -61,11 +61,7 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        const {
-            filters = {},
-            sorters = {},
-            config = {}
-        } = req.query;
+        const { filters, sorters, config } = helpers.parseQueryParams(req.query);
         const { limit } = config;
 
         User.find(filters)

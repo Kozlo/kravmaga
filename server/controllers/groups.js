@@ -41,9 +41,12 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        const filters = req.query.filters || {};
+        const { filters, sorters, config } = helpers.parseQueryParams(req.query);
+        const { limit } = config;
 
         Group.find(filters)
+            .sort(sorters)
+            .limit(limit)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     },

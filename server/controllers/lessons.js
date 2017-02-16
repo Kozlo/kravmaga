@@ -44,11 +44,7 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getAll(req, res, next) {
-        const {
-            filters = {},
-            sorters = {},
-            config = {}
-        } = req.query;
+        const { filters, sorters, config } = helpers.parseQueryParams(req.query);
         const { limit } = config;
 
         Lesson.find(filters)
@@ -177,12 +173,9 @@ module.exports = {
      * @param {Function} next Executes the next matching route
      */
     getUserLessons(req, res, next) {
-        const {
-            filters = {},
-            sorters = {},
-            config = {}
-        } = req.query;
+        const { filters, sorters, config } = helpers.parseQueryParams(req.query);
         const { limit } = config;
+
         const userId = req.params.id;
         const groupFilter = { members: userId };
 

@@ -37,8 +37,9 @@ class LessonFilters extends React.Component {
 
     handleConfigChange(prop, event) {
         const { config } = this.props;
+        const value = parseInt(event.target.value, 10);
 
-        config[prop] = event.target.value;
+        config[prop] = value;
         LessonActions.setConfig(config);
 
         this._requestUserLessons();
