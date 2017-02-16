@@ -55,7 +55,7 @@ Bugs from Ronis:
   Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
 #25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
 
-#30 Lietotāju veidojot, pēc noklusējuma tas kļūst pievienots visām grupām
+(DONE)#30 Lietotāju veidojot, pēc noklusējuma tas kļūst pievienots visām grupām
 
 #35 Lokācijas kolonnai ir pārāk mazs izmērs, ne vairāk ka 11 simboli
   Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
