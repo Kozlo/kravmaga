@@ -4,7 +4,12 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
+import LessonStore from '../../../stores/LessonStore';
+import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
+
+// utility methods
+import { updateStoreList } from '../../../utils/utils';
 
 class GroupEntry extends React.Component {
     initUpdateEntry(entry) {
@@ -12,6 +17,14 @@ class GroupEntry extends React.Component {
         GroupActions.setIsUpdating(true);
     }
 
+    /**
+     * Delete's the specified entry and requests.
+     *
+     * Also updates lesson data as some of it might have changes as a result.
+     *
+     * @param {Object} entry Entry
+     * @param {number} memberCount Number of groups members
+     */
     deleteEntry(entry, memberCount) {
         const { _id, name } = entry;
         const confirmText = `Vai esi drošs, ka vēlies izdzēst grupu ${name} ar ${memberCount} lietotājiem?`;
@@ -22,7 +35,8 @@ class GroupEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        GroupActions.delete(_id, token);
+        GroupActions.delete(_id, token)
+            .then(() => updateStoreList(LessonStore, LessonActions));
     }
 
     render() {

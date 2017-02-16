@@ -4,7 +4,9 @@
 
 const config = require('../config');
 const helpers = require('../helpers');
+
 const Group = require('../models/group');
+const Lesson = require('../models/lesson');
 
 const { httpStatusCodes } = config;
 
@@ -151,6 +153,8 @@ module.exports = {
     /**
      * Deletes the specified entry.
      *
+     * Also deletes all lessons for this group.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -158,8 +162,11 @@ module.exports = {
      */
     deleteOne(req, res, next) {
         const entryId = req.params.id;
+        const lessonFilter = { group: entryId };
 
-        Group.findByIdAndRemove(entryId)
+        Lesson.find(lessonFilter)
+            .remove()
+            .then(() => Group.findByIdAndRemove(entryId))
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
     },
