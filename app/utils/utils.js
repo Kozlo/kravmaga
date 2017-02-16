@@ -1,3 +1,4 @@
+import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 import { generalConfig } from './config';
 
@@ -203,11 +204,26 @@ export const createObject = (propNames, sourceObject) => {
 };
 
 export const fetchData = request => {
-    // TODO: replace jQuery with something else
     return $.ajax(request)
         .done(data => httpSuccessHandler(data))
         .fail(error => httpErrorHandler(error));
 };
+
+/**
+ * Updates the list of the specified store.
+ *
+ * Uses the stores current filters, sorters, config and the default list received handler.
+ *
+ * @public
+ * @param {Object} store Store
+ * @param {Object} actions Actions
+ */
+export const updateStoreList = (store, actions) => {
+    const { token } = AuthStore.getState();
+    const { filters, sorters, config } = store.getState();
+
+    actions.getList(token, actions.listReceived, filters, sorters, config);
+}
 
 export const httpStatusCode = {
     400: res => {

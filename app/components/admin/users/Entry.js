@@ -6,8 +6,15 @@ import { Button, Image, ButtonToolbar } from 'react-bootstrap';
 import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
 
+import GroupStore from '../../../stores/GroupStore';
+import GroupActions from '../../../actions/GroupActions';
+
+import LessonStore from '../../../stores/LessonStore';
+import LessonActions from '../../../actions/LessonActions';
+
 // utility methods
 import {
+    updateStoreList,
     getRoleValue, getStatusValue,
     formatDateString, getGenderValue
 } from '../../../utils/utils';
@@ -34,7 +41,18 @@ class UserEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        UserActions.delete(_id, token);
+        UserActions.delete(_id, token)
+            .then(() => this._onUserDeleted());
+    }
+
+    /**
+     * Updates gourp and lesson stores.
+     *
+     * @private
+     */
+    _onUserDeleted() {
+        updateStoreList(GroupStore, GroupActions);
+        updateStoreList(LessonStore, LessonActions);
     }
 
     render() {

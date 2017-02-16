@@ -17,11 +17,11 @@
 - when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
   - when deleting a user:
     - remove user from groups he's in
-      - do this in the back-end
-      - update group store in the FE
+      (NEED TO TEST)- do this in the back-end
+      (NEED TO TEST)- update group store in the FE
     - remove the user from lessons he's attending
       - do this in the back-end
-      - update group store in the FE
+      - update group and lesson stores in the FE
   - when updating a user
     - make sure the group store is up to date
     - MAYBE instead of removing from all groups and adding new ones:

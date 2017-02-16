@@ -92,7 +92,9 @@ module.exports = {
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
 
-                if (entryExistsError) return next(entryExistsError);
+                if (entryExistsError) {
+                    return next(entryExistsError);
+                }
 
                 next(err);
             });
@@ -138,11 +140,7 @@ module.exports = {
 
         Group.findById(entryId)
             .then(entry => {
-                const memberIndex = entry.members.indexOf(memberId);
-
-                if (memberIndex > -1) {
-                    entry.members.splice(memberIndex, 1);
-                }
+                entry.members = helpers.removeItemFromArray(memberId, members);
 
                 return entry.save();
             })

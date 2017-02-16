@@ -3,10 +3,14 @@
  */
 
 const mongoose = require('mongoose');
+
 const config = require('../config');
 const helpers = require('../helpers');
 const userHelpers = require('../helpers/usersHelpers');
+
 const User = require('../models/user');
+const Lesson = require('../models/lesson');
+const Group = require('../models/group');
 
 const { httpStatusCodes } = config;
 
@@ -141,6 +145,9 @@ module.exports = {
     /**
      * Deletes the specified entry.
      *
+     * Removes the user from all groups.
+     * Removes the user from all
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -148,8 +155,26 @@ module.exports = {
      */
     deleteOne(req, res, next) {
         const entryId = req.params.id;
+        const lessonFilter = { attendees: entryId };
+        const groupFilter = { members: entryId };
 
-        User.findByIdAndRemove(entryId)
+        Lesson.find(lessonFilter)
+            .then(lessons => {
+                lessons.forEach(lesson => {
+                    lesson.attendees = helpers.removeItemFromArray(entryId, lesson);
+                    lesson.save().catch(err => next(err));
+                });
+
+                return Group.find(groupFilter)
+            })
+            .then(groups => {
+                groups.forEach(group => {
+                    group.members = helpers.removeItemFromArray(entryId, group);
+                    group.save().catch(err => next(err));
+                });
+
+                return User.findByIdAndRemove(entryId)
+            })
             .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
             .catch(err => next(err));
     }

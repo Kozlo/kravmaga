@@ -90,5 +90,23 @@ module.exports = {
         }
 
         return false;
+    },
+
+    /**
+     * Removes the passed item from the specified array.
+     *
+     * @public
+     * @param {*} item Item to remove
+     * @param {Array} array Array to use
+     * @returns {Array} Updated array
+     */
+    removeItemFromArray(item, array) {
+        const itemIndex = array.indexOf(item);
+
+        if (itemIndex > -1) {
+            array.splice(itemIndex, 1);
+        }
+
+        return array;
     }
 };
