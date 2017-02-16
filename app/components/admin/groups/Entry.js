@@ -12,7 +12,7 @@ class GroupEntry extends React.Component {
         GroupActions.setIsUpdating(true);
     }
 
-    delete(entry, memberCount) {
+    deleteEntry(entry, memberCount) {
         const { _id, name } = entry;
         const confirmText = `Vai esi drošs, ka vēlies izdzēst grupu ${name} ar ${memberCount} lietotājiem?`;
 
@@ -44,7 +44,7 @@ class GroupEntry extends React.Component {
                         </Button>
                         <Button
                             bsStyle="danger"
-                            onClick={this.delete.bind(this, entry)}>
+                            onClick={this.deleteEntry.bind(this, entry)}>
                             Izdzēst
                         </Button>
                     </ButtonToolbar>

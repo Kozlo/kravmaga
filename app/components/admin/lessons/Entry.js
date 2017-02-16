@@ -16,7 +16,7 @@ class LessonEntry extends React.Component {
         LessonActions.setIsUpdating(true);
     }
 
-    delete(entry) {
+    deleteEntry(entry) {
         const { _id, start, end, attendees } = entry;
         const formattedStartDate = formatDateString(start, true);
         const formattedEndDate = formatDateString(end, true);
@@ -76,7 +76,7 @@ class LessonEntry extends React.Component {
                         </Button>
                         <Button
                             bsStyle="danger"
-                            onClick={this.delete.bind(this, entry)}>
+                            onClick={this.deleteEntry.bind(this, entry)}>
                             Izdzēst
                         </Button>
                     </ButtonToolbar>

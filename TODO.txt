@@ -33,6 +33,7 @@
   - remove lessons when a group is deleted
     - do this in the BE
     - update lesson store in the FE (admin panel)
+  - when updating a group (e.g. it's members) need to update lesson attendance as well
 - create 'location' section just like for groups
   - create BE functionality (copy groups probably)
     - remove lessons when a location is deleted
