@@ -7,13 +7,16 @@ class GroupActions extends EntryActions {
     constructor(props) {
         super(props);
 
+        const { baseUrl, userGroupUrl } = generalConfig.api.groups;
+
         this.generateActions(
             'membersReceived',
             'memberAdded',
             'memberRemoved',
         );
 
-        this.url = generalConfig.api.groupsUrl;
+        this.url = baseUrl;
+        this.userGroupUrl = userGroupUrl;
     }
 
     /**
@@ -43,24 +46,24 @@ class GroupActions extends EntryActions {
     }
 
     /**
-     * Calls the method to add or remove a member from a group.
+     * Retrieved groups for the specified user.
      *
-     * @private
+     * The method relies on jQuery to append the data to the GET request as encoded URI string.
+     *
      * @param {string} token Auth token
-     * @param {string} groupId Group id
-     * @param {string} memberId User id
-     * @param {string} action Action to perform
+     * @param {string} userId User id
      * @returns {Promise} Request promise
      */
-    _updateMembership(token, groupId, memberId, action) {
-        const statusCode = $.extend({ 200: updatedEntry => this.silentUpdated(updatedEntry)}, httpStatusCode);
+    getUserGroupList(token, userId) {
+        const statusCode = $.extend({ 200: entries => this.listReceived(entries)}, httpStatusCode);
         const requestProps = {
             statusCode,
-            url: `${this.url}/${groupId}/${action}/${memberId}`,
-            method: 'PATCH',
+            url: `${this.url}${this.userGroupUrl}/${userId}`,
+            method: 'GET'
         };
 
         return this._sendRequest(requestProps, token);
+
     }
 
     /**
@@ -80,6 +83,27 @@ class GroupActions extends EntryActions {
         }
 
         return this.setUpdatable(updatable);
+    }
+
+    /**
+     * Calls the method to add or remove a member from a group.
+     *
+     * @private
+     * @param {string} token Auth token
+     * @param {string} groupId Group id
+     * @param {string} memberId User id
+     * @param {string} action Action to perform
+     * @returns {Promise} Request promise
+     */
+    _updateMembership(token, groupId, memberId, action) {
+        const statusCode = $.extend({ 200: updatedEntry => this.silentUpdated(updatedEntry)}, httpStatusCode);
+        const requestProps = {
+            statusCode,
+            url: `${this.url}/${groupId}/${action}/${memberId}`,
+            method: 'PATCH',
+        };
+
+        return this._sendRequest(requestProps, token);
     }
 }
 

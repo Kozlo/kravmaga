@@ -140,7 +140,7 @@ module.exports = {
 
         Group.findById(entryId)
             .then(entry => {
-                entry.members = helpers.removeItemFromArray(memberId, members);
+                entry.members = helpers.removeItemFromArray(memberId, entry.members);
 
                 return entry.save();
             })
@@ -161,6 +161,25 @@ module.exports = {
 
         Group.findByIdAndRemove(entryId)
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
+            .catch(err => next(err));
+    },
+
+    /**
+     * Retrieves a list of groups for a user.
+     *
+     * The groups are determined by user id.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    getUserGroups(req, res, next) {
+        const userId = req.params.id;
+        const groupFilter = { members: userId };
+
+        Group.find(groupFilter)
+            .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
     }
 };

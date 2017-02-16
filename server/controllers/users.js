@@ -161,7 +161,7 @@ module.exports = {
         Lesson.find(lessonFilter)
             .then(lessons => {
                 lessons.forEach(lesson => {
-                    lesson.attendees = helpers.removeItemFromArray(entryId, lesson);
+                    lesson.attendees = helpers.removeItemFromArray(entryId, lesson.attendees);
                     lesson.save().catch(err => next(err));
                 });
 
@@ -169,7 +169,7 @@ module.exports = {
             })
             .then(groups => {
                 groups.forEach(group => {
-                    group.members = helpers.removeItemFromArray(entryId, group);
+                    group.members = helpers.removeItemFromArray(entryId, group.members);
                     group.save().catch(err => next(err));
                 });
 

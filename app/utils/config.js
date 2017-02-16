@@ -19,8 +19,11 @@ export const generalConfig = {
     defaultUserRole: 'user',
     api: {
         usersUrl: '/users',
-        groupsUrl: '/groups',
-        lessons:{
+        groups: {
+            baseUrl: '/groups',
+            userGroupUrl: '/userGroups'
+        },
+        lessons: {
             baseUrl: '/lessons',
             userLessonUrl: '/userLessons',
             attendanceUrls: {

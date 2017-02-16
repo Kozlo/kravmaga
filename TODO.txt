@@ -15,13 +15,13 @@
 (DONE)// TODO: replace limit with config as an object where limit and offset can be added
 (DONE)- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
 - when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
-  - when deleting a user:
-    - remove user from groups he's in
-      (NEED TO TEST)- do this in the back-end
-      (NEED TO TEST)- update group store in the FE
-    - remove the user from lessons he's attending
-      - do this in the back-end
-      - update group and lesson stores in the FE
+  (DONE)- when deleting a user:
+    (DONE)- remove user from groups he's in
+      (DONE)- do this in the back-end
+      (DONE)- update group store in the FE
+    (DONE)- remove the user from lessons he's attending
+      (DONE)- do this in the back-end
+      (DONE)- update group and lesson stores in the FE
   - when updating a user
     - make sure the group store is up to date
     - MAYBE instead of removing from all groups and adding new ones:

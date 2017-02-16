@@ -54,7 +54,6 @@ class ProfileData extends React.Component {
 
         const { updatable } = this.props;
 
-        // TODO: replace validation with react-validation
         if (!isEmailValid(updatable.email)) {
             return toastr.error('E-pasts ievadīts kļūdaini!');
         }

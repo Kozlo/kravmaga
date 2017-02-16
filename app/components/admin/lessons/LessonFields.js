@@ -56,23 +56,6 @@ class LessonFields extends React.Component {
         LessonActions.attendeeAdded(user)
     }
 
-    // removeAttendee(member) {
-    //     LessonActions.attendeeRemoved(member);
-    // }
-
-    /*renderUser(user, index) {
-        const { given_name, family_name, email } = user;
-        const userInfo = `${email} (${given_name} ${family_name})`;
-
-        return (
-            <option
-                key={`AttendeeOption${index}`}
-                value={user}>
-                {userInfo}
-            </option>
-        );
-    }*/
-
     renderGroup(group, index) {
         const { name, members } = group;
         const groupInfo = `${name} (${members.length} dalībnieki)`;
@@ -85,20 +68,6 @@ class LessonFields extends React.Component {
             </option>
         );
     }
-
-    /*renderAttendee(attendee, index) {
-        const { given_name, family_name, email } = attendee;
-        const memberInfo = `${email} (${given_name} ${family_name})`;
-
-        return (
-            <Button
-                key={`LessonAttendee${index}`}
-                bsSize="small"
-                onClick={this.removeAttendee.bind(this, attendee)}>
-                {memberInfo} <Glyphicon glyph="remove" />
-            </Button>
-        );
-    }*/
 
     _handleDateChange(prop, date) {
         date = date && date !== 'false' ? date : '';
@@ -116,7 +85,7 @@ class LessonFields extends React.Component {
 
     render() {
         const { updatable, groups } = this.props;
-        const { /*_id,*/ group, location,/* attendees,*/ comment } = updatable;
+        const { group, location, comment } = updatable;
 
         return (
             <div>
@@ -180,28 +149,6 @@ class LessonFields extends React.Component {
                             <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
                         </FormGroup>
                     </Col>
-                    {/*TODO: add this later*/}
-                    {/*<Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Nodarbības dalībnieki</ControlLabel>
-                            <Well bsSize="small">
-                                {attendees.map((attendee, index) => this.renderAttendee(attendee, index))}
-                            </Well>
-                        </FormGroup>
-                    </Col>*/}
-                    {/*TODO: add this later*/}
-                    {/*<Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Pievienot nodarbības dalībnieku</ControlLabel>
-                            <FormControl
-                                componentClass="select"
-                                placeholder="Pievienot dalībnieku"
-                                onChange={this.addAttendee.bind(this, updatable)}>
-                                <option value=''></option>
-                                {userList.map((user, index) => this.renderUser(user, index))}
-                            </FormControl>
-                        </FormGroup>
-                    </Col>*/}
                     <Col xs={12}>
                         <FormGroup controlId="comment">
                             <ControlLabel>Komentāri (ne-obligāti)</ControlLabel>

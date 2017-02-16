@@ -22,18 +22,18 @@ class LessonData extends React.Component {
     }
 
     /**
-     * Gets the list of groups to see their names and gets the user's lesson list.
+     * Gets the list of groups the user belongs to, in order to see their names.
+     * And gets the user's lesson list.
      */
     componentDidMount() {
         const { token, userId } = AuthStore.getState();
         const { filters, sorters, config } = this.props;
 
-        GroupActions.getList(token, LessonActions.groupsReceived);
+        GroupActions.getUserGroupList(token, userId);
         LessonActions.getUserLessonList(token, userId, filters, sorters, config);
     }
 
     renderList(entry, index) {
-
         return (
             <LessonEntry
                 key={`LessonEntry${index}`}

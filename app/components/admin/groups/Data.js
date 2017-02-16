@@ -42,7 +42,6 @@ class GroupData extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        // TODO: replace validation with react-validation
         if (!updatable.name) {
             return toastr.error('Grupas nosaukums ievadīts kļūdaini');
         }
