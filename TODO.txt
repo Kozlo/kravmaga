@@ -14,18 +14,93 @@
 (DONE)// TODO: add sorters as well
 (DONE)// TODO: replace limit with config as an object where limit and offset can be added
 (DONE)- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
+- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
+  - when deleting a user:
+    - remove user from groups he's in
+      - do this in the back-end
+      - update group store in the FE
+    - remove the user from lessons he's attending
+      - do this in the back-end
+      - update group store in the FE
+  - when updating a user
+    - make sure the group store is up to date
+    - MAYBE instead of removing from all groups and adding new ones:
+      - store 2 arrays: existing groups and new groups
+      - OR send the groups in batches, not 1 by 1
+  - remove attending lesson when a use is removed from a group
+    - do this in the BE
+    - update lesson store in the FE (admin panel)
+  - remove lessons when a group is deleted
+    - do this in the BE
+    - update lesson store in the FE (admin panel)
+- create 'location' section just like for groups
+  - create BE functionality (copy groups probably)
+    - remove lessons when a location is deleted
+  - add FE to CRUD locations
+    - update lesson store when a location has been updated or deleted
+  - create FE functionality
 - send an update to Ronis:
   - added filters to lesson and users
+
+Bugs from Ronis:
+(DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
+  - fixed with the new sorters
+#10 Adminam pievienojot lietotāju, bildes laukam ir apraksts “Saite uz manu profila bildi”
+
+#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
+
+#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
+  Vienīga iespēja kā apskatīties kāda lietotāja profilu ir Atvert to uz labošanu (poga Labot), bet ja ir vēlēšanas tikai apskatīt,
+  piemēram, bildi, tad to nav iespējams izdarīt. Nepieciešams ļaut atvert skatīšanas režīma nospiežot uz bildes (vai vārda).
+  Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
+#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
+
+#30 Lietotāju veidojot, pēc noklusējuma tas kļūst pievienots visām grupām
+
+#35 Lokācijas kolonnai ir pārāk mazs izmērs, ne vairāk ka 11 simboli
+  Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
+  To varētu palielināt uz Ieradīsies vai datumu kolonu rēķina, jo šīs kolonnas vienmēr būs ar fiksēta skaita rakstzīmēm.
+
+#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās, bet pie “Ieradīsies” skaita lietotāji kuri ir atzīmējuši ka Ieradīsies paliek pieskaitīti. Iespējams vajadzīga papildus apstrāde
+  Iespējams ir jāpaziņo kad nomaina nodarbībai grupu, ka tai jau ir dalībnieki kas ir atzīmējuši ka ieradīsies – līdzīgi ka ir kad dzēš nodarbību kurai ir pieteikušies dalībnieki
+  Ja lietotājs apstiprina grupas izmaiņas tai nodarbībai, tad nodarbībai ir jāpazūd no lietotāju profiliem,
+  kas bija agrāk norādītājā grupā (tā tas tagad arī notiek), un “Piedalīsies” skaitam ir jānomainās uz 0 (tagad paliek tāds ka bija vecajai grupai).
+
+(DONE)#45 Nodarbību attēlošanas secība
+  Nodarbības tiek sakārtotas tādā secībā kādā tās tika labotas, nav iespējas sakārtot pēc laika, grupas utml.
+  Ja nevar tā, tad ieteicams kārtot pēc laika dilstoši, lai jaunākās ir augšā.
+  - fixed with the new sorters/fitlers/config
+
+#50 Vienā lapā attēloto Nodarbību un Lietotāju skaits
+  Nodarbības un lietotājus šobrīd attēlo tik daudz cik ir kopā, bet ieteicams rādīt, piemērām, pa 10 ar iespēju apskatīt nākamos.
+
+#55 Ieteicams sistēmas footerī pievienot saita/lietotnes versija, piemēram v.1.0
+
+#13 Pēc grupas izdzēšanas nodarbības, kas tika izveidotas šai grupai paliek neizdzēstas, bet lietotājiem (lietotāju profilos) vairāk nerādās
+  Nodarbību sarakstā nodarbības izveidotas ar izdzēstām grupām paliek neizdzēstas, bet lietotājiem vairāk nerādās.
+  “Ieradīsies” skaits paliek tāds kāds bija, skaita arī lietotāju kuram nodarbība vairs nerādās.
+  Kad grupa ir izdzēsta, grupas nosaukums nodarbībai mainās uz “Nezināma grupa”.
+  Ieteikums ir rādīt nezināmas grupas nodarbību lietotājam kurš agrāk tai nodarbībai bija pieteicies (norādījis ka ieradīsies)
+  un noņemt to no lietotāja kad nodarbībai tiek pielikta cita grupa, gadījumā ja lietotājs nav jaunas grupas dalībnieks,
+  ja ir dalībnieks – nodarbība lietotājam sarakstā paliek un paliek atzīmēts “Ieradīšos”.
+  “Ieradīsies” skaits brīdī kad nodarbībai tiek pielikta jauna grupa mainās uz 0 gadījumā,
+   ja neviens no jaunas grupas dalībniekiem nav vecās grupas dalībnieks kurš ir norādījis ka ieradīsies.
+
+  Vai ja ir izdzēsta grupa tad nodarbībai ar nezināmo grupu vienkārši nomainīt “Ieradīsies” skaitu uz nulli.
+
+#14 Predefinētas lokācijas
+  Izveidot lokāciju sarakstu līdzīgu ka ir grupām, ar iespēju izveidot, labot un dzēst. Pie lokācijas izvēles nodarbības veidošanas formā piedāvāt sarakstu ar lokācijām,
+  lai nevadītu informāciju kas var atkārtoties ar roku bet pielikt ar vienu klikšķi. Atstāt iespēju ievadīt lokācijas nosaukumu brīvā tekstā,
+  t.i. lokāciju ir jāvar izvēlēties gan no saraksta gan ievadīt pašam.  – Ja šis tiek taisīts, tad var veidot papildus pārbaudes pie nodarbības izveidošanas,
+  vai uz konkrēto nodarbības laiku lokācija nav aizņemta un var arī izveidot skatu pa lokācijām kur būs nodarbību saraksts.
+  - MAYBE add location filter to lessons as well
+
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - make it possible to add/remove attendees from lessons directly
   - make sure the data ir reflected everywhere
 - add user groups to table (if needed)
 - switch to webpack and add hot module re-load
-- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
-  - remove user from groups when he's deleted
-  - remove attending lesson when a use is removed from a group
-  - remove lessons when a group is deleted
 
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 - add filters and limits to user (and other lists)
@@ -35,9 +110,6 @@
 - Add JSDoc to components (research this a bit as well)
 
 Bugs:
-(DONE)- Object.assign doesn't work on IE (should replce with jQuery)
-- cannot create groups with a name that has the same starting letter as others
-(DONE)- Object.assing doesn't work on IE
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
   - maybe I can leave this
 - for lessons, when creating one the start and end dates are checked correctly, but when updating and usein 'runValidators', they are not (at least I can set end date before start)
