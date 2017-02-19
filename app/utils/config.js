@@ -30,7 +30,8 @@ export const generalConfig = {
                 mark: '/markAttending',
                 remove: '/removeAttending'
             }
-        }
+        },
+        locationsUrl: '/locations'
     }
 };
 
@@ -95,6 +96,11 @@ export const userFieldNames = {
  * Group field names.
  */
 export const groupFieldNames = ['_id', 'name', 'members'];
+
+/**
+ * Location field names.
+ */
+export const locationFieldNames = ['_id', 'name'];
 
 /**
  * Lesson field names.

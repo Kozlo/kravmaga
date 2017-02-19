@@ -90,6 +90,7 @@ Bugs from Ronis:
   t.i. lokāciju ir jāvar izvēlēties gan no saraksta gan ievadīt pašam.  – Ja šis tiek taisīts, tad var veidot papildus pārbaudes pie nodarbības izveidošanas,
   vai uz konkrēto nodarbības laiku lokācija nav aizņemta un var arī izveidot skatu pa lokācijām kur būs nodarbību saraksts.
   - MAYBE add location filter to lessons as well
+  - NEED TO RE-THINK THIS!!!!!! for now only pre-defined locations are added
 
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)

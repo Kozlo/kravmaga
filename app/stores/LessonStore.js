@@ -14,6 +14,7 @@ class LessonStore extends EntryStore {
 
         this.attendees = [];
         this.groups = [];
+        this.locations = [];
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
         this.filters = { start: { '$gte': new Date() } };
@@ -37,6 +38,10 @@ class LessonStore extends EntryStore {
 
     onGroupsReceived(groups) {
         this.groups = groups;
+    }
+
+    onLocationsReceived(locations) {
+        this.locations = locations;
     }
 }
 

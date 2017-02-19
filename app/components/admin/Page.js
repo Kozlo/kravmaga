@@ -4,6 +4,7 @@ import Page from '../shared/Page';
 import LessonPanel from './lessons/Panel';
 import UsersPanel from './users/Panel';
 import GroupPanel from './groups/Panel';
+import LocationPanel from './locations/Panel';
 
 class AdminPage extends React.Component {
     render() {
@@ -12,6 +13,7 @@ class AdminPage extends React.Component {
                 <LessonPanel />
                 <UsersPanel />
                 <GroupPanel />
+                <LocationPanel />
             </Page>
         );
     }

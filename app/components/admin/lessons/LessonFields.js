@@ -10,6 +10,7 @@ import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
+import LocationActions from '../../../actions/LocationActions';
 
 import { maxInputLength } from '../../../utils/config';
 import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
@@ -37,6 +38,7 @@ class LessonFields extends React.Component {
         initDateTimePicker('#end', endChangeHandler, end, true);
 
         GroupActions.getList(token, LessonActions.groupsReceived);
+        LocationActions.getList(token, LessonActions.locationsReceived);
     }
 
     handleChange(prop, event) {
@@ -84,7 +86,7 @@ class LessonFields extends React.Component {
     }
 
     render() {
-        const { updatable, groups } = this.props;
+        const { updatable, groups, locations } = this.props;
         const { group, location, comment } = updatable;
 
         return (
@@ -139,12 +141,13 @@ class LessonFields extends React.Component {
                         <FormGroup>
                             <ControlLabel>Lokācija</ControlLabel>
                             <FormControl
-                                type="text"
+                                componentClass="select"
                                 placeholder="Lokācija"
-                                maxLength={maxInputLength.regularField}
-                                value={location}
                                 onChange={this.handleChange.bind(this, 'location')}
-                            />
+                                value={location}>
+                                <option value=''></option>
+                                {locations.map((location, index) => <option key={`LocationOption${index}`}>{location.name}</option>)}
+                            </FormControl>
                             <FormControl.Feedback />
                             <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
                         </FormGroup>

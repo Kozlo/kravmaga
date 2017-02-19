@@ -16,6 +16,7 @@ class LessonActions extends EntryActions {
             'attendeeAdded',
             'attendeeRemoved',
             'groupsReceived',
+            'locationsReceived',
         );
 
         this.url = baseUrl;
