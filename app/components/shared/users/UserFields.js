@@ -59,7 +59,7 @@ class UserFields extends React.Component {
                                 onChange={this.handleChange.bind(this, 'picture')}
                             />
                             <FormControl.Feedback />
-                            <HelpBlock>Saite uz manu profila bildi.</HelpBlock>
+                            <HelpBlock>Saite uz profila bildi.</HelpBlock>
                         </FormGroup>
                     </Col>
                     <Col xs={4}>

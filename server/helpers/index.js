@@ -108,5 +108,18 @@ module.exports = {
         }
 
         return array;
+    },
+
+    /**
+     * Checks if the passed value is a valid URL.
+     *
+     * @public
+     * @param {string} url URL to check
+     * @returns {boolean} Flag showing if the value is a valid URL
+     */
+    isUrlValid(url) {
+        const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
+        return pattern.test(url);
     }
 };

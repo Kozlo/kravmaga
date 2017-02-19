@@ -27,12 +27,12 @@
     - MAYBE instead of removing from all groups and adding new ones:
       - store 2 arrays: existing groups and new groups
       - OR send the groups in batches, not 1 by 1
-  - remove attending lesson when a use is removed from a group
+  - remove attending lesson when a user is removed from a group
     - do this in the BE
     - update lesson store in the FE (admin panel)
-  - remove lessons when a group is deleted
-    - do this in the BE
-    - update lesson store in the FE (admin panel)
+  (DONE)- remove lessons when a group is deleted
+    (DONE)- do this in the BE
+    (DONE)- update lesson store in the FE (admin panel)
   - when updating a group (e.g. it's members) need to update lesson attendance as well
 - create 'location' section just like for groups
   - create BE functionality (copy groups probably)
@@ -46,7 +46,7 @@
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
   - fixed with the new sorters
-#10 Adminam pievienojot lietotāju, bildes laukam ir apraksts “Saite uz manu profila bildi”
+(DONE)#10 Adminam pievienojot lietotāju, bildes laukam ir apraksts “Saite uz manu profila bildi”
 
 #15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
 

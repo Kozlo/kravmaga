@@ -18,7 +18,10 @@ import PasswordChange from '../../shared/users/PasswordChange';
 import UserGroups from './UserGroups';
 
 // utils and config
-import { isEmailValid, prefixAdminFields } from '../../../utils/utils';
+import {
+    isEmailValid, isUrlValid,
+    prefixAdminFields
+} from '../../../utils/utils';
 import { generalConfig } from '../../../utils/config';
 
 class UserData extends React.Component {
@@ -49,9 +52,14 @@ class UserData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
+        const { email, picture } = updatable;
 
-        if (!isEmailValid(updatable.email)) {
+        if (!isEmailValid(email)) {
             return toastr.error('E-pasts ievadīts kļūdaini!');
+        }
+
+        if (!isUrlValid(picture) && picture !== '') {
+            return toastr.error('Profila bildes saitei nav derīga!');
         }
 
         UserActions.setIsRequesting(true);

@@ -17,7 +17,11 @@ import UserFields from '../../shared/users/UserFields';
 import PasswordChange from '../../shared/users/PasswordChange';
 
 // utility methods and config
-import { getGenderValue, createObject, isEmailValid, formatDateString } from '../../../utils/utils';
+import {
+    isUrlValid,
+    getGenderValue, createObject,
+    isEmailValid, formatDateString
+} from '../../../utils/utils';
 import { assets, userFieldNames } from '../../../utils/config';
 
 class ProfileData extends React.Component {
@@ -53,9 +57,14 @@ class ProfileData extends React.Component {
         event.preventDefault();
 
         const { updatable } = this.props;
+        const { email, picture } = updatable;
 
-        if (!isEmailValid(updatable.email)) {
+        if (!isEmailValid(email)) {
             return toastr.error('E-pasts ievadīts kļūdaini!');
+        }
+
+        if (!isUrlValid(picture) && picture !== '') {
+            return toastr.error('Profila bildes saitei nav derīga!');
         }
 
         const { token } = AuthStore.getState();

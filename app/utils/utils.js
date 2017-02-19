@@ -223,7 +223,20 @@ export const updateStoreList = (store, actions) => {
     const { filters, sorters, config } = store.getState();
 
     actions.getList(token, actions.listReceived, filters, sorters, config);
-}
+};
+
+/**
+ * Checks if the passed value is a valid URL.
+ *
+ * @public
+ * @param {string} url URL to check
+ * @returns {boolean} Flag showing if the value is a valid URL
+ */
+export const isUrlValid = url => {
+    const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
+    return pattern.test(url);
+};
 
 export const httpStatusCode = {
     400: res => {

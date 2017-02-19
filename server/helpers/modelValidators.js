@@ -116,14 +116,14 @@ module.exports = {
     },
 
     /**
-     * Checks if the URL length valid.
+     * Checks if the URL length valid or an empty string.
      *
      * @public
      * @param {string} field
      * @returns {boolean} Flag showing if the field is valid
      */
     isUrlFieldValid(field) {
-        return typeof field === 'string' && field.length <= maxFieldLength.url;
+        return typeof field === 'string' && field.length <= maxFieldLength.url && helpers.isUrlValid(field) || field === '';
     },
 
     /**
