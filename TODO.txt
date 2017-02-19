@@ -34,14 +34,6 @@
     (DONE)- do this in the BE
     (DONE)- update lesson store in the FE (admin panel)
   - when updating a group (e.g. it's members) need to update lesson attendance as well
-- create 'location' section just like for groups
-  - create BE functionality (copy groups probably)
-    - remove lessons when a location is deleted
-  - add FE to CRUD locations
-    - update lesson store when a location has been updated or deleted
-  - create FE functionality
-- send an update to Ronis:
-  - added filters to lesson and users
 
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts

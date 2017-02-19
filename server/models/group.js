@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { areMembersValid, isTextFieldValid } = require('../helpers/modelValidators');
 
 /**
- * User schema properties.
+ * Schema properties.
  *
  * @property {String} name Group's name
  */

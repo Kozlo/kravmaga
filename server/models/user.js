@@ -9,7 +9,7 @@ const {
 } = require('../helpers/modelValidators');
 
 /**
- * User schema properties.
+ * Schema properties.
  *
  * @property {String} email Unique user email
  * @property {String} hash Hashed user password
