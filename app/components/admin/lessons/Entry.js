@@ -57,7 +57,7 @@ class LessonEntry extends React.Component {
                     </div>
                 </td>
                 <td>
-                    <div className="cell-wrapper">
+                    <div className="cell-wrapper location-cell">
                         {location}
                     </div>
                 </td>

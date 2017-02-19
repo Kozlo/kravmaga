@@ -48,17 +48,18 @@ Bugs from Ronis:
   - fixed with the new sorters
 (DONE)#10 Adminam pievienojot lietotāju, bildes laukam ir apraksts “Saite uz manu profila bildi”
 
-#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
+(DONE)#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
 
 #20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
   Vienīga iespēja kā apskatīties kāda lietotāja profilu ir Atvert to uz labošanu (poga Labot), bet ja ir vēlēšanas tikai apskatīt,
   piemēram, bildi, tad to nav iespējams izdarīt. Nepieciešams ļaut atvert skatīšanas režīma nospiežot uz bildes (vai vārda).
   Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
-#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
+
+(DONE)#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
 
 (DONE)#30 Lietotāju veidojot, pēc noklusējuma tas kļūst pievienots visām grupām
 
-#35 Lokācijas kolonnai ir pārāk mazs izmērs, ne vairāk ka 11 simboli
+(DONE)#35 Lokācijas kolonnai ir pārāk mazs izmērs, ne vairāk ka 11 simboli
   Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
   To varētu palielināt uz Ieradīsies vai datumu kolonu rēķina, jo šīs kolonnas vienmēr būs ar fiksēta skaita rakstzīmēm.
 
