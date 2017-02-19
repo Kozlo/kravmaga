@@ -68,7 +68,7 @@ export const filterConfig = {
         count: {
             min: 1,
             max: 99,
-            defaultAmount: 5
+            defaultAmount: 10
         }
     },
     users: {

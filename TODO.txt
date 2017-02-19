@@ -63,7 +63,9 @@ Bugs from Ronis:
   Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
   To varētu palielināt uz Ieradīsies vai datumu kolonu rēķina, jo šīs kolonnas vienmēr būs ar fiksēta skaita rakstzīmēm.
 
-#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās, bet pie “Ieradīsies” skaita lietotāji kuri ir atzīmējuši ka Ieradīsies paliek pieskaitīti. Iespējams vajadzīga papildus apstrāde
+#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās,
+  bet pie “Ieradīsies” skaita lietotāji kuri ir atzīmējuši ka Ieradīsies paliek pieskaitīti.
+  Iespējams vajadzīga papildus apstrāde
   Iespējams ir jāpaziņo kad nomaina nodarbībai grupu, ka tai jau ir dalībnieki kas ir atzīmējuši ka ieradīsies – līdzīgi ka ir kad dzēš nodarbību kurai ir pieteikušies dalībnieki
   Ja lietotājs apstiprina grupas izmaiņas tai nodarbībai, tad nodarbībai ir jāpazūd no lietotāju profiliem,
   kas bija agrāk norādītājā grupā (tā tas tagad arī notiek), un “Piedalīsies” skaitam ir jānomainās uz 0 (tagad paliek tāds ka bija vecajai grupai).
@@ -73,10 +75,10 @@ Bugs from Ronis:
   Ja nevar tā, tad ieteicams kārtot pēc laika dilstoši, lai jaunākās ir augšā.
   - fixed with the new sorters/fitlers/config
 
-#50 Vienā lapā attēloto Nodarbību un Lietotāju skaits
+(DONE)#50 Vienā lapā attēloto Nodarbību un Lietotāju skaits
   Nodarbības un lietotājus šobrīd attēlo tik daudz cik ir kopā, bet ieteicams rādīt, piemērām, pa 10 ar iespēju apskatīt nākamos.
 
-#55 Ieteicams sistēmas footerī pievienot saita/lietotnes versija, piemēram v.1.0
+(DONE)#55 Ieteicams sistēmas footerī pievienot saita/lietotnes versija, piemēram v.1.0
 
 #13 Pēc grupas izdzēšanas nodarbības, kas tika izveidotas šai grupai paliek neizdzēstas, bet lietotājiem (lietotāju profilos) vairāk nerādās
   Nodarbību sarakstā nodarbības izveidotas ar izdzēstām grupām paliek neizdzēstas, bet lietotājiem vairāk nerādās.
