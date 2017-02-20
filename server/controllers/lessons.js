@@ -14,6 +14,12 @@ module.exports = {
     /**
      * Create an entry based on the passed params.
      *
+     * Checks if the location is already taken at the specified times by finding entries with the following filters:
+     * - location equals the passed one
+     * - new lesson start/end times:
+     *   - START time is LESS than the existing lesson's END time
+     *   - END time is GREATER than the existing lesson's START time
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -21,8 +27,23 @@ module.exports = {
      */
     createOne(req, res, next) {
         const entryProps = req.body;
+        const { start, end, location } = entryProps;
+        const locationCheckFilter = {
+            location,
+            start : { $lt: end },
+            end : { $gt: start }
+        };
 
-        Lesson.create(entryProps)
+        Lesson.find(locationCheckFilter)
+            .then(entries => {
+                if (entries.length > 0) {
+                    const locationTakenError = helpers.locationTakenError(entries);
+
+                    return next(locationTakenError);
+                }
+
+                return Lesson.create(entryProps);
+            })
             .then(entry => res.status(httpStatusCodes.created).send(entry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
@@ -73,6 +94,12 @@ module.exports = {
     /**
      * Updates the specified entry.
      *
+     * Checks if the location is already taken at the specified times by finding entries with the following filters:
+     * - location equals the passed one
+     * - new lesson start/end times:
+     *   - START time is LESS than the existing lesson's END time
+     *   - END time is GREATER than the existing lesson's START time
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -81,13 +108,28 @@ module.exports = {
     updateOne(req, res, next) {
         const entryId = req.params.id;
         const entryProps = req.body;
+        const { start, end, location } = entryProps;
+        const locationCheckFilter = {
+            location,
+            start : { $lt: end },
+            end : { $gt: start }
+        };
         const opts = { 'new': true, runValidators: true };
 
         if (typeof entryProps.attendees !== 'undefined' && !entryProps.attendees) {
             entryProps.attendees = [];
         }
 
-        Lesson.findByIdAndUpdate(entryId, entryProps, opts)
+        Lesson.find(locationCheckFilter)
+            .then(entries => {
+                if (entries.length > 0) {
+                    const locationTakenError = helpers.locationTakenError(entries);
+
+                    return next(locationTakenError);
+                }
+
+                return Lesson.findByIdAndUpdate(entryId, entryProps, opts);
+            })
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);

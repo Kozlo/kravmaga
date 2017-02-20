@@ -92,8 +92,10 @@ Bugs from Ronis:
   (DONE)- add back the free text field and bind the free text change to the select
   (DONE)- add location filter to lessons
   - MAYBE add a check for when a lesson is saved if the location isn't taken
-    - check if the
-    - might need to adjust the milliseconds to 0 when doing this
+    - check if the start date is less than the beginning AND the end date larger than oterh start date for the same location
+    - might need to adjust the milliseconds to 0 when saving, filtering data etc.
+    - return conflict (409) if this isn't satisfied
+    - need to do the check for bot creating and updating lessons
 
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)

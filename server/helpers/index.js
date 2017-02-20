@@ -93,6 +93,20 @@ module.exports = {
     },
 
     /**
+     *
+     * Creates an error for a location being taken at the specified times.
+     *
+     * @public
+     * @param {Object[]} Existing lessons
+     * @returns {Object} Error
+     */
+    locationTakenError(existingLessons) {
+        const message = `The specified location is already taken at the specified date/time: ${JSON.stringify(existingLessons)}`;
+
+        return this.createError(message, httpStatusCodes.conflict);
+    },
+
+    /**
      * Removes the passed item from the specified array.
      *
      * @public
