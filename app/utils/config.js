@@ -113,5 +113,5 @@ export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'at
  * @property {string} defaultImage Image used for users with no defined picture
  */
 export const assets = {
-    defaultImage: './assets/generic_user.svg'
+    defaultImage: '/assets/generic_user.svg'
 };

@@ -14,6 +14,8 @@ class UserActions extends EntryActions {
             'userGroupsReceived',
             'userGroupIdAdded',
             'userGroupIdRemoved',
+            'setViewableUserId',
+            'clearViewableUserId',
         );
 
         this.url = generalConfig.api.usersUrl;

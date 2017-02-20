@@ -1,6 +1,7 @@
 // dependencies
 import React from 'react';
 import { Button, Image, ButtonToolbar } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
@@ -41,12 +42,13 @@ class UserEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        UserActions.delete(_id, token)
+        UserActions
+            .delete(_id, token)
             .then(() => this._onEntryDeleted());
     }
 
     /**
-     * Updates gourp and lesson stores.
+     * Updates group and lesson stores.
      *
      * @private
      */
@@ -79,18 +81,13 @@ class UserEntry extends React.Component {
                 <td>{index + 1}</td>
                 <td><Image src={picture} style={imageStyle} responsive /></td>
                 <td>
-                    <div className="cell-wrapper">
-                        {given_name}
-                    </div>
-                </td>
-                <td>
-                    <div className="cell-wrapper">
-                        {family_name}
+                    <div className="cell-wrapper full-name-cell">
+                        {given_name} {family_name}
                     </div>
                 </td>
                 <td>
                     <div className="cell-wrapper email-cell">
-                        {email}
+                        <Link to={`/user/${user._id}`}>{email}</Link>
                     </div>
                 </td>
                 <td>
@@ -115,7 +112,6 @@ class UserEntry extends React.Component {
                             onClick={this.initChangePassword.bind(this, user)}>
                             Mainīt Paroli
                         </Button>
-                        {/*TODO: probably remove from production to avoid unexpected problems*/}
                         <Button
                             bsStyle="danger"
                             onClick={this.deleteEntry.bind(this, user)}>

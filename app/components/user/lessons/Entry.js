@@ -1,16 +1,25 @@
 // dependencies
 import React from 'react';
-import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import LessonStore from '../../../stores/LessonStore';
+import GroupStore from '../../../stores/GroupStore';
 import LessonActions from '../../../actions/LessonActions';
 
 // utils
 import { formatDateString } from '../../../utils/utils';
 
 class LessonEntry extends React.Component {
+    static getStores() {
+        return [GroupStore];
+    }
+
+    static getPropsFromStores() {
+        return { groups: GroupStore.getState() };
+    }
+
     markAttending(lessonId) {
         this._updateAttendance(lessonId, LessonActions.markAttending);
     }
@@ -20,8 +29,8 @@ class LessonEntry extends React.Component {
     }
 
     findGroupName(groupId) {
-        const { groups } = LessonStore.getState();
-        const foundGroup = groups.filter(group => group._id === groupId)[0];
+        const { list } = this.props.groups;
+        const foundGroup = list.filter(group => group._id === groupId)[0];
 
         return foundGroup ? foundGroup.name : 'Nezināma grupa';
     }
@@ -89,4 +98,4 @@ class LessonEntry extends React.Component {
     }
 }
 
-export default LessonEntry;
+export default connectToStores(LessonEntry);

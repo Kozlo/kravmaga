@@ -34,9 +34,10 @@ class ProfileData extends React.Component {
     }
 
     componentDidMount() {
-        const { userId, token } = AuthStore.getState();
+        const { token, userId } = AuthStore.getState();
+        let { viewableUserId = userId } = this.props;
 
-        UserActions.get(userId, token);
+        UserActions.get(viewableUserId, token);
     }
 
     update(entry) {
@@ -81,7 +82,7 @@ class ProfileData extends React.Component {
     }
 
     render() {
-        const { entry, isUpdating } = this.props;
+        const { entry, isUpdating, viewableUserId } = this.props;
         const {
             given_name, family_name,
             email, phone,
@@ -90,6 +91,7 @@ class ProfileData extends React.Component {
         const imgSrc = entry.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const birthdateValue = formatDateString(birthdate);
+        const isViewOnly = viewableUserId !== undefined;
         const imageStyle = {
             float: 'left',
             margin: '0 15px 15px 0',
@@ -139,7 +141,9 @@ class ProfileData extends React.Component {
                         </Col>
                     </Row>
                 </Col>
-                <Col xs={12}>
+                {
+                    !isViewOnly &&
+                    <Col xs={12}>
                     <ButtonToolbar>
                         <Button
                             style={btnStyle}
@@ -153,6 +157,7 @@ class ProfileData extends React.Component {
                         </Button>
                     </ButtonToolbar>
                 </Col>
+                }
                 <ManageUser
                     shouldShow={isUpdating}
                     submitHandler={this.submitHandler.bind(this)}

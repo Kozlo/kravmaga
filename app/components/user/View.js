@@ -4,22 +4,22 @@ import UserActions from '../../actions/UserActions';
 
 import Page from '../shared/Page';
 import ProfilePanel from './profile/Panel';
-import LessonsPanel from './lessons/Panel';
 
-class UserPage extends React.Component {
+class UserView extends React.Component {
     componentWillMount() {
-        UserActions.clearViewableUserId();
+        const { viewableUserId } = this.props.params;
+
+        UserActions.setViewableUserId(viewableUserId);
     }
 
     render() {
         return (
             <Page title="Krav Maga">
                 <ProfilePanel />
-                <LessonsPanel />
             </Page>
         );
     }
 }
 
-export default UserPage;
+export default UserView;
 

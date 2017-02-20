@@ -34,6 +34,7 @@
     (DONE)- do this in the BE
     (DONE)- update lesson store in the FE (admin panel)
   - when updating a group (e.g. it's members) need to update lesson attendance as well
+- add route not found page, just like: <Route path="*" component={NotFound} />
 
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
@@ -42,10 +43,12 @@ Bugs from Ronis:
 
 (DONE)#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
 
-#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
+(DONE)#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
   Vienīga iespēja kā apskatīties kāda lietotāja profilu ir Atvert to uz labošanu (poga Labot), bet ja ir vēlēšanas tikai apskatīt,
   piemēram, bildi, tad to nav iespējams izdarīt. Nepieciešams ļaut atvert skatīšanas režīma nospiežot uz bildes (vai vārda).
   Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
+    - note: I implemented a page just like user page, but without the lessons and the ability to edit things for the profile
+
 
 (DONE)#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
 

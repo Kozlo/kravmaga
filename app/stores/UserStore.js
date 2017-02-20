@@ -70,6 +70,14 @@ class UserStore extends EntryStore {
 
         this.userGroupIds.splice(userGroupIdIndex, 1);
     }
+
+    onSetViewableUserId(viewableUserId) {
+        this.viewableUserId = viewableUserId;
+    }
+
+    onClearViewableUserId() {
+        this.viewableUserId = undefined;
+    }
 }
 
 export default alt.createStore(UserStore);

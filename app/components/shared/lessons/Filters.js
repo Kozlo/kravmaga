@@ -76,9 +76,7 @@ class LessonFilters extends React.Component {
     }
 
     render() {
-        const { filters, config } = this.props;
-        const { limit } = config;
-        const { location } = filters;
+        const { limit } = this.props.config;
         const { min, max } = filterConfig.lessons.count;
 
         return (

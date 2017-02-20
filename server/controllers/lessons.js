@@ -170,7 +170,11 @@ module.exports = {
 
         Lesson.findById(entryId)
             .then(entry => {
-                entry.attendees.push(attendeeId);
+                const isNotAttending = entry.attendees.indexOf(attendeeId) === -1;
+
+                if (isNotAttending) {
+                    entry.attendees.push(attendeeId);
+                }
 
                 return entry.save();
             })

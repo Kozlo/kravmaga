@@ -7,6 +7,7 @@ import {
 import App from './components/App';
 import LoginPage from './components/login/Page';
 import UserPage from './components/user/Page';
+import UserView from './components/user/View';
 import AdminPage from './components/admin/Page';
 
 import AuthStore from './stores/AuthStore';
@@ -44,6 +45,7 @@ export default (
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={UserPage} onEnter={requireAuth} />
+            <Route path='user/:viewableUserId' component={UserView} onEnter={requireAuth} />
             <Route path='admin' component={AdminPage} onEnter={isAdmin} />
             <Route path='login' component={LoginPage} onEnter={userLoggedOn} />
             <Route path='*' component={UserPage} onEnter={requireAuth} />
