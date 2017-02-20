@@ -84,18 +84,19 @@ Bugs from Ronis:
 
   Vai ja ir izdzēsta grupa tad nodarbībai ar nezināmo grupu vienkārši nomainīt “Ieradīsies” skaitu uz nulli.
 
-#14 Predefinētas lokācijas
+(DONE)#14 Predefinētas lokācijas
   Izveidot lokāciju sarakstu līdzīgu ka ir grupām, ar iespēju izveidot, labot un dzēst. Pie lokācijas izvēles nodarbības veidošanas formā piedāvāt sarakstu ar lokācijām,
   lai nevadītu informāciju kas var atkārtoties ar roku bet pielikt ar vienu klikšķi. Atstāt iespēju ievadīt lokācijas nosaukumu brīvā tekstā,
   t.i. lokāciju ir jāvar izvēlēties gan no saraksta gan ievadīt pašam.  – Ja šis tiek taisīts, tad var veidot papildus pārbaudes pie nodarbības izveidošanas,
   vai uz konkrēto nodarbības laiku lokācija nav aizņemta un var arī izveidot skatu pa lokācijām kur būs nodarbību saraksts.
   (DONE)- add back the free text field and bind the free text change to the select
   (DONE)- add location filter to lessons
-  - MAYBE add a check for when a lesson is saved if the location isn't taken
-    - check if the start date is less than the beginning AND the end date larger than oterh start date for the same location
+  (DONE- MAYBE add a check for when a lesson is saved if the location isn't taken
+    (DONE)- check if the start date is less than the beginning AND the end date larger than oterh start date for the same location
     - might need to adjust the milliseconds to 0 when saving, filtering data etc.
-    - return conflict (409) if this isn't satisfied
-    - need to do the check for bot creating and updating lessons
+    (DONE)- return conflict (409) if this isn't satisfied
+    (DONE)- add 409 handler for lesson creation/update
+    (DONE)- need to do the check for bot creating and updating lessons
 
 - restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)

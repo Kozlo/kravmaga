@@ -93,7 +93,11 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
         const options = { format };
 
         if (defaultDate) {
-            options.date = new Date(defaultDate);
+            const newDate = new Date(defaultDate);
+
+            newDate.setSeconds(0);
+            newDate.setMilliseconds(0);
+            options.date = newDate;
         }
 
         dateTimePicker.datetimepicker(options);

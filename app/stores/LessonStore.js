@@ -43,6 +43,10 @@ class LessonStore extends EntryStore {
     onLocationsReceived(locations) {
         this.locations = locations;
     }
+
+    onUpdateConflict() {
+        toastr.error(`Lokācija norādītajā laikā ir aizņemta!`);
+    }
 }
 
 export default alt.createStore(LessonStore);
