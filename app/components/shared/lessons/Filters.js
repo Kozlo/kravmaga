@@ -16,7 +16,7 @@ import LessonActions from '../../../actions/LessonActions';
 // components
 
 // utils & config
-import { filterConfig } from '../../../utils/config';
+import { filterConfig, maxInputLength } from '../../../utils/config';
 import { initDateTimePicker } from '../../../utils/utils';
 
 class LessonFilters extends React.Component {
@@ -45,6 +45,15 @@ class LessonFilters extends React.Component {
         this._requestUserLessons();
     }
 
+    handleTextFilterChange(prop, event) {
+        const { filters } = this.props;
+
+        filters[prop] = { $regex: event.target.value };
+        LessonActions.setFilters(filters);
+
+        this._requestUserLessons();
+    }
+
     _requestUserLessons() {
         const { token, userId } = AuthStore.getState();
         const { filters, sorters, config, userLessonsOnly } = this.props;
@@ -67,7 +76,9 @@ class LessonFilters extends React.Component {
     }
 
     render() {
-        const { limit } = this.props.config;
+        const { filters, config } = this.props;
+        const { limit } = config;
+        const { location } = filters;
         const { min, max } = filterConfig.lessons.count;
 
         return (
@@ -85,6 +96,18 @@ class LessonFilters extends React.Component {
                             </InputGroup.Addon>
                         </InputGroup>
                         <HelpBlock>No kura datuma rādīt nodarbības.</HelpBlock>
+                    </FormGroup>
+                </Col>
+                <Col xs={12} sm={6} lg={3}>
+                    <FormGroup>
+                        <ControlLabel>Lokācija</ControlLabel>
+                        <FormControl
+                            type="text"
+                            placeholder="Location"
+                            maxLength={maxInputLength.regularField}
+                            onChange={this.handleTextFilterChange.bind(this, 'location')}
+                        />
+                        <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
                     </FormGroup>
                 </Col>
                 <Col xs={12} sm={6} lg={3}>

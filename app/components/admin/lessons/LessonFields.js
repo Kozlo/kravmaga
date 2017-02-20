@@ -139,7 +139,7 @@ class LessonFields extends React.Component {
                     </Col>
                     <Col xs={12}>
                         <FormGroup>
-                            <ControlLabel>Lokācija</ControlLabel>
+                            <ControlLabel>Lokācija (no definētām)</ControlLabel>
                             <FormControl
                                 componentClass="select"
                                 placeholder="Lokācija"
@@ -150,6 +150,18 @@ class LessonFields extends React.Component {
                             </FormControl>
                             <FormControl.Feedback />
                             <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Lokācija (brīvs teksts)</ControlLabel>
+                            <FormControl
+                                type="text"
+                                placeholder="Location"
+                                value={location}
+                                maxLength={maxInputLength.regularField}
+                                onChange={this.handleChange.bind(this, 'location')}
+                            />
                         </FormGroup>
                     </Col>
                     <Col xs={12}>

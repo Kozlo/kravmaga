@@ -33,7 +33,7 @@ class UserFilters extends React.Component {
         filters[prop] = { $regex: event.target.value };
         UserActions.setFilters(filters);
 
-        this._requestUserLessons();
+        this._requestUsers();
     }
 
     handleConfigChange(prop, event) {
@@ -42,7 +42,7 @@ class UserFilters extends React.Component {
         config[prop] = event.target.value;
         UserActions.setConfig(config);
 
-        this._requestUserLessons();
+        this._requestUsers();
     }
 
     handleFilterChange(prop, event) {
@@ -51,10 +51,10 @@ class UserFilters extends React.Component {
         filters[prop] = event.target.value;
         UserActions.setFilters(filters);
 
-        this._requestUserLessons();
+        this._requestUsers();
     }
 
-    _requestUserLessons() {
+    _requestUsers() {
         const { token } = AuthStore.getState();
         const { filters, sorters, config } = this.props;
 
@@ -65,7 +65,6 @@ class UserFilters extends React.Component {
         const { limit } = this.props.config;
         const { min, max } = filterConfig.users.count;
 
-        // TODO: for now add given_name, family_name, statuss filters, and limit
         return (
             <Row>
                 <Col xs={12} sm={6} lg={3}>

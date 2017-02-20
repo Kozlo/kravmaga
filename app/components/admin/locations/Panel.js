@@ -7,6 +7,7 @@ class LocationsPanel extends React.Component {
     render() {
         return (
             <PagePanel title="Lokācijas">
+                <p>Pre-definēti lokāciju nosaukumi, kas nav tieši sasaistīti ar nodarbībām.</p>
                 <LocationData />
             </PagePanel>
         );

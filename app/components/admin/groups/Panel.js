@@ -7,6 +7,7 @@ class GroupsPanel extends React.Component {
     render() {
         return (
             <PagePanel title="Grupas">
+                <p>Grupas, kurām ir piesaistīti lietotāji.</p>
                 <GroupData />
             </PagePanel>
         );
