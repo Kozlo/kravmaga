@@ -45,7 +45,7 @@ export default (
     <Router history={browserHistory}>
         <Route path="/" component={App}>
             <IndexRoute component={UserPage} onEnter={requireAuth} />
-            <Route path='user/:viewableUserId' component={UserView} onEnter={requireAuth} />
+            <Route path='user/:viewableUserId' component={UserView} onEnter={isAdmin} />
             <Route path='admin' component={AdminPage} onEnter={isAdmin} />
             <Route path='login' component={LoginPage} onEnter={userLoggedOn} />
             <Route path='*' component={UserPage} onEnter={requireAuth} />
