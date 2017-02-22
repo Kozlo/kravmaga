@@ -43,11 +43,12 @@ Bugs from Ronis:
 
 (DONE)#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
 
-(DONE)#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
+#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
   Vienīga iespēja kā apskatīties kāda lietotāja profilu ir Atvert to uz labošanu (poga Labot), bet ja ir vēlēšanas tikai apskatīt,
   piemēram, bildi, tad to nav iespējams izdarīt. Nepieciešams ļaut atvert skatīšanas režīma nospiežot uz bildes (vai vārda).
   Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
     - note: I implemented a page just like user page, but without the lessons and the ability to edit things for the profile
+    BUG: need to fix a but where the page sin't udpated on view to profile switch and some logon errors
 
 
 (DONE)#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
