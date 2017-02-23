@@ -22,7 +22,7 @@ const {
 const {
     getAll, createOne, getOne,
     updateOne, deleteOne, getUserGroups,
-    addMember, removeMember,
+    addUserToGroups, removeUserFromGroups
 } = controller;
 
 /**
@@ -59,11 +59,12 @@ router.route('/userGroups/:id')
     .get(canAccessSelfUnlessAdmin, getUserGroups);
 
 /**
- * Routes for adding/removing to/from a group.
+ * Routes for adding/removing a user to/from several groups.
  */
-router.route('/:id/addMember/:memberId')
-    .patch(addMember);
-router.route('/:id/removeMember/:memberId')
-    .patch(removeMember);
+router.route('/addUserToGroups/:id')
+    .patch(addUserToGroups);
+router.route('/removeUserFromGroups/:id')
+    .patch(removeUserFromGroups);
+
 
 module.exports = router;

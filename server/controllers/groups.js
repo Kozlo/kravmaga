@@ -4,6 +4,7 @@
 
 const config = require('../config');
 const helpers = require('../helpers');
+const groupsHelpers = require('../helpers/groupsHelpers');
 
 const Group = require('../models/group');
 const Lesson = require('../models/lesson');
@@ -103,54 +104,6 @@ module.exports = {
     },
 
     /**
-     * Adds a member to the specified group.
-     *
-     * Checks if the user already is a member before adding.
-     *
-     * @public
-     * @param {Object} req Request object
-     * @param {Object} res Response object
-     * @param {Function} next Executes the next matching route
-     */
-    addMember(req, res, next) {
-        const entryId = req.params.id;
-        const memberId = req.params.memberId;
-
-        Group.findById(entryId)
-            .then(entry => {
-                if (entry.members.indexOf(memberId) < 0) {
-                    entry.members.push(memberId);
-                }
-
-                return entry.save();
-            })
-            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
-            .catch(err => next(err));
-    },
-
-    /**
-     * Removes a member from a group.
-     *
-     * @public
-     * @param {Object} req Request object
-     * @param {Object} res Response object
-     * @param {Function} next Executes the next matching route
-     */
-    removeMember(req, res, next) {
-        const entryId = req.params.id;
-        const memberId = req.params.memberId;
-
-        Group.findById(entryId)
-            .then(entry => {
-                entry.members = helpers.removeItemFromArray(memberId, entry.members);
-
-                return entry.save();
-            })
-            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
-            .catch(err => next(err));
-    },
-
-    /**
      * Deletes the specified entry.
      *
      * Also deletes all lessons for this group.
@@ -188,5 +141,80 @@ module.exports = {
         Group.find(groupFilter)
             .then(entries => res.status(httpStatusCodes.ok).send(entries))
             .catch(err => next(err));
+    },
+
+    /**
+     * Adds a user to all of the specified groups.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    addUserToGroups(req, res, next) {
+        const userId = req.params.id;
+        const groupIds = req.body.groupIds;
+
+        if (!Array.isArray(groupIds) || groupIds.length === 0) {
+            return res.status(httpStatusCodes.ok).send('Nothing to add.');
+        }
+
+        groupIds.forEach((groupId, index, array) => {
+            Group.findById(groupId)
+                .then(entry => {
+                    if (entry.members.indexOf(userId) === -1) {
+                        entry.members.push(userId);
+                    }
+
+                    return entry.save();
+                })
+                .then(() => {
+                    const isLastEntry = index === (array.length - 1);
+
+                    if (isLastEntry) {
+                        res.status(httpStatusCodes.ok).send('User added to all groups specified');
+                    }
+                })
+                .catch(err => next(err));
+        });
+    },
+
+    /**
+     * Removes the specified user from all of the specified groups.
+     *
+     * Additionally, removes the attendance for the user to all of the specified lessons.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    removeUserFromGroups(req, res, next) {
+        const userId = req.params.id;
+        const groupIds = req.body.groupIds;
+
+        if (!Array.isArray(groupIds) || groupIds.length === 0) {
+            return res.status(httpStatusCodes.ok).send('Nothing to add.');
+        }
+
+        groupIds.forEach((groupId, index, array) => {
+            Group.findById(groupId)
+                .then(group => {
+                    if (group.members.indexOf(userId) !== -1) {
+                        groupsHelpers.removeAttendeeFromGroupLessons(userId, groupId, next);
+                        group.members = helpers.removeItemFromArray(userId, group.members);
+                    }
+
+                    return group.save();
+                })
+                .then(() => {
+                    const isLastGroup = index === (array.length - 1);
+
+                    if (isLastGroup) {
+                        res.status(httpStatusCodes.ok).send('User removed from all groups specified, and lessons for the groups');
+                    }
+                })
+                .catch(err => next(err));
+        });
     }
 };

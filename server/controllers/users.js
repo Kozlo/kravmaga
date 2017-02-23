@@ -2,8 +2,6 @@
  * Users controller.
  */
 
-const mongoose = require('mongoose');
-
 const config = require('../config');
 const helpers = require('../helpers');
 const userHelpers = require('../helpers/usersHelpers');

@@ -21,6 +21,12 @@ class UserData extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Retrieves a list of exiting groups.
+     * If the user is being updated, then a list of groups the user is in is updated as well.
+     *
+     * @public
+     */
     componentDidMount() {
         const { token } = AuthStore.getState();
         const { isUpdating, updatable } = this.props;

@@ -36,6 +36,11 @@
   - when updating a group (e.g. it's members) need to update lesson attendance as well
 - add route not found page, just like: <Route path="*" component={NotFound} />
 
+- when returning User data, exlcude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
+- check if a user can only mark attendance if he/she is a member of that group
+- consider moving column names to config
+- consider moving all strings to some language file
+
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
   - fixed with the new sorters

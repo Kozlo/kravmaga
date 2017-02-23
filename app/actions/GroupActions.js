@@ -20,29 +20,29 @@ class GroupActions extends EntryActions {
     }
 
     /**
-     * Adds a user to a group.
+     * Adds a user to several groups.
      *
      * @public
      * @param {string} token Auth token
-     * @param {string} groupId Group id
-     * @param {string} memberId User id
+     * @param {string} userId User id
+     * @param {string} groupIds Group ids
      * @returns {Promise} Request promise
      */
-    addMember(token, groupId, memberId) {
-        return this._updateMembership(token, groupId, memberId, 'addMember');
+    addUserToGroups(token, userId, groupIds) {
+        return this._updateUserGroups(token, userId, groupIds, 'addUserToGroups');
     }
 
     /**
-     * Removes a member from a group.
+     * Adds a user to several groups.
      *
      * @public
      * @param {string} token Auth token
-     * @param {string} groupId Group id
-     * @param {string} memberId User id
+     * @param {string} userId User id
+     * @param {string} groupIds Group ids
      * @returns {Promise} Request promise
      */
-    removeMember(token, groupId, memberId) {
-        return this._updateMembership(token, groupId, memberId, 'removeMember');
+    removeUserFromGroups(token, userId, groupIds) {
+        return this._updateUserGroups(token, userId, groupIds, 'removeUserFromGroups');
     }
 
     /**
@@ -86,21 +86,22 @@ class GroupActions extends EntryActions {
     }
 
     /**
-     * Calls the method to add or remove a member from a group.
+     * Sends a batch request for adding a user to/removing from several groups
      *
      * @private
      * @param {string} token Auth token
-     * @param {string} groupId Group id
-     * @param {string} memberId User id
-     * @param {string} action Action to perform
+     * @param {string} userId User id
+     * @param {string} groupIds Group id
+     * @param {string} action Add or remove action
+     * @param {Function} callback Success callback
      * @returns {Promise} Request promise
      */
-    _updateMembership(token, groupId, memberId, action) {
-        const statusCode = $.extend({ 200: updatedEntry => this.silentUpdated(updatedEntry)}, httpStatusCode);
+    _updateUserGroups(token, userId, groupIds, action) {
         const requestProps = {
-            statusCode,
-            url: `${this.url}/${groupId}/${action}/${memberId}`,
-            method: 'PATCH',
+            statusCode: httpStatusCode,
+            url: `${this.url}/${action}/${userId}`,
+            data: { groupIds },
+            method: 'PATCH'
         };
 
         return this._sendRequest(requestProps, token);
