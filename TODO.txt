@@ -36,6 +36,8 @@
     (DONE)- need the BE changes
     (DONE)- need to update lesson store in FE after group update
 
+- consider increase group (or all) cell width for data fields
+  - also consider changing the max size of date cells as they are always the same (maybe more with timestamp as well)
 - add route not found page, just like: <Route path="*" component={NotFound} />
 - when returning User data, exclude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
 - check if a user can only mark attendance if he/she is a member of that group
