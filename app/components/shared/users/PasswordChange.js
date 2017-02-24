@@ -103,7 +103,6 @@ class PasswordChange extends React.Component {
     }
 
     render() {
-        // TODO: add another state (isChangingPassword) and change that in the parent handler
         const { isRequesting, isChangingPassword, checkPass, updatable } = this.props;
         const { given_name, family_name, email } = updatable;
         const title = `Paroles maiņa ${given_name} ${family_name} (${email})`;

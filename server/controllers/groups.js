@@ -76,6 +76,8 @@ module.exports = {
      *
      * Sets the members property to an empty array if it's defined, but not valid.
      *
+     * If some of the members have been removed from the list, they attendance from the group's lessons is also removed.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -90,7 +92,16 @@ module.exports = {
             entryProps.members = []
         }
 
-        Group.findByIdAndUpdate(entryId, entryProps, opts)
+        Group.findById(entryId)
+            .then(entry => {
+                const removableMemberIds = groupsHelpers.findRemovableMemberIds(entry.members, entryProps.members);
+
+                removableMemberIds.forEach(removableMemberId => {
+                    groupsHelpers.removeAttendeeFromGroupLessons(removableMemberId, entry._id, next);
+                });
+
+                return Group.findByIdAndUpdate(entryId, entryProps, opts);
+            })
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);

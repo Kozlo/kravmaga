@@ -135,5 +135,33 @@ module.exports = {
         const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
         return pattern.test(url);
+    },
+
+    /**
+     * Find a list of items in the first array that are not present in the second array.
+     *
+     * These items represent values that have been removed as a results of the array item replacement.
+     *
+     * @public
+     * @param {string[]} firstArray List items that used to be in the list and may contain items form the new list
+     * @param {string[]} secondArray List of new items
+     * @returns {string[]} List of items  IDs that should be removed
+     */
+    findRemovableItems(firstArray, secondArray) {
+        return firstArray.filter(firstArrayItem => secondArray.indexOf(firstArrayItem) === -1);
+    },
+
+    /**
+     * Find values that are present in the seconds list, but not in the first one (i.e. unique ones).
+     *
+     * These represent values that are new.
+     *
+     * @public
+     * @param {string[]} firstArray List of old items
+     * @param {string[]} secondArray List of new items where new unique values should be looked for
+     * @returns {string[]} List of new, unique items
+     */
+    findAddableItems(firstArray, secondArray) {
+        return secondArray.filter(secondArrayItem => firstArray.indexOf(secondArrayItem) === -1);
     }
 };

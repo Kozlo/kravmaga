@@ -7,12 +7,16 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
+import LessonStore from '../../../stores/LessonStore';
+import LessonActions from '../../../actions/LessonActions';
 
 // components
 import GroupEntry from './Entry';
 import ManageGroup from './ManageGroup';
 import GroupFields from './GroupFields';
-import { getGroupMemberCount } from '../../../utils/utils';
+
+// utils/config
+import { getGroupMemberCount, updateStoreList } from '../../../utils/utils';
 
 class GroupData extends React.Component {
     static getStores() {
@@ -74,19 +78,13 @@ class GroupData extends React.Component {
         }
 
         GroupActions.update(updatable, token)
-            .done(() => {
-                GroupActions.setIsRequesting(false);
-                GroupActions.setIsUpdating(false);
-            })
+            .done(() => this._onGroupUpdated())
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
     create(updatable, token) {
         GroupActions.create(updatable, token)
-            .done(() => {
-                GroupActions.setIsCreating(false);
-                GroupActions.setIsRequesting(false);
-            })
+            .done(() => this._onGroupCreated())
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
@@ -100,6 +98,28 @@ class GroupData extends React.Component {
                 entry={entry}
                 memberCount={memberCount} />
         );
+    }
+
+    /**
+     * Updates lesson store in case group members have been changes.
+     * Sets the requesting and updating flags to false.
+     *
+     * @private
+     */
+    _onGroupUpdated() {
+        updateStoreList(LessonStore, LessonActions);
+        GroupActions.setIsUpdating(false);
+        GroupActions.setIsRequesting(false);
+    }
+
+    /**
+     * Sets the creating and requesting flags to false.
+     *
+     * @private
+     */
+    _onGroupCreated() {
+        GroupActions.setIsCreating(false);
+        GroupActions.setIsRequesting(false);
     }
 
     render() {

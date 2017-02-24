@@ -22,24 +22,27 @@
     (DONE)- remove the user from lessons he's attending
       (DONE)- do this in the back-end
       (DONE)- update group and lesson stores in the FE
-  - when updating a user
-    - make sure the group store is up to date
-    - MAYBE instead of removing from all groups and adding new ones:
-      - store 2 arrays: existing groups and new groups
-      - OR send the groups in batches, not 1 by 1
-  - remove attending lesson when a user is removed from a group
-    - do this in the BE
-    - update lesson store in the FE (admin panel)
+  (DONE)- when updating a user
+    (DONE)- make sure the group store is up to date
+    (DONE)- MAYBE instead of removing from all groups and adding new ones:
+      (DONE)- OR send the groups in batches, not 1 by 1
+  (DONE)- remove attending lesson when a user is removed from a group
+    (DONE)- do this in the BE
+    (DONE)- update lesson store in the FE (admin panel)
   (DONE)- remove lessons when a group is deleted
     (DONE)- do this in the BE
     (DONE)- update lesson store in the FE (admin panel)
-  - when updating a group (e.g. it's members) need to update lesson attendance as well
-- add route not found page, just like: <Route path="*" component={NotFound} />
+  (DONE)- when updating a group (e.g. it's members) need to update lesson attendance as well
+    (DONE)- need the BE changes
+    (DONE)- need to update lesson store in FE after group update
 
-- when returning User data, exlcude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
+- add route not found page, just like: <Route path="*" component={NotFound} />
+- when returning User data, exclude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
 - check if a user can only mark attendance if he/she is a member of that group
 - consider moving column names to config
 - consider moving all strings to some language file
+- create functional test cases (e.g. when updating a use, this and that data should be so and so...). this can later be re-used for e2e tests
+- send and update to Ronis
 
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
