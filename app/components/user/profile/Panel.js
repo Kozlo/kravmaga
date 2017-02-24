@@ -6,7 +6,7 @@ import ProfileData from './Data';
 class ProfilePanel extends React.Component {
     render() {
         return (
-            <PagePanel title="Mans Profils">
+            <PagePanel title="Profila Info">
                 <ProfileData />
             </PagePanel>
         );

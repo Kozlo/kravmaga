@@ -14,7 +14,7 @@
 (DONE)// TODO: add sorters as well
 (DONE)// TODO: replace limit with config as an object where limit and offset can be added
 (DONE)- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
-- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
+(DONE)- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
   (DONE)- when deleting a user:
     (DONE)- remove user from groups he's in
       (DONE)- do this in the back-end
@@ -36,6 +36,8 @@
     (DONE)- need the BE changes
     (DONE)- need to update lesson store in FE after group update
 
+- consider adding expandable panels
+- consider reducing the size of panels for large screens
 - consider increase group (or all) cell width for data fields
   - also consider changing the max size of date cells as they are always the same (maybe more with timestamp as well)
 - add route not found page, just like: <Route path="*" component={NotFound} />
@@ -69,7 +71,7 @@ Bugs from Ronis:
   Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
   To varētu palielināt uz Ieradīsies vai datumu kolonu rēķina, jo šīs kolonnas vienmēr būs ar fiksēta skaita rakstzīmēm.
 
-#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās,
+(DONE)#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās,
   bet pie “Ieradīsies” skaita lietotāji kuri ir atzīmējuši ka Ieradīsies paliek pieskaitīti.
   Iespējams vajadzīga papildus apstrāde
   Iespējams ir jāpaziņo kad nomaina nodarbībai grupu, ka tai jau ir dalībnieki kas ir atzīmējuši ka ieradīsies – līdzīgi ka ir kad dzēš nodarbību kurai ir pieteikušies dalībnieki
@@ -86,7 +88,7 @@ Bugs from Ronis:
 
 (DONE)#55 Ieteicams sistēmas footerī pievienot saita/lietotnes versija, piemēram v.1.0
 
-#13 Pēc grupas izdzēšanas nodarbības, kas tika izveidotas šai grupai paliek neizdzēstas, bet lietotājiem (lietotāju profilos) vairāk nerādās
+(DONE)#13 Pēc grupas izdzēšanas nodarbības, kas tika izveidotas šai grupai paliek neizdzēstas, bet lietotājiem (lietotāju profilos) vairāk nerādās
   Nodarbību sarakstā nodarbības izveidotas ar izdzēstām grupām paliek neizdzēstas, bet lietotājiem vairāk nerādās.
   “Ieradīsies” skaits paliek tāds kāds bija, skaita arī lietotāju kuram nodarbība vairs nerādās.
   Kad grupa ir izdzēsta, grupas nosaukums nodarbībai mainās uz “Nezināma grupa”.
@@ -112,7 +114,7 @@ Bugs from Ronis:
     (DONE)- add 409 handler for lesson creation/update
     (DONE)- need to do the check for bot creating and updating lessons
 
-- restyle the profile page
+(DONE)- restyle the profile page
 - improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
 - make it possible to add/remove attendees from lessons directly
   - make sure the data ir reflected everywhere

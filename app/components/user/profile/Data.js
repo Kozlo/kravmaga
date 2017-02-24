@@ -1,10 +1,7 @@
 // dependencies
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import {
-    Row, Col, Button,
-    ButtonToolbar, Image
-} from 'react-bootstrap';
+import { Row, Col, Media, Image } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
@@ -12,17 +9,11 @@ import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
 
 // components
-import ManageUser from '../../shared/users/ManageUser';
-import UserFields from '../../shared/users/UserFields';
-import PasswordChange from '../../shared/users/PasswordChange';
+import ProfileActions from './Actions';
 
 // utility methods and config
-import {
-    isUrlValid,
-    getGenderValue, createObject,
-    isEmailValid, formatDateString
-} from '../../../utils/utils';
-import { assets, userFieldNames } from '../../../utils/config';
+import { getGenderValue, formatDateString } from '../../../utils/utils';
+import { assets } from '../../../utils/config';
 
 class ProfileData extends React.Component {
     static getStores() {
@@ -33,56 +24,25 @@ class ProfileData extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Retrieves the user whose profile is begin viewed.
+     *
+     * @public
+     */
     componentDidMount() {
         const { token, userId } = AuthStore.getState();
-        let { viewableUserId = userId } = this.props;
+        const { viewableUserId = userId } = this.props;
 
         UserActions.get(viewableUserId, token);
     }
 
-    update(entry) {
-        UserActions.clearUpdatable(entry);
-        UserActions.setIsUpdating(true);
-    }
-
-    initChangePassword(entry) {
-        UserActions.clearUpdatable(entry);
-        UserActions.setIsChangingPassword(true);
-    }
-
-    closeHandler() {
-        UserActions.setIsUpdating(false);
-    }
-
-    submitHandler(event) {
-        event.preventDefault();
-
-        const { updatable } = this.props;
-        const { email, picture } = updatable;
-
-        if (!isEmailValid(email)) {
-            return toastr.error('E-pasts ievadīts kļūdaini!');
-        }
-
-        if (!isUrlValid(picture) && picture !== '') {
-            return toastr.error('Profila bildes saitei nav derīga!');
-        }
-
-        const { token } = AuthStore.getState();
-        const updatableProps = createObject(userFieldNames.general, updatable);
-
-        UserActions.setIsRequesting(true);
-        UserActions
-            .update(updatableProps, token)
-            .done(() => {
-                UserActions.setIsUpdating(false);
-                UserActions.setIsRequesting(false);
-            })
-            .fail(() => UserActions.setIsRequesting(false));
-    }
-
+    /**
+     * Renders the user profile panel data.
+     *
+     * If the component is not read-only, renders user profile actions.
+     */
     render() {
-        const { entry, isUpdating, viewableUserId } = this.props;
+        const { entry, viewableUserId } = this.props;
         const {
             given_name, family_name,
             email, phone,
@@ -92,79 +52,42 @@ class ProfileData extends React.Component {
         const genderValue = getGenderValue(gender);
         const birthdateValue = formatDateString(birthdate);
         const isViewOnly = viewableUserId !== undefined;
-        const imageStyle = {
-            float: 'left',
-            margin: '0 15px 15px 0',
-            maxWidth: '130px'
-        };
-        const btnStyle = {
-            float: 'right',
-            marginRight: '10px'
-        };
+        const imageStyle = { float: 'left', width: '130px', margin: '0 10px 10px 0' };
 
         return (
             <Row>
                 <Col xs={12}>
-                    <Row>
-                        <Col xs={12} sm={5}>
-                            <Image src={imgSrc} style={imageStyle} responsive />
-                            <dl>
-                                <dt>Vārds, Uzvārds</dt>
-                                <dd>{given_name} {family_name}</dd>
-                            </dl>
-                        </Col>
-                        <Col xs={6} sm={3}>
-                            <dl>
-                                <dt>E-pasts</dt>
-                                <dd>{email}</dd>
-                            </dl>
-                        </Col>
-                        <Col xs={6} sm={2}>
-                            <dl>
-                                <dt>Telefona nr.</dt>
-                                <dd>{phone}</dd>
-                            </dl>
-                        </Col>
-                        <Col xs={6} sm={2}>
-                            <dl>
-                                <dt>Dzimums</dt>
-                                <dd>{genderValue}</dd>
-                            </dl>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={6}>
-                            <dl>
-                                <dt>Dzimšanas datums</dt>
-                                <dd>{birthdateValue}</dd>
-                            </dl>
-                        </Col>
-                    </Row>
+                    <Media>
+                        <Media.Left>
+                            <Image src={imgSrc} style={imageStyle} alt="Lietotāja profils" />
+                        </Media.Left>
+                        <Media.Body>
+                            <Media.Heading>{given_name} {family_name}</Media.Heading>
+                            <Row>
+                                <Col xs={12} sm={6}>
+                                    <p><b>E-pasts:</b> {email}</p>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <p><b>Telefona nr:</b> {phone}</p>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12} sm={6}>
+                                    <p><b>Dzimums:</b> {genderValue}</p>
+                                </Col>
+                                <Col xs={12} sm={6}>
+                                    <p><b>Dzimšanas diena:</b> {birthdateValue}</p>
+                                </Col>
+                            </Row>
+                        </Media.Body>
+                    </Media>
                 </Col>
                 {
                     !isViewOnly &&
                     <Col xs={12}>
-                    <ButtonToolbar>
-                        <Button
-                            style={btnStyle}
-                            onClick={this.update.bind(this, entry)}>
-                            Labot Info
-                        </Button>
-                        <Button
-                            bsStyle="warning"
-                            onClick={this.initChangePassword.bind(this, entry)}>
-                            Mainīt Paroli
-                        </Button>
-                    </ButtonToolbar>
-                </Col>
+                        <ProfileActions />
+                    </Col>
                 }
-                <ManageUser
-                    shouldShow={isUpdating}
-                    submitHandler={this.submitHandler.bind(this)}
-                    closeHandler={this.closeHandler.bind(this)}>
-                    <UserFields />
-                </ManageUser>
-                <PasswordChange checkPass={true} />
             </Row>
         );
     }
