@@ -1,6 +1,9 @@
 import alt from '../alt';
 import { httpStatusCode, fetchData } from '../utils/utils';
 
+/**
+ * Actions used for authentication.
+ */
 class AuthActions {
     constructor() {
         this.generateActions(

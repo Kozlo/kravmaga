@@ -3,8 +3,13 @@ import {
     getAuthorizationHeader
 } from '../utils/utils';
 
-
+/**
+ * Re-usable actions used by different sections (users, lessons, groups, etc.)
+ */
 class EntryActions {
+    /**
+     * Generated general re-usable actions.
+     */
     constructor() {
         this.generateActions(
             'received',
@@ -24,6 +29,14 @@ class EntryActions {
         );
     }
 
+    /**
+     * Sends a request for creating a new entry.
+     *
+     * @public
+     * @param {Object} props Entry properties
+     * @param {string} token Authentication token
+     * @returns {Promise} Request promise
+     */
     create(props, token) {
         const statusCode = $.extend(
             { 201: entry => this.created(entry)},
@@ -42,6 +55,14 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
+    /**
+     * Sends a request to get an existing entry.
+     *
+     * @public
+     * @param {string} id Entry ID
+     * @param {string} token Authentication token
+     * @returns {Promise} Request promise
+     */
     get(id, token) {
         const statusCode = $.extend({ 200: entry => this.received(entry) }, httpStatusCode);
         const requestProps = {
@@ -56,6 +77,7 @@ class EntryActions {
     /**
      * Retrieve a list of entries.
      *
+     * @public
      * @param {string} token Auth token
      * @param {Function} [successHandler] Success handler
      * @param {Object} [filters] Entry filters
@@ -75,6 +97,14 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
+    /**
+     * Sends a request to update an existing entry.
+     *
+     * @public
+     * @param {Object} props Entry properties to update
+     * @param {string} token Authentication token
+     * @returns {Promise} Request promise
+     */
     update(props, token) {
         const statusCode = $.extend(
             { 200: updatedEntry => this.updated(updatedEntry) },
@@ -91,6 +121,14 @@ class EntryActions {
         return this._sendRequest(requestProps, token);
     }
 
+    /**
+     * Sends a request to delete an entry.
+     *
+     * @public
+     * @param {string} id Entry ID
+     * @param {string} token Authentication token
+     * @returns {Promise} Request promise
+     */
     delete(id, token) {
         const statusCode = $.extend({ 200: deletedEntry => this.deleted(deletedEntry) }, httpStatusCode);
         const requestProps = {

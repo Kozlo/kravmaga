@@ -3,7 +3,16 @@ import EntryActions from './EntryActions';
 import { userFieldNames, generalConfig } from '../utils/config';
 import { createObject } from '../utils/utils';
 
+/**
+ * Actions for user data.
+ */
 class UserActions extends EntryActions {
+    /**
+     * Generates general user-specific actions.
+     * Assigns the base URL.
+     *
+     * @param {Object} props Parent object properties
+     */
     constructor(props) {
         super(props);
 

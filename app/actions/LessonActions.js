@@ -5,11 +5,20 @@ import EntryActions from './EntryActions';
 import { lessonFieldNames, generalConfig } from '../utils/config';
 import { httpStatusCode, createObject } from '../utils/utils';
 
+/**
+ * Actions for lesson data.
+ */
 class LessonActions extends EntryActions {
+    /**
+     * Generates general lesson-specific actions.
+     * Assigns the base, user lesson, and attendance URLs.
+     *
+     * @param {Object} props Parent object properties
+     */
     constructor(props) {
-        const { baseUrl, userLessonUrl, attendanceUrls } = generalConfig.api.lessons;
-
         super(props);
+
+        const { baseUrl, userLessonUrl, attendanceUrls } = generalConfig.api.lessons;
 
         this.generateActions(
             'attendeesReceived',

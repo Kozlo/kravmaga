@@ -3,7 +3,16 @@ import EntryActions from './EntryActions';
 import { groupFieldNames, generalConfig } from '../utils/config';
 import { createObject, httpStatusCode } from '../utils/utils';
 
+/**
+ * Actions for group data.
+ */
 class GroupActions extends EntryActions {
+    /**
+     * Generates general groups-specific actions.
+     * Assigns the base, and user group URLs.
+     *
+     * @param {Object} props Parent object properties
+     */
     constructor(props) {
         super(props);
 
