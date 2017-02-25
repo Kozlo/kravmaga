@@ -19,6 +19,11 @@ import LessonActions from '../../../actions/LessonActions';
 import { filterConfig, maxInputLength } from '../../../utils/config';
 import { initDateTimePicker } from '../../../utils/utils';
 
+/**
+ * Re-usable component for filtering lessons.
+ *
+ * Used on both the admin panel and in user lessons panel.
+ */
 class LessonFilters extends React.Component {
     static getStores() {
         return [LessonStore];
@@ -28,6 +33,11 @@ class LessonFilters extends React.Component {
         return LessonStore.getState();
     }
 
+    /**
+     * Initiates the start time date/time picker.
+     *
+     * @public
+     */
     componentDidMount() {
         const { $gte } = this.props.filters.start;
         const startChangeHandler = this._handleDateChange.bind(this);
@@ -35,6 +45,15 @@ class LessonFilters extends React.Component {
         initDateTimePicker('#startFilter', startChangeHandler, $gte);
     }
 
+    /**
+     * Request config value changed handler.
+     *
+     * Makes a new request when a change is made to reflect the change in the data.
+     *
+     * @public
+     * @param {*} prop Changed property
+     * @param {Object} event Change event
+     */
     handleConfigChange(prop, event) {
         const { config } = this.props;
         const value = parseInt(event.target.value, 10);
@@ -45,6 +64,15 @@ class LessonFilters extends React.Component {
         this._requestUserLessons();
     }
 
+    /**
+     * Text filter value changed handler.
+     *
+     * Makes a new request when a change is made to reflect the change in the data.
+     *
+     * @public
+     * @param {*} prop Changed property
+     * @param {Object} event Change event
+     */
     handleTextFilterChange(prop, event) {
         const { filters } = this.props;
 
@@ -54,6 +82,32 @@ class LessonFilters extends React.Component {
         this._requestUserLessons();
     }
 
+    /**
+     * Date filter value changed handler.
+     *
+     * Makes a new request when a change is made to reflect the change in the data.
+     *
+     * @private
+     * @param {*} date The new date value
+     */
+    _handleDateChange(date) {
+        const { filters } = this.props;
+
+        date = date && date !== 'false' ? date : '';
+        filters.start = { '$gte': date };
+        LessonActions.setFilters(filters);
+
+        this._requestUserLessons();
+    }
+
+    /**
+     * Requests user lessons.
+     *
+     * If user lesson only flag is true, the lessons for the current user are fetched.
+     * Otherwise all lessons are fetched (based on current filter, sorted, config).
+     *
+     * @private
+     */
     _requestUserLessons() {
         const { token, userId } = AuthStore.getState();
         const { filters, sorters, config, userLessonsOnly } = this.props;
@@ -65,16 +119,12 @@ class LessonFilters extends React.Component {
         }
     }
 
-    _handleDateChange(date) {
-        const { filters } = this.props;
-
-        date = date && date !== 'false' ? date : '';
-        filters.start = { '$gte': date };
-        LessonActions.setFilters(filters);
-
-        this._requestUserLessons();
-    }
-
+    /**
+     * Renders a form controls with filters use for lessons.
+     *
+     * @public
+     * @returns {string} HTML markup for the component
+     */
     render() {
         const { limit } = this.props.config;
         const { min, max } = filterConfig.lessons.count;

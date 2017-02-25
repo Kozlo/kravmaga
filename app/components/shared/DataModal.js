@@ -11,6 +11,12 @@ import { Button, Modal } from 'react-bootstrap';
  * @property {boolean} isDisabled Flag showing if the submit button should be enabled.
  */
 class DataModal extends React.Component {
+    /**
+     * Renders a Bootstrap Modal with a title, a body, and a footer with action buttons.
+     *
+     * @public
+     * @returns {string} HTML markup for the component
+     */
     render() {
         const {
             shouldShow, title,

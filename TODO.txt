@@ -17,32 +17,19 @@
 (DONE)- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
   (DONE)- when deleting a user:
     (DONE)- remove user from groups he's in
-      (DONE)- do this in the back-end
-      (DONE)- update group store in the FE
     (DONE)- remove the user from lessons he's attending
-      (DONE)- do this in the back-end
-      (DONE)- update group and lesson stores in the FE
   (DONE)- when updating a user
     (DONE)- make sure the group store is up to date
     (DONE)- MAYBE instead of removing from all groups and adding new ones:
       (DONE)- OR send the groups in batches, not 1 by 1
   (DONE)- remove attending lesson when a user is removed from a group
-    (DONE)- do this in the BE
-    (DONE)- update lesson store in the FE (admin panel)
   (DONE)- remove lessons when a group is deleted
-    (DONE)- do this in the BE
-    (DONE)- update lesson store in the FE (admin panel)
   (DONE)- when updating a group (e.g. it's members) need to update lesson attendance as well
-    (DONE)- need the BE changes
-    (DONE)- need to update lesson store in FE after group update
 
-- consider adding expandable panels
-- consider reducing the size of panels for large screens
 - consider increase group (or all) cell width for data fields
   - also consider changing the max size of date cells as they are always the same (maybe more with timestamp as well)
 - add route not found page, just like: <Route path="*" component={NotFound} />
 - when returning User data, exclude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
-- check if a user can only mark attendance if he/she is a member of that group
 - consider moving column names to config
 - consider moving all strings to some language file
 - create functional test cases (e.g. when updating a use, this and that data should be so and so...). this can later be re-used for e2e tests
@@ -115,31 +102,20 @@ Bugs from Ronis:
     (DONE)- need to do the check for bot creating and updating lessons
 
 (DONE)- restyle the profile page
-- improve the layout for buttons (maybe create an 'actions' button that toggles a modal with all of the actions)
-- make it possible to add/remove attendees from lessons directly
-  - make sure the data ir reflected everywhere
-- add user groups to table (if needed)
 - switch to webpack and add hot module re-load
 
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
-- add filters and limits to user (and other lists)
-- consider looping through the form control and creating them dynamically instead of having separate entries
 
-- optionally add the PUT method as well, but make sure it works as expected
 - Add JSDoc to components (research this a bit as well)
 
 Bugs:
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)
   - maybe I can leave this
-- for lessons, when creating one the start and end dates are checked correctly, but when updating and usein 'runValidators', they are not (at least I can set end date before start)
+(DONE)- for lessons, when creating one the start and end dates are checked correctly, but when updating and usein 'runValidators', they are not (at least I can set end date before start)
   - could be I need to add custom validation there
 
 -----------------------------------------------
 Later
-- sort lessons by start date properly
-- when saving a group for lesson, attendee for users etc... consider adding validation check where the entry's existence is checked (maybe not... need to consider)
-- when deleting a user, should also remove his ID from groups and lessons
-- research about auth0 and JWT, should the token be automatically refreshed after a while if the user is active?
 - read on node.js/Express security and consider adding https://www.npmjs.com/package/helmet
 - add and use Node Security Project on the proejct https://blog.risingstack.com/node-js-security-checklist/ ALDO snyk (checks and fixes issues in your codebase)
 - limit how long input can be (e.g. no 100+ char long emails)
@@ -153,7 +129,6 @@ Later
 - for admin panel in actions use: https://react-bootstrap.github.io/components.html#btn-groups-toolbar
 - split up utils code into separate files
 - research dependencies. maybe I don't nee both react and react-dom
-- add a 'PUT' handler
 - consider lazy loading for components to reduce initial JS file size
 - when done with phase 1, read on releases and make it a major release
 

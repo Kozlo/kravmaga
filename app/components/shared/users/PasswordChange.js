@@ -13,6 +13,11 @@ import DataModal from '../DataModal';
 
 import { isPasswordValid } from '../../../utils/utils';
 
+/**
+ * Data modal component for changing a user's password.
+ *
+ * User by both users to change own password and admins for other users.
+ */
 class PasswordChange extends React.Component {
     static getStores() {
         return [UserStore];
@@ -22,6 +27,13 @@ class PasswordChange extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Modal closed event handler.
+     *
+     * Sets the is changing password flag to false to close the modal.
+     *
+     * @public
+     */
     closeHandler() {
         UserActions.setIsChangingPassword(false);
     }
@@ -71,6 +83,16 @@ class PasswordChange extends React.Component {
         toastr.error('Ievadītā esošā parole nav pareiza!');
     }
 
+    /**
+     * Checks if the entered values are valid and calls the method to change the password if so.
+     *
+     * The entered new password must satisfy the complexity rules.
+     * The re-entered password must match the first entry.
+     *
+     * @private
+     * @param {Object} form Password change form
+     * @returns {*}
+     */
     _checkEnteredPassword(form) {
         const password = form.password.value;
         const passwordDoubleCheck = form.passwordDoubleCheck.value;
@@ -86,6 +108,14 @@ class PasswordChange extends React.Component {
         this._changePassword(password);
     }
 
+    /**
+     * Calls the method to change the password in the back-end.
+     *
+     * Sets the is requesting flag to true to disable the save button.
+     *
+     * @private
+     * @param {string} password User's new password
+     */
     _changePassword(password) {
         const { token } = AuthStore.getState();
         const { _id } = this.props.updatable;
@@ -93,15 +123,31 @@ class PasswordChange extends React.Component {
 
         UserActions.setIsRequesting(true);
         UserActions.update(userProps, token)
-            .done(() => {
-                UserActions.setIsRequesting(false);
-                UserActions.setIsChangingPassword(false);
-            })
-            .fail(() => {
-                UserActions.setIsRequesting(false);
-            });
+            .done(() => this._onPasswordChanged())
+            .fail(() => UserActions.setIsRequesting(false));
     }
 
+    /**
+     * Password changed success handler.
+     *
+     * Sets the is requesting and is changing password flags to false.
+     *
+     * @private
+     */
+    _onPasswordChanged() {
+        UserActions.setIsRequesting(false);
+        UserActions.setIsChangingPassword(false);
+    }
+
+    /**
+     * Renders a Bootstrap Modal with new password fields.
+     *
+     * If the checkPass flag is set to true (i.e. when a user is changing own password),
+     * the field for checking the existing password is added as well.
+     *
+     * @public
+     * @returns {string} HTML markup for the component
+     */
     render() {
         const { isRequesting, isChangingPassword, checkPass, updatable } = this.props;
         const { given_name, family_name, email } = updatable;

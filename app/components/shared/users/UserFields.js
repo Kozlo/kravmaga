@@ -11,6 +11,9 @@ import UserActions from '../../../actions/UserActions';
 import { assets , maxInputLength } from '../../../utils/config';
 import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
+/**
+ * Component for rendering general user properties editable by admins and users for their own profiles.
+ */
 class UserFields extends React.Component {
     static getStores() {
         return [UserStore];
@@ -20,6 +23,11 @@ class UserFields extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Initiates the birthdate date picker.
+     *
+     * @public
+     */
     componentDidMount() {
         const { updatable } = this.props;
         const { birthdate } = updatable;
@@ -28,6 +36,15 @@ class UserFields extends React.Component {
         initDateTimePicker('#birthdate', dateChangeHandler, birthdate);
     }
 
+    /**
+     * Sets the changed updatable user property value.
+     *
+     * Updates the store to reflect the updatable object changes.
+     *
+     * @public
+     * @param {*} prop Property value
+     * @param {Object} event Change event
+     */
     handleChange(prop, event) {
         const { updatable } = this.props;
 
@@ -36,6 +53,12 @@ class UserFields extends React.Component {
         UserActions.setUpdatable(updatable);
     }
 
+    /**
+     * Renders editable user fields as form controls.
+     *
+     * @public
+     * @returns {string} HTML markup for the component
+     */
     render() {
         const {
             picture,
