@@ -4,12 +4,21 @@ import UserActions from '../actions/UserActions';
 import { createObject } from '../utils/utils';
 import { userFieldNames, filterConfig } from '../utils/config';
 
+/**
+ * Store for user-related data.
+ */
 class UserStore extends EntryStore {
+    /**
+     * Binds the authentication actions to event handlers.
+     * Created objects used by the store.
+     *
+     * @public
+     */
     constructor(props) {
+        super(props);
+
         const { general, admin_fields } = userFieldNames;
         const { defaultAmount } = filterConfig.users.count;
-
-        super(props);
 
         this.bindActions(UserActions);
 
@@ -19,14 +28,6 @@ class UserStore extends EntryStore {
         this.groupList = [];
         this.userGroupIds = [];
         this.config = { limit: defaultAmount };
-    }
-
-    onSetIsChangingPassword(isChangingPassword) {
-        this.isChangingPassword = isChangingPassword;
-    }
-
-    onUpdateConflict() {
-        toastr.error('Lietotājs ar norādīto e-pastu jau eksistē');
     }
 
     /**
@@ -71,12 +72,44 @@ class UserStore extends EntryStore {
         this.userGroupIds.splice(userGroupIdIndex, 1);
     }
 
+    /**
+     * Viewable user changed handler.
+     *
+     * Sets the user object of the view user page.
+     *
+     * @public
+     * @param {string} viewableUserId
+     */
     onSetViewableUserId(viewableUserId) {
         this.viewableUserId = viewableUserId;
     }
 
+    /**
+     * Viewable user cleared handler.
+     *
+     * Clears the viewable user.
+     *
+     * @public
+     */
     onClearViewableUserId() {
         this.viewableUserId = undefined;
+    }
+
+    /**
+     * Is changing password flag value changed handler.
+     *
+     * @public
+     * @param {boolean} isChangingPassword Flag showing if the password is being changed.
+     */
+    onSetIsChangingPassword(isChangingPassword) {
+        this.isChangingPassword = isChangingPassword;
+    }
+
+    /**
+     * Handler for conflicts (status 409) in the API.
+     */
+    onUpdateConflict() {
+        toastr.error('Lietotājs ar norādīto e-pastu jau eksistē');
     }
 }
 
