@@ -6,11 +6,13 @@ import Page from '../shared/Page';
 import ProfilePanel from './profile/Panel';
 
 /**
- * Component for viewing a specific user's info.
+ * User info panel container.
  */
 class UserView extends React.Component {
     /**
      * Sets the viewable user for the UserStore based on the URL param viewableUserId.
+     *
+     * @public
      */
     componentWillMount() {
         const { viewableUserId } = this.props.params;
@@ -20,6 +22,8 @@ class UserView extends React.Component {
 
     /**
      * Makes sure the viewableUserId is cleared when the component unmounts so that the profile page is rendered correctly.
+     *
+     * @public
      */
     componentWillUnmount() {
         UserActions.clearViewableUserId();
@@ -27,6 +31,9 @@ class UserView extends React.Component {
 
     /**
      * Renders the profile panel.
+     *
+     * @public
+     * @returns {string} HTML markup
      */
     render() {
         return (

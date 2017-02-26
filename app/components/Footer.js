@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
 /**
- * Footer.
+ * Footer data container.
  */
 export default class Footer extends React.Component {
     /**

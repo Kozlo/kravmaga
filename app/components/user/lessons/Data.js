@@ -12,6 +12,9 @@ import GroupActions from '../../../actions/GroupActions';
 // components
 import LessonEntry from './Entry';
 
+/**
+ * Lesson data presentation component.
+ */
 class LessonData extends React.Component {
     static getStores() {
         return [LessonStore];
@@ -33,6 +36,14 @@ class LessonData extends React.Component {
         LessonActions.getUserLessonList(token, userId, filters, sorters, config);
     }
 
+    /**
+     * Lesson entry renderer.
+     *
+     * @public
+     * @param {string} entry Entry data to visualize
+     * @param {number} index Entry array index
+     * @returns {string} HTML markup
+     */
     renderList(entry, index) {
         return (
             <LessonEntry
@@ -42,6 +53,12 @@ class LessonData extends React.Component {
         );
     }
 
+    /**
+     * Renders lesson data in a table.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { list } = this.props;
         const columns = ['#', 'Sākums', 'Beigas', 'Grupa', 'Lokācija', 'Komentārs'];

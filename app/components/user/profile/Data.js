@@ -15,6 +15,11 @@ import ProfileActions from './Actions';
 import { getGenderValue, formatDateString } from '../../../utils/utils';
 import { assets } from '../../../utils/config';
 
+/**
+ * User information presentation component.
+ *
+ * Contains checks to see if the data should only be viewed or also updated.
+ */
 class ProfileData extends React.Component {
     static getStores() {
         return [UserStore];
@@ -40,6 +45,9 @@ class ProfileData extends React.Component {
      * Renders the user profile panel data.
      *
      * If the component is not read-only, renders user profile actions.
+     *
+     * @public
+     * @returns {string} HTML markup
      */
     render() {
         const { entry, viewableUserId } = this.props;

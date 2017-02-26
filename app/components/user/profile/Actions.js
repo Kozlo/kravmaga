@@ -17,6 +17,9 @@ import PasswordChange from '../../shared/users/PasswordChange';
 import { isUrlValid, createObject, isEmailValid } from '../../../utils/utils';
 import { userFieldNames } from '../../../utils/config';
 
+/**
+ * Actions that can be performed by the user to update his/her data.
+ */
 class ProfileActions extends React.Component {
     static getStores() {
         return [UserStore];
@@ -125,6 +128,9 @@ class ProfileActions extends React.Component {
      *
      * Includes the ManageUser component with regular user fields.
      * Includes PasswordChange component with check pass flag true (i.e. on change a password check should be peformed)
+     *
+     * @public
+     * @returns {string} HTML markup
      */
     render() {
         const { entry, isUpdating } = this.props;
