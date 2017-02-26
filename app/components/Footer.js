@@ -1,7 +1,16 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+/**
+ * Footer.
+ */
 export default class Footer extends React.Component {
+    /**
+     * Renders a non-fluid grid with with app data in the footer.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const year = new Date().getFullYear();
 

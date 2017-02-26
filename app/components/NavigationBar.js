@@ -6,6 +6,9 @@ import { Navbar, Nav, NavItem, Glyphicon } from 'react-bootstrap';
 import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 
+/**
+ * Navigation bar.
+ */
 class NavigationBar extends React.Component {
     static getStores() {
         return [AuthStore];
@@ -15,14 +18,36 @@ class NavigationBar extends React.Component {
         return AuthStore.getState();
     }
 
+    /**
+     * Navigates to the specified path.
+     *
+     * Uses 'push' rather than 'replace' in order to leave the previous route in history.
+     *
+     * @public
+     * @param {string} path Path to navigate to
+     */
     navigateTo(path) {
         browserHistory.push(path);
     }
 
+    /**
+     * Logs the user out.
+     *
+     * @public
+     */
     onLogoutClicked() {
         AuthActions.logoutUser();
     }
 
+    /**
+     * Renders the naviation bar.
+     *
+     * Shows an additional 'profile' item when the user is logged in.
+     * Shows a link to the admin panel is the user is an admin.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { userIsAdmin, token } = this.props;
         const isLoggedIn = !!token;
