@@ -4,7 +4,16 @@ import PagePanel from '../../shared/PagePanel';
 import UserData from './Data';
 import UserFilters from './Filters';
 
+/**
+ * Users data and filter container component.
+ */
 class UsersPanel extends React.Component {
+    /**
+     * Renders user data and filters components.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         return (
             <PagePanel title="Lietotāji">

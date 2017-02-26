@@ -16,8 +16,11 @@ import UserActions from '../../../actions/UserActions';
 // components
 
 // utils & config
-import { filterConfig, maxInputLength } from '../../../utils/config';
+import { filterConfig, maxInputLength, updateStoreList } from '../../../utils/config';
 
+/**
+ * User filters data presentation component.
+ */
 class UserFilters extends React.Component {
     static getStores() {
         return [UserStore];
@@ -27,40 +30,65 @@ class UserFilters extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Text filter changed event handler.
+     *
+     * Uses regex for filtering so that the user can filter data by a 'like' syntax.
+     * Updates the filters in the store and makes a new request for data.
+     *
+     * @public
+     * @param {string} prop Name of the property that changed
+     * @param {Object} event Event object
+     */
     handleTextFilterChange(prop, event) {
         const { filters } = this.props;
 
         filters[prop] = { $regex: event.target.value };
         UserActions.setFilters(filters);
 
-        this._requestUsers();
+        updateStoreList(UserStore, UserActions);
     }
 
+    /**
+     * Request config changed event handler.
+     *
+     * Updates the config in the store and makes a new request for data.
+     *
+     * @public
+     * @param {string} prop Name of the property that changed
+     * @param {Object} event Event object
+     */
     handleConfigChange(prop, event) {
         const { config } = this.props;
 
         config[prop] = event.target.value;
         UserActions.setConfig(config);
 
-        this._requestUsers();
+        updateStoreList(UserStore, UserActions);
     }
 
+    /**
+     * Filter changed event handler.
+     *
+     * @public
+     * @param {string} prop Name of the property that changed
+     * @param {Object} event Event object
+     */
     handleFilterChange(prop, event) {
         const { filters } = this.props;
 
         filters[prop] = event.target.value;
         UserActions.setFilters(filters);
 
-        this._requestUsers();
+        updateStoreList(UserStore, UserActions);
     }
 
-    _requestUsers() {
-        const { token } = AuthStore.getState();
-        const { filters, sorters, config } = this.props;
-
-        UserActions.getList(token, UserActions.listReceived, filters, sorters, config);
-    }
-
+    /**
+     * Renders user data filters (and config) form.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { limit } = this.props.config;
         const { min, max } = filterConfig.users.count;

@@ -115,3 +115,10 @@ export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'at
 export const assets = {
     defaultImage: '/assets/generic_user.svg'
 };
+
+/**
+ * Column names used for data presentation.
+ *
+ * @type {string[]}
+ */
+export const userDataColumns = ['#', 'Bilde', 'Vārds, Uzvārds', 'E-pasts', 'Telefons', 'Dzimis', 'Dzimums', 'Klubā kopš', 'Statuss', 'Loma', 'Darbības'];

@@ -4,7 +4,7 @@ import NavigationBar from './NavigationBar';
 import Footer from './Footer';
 
 /**
- * App componentcontainer.
+ * App component container.
  */
 class App extends React.Component {
     /**

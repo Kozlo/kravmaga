@@ -6,7 +6,16 @@ import UsersPanel from './users/Panel';
 import GroupPanel from './groups/Panel';
 import LocationPanel from './locations/Panel';
 
+/**
+ *  Admin page panel container.
+ */
 class AdminPage extends React.Component {
+    /**
+     * Renders the admin panel.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         return (
             <Page title="Admin Panelis">

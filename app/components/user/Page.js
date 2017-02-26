@@ -9,7 +9,7 @@ import LessonsPanel from './lessons/Panel';
  */
 class UserPage extends React.Component {
     /**
-     * Renders the profile and lessons panel.
+     * Renders the profile and the lessons panels.
      *
      * @public
      * @returns {string} HTML markup

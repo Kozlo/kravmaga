@@ -20,17 +20,38 @@ import {
     formatDateString, getGenderValue
 } from '../../../utils/utils';
 
+/**
+ * User entry data presentation component.
+ */
 class UserEntry extends React.Component {
+    /**
+     * Clears the updatable user and sets the is updating flag to true to show the user update modal.
+     *
+     * @public
+     * @param {string} entry User entry
+     */
     initUpdateEntry(entry) {
         UserActions.clearUpdatable(entry);
         UserActions.setIsUpdating(true);
     }
 
+    /**
+     * Clears the updateable user and sets the is changing password flag to true to show the change password modal.
+     *
+     * @public
+     * @param {string} entry User entry
+     */
     initChangePassword(entry) {
         UserActions.clearUpdatable(entry);
         UserActions.setIsChangingPassword(true);
     }
 
+    /**
+     * Asks for confirmation before deleting a user entry.
+     *
+     * @public
+     * @param {string} entry User entry
+     */
     deleteEntry(entry) {
         const { _id, given_name, family_name, email, admin_fields } = entry;
         const role = getRoleValue(admin_fields.role);
@@ -57,6 +78,12 @@ class UserEntry extends React.Component {
         updateStoreList(LessonStore, LessonActions);
     }
 
+    /**
+     * Renders user data row.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { user, index } = this.props;
         const {

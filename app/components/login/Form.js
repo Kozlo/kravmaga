@@ -7,7 +7,16 @@ import {
 
 import AuthActions from '../../actions/AuthActions';
 
+/**
+ * Login form data presentation component.
+ */
 class LoginForm extends React.Component {
+    /**
+     * Authenticates the user with the entered credentials.
+     *
+     * @public
+     * @param {Object} event Submit event
+     */
     handleSubmit(event) {
         event.preventDefault();
 
@@ -16,6 +25,12 @@ class LoginForm extends React.Component {
         AuthActions.login(email.value, password.value);
     }
 
+    /**
+     * Renders the credentials controls.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         return (
             <Row>

@@ -25,7 +25,9 @@ import {
     isEmailValid, isUrlValid,
     prefixAdminFields, updateStoreList
 } from '../../../utils/utils';
-import { generalConfig } from '../../../utils/config';
+import {
+    generalConfig, userDataColumns
+} from '../../../utils/config';
 
 class UserData extends React.Component {
     static getStores() {
@@ -36,6 +38,11 @@ class UserData extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Gets the list of users.
+     *
+     * @public
+     */
     componentDidMount() {
         const { token } = AuthStore.getState();
         const { filters, sorters, config } = this.props;
@@ -43,6 +50,12 @@ class UserData extends React.Component {
         UserActions.getList(token, UserActions.listReceived, filters, sorters, config);
     }
 
+    /**
+     * Modal closed handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the user is being updated
+     */
     closeHandler(isUpdating) {
         if (isUpdating) {
             UserActions.setIsUpdating(false);
@@ -51,19 +64,26 @@ class UserData extends React.Component {
         }
     }
 
+    /**
+     * Submit handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing is the user is being updated
+     * @param {string[]} userGroupIds List of group IDs the user is in
+     * @param {Object} updatable Updatable object
+     * @param {Object} event Event object
+     * @returns {*}
+     */
     submitHandler(isUpdating, userGroupIds, updatable, event) {
         event.preventDefault();
 
+        const userDataValid = this._validateUserData(updatable);
+
+        if (!userDataValid) {
+            return;
+        }
+
         const { token } = AuthStore.getState();
-        const { email, picture } = updatable;
-
-        if (!isEmailValid(email)) {
-            return toastr.error('E-pasts ievadīts kļūdaini!');
-        }
-
-        if (!isUrlValid(picture) && picture !== '') {
-            return toastr.error('Profila bildes saitei nav derīga!');
-        }
 
         UserActions.setIsRequesting(true);
 
@@ -74,6 +94,13 @@ class UserData extends React.Component {
         }
     }
 
+    /**
+     * Initiates creation of a new user.
+     *
+     * Sets the updatable user object with empty values.
+     *
+     * @public
+     */
     initCreate() {
         const { defaultUserRole } = generalConfig;
         const newUser = {
@@ -87,6 +114,14 @@ class UserData extends React.Component {
         UserActions.setIsCreating(true);
     }
 
+    /**
+     * Updates an existing user.
+     *
+     * @public
+     * @param {Object} updatable Updatable user
+     * @param {string[]} userGroupIds IDs of groups the user is in
+     * @param {string} token Authentication token
+     */
     update(updatable, userGroupIds, token) {
         const props = prefixAdminFields(updatable);
 
@@ -95,12 +130,43 @@ class UserData extends React.Component {
             .fail(() => UserActions.setIsRequesting(false));
     }
 
+    /**
+     * Creates a new user.
+     *
+     * @public
+     * @param {Object} updatable Updatable user
+     * @param {string[]} userGroupIds IDs of groups the user is in
+     * @param {string} token Authentication token
+     */
     create(updatable, userGroupIds, token) {
         const props = prefixAdminFields(updatable);
 
         UserActions.create(props, token)
             .done(createdUser => this._onUserCreated(createdUser._id, userGroupIds, token))
             .fail(() => UserActions.setIsRequesting(false));
+    }
+
+    /**
+     * Validates user email and picture (if entered).
+     *
+     * @private
+     * @param {Object} updatable Updatable
+     * @returns {boolean}
+     */
+    _validateUserData(updatable) {
+        const { email, picture } = updatable;
+
+        if (!isEmailValid(email)) {
+            toastr.error('E-pasts ievadīts kļūdaini!');
+            return false;
+        }
+
+        if (!isUrlValid(picture) && picture !== '') {
+            toastr.error('Profila bildes saitei nav derīga!');
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -218,14 +284,17 @@ class UserData extends React.Component {
         return newUserGroupIds.filter(newUserGroupId => currentUserGroupIds.indexOf(newUserGroupId) === -1);
     }
 
+    /**
+     * Renders user data in a table format.
+     *
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             list, userGroupIds, updatable,
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        // TODO: consider moving thees to config (and in other similar components as well) maybe consider moving all strings to a separate file as well
-        const columns = ['#', 'Bilde', 'Vārds, Uzvārds', 'E-pasts', 'Telefons', 'Dzimis', 'Dzimums', 'Klubā kopš', 'Statuss', 'Loma', 'Darbības'];
 
         return (
             <Row>
@@ -239,7 +308,7 @@ class UserData extends React.Component {
                 <Col xs={12}>
                     <Table responsive>
                         <thead>
-                            <tr>{columns.map((col, index) => <th key={`UserTableHeader${index}`}>{col}</th>)}</tr>
+                            <tr>{userDataColumns.map((col, index) => <th key={`UserTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
                             {list.map((user, index) => <UserEntry key={`UserEntry${index}`} index={index} user={user} />)}
