@@ -5,6 +5,9 @@ import GroupStore from '../../../stores/GroupStore';
 import DataModal from '../../shared/DataModal';
 import { getGroupMemberCount } from '../../../utils/utils';
 
+/**
+ * Manage group data modal container.
+ */
 class ManageGroup extends React.Component {
     static getStores() {
         return [GroupStore];
@@ -14,6 +17,12 @@ class ManageGroup extends React.Component {
         return GroupStore.getState();
     }
 
+    /**
+     * Renders a data modal for editing group data.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             shouldShow, isRequesting,

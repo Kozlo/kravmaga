@@ -18,6 +18,9 @@ import GroupFields from './GroupFields';
 // utils/config
 import { getGroupMemberCount, updateStoreList } from '../../../utils/utils';
 
+/**
+ * Group data presentation component.
+ */
 class GroupData extends React.Component {
     static getStores() {
         return [GroupStore];
@@ -27,12 +30,23 @@ class GroupData extends React.Component {
         return GroupStore.getState();
     }
 
+    /**
+     * Retrieves all group list.
+     *
+     * @public
+     */
     componentDidMount() {
         const { token } = AuthStore.getState();
 
         GroupActions.getList(token);
     }
 
+    /**
+     * Group modal closed handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the user is being updated.
+     */
     closeHandler(isUpdating) {
         if (isUpdating) {
             GroupActions.setIsUpdating(false);
@@ -41,6 +55,15 @@ class GroupData extends React.Component {
         }
     }
 
+    /**
+     * User modal submit handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the user is being updated.
+     * @param {Object} updatable Updatable user
+     * @param {Object} event Event object
+     * @returns {*}
+     */
     submitHandler(isUpdating, updatable, event) {
         event.preventDefault();
 
@@ -59,6 +82,11 @@ class GroupData extends React.Component {
         }
     }
 
+    /**
+     * Initiates the group creation modal.
+     *
+     * @public
+     */
     initCreate() {
         GroupActions.clearUpdatable({});
         GroupActions.setIsCreating(true);
@@ -69,6 +97,7 @@ class GroupData extends React.Component {
      *
      * Sets the members to null as an empty array won't be sent.
      *
+     * @public
      * @param {Object} updatable Updatable entry
      * @param {string} token Authentication token
      */
@@ -82,12 +111,28 @@ class GroupData extends React.Component {
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
+    /**
+     * Creates new group creation.
+     *
+     * @public
+     * @param {Object} updatable Updatable object
+     * @param {string} token Authorization token
+     */
     create(updatable, token) {
         GroupActions.create(updatable, token)
             .done(() => this._onGroupCreated())
             .fail(() => GroupActions.setIsRequesting(false));
     }
 
+    /**
+     * Renders a group entry.
+     *
+     * @public
+     * @param {Object} entry Entry object
+     * @param {number} index Group entry index
+     * @param {Object[]} members Group members (users)
+     * @returns {string} HTML markup
+     */
     renderList(entry, index, members) {
         const memberCount = getGroupMemberCount(entry._id, members);
 
@@ -122,6 +167,12 @@ class GroupData extends React.Component {
         GroupActions.setIsRequesting(false);
     }
 
+    /**
+     * Renders group data in a table format.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             list, members, updatable,

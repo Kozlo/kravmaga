@@ -29,6 +29,8 @@ class LessonFields extends React.Component {
 
     /**
      * Initiates the datetime picker and gets the latest group list (in case it's been updated).
+     *
+     * @public
      */
     componentDidMount() {
         const { token } = AuthStore.getState();

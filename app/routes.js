@@ -12,7 +12,9 @@ import AdminPage from './components/admin/Page';
 
 import AuthStore from './stores/AuthStore';
 
-// validate authentication for private routes
+/**
+ * Validate authentication for private routes.
+ */
 const requireAuth = (nextState, replace) => {
     const isLoggedIn = !!AuthStore.getState().token;
 
@@ -21,7 +23,9 @@ const requireAuth = (nextState, replace) => {
     }
 };
 
-// redirect to profile (index route) if the user is authenticated
+/**
+ * Redirect to profile (index route) if the user is authenticated.
+ */
 const userLoggedOn = (nextState, replace) => {
     const isLoggedIn = !!AuthStore.getState().token;
 
@@ -30,7 +34,9 @@ const userLoggedOn = (nextState, replace) => {
     }
 };
 
-// requires the user to be logged in and an admin
+/**
+ * Requires the user to be logged in and an admin.
+ */
 const isAdmin = (nextState, replace) => {
     const { token, userIsAdmin } = AuthStore.getState();
 

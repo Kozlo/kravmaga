@@ -12,6 +12,9 @@ import GroupActions from '../../../actions/GroupActions';
 
 import { maxInputLength } from '../../../utils/config';
 
+/**
+ * Group field update form control component.
+ */
 class GroupFields extends React.Component {
     static getStores() {
         return [UserStore, GroupStore];
@@ -24,6 +27,11 @@ class GroupFields extends React.Component {
         };
     }
 
+    /**
+     * Retrieved group members (i.e. user data)
+     *
+     * @public
+     */
     componentWillMount() {
         const { users, groups } = this.props;
         const { updatable } = groups;
@@ -32,6 +40,13 @@ class GroupFields extends React.Component {
         GroupActions.membersReceived(memberProfiles);
     }
 
+    /**
+     * Property value changed handler.
+     *
+     * @public
+     * @param {string} prop Property name
+     * @param {Object} event Event object
+     */
     handleChange(prop, event) {
         const { updatable } = this.props.groups;
 
@@ -40,6 +55,14 @@ class GroupFields extends React.Component {
         GroupActions.setUpdatable(updatable);
     }
 
+    /**
+     * Adds a member to a group.
+     *
+     * @public
+     * @param {Object} updatable Updatable obejct
+     * @param {Object} event Event object
+     * @returns {*}
+     */
     addMember(updatable, event) {
         const userId = event.target.value;
 
@@ -59,6 +82,13 @@ class GroupFields extends React.Component {
         GroupActions.memberAdded(user)
     }
 
+    /**
+     * Removes a member group a group.
+     *
+     * @public
+     * @param {Object} updatable Updatable object
+     * @param {Object} member Group member
+     */
     removeMember(updatable, member) {
         const memberIndex = updatable.members.indexOf(member._id);
 
@@ -68,6 +98,14 @@ class GroupFields extends React.Component {
         GroupActions.memberRemoved(member);
     }
 
+    /**
+     * Renders a user select option.
+     *
+     * @public
+     * @param {Object} user User to select
+     * @param {number} index User index
+     * @returns {string} HTML markup
+     */
     renderUser(user, index) {
         const { _id, given_name, family_name, email } = user;
         const userInfo = this._constructUserInfo(email, given_name, family_name);
@@ -81,6 +119,15 @@ class GroupFields extends React.Component {
         );
     }
 
+    /**
+     * Renders a button with the user's info and adds a click event handler for removing the user from the group.
+     *
+     * @public
+     * @param {Object} updatable Updatable group
+     * @param {Object} member Group member (user)
+     * @param {number} index Group member index
+     * @returns {string} HTML markup
+     */
     renderMember(updatable, member, index) {
         const { given_name, family_name, email } = member;
         const memberInfo = this._constructUserInfo(email, given_name, family_name);
@@ -95,10 +142,25 @@ class GroupFields extends React.Component {
         );
     }
 
+    /**
+     * Constructs a string consisting of a user's email, name, and last name.
+     *
+     * @private
+     * @param {string} email User's email
+     * @param {string} given_name User's first name
+     * @param {string} family_name User's last name
+     * @returns {string} Constructed user info
+     */
     _constructUserInfo(email, given_name, family_name) {
         return `${email} (${given_name || ''} ${family_name || ''})`;
     }
 
+    /**
+     * Renders group field controls.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { users, groups } = this.props;
         const userList = users.list;

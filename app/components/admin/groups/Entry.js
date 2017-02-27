@@ -11,7 +11,16 @@ import GroupActions from '../../../actions/GroupActions';
 // utility methods
 import { updateStoreList } from '../../../utils/utils';
 
+/**
+ * Lesson entry data presentation component.
+ */
 class GroupEntry extends React.Component {
+    /**
+     * Initiates an entry update.
+     *
+     * @public
+     * @param {Object} entry User entry
+     */
     initUpdateEntry(entry) {
         GroupActions.clearUpdatable(entry);
         GroupActions.setIsUpdating(true);
@@ -39,6 +48,12 @@ class GroupEntry extends React.Component {
             .then(() => updateStoreList(LessonStore, LessonActions));
     }
 
+    /**
+     * Renders group entries in a table format.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { index, entry } = this.props;
         const { name, members } = entry;
