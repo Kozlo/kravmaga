@@ -2,16 +2,25 @@ import AuthStore from '../stores/AuthStore';
 import AuthActions from '../actions/AuthActions';
 import { generalConfig } from './config';
 
-// TODO: split these up into separate files
-
+/**
+ * Creates an authorization header with the passed JWT token
+ *
+ * @public
+ * @param {string} token Authorization token
+ * @returns {Object} Authorization header
+ */
 export const getAuthorizationHeader = token => {
     return { 'Authorization': `Bearer ${token}` };
 };
 
-export const encodeJsonUrl = data => {
-    return encodeURIComponent(JSON.stringify(data));
-};
-
+/**
+ * HTTP request error handler.
+ *
+ * Logs the HTTP error to the console and indicates to the user that there was an unexpected error.
+ *
+ * @public
+ * @param {Object} e Error
+ */
 export const httpErrorHandler = e => {
     // skip the error codes that have been handled
     const handledStatuses = Object.keys(httpStatusCode);
@@ -23,25 +32,66 @@ export const httpErrorHandler = e => {
     toastr.error('Pieprasījums neveiksmīgs - neparedzēta kļūda!');
 };
 
+/**
+ * Logs the returned values.
+ *
+ * @public
+ * @param {*} data Received data
+ */
 export const httpSuccessHandler = data => console.log('Data received: ', data);
 
+/**
+ * Determines if the email is a valid email.
+ *
+ * @public
+ * @param {string} email
+ * @returns {boolean} Flag showing if the email is valid
+ */
 export const isEmailValid = email => {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 };
 
+/**
+ * Determines if the password passes the necessary complexity rules.
+ *
+ * @public
+ * @param {string} password User's password
+ * @returns {boolean} Flag showing if the password is valid
+ */
 export const isPasswordValid = password => {
     return typeof password === 'string' && password.length >= 5;
 };
 
+/**
+ * Determines the display value of a user's gender.
+ *
+ * @public
+ * @param gender
+ * @returns {string}
+ */
 export const getGenderValue = gender => {
     return gender == 'male' ? 'Vīrietis' : (gender == 'female' ? 'Sieviete' : '');
 };
 
+/**
+ * Determines the display value of a user's role.
+ *
+ * @public
+ * @param {boolean} is_blocked Flag showing if the user is blocked
+ * @returns {string} Display value
+ */
 export const getRoleValue = role => {
     return role === 'admin' ? 'admins' : (role === 'user' ? 'lietotājs' : '');
 };
 
+/**
+ * Determines the display value of a user's status.
+ *
+ * @public
+ * @param {boolean} is_blocked Flag showing if the user is blocked
+ * @returns {string} Display value
+ */
 export const getStatusValue = is_blocked => {
     return is_blocked === true ? 'bloķēts' : (is_blocked === false ? 'aktīvs' : '');
 };
@@ -207,6 +257,13 @@ export const createObject = (propNames, sourceObject) => {
     return newObject;
 };
 
+/**
+ * Makes an ajax request to the back-end with the passed request options.
+ *
+ * @public
+ * @param {Object} request Request
+ * @returns {*}
+ */
 export const fetchData = request => {
     return $.ajax(request)
         .done(data => httpSuccessHandler(data))
@@ -242,6 +299,16 @@ export const isUrlValid = url => {
     return pattern.test(url);
 };
 
+/**
+ * HTTP error status codes.
+ *
+ * @property 400 Bad request
+ * @property 401 Unauthorized
+ * @property 403 Forbidden
+ * @property 404 Not found
+ * @property 409 Conflict
+ * @property 500 Internal server error
+ */
 export const httpStatusCode = {
     400: res => {
         console.error(res);
