@@ -10,6 +10,9 @@ import LocationActions from '../../../actions/LocationActions';
 
 import { maxInputLength } from '../../../utils/config';
 
+/**
+ * Location fields presentation component.
+ */
 class LocationFields extends React.Component {
     static getStores() {
         return [LocationStore];
@@ -19,6 +22,13 @@ class LocationFields extends React.Component {
         return LocationStore.getState();
     }
 
+    /**
+     * Field value changed handler.
+     *
+     * @public
+     * @param {*} prop Property value
+     * @param {Object} event Event object
+     */
     handleChange(prop, event) {
         const { updatable } = this.props;
 
@@ -27,6 +37,12 @@ class LocationFields extends React.Component {
         LocationActions.setUpdatable(updatable);
     }
 
+    /**
+     * Renders location fields.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { updatable } = this.props;
         const { name } = updatable;

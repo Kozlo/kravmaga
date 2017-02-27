@@ -6,7 +6,16 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import AuthStore from '../../../stores/AuthStore';
 import LocationActions from '../../../actions/LocationActions';
 
+/**
+ * Location data entry presentation component.
+ */
 class LocationEntry extends React.Component {
+    /**
+     * Cleast the updatable and sets the updating flag to true to show the modal.
+     *
+     * @public
+     * @param {Object} entry Entry
+     */
     initUpdateEntry(entry) {
         LocationActions.clearUpdatable(entry);
         LocationActions.setIsUpdating(true);
@@ -30,6 +39,12 @@ class LocationEntry extends React.Component {
         LocationActions.delete(_id, token);
     }
 
+    /**
+     * Renders location data table cells, including action buttons.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { index, entry } = this.props;
         const { name } = entry;

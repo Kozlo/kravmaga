@@ -1,16 +1,20 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Row, Col, FormGroup,
+    Row, Col, FormGroup, Glyphicon
     InputGroup, FormControl,
-    ControlLabel, HelpBlock,
-    Glyphicon
+    ControlLabel, HelpBlock
 } from 'react-bootstrap';
 
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
-import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
+import { initDateTimePicker } from '../../../utils/utils';
 
+/**
+ * User admin field data presentation component.
+ *
+ * These fields are only editable by users with admin privileges.
+ */
 class UserFields extends React.Component {
     static getStores() {
         return [UserStore];
@@ -20,12 +24,33 @@ class UserFields extends React.Component {
         return UserStore.getState();
     }
 
+    /**
+     * Initiates member_since field date picker.
+     *
+     * @public
+     */
     componentDidMount() {
         const { updatable } = this.props;
         const { member_since } = updatable.admin_fields;
         const dateChangeHandler = this._handleAdminDateFieldChange.bind(this, 'member_since', updatable);
 
         initDateTimePicker('#member_since', dateChangeHandler, member_since);
+    }
+
+    /**
+     * Field value changes handler.
+     *
+     * @public
+     * @param {*} prop Property value
+     * @param {Object} event Event object
+     */
+    handleChange(prop, event) {
+        const { updatable } = this.props;
+        const { admin_fields } = updatable;
+
+        admin_fields[prop] = event.target.value;
+
+        UserActions.setUpdatable(updatable);
     }
 
     /**
@@ -46,15 +71,12 @@ class UserFields extends React.Component {
         UserActions.setUpdatable(updatable);
     }
 
-    handleChange(prop, event) {
-        const { updatable } = this.props;
-        const { admin_fields } = updatable;
-
-        admin_fields[prop] = event.target.value;
-
-        UserActions.setUpdatable(updatable);
-    }
-
+    /**
+     * Renders admin field forms.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { role, is_blocked } = this.props.updatable.admin_fields;
 

@@ -13,6 +13,11 @@ import LocationEntry from './Entry';
 import ManageLocation from './ManageLocation';
 import LocationFields from './LocationFields';
 
+/**
+ * Location data presentation component.
+ *
+ * Location data is just just plain text data without any relations.
+ */
 class LocationsData extends React.Component {
     static getStores() {
         return [LocationStore];
@@ -22,12 +27,23 @@ class LocationsData extends React.Component {
         return LocationStore.getState();
     }
 
+    /**
+     * Retrieves location data.
+     *
+     * @public
+     */
     componentDidMount() {
         const { token } = AuthStore.getState();
 
         LocationActions.getList(token);
     }
 
+    /**
+     * Location data update modal close handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the data is being updated
+     */
     closeHandler(isUpdating) {
         if (isUpdating) {
             LocationActions.setIsUpdating(false);
@@ -36,6 +52,15 @@ class LocationsData extends React.Component {
         }
     }
 
+    /**
+     * Data update submit handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the data is being updated
+     * @param {Object} updatable Updatable
+     * @param {Object} event Event object
+     * @returns {*}
+     */
     submitHandler(isUpdating, updatable, event) {
         event.preventDefault();
 
@@ -54,6 +79,11 @@ class LocationsData extends React.Component {
         }
     }
 
+    /**
+     * Initiates create entry modal by setting is the is creating store property to true.
+     *
+     * @public
+     */
     initCreate() {
         LocationActions.clearUpdatable({});
         LocationActions.setIsCreating(true);
@@ -74,15 +104,27 @@ class LocationsData extends React.Component {
             .fail(() => LocationActions.setIsRequesting(false));
     }
 
+    /**
+     * Calls the method to create a new location.
+     *
+     * @public
+     * @param {Object} updatable Updatable entry
+     * @param {string} token Authentication token
+     */
     create(updatable, token) {
         LocationActions.create(updatable, token)
-            .done(() => {
-                LocationActions.setIsCreating(false);
-                LocationActions.setIsRequesting(false);
-            })
+            .done(() => this._onLocationUpdated())
             .fail(() => LocationActions.setIsRequesting(false));
     }
 
+    /**
+     * Renders a location entry.
+     *
+     * @public
+     * @param {Object} entry Location entry
+     * @param {number} index Entry index
+     * @returns {string} HTML markup
+     */
     renderList(entry, index) {
         return (
             <LocationEntry
@@ -92,6 +134,24 @@ class LocationsData extends React.Component {
         );
     }
 
+    /**
+     * Sets the is creating and is requesting flags to false.
+     *
+     * On the creating flag change, the modal should close too.
+     *
+     * @private
+     */
+    _onLocationUpdated() {
+        LocationActions.setIsCreating(false);
+        LocationActions.setIsRequesting(false);
+    }
+
+    /**
+     * Renders location data table and the manage modal.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             list, updatable,

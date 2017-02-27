@@ -4,6 +4,9 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import LocationStore from '../../../stores/LocationStore';
 import DataModal from '../../shared/DataModal';
 
+/**
+ * Manage location update modal container.
+ */
 class ManageLocation extends React.Component {
     static getStores() {
         return [LocationStore];
@@ -13,6 +16,12 @@ class ManageLocation extends React.Component {
         return LocationStore.getState();
     }
 
+    /**
+     * Data modal for updating locations.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             shouldShow, isRequesting,
