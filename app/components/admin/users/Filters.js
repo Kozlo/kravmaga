@@ -16,7 +16,8 @@ import UserActions from '../../../actions/UserActions';
 // components
 
 // utils & config
-import { filterConfig, maxInputLength, updateStoreList } from '../../../utils/config';
+import { filterConfig, maxInputLength } from '../../../utils/config';
+import { updateStoreList } from '../../../utils/utils';
 
 /**
  * User filters data presentation component.
