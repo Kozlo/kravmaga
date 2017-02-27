@@ -15,7 +15,6 @@ const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 
 const production = process.env.NODE_ENV === 'production';
-
 const dependencies = [
     'alt',
     'react',

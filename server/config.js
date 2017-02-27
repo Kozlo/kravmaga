@@ -2,10 +2,16 @@
  * Configurable properties used throughout the app.
  */
 
+/**
+ * Config related to users.
+ */
 const userConfig = {
     minPasswordLength: 5
 };
 
+/**
+ * Max length sizes of all fields.
+ */
 const maxFieldLength = {
     regularField: 25,
     email: 40,
@@ -15,6 +21,9 @@ const maxFieldLength = {
     url: 300
 };
 
+/**
+ * HTTP status codes.
+ */
 const httpStatusCodes = {
     ok: 200,
     created: 201,
@@ -31,6 +40,9 @@ const httpStatusCodes = {
     serviceUnavailable: 503
 };
 
+/**
+ * Defined error status codes.
+ */
 const errorStatusCodes = {
     'BadRequestError': httpStatusCodes.badRequest,
     'ConflictError': httpStatusCodes.conflict,

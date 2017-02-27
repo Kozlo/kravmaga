@@ -5,6 +5,7 @@ const { areMembersValid, isTextFieldValid } = require('../helpers/modelValidator
  * Schema properties.
  *
  * @property {String} name Group's name
+ * @property {String[]} Group member (user) IDs
  */
 const properties = {
     name: {

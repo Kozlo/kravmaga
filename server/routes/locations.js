@@ -16,8 +16,7 @@ const requireAuth = expressJwt({
 });
 
 const {
-    addIsAdmin, requireIsAdmin,
-    canAccessSelfUnlessAdmin
+    addIsAdmin, requireIsAdmin
 } = middleware;
 const {
     getAll, createOne, getOne,

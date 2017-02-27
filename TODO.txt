@@ -26,14 +26,8 @@
   (DONE)- remove lessons when a group is deleted
   (DONE)- when updating a group (e.g. it's members) need to update lesson attendance as well
 
-- consider increase group (or all) cell width for data fields
-  - also consider changing the max size of date cells as they are always the same (maybe more with timestamp as well)
-- add route not found page, just like: <Route path="*" component={NotFound} />
 - when returning User data, exclude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
-- consider moving column names to config
-- consider moving all strings to some language file
-- create functional test cases (e.g. when updating a use, this and that data should be so and so...). this can later be re-used for e2e tests
-- send and update to Ronis
+(DONE)- consider moving column names to config
 
 Bugs from Ronis:
 (DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
@@ -106,7 +100,7 @@ Bugs from Ronis:
 
 - check if there are no double dependencies and see if they can be removed (like bootstrap, so react-bootstrap is used only
 
-- Add JSDoc to components (research this a bit as well)
+(DONE)- Add JSDoc to components (research this a bit as well)
 
 Bugs:
 - when the user reloads the page and turns out he is blocked, 2 error messages are shown (from navbar and profile page requests)

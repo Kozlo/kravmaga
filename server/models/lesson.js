@@ -15,7 +15,7 @@ const {
  * @property {String} end Ending date/time
  * @property {String} group Target group
  * @property {String} location Location
- * @property {String} [attendees] Users that have indicated that they will attend the lesson
+ * @property {String[]} [attendees] Users that have indicated that they will attend the lesson
  * @property {String} [comment] Comment
  */
 const properties = {
