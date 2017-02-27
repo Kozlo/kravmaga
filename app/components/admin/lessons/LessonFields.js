@@ -15,6 +15,9 @@ import LocationActions from '../../../actions/LocationActions';
 import { maxInputLength } from '../../../utils/config';
 import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
+/**
+ * Lesson field update form control component.
+ */
 class LessonFields extends React.Component {
     static getStores() {
         return [LessonStore];
@@ -41,6 +44,13 @@ class LessonFields extends React.Component {
         LocationActions.getList(token, LessonActions.locationsReceived);
     }
 
+    /**
+     * Form control value changed handler.
+     *
+     * @public
+     * @param {*} prop Property value
+     * @param {Object} event Event object
+     */
     handleChange(prop, event) {
         const { updatable } = this.props;
 
@@ -49,6 +59,13 @@ class LessonFields extends React.Component {
         LessonActions.setUpdatable(updatable);
     }
 
+    /**
+     * Mark that a user will be attending the lesson.
+     *
+     * @public
+     * @param {Object} updatable Updatable lesson
+     * @param {Object} event Event object
+     */
     addAttendee(updatable, event) {
         const user = event.target.value;
 
@@ -58,6 +75,14 @@ class LessonFields extends React.Component {
         LessonActions.attendeeAdded(user)
     }
 
+    /**
+     * Render a group select option.
+     *
+     * @public
+     * @param {Object} group Group entry
+     * @param {number} index Group index
+     * @returns {string} HTML markup
+     */
     renderGroup(group, index) {
         const { name, members } = group;
         const groupInfo = `${name} (${members.length} dalībnieki)`;
@@ -71,12 +96,26 @@ class LessonFields extends React.Component {
         );
     }
 
+    /**
+     * Date changed event handler.
+     *
+     * @private
+     * @param {string} prop Date property name
+     * @param {Date} date Date value
+     */
     _handleDateChange(prop, date) {
         date = date && date !== 'false' ? date : '';
 
         this._updateData(prop, date);
     }
 
+    /**
+     * Updates the updatable propery value.
+     *
+     * @private
+     * @param {string} prop Property name
+     * @param {Date} value Property value
+     */
     _updateData(prop, value) {
         const { updatable } = this.props;
 
@@ -85,6 +124,12 @@ class LessonFields extends React.Component {
         LessonActions.setUpdatable(updatable);
     }
 
+    /**
+     * Renders lesson field form controls.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { updatable, groups, locations } = this.props;
         const { group, location, comment } = updatable;

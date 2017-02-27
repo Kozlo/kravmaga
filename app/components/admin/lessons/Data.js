@@ -14,6 +14,9 @@ import LessonEntry from './Entry';
 import ManageLesson from './ManageLesson';
 import LessonFields from './LessonFields';
 
+/**
+ * Lesson data presentation component.
+ */
 class LessonData extends React.Component {
     static getStores() {
         return [LessonStore];
@@ -23,10 +26,21 @@ class LessonData extends React.Component {
         return LessonStore.getState();
     }
 
+    /**
+     * Requests lesson data.
+     *
+     * @public
+     */
     componentDidMount() {
         this._requestData();
     }
 
+    /**
+     * Modal closed event handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the lesson is being updated
+     */
     closeHandler(isUpdating) {
         if (isUpdating) {
             LessonActions.setIsUpdating(false);
@@ -35,6 +49,15 @@ class LessonData extends React.Component {
         }
     }
 
+    /**
+     * Lesson edit form submit handler.
+     *
+     * @public
+     * @param {boolean} isUpdating Flag showing if the lesson is being updated
+     * @param {Object} updatable Updatable lesson
+     * @param {Object} event Event object
+     * @returns {*}
+     */
     submitHandler(isUpdating, updatable, event) {
         event.preventDefault();
 
@@ -62,23 +85,50 @@ class LessonData extends React.Component {
         }
     }
 
+    /**
+     * Initiates lesson creation modal.
+     *
+     * @public
+     */
     initCreate() {
         LessonActions.clearUpdatable({});
         LessonActions.setIsCreating(true);
     }
 
+    /**
+     * Updates and existing lesson.
+     *
+     * @public
+     * @param {Object} updatable Updatable lesson
+     * @param {string} token Authorization token
+     */
     update(updatable, token) {
         LessonActions.update(updatable, token)
             .done(() => this._onRequestDone(LessonActions.setIsUpdating))
             .fail(() => this._onRequestFailed());
     }
 
+    /**
+     * Creates a new lesson.
+     *
+     * @public
+     * @param {Object} updatable Updatable object
+     * @param {string} token Authorization token
+     */
     create(updatable, token) {
         LessonActions.create(updatable, token)
             .done(() => this._onRequestDone(LessonActions.setIsCreating))
             .fail(() => this._onRequestFailed());
     }
 
+    /**
+     * Renders a lesson entry.
+     *
+     * @public
+     * @param {Object} entry Entry object
+     * @param {number} index Entry index
+     * @returns {string} HTML markup
+     */
     renderList(entry, index) {
         return (
             <LessonEntry
@@ -127,6 +177,12 @@ class LessonData extends React.Component {
         LessonActions.setIsRequesting(false)
     }
 
+    /**
+     * Renders lesson data in a table format.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             list, updatable,

@@ -10,12 +10,29 @@ import LessonActions from '../../../actions/LessonActions';
 // utils
 import { formatDateString } from '../../../utils/utils';
 
+/**
+ * Lesson entry data presentation component.
+ */
 class LessonEntry extends React.Component {
+    /**
+     * Initiates entry update modal.
+     *
+     * @public
+     * @param {Object} entry Lesson entry
+     */
     initUpdateEntry(entry) {
         LessonActions.clearUpdatable(entry);
         LessonActions.setIsUpdating(true);
     }
 
+    /**
+     * Delete lesson entry handler.
+     *
+     * Confirms if the user really wants to delete the entry before doing so.
+     *
+     * @public
+     * @param {Object} entry Entry object
+     */
     deleteEntry(entry) {
         const { _id, start, end, attendees } = entry;
         const formattedStartDate = formatDateString(start, true);
@@ -31,6 +48,13 @@ class LessonEntry extends React.Component {
         LessonActions.delete(_id, token);
     }
 
+    /**
+     * Determine a group's name based on the ID and the full group list.
+     *
+     * @public
+     * @param {string} groupId Group ID
+     * @returns {string} Group name
+     */
     findGroupName(groupId) {
         const { groups } = LessonStore.getState();
         const foundGroup = groups.filter(group => group._id === groupId)[0];
@@ -38,6 +62,12 @@ class LessonEntry extends React.Component {
         return foundGroup ? foundGroup.name : 'Nezināma grupa';
     }
 
+    /**
+     * Renders a lesson's data in table cells.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const { index, entry } = this.props;
         const { start, end, group, location, attendees, comment } = entry;

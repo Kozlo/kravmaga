@@ -5,6 +5,9 @@ import LessonStore from '../../../stores/LessonStore';
 import DataModal from '../../shared/DataModal';
 import { formatDateString } from '../../../utils/utils';
 
+/**
+ * Manage lesson data modal container.
+ */
 class ManageLesson extends React.Component {
     static getStores() {
         return [LessonStore];
@@ -14,6 +17,12 @@ class ManageLesson extends React.Component {
         return LessonStore.getState();
     }
 
+    /**
+     * Renders a data modal for editing lesson data.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         const {
             shouldShow, isRequesting,

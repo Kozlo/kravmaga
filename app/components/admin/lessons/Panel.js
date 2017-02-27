@@ -4,7 +4,16 @@ import PagePanel from '../../shared/PagePanel';
 import LessonData from './Data';
 import LessonFilters from '../../shared/lessons/Filters';
 
+/**
+ * Lesson data and filter container component.
+ */
 class LessonsPanel extends React.Component {
+    /**
+     * Renders lesson data components.
+     *
+     * @public
+     * @returns {string} HTML markup
+     */
     render() {
         return (
             <PagePanel title="Nodarbības">
