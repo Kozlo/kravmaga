@@ -9,6 +9,7 @@
 //=================
 
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -45,6 +46,7 @@ passport.deserializeUser(authController.deserializeUser);
 const app = express();
 
 // Express middleware
+app.use(helmet());
 app.set('port', process.env.PORT || 3000);
 // TODO: change this according to the environment
 // TODO: read more on logger and what it does
