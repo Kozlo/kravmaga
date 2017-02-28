@@ -28,6 +28,7 @@ class UserData extends React.Component {
     /**
      * Retrieves a list of exiting groups.
      * If the user is being updated, then a list of groups the user is in is updated as well.
+     * Otherwise an empty array is added to avoid having the previous updatable user's groups.
      *
      * @public
      */
@@ -41,6 +42,8 @@ class UserData extends React.Component {
             const filters = { members: updatable._id };
 
             GroupActions.getList(token, UserActions.userGroupsReceived, filters);
+        } else {
+            UserActions.userGroupsReceived([]);
         }
     }
 
