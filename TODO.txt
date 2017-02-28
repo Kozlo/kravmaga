@@ -102,6 +102,8 @@ Bugs from Ronis:
 
 -----------------------------------------------
 Later
+- consider switching to a typeahead for location selector https://github.com/bassjobsen/Bootstrap-3-Typeahead
+- make changes to mobile version (datetime picker is hard to use)
 - switch to webpack and add hot module re-load
 - check what algo crypto is using and see if can be updated if SHA1 (unsecure)
 - add CSRF protection: https://blog.risingstack.com/node-js-security-checklist/
