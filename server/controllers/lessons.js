@@ -37,9 +37,7 @@ module.exports = {
         Lesson.find(locationCheckFilter)
             .then(entries => {
                 if (entries.length > 0) {
-                    const locationTakenError = helpers.locationTakenError(entries);
-
-                    return next(locationTakenError);
+                    throw helpers.locationTakenError(entries);
                 }
 
                 return Lesson.create(entryProps);
@@ -99,6 +97,10 @@ module.exports = {
      * - new lesson start/end times:
      *   - START time is LESS than the existing lesson's END time
      *   - END time is GREATER than the existing lesson's START time
+     * If the location is taken, makes sure that the location taken is not taken by the same entry.
+     *
+     * Uses an empty attendees array if it has been passed, but it's not valid.
+     * Additionally removes all attendees if the group has changed.
      *
      * @public
      * @param {Object} req Request object
@@ -123,9 +125,17 @@ module.exports = {
         Lesson.find(locationCheckFilter)
             .then(entries => {
                 if (entries.length > 0) {
-                    const locationTakenError = helpers.locationTakenError(entries);
+                    // if there is only 1 entry and it's the one being updated, then there's the location is fine
+                    if (!(entries.length === 1 && entries[0]._id.toString() === entryId)) {
+                        throw helpers.locationTakenError(entries);
+                    }
+                }
 
-                    return next(locationTakenError);
+                return Lesson.findById(entryId);
+            })
+            .then(entry => {
+                if (entry.group !== entryProps.group) {
+                    entryProps.attendees = [];
                 }
 
                 return Lesson.findByIdAndUpdate(entryId, entryProps, opts);
