@@ -6,9 +6,10 @@ import {
     ControlLabel, Glyphicon
 } from 'react-bootstrap';
 
-import UserStore from '../../../stores/UserStore';
+import AuthStore from '../../../stores/AuthStore';
 import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
+import UserActions from '../../../actions/UserActions';
 
 import { maxInputLength } from '../../../utils/config';
 
@@ -17,14 +18,11 @@ import { maxInputLength } from '../../../utils/config';
  */
 class GroupFields extends React.Component {
     static getStores() {
-        return [UserStore, GroupStore];
+        return [GroupStore];
     }
 
     static getPropsFromStores() {
-        return {
-            groups: GroupStore.getState(),
-            users: UserStore.getState()
-        };
+        return GroupStore.getState()
     }
 
     /**
@@ -33,11 +31,9 @@ class GroupFields extends React.Component {
      * @public
      */
     componentWillMount() {
-        const { users, groups } = this.props;
-        const { updatable } = groups;
-        const memberProfiles = users.list.filter(user => updatable.members.indexOf(user._id) > -1);
+        const { token } = AuthStore.getState();
 
-        GroupActions.membersReceived(memberProfiles);
+        UserActions.getList(token, this._userListReceived.bind(this));
     }
 
     /**
@@ -48,7 +44,7 @@ class GroupFields extends React.Component {
      * @param {Object} event Event object
      */
     handleChange(prop, event) {
-        const { updatable } = this.props.groups;
+        const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
 
@@ -74,7 +70,7 @@ class GroupFields extends React.Component {
             return toastr.error('Lietotājs jau grupai ir pievienots');
         }
 
-        const user = this.props.users.list.filter(user => user._id === userId)[0];
+        const user = this.props.userList.filter(user => user._id === userId)[0];
 
         updatable.members.push(userId);
 
@@ -156,15 +152,30 @@ class GroupFields extends React.Component {
     }
 
     /**
+     * User list received event handler.
+     *
+     * Sets the user list store propery and assigns the already existing group members to the member list.
+     *
+     * @private
+     * @param userList
+     * @private
+     */
+    _userListReceived(userList) {
+        const { updatable } = this.props;
+        const memberProfiles = userList.filter(user => updatable.members.indexOf(user._id) > -1);
+
+        GroupActions.userListReceived(userList);
+        GroupActions.membersReceived(memberProfiles);
+    }
+
+    /**
      * Renders group field controls.
      *
      * @public
      * @returns {string} HTML markup
      */
     render() {
-        const { users, groups } = this.props;
-        const userList = users.list;
-        const { updatable, members } = groups;
+        const { userList, updatable, members } = this.props;
         const { name } = updatable;
 
         return (

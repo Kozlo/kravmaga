@@ -18,8 +18,21 @@ class GroupStore extends EntryStore {
         super(props);
 
         this.bindActions(GroupActions);
+        this.userList = [];
         this.members = [];
         this.updatable = createObject(groupFieldNames, {});
+    }
+
+    /**
+     * User list received handler.
+     *
+     * The user list is used when, for example, selecting users for a group.
+     *
+     * @public
+     * @param {Object[]} userList List of all users in the DB
+     */
+    onUserListReceived(userList) {
+        this.userList = userList;
     }
 
     /**

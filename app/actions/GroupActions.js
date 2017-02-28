@@ -19,6 +19,7 @@ class GroupActions extends EntryActions {
         const { baseUrl, userGroupUrl } = generalConfig.api.groups;
 
         this.generateActions(
+            'userListReceived',
             'membersReceived',
             'memberAdded',
             'memberRemoved',
