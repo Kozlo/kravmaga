@@ -65,6 +65,20 @@ module.exports = {
         return helpers.createError(message, httpStatusCodes.badRequest);
     },
 
+    /**
+     * Removes all properties from a user that should not be sent to the API caller.
+     *
+     * @public
+     * @param {Object} user User data
+     * @returns {Object} Updated user data
+     */
+    removeSensitiveData(user) {
+        user.hash = undefined;
+        user.salt = undefined;
+
+        return user;
+    },
+
     //=======================================
     // User Model Helpers
     //=======================================

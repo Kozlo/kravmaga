@@ -42,7 +42,7 @@ module.exports = {
 
         entry.setPassword(password);
         entry.save()
-            .then(entry => res.status(httpStatusCodes.created).send(entry))
+            .then(entry => res.status(httpStatusCodes.created).send(userHelpers.removeSensitiveData(entry)))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
 
@@ -69,7 +69,7 @@ module.exports = {
         User.find(filters)
             .sort(sorters)
             .limit(limit)
-            .then(entries => res.status(httpStatusCodes.ok).send(entries))
+            .then(entries => res.status(httpStatusCodes.ok).send(entries.map(entry => userHelpers.removeSensitiveData(entry))))
             .catch(err => next(err));
     },
 
@@ -85,7 +85,7 @@ module.exports = {
         const entryId = req.params.id;
 
         User.findById(entryId)
-            .then(entry => res.status(httpStatusCodes.ok).send(entry))
+            .then(entry => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(entry)))
             .catch(err => next(err));
 
     },
@@ -124,13 +124,11 @@ module.exports = {
             .then(updatedUser => {
                 if (typeof password !== 'undefined') {
                     updatedUser.setPassword(password);
-
-                    return updatedUser.save();
-                } else {
-                    res.status(httpStatusCodes.ok).send(updatedUser)
                 }
+
+                return updatedUser.save();
             })
-            .then(updatedUser => res.status(httpStatusCodes.ok).send(updatedUser))
+            .then(updatedUser => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(updatedUser)))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
 
@@ -173,7 +171,7 @@ module.exports = {
 
                 return User.findByIdAndRemove(entryId)
             })
-            .then(deletedUser => res.status(httpStatusCodes.ok).send(deletedUser))
+            .then(deletedUser => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(deletedUser)))
             .catch(err => next(err));
     }
 
