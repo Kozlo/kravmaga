@@ -122,9 +122,9 @@ class UserEntry extends React.Component {
                         {phone}
                     </div>
                 </td>
-                <td>{birthdateValue}</td>
+                <td className="date-cell">{birthdateValue}</td>
                 <td>{genderValue}</td>
-                <td>{memberSinceValue}</td>
+                <td className="date-cell">{memberSinceValue}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>
                 <td style={btnColStyle}>

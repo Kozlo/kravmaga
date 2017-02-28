@@ -54,17 +54,24 @@ th {
   overflow: hidden;
   text-overflow: ellipsis;
   &.comment-cell,
-  &.location-cell {
+  &.location-cell,
+  &.group-cell {
     white-space: normal;
     max-width: 15.625em;
   }
   &.email-cell {
-    max-width: 9.375em;
+    max-width: 9.688em;
   }
   &.phone-cell {
     max-width: 7.5em;
   }
   &.full-name-cell {
     max-width: 12.5em;
+  }
+  &.date-time-cell {
+    max-width: 7.5em;
+  }
+  &.date-cell {
+    max-width: 5.750em;
   }
 }

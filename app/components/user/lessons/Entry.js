@@ -105,15 +105,15 @@ class LessonEntry extends React.Component {
         return (
             <tr>
                 <td>{index + 1}</td>
-                <td>{formattedStartDate}</td>
-                <td>{formattedEndDate}</td>
+                <td className="date-time-cell">{formattedStartDate}</td>
+                <td className="date-time-cell">{formattedEndDate}</td>
                 <td>
-                    <div className="cell-wrapper comment-cell">
+                    <div className="cell-wrapper group-cell">
                         {groupName}
                     </div>
                 </td>
                 <td>
-                    <div className="cell-wrapper comment-cell">
+                    <div className="cell-wrapper location-cell">
                         {location}
                     </div>
                 </td>
