@@ -1,103 +1,16 @@
-(DONE)- switch to using type Date, not string in the DB to be able to sort by date
-(DONE)- don't allow the user to change the date from which he is a member (aka move member_from to 'admin_fields')
-(DONE)- when a group is created, the list should be updated when creating a lesson
-(DONE)- for lessons, also add 'end date/time'
-(DONE)- password change changes
-(DONE)- add gender field to user list
-(DONE)- add proper validation to form fields (use react validate module)
-(DONE)- implement some 'max length' (truncation) for user list fields (in case of a very long entry) (could be done together with general validation)
-(DONE)- make it possible to add groups to users (not only vice versa)
-(DONE)- fix cell sizes
-(DONE)- increase the max size of the page (so that everything fits)
-(DONE)- implement filters
-(DONE)- implement config (e.g. to limit how many results should be shown
-(DONE)// TODO: add sorters as well
-(DONE)// TODO: replace limit with config as an object where limit and offset can be added
-(DONE)- for lessons remove the functionality that adds an item to the top of the list (maybe re-request the list instead for now...)
-(DONE)- when deleting/updating data (e.g. user) all dependable data should be updated as well (e.g. the user should be removed from all groups)
-  (DONE)- when deleting a user:
-    (DONE)- remove user from groups he's in
-    (DONE)- remove the user from lessons he's attending
-  (DONE)- when updating a user
-    (DONE)- make sure the group store is up to date
-    (DONE)- MAYBE instead of removing from all groups and adding new ones:
-      (DONE)- OR send the groups in batches, not 1 by 1
-  (DONE)- remove attending lesson when a user is removed from a group
-  (DONE)- remove lessons when a group is deleted
-  (DONE)- when updating a group (e.g. it's members) need to update lesson attendance as well
+Meeting minutes (2 March):
 
-- when returning User data, exclude hash and salt, like so: http://stackoverflow.com/questions/12096262/how-to-protect-the-password-field-in-mongoose-mongodb-so-it-wont-return-in-a-qu
-(DONE)- consider moving column names to config
+- admin lauki profila skatā
 
-Bugs from Ronis:
-(DONE)#5 Lietotājam nomainot ieradīšanas statusu tiek pārkārtots “Manas nodarbības” saraksts
-  - fixed with the new sorters
-(DONE)#10 Adminam pievienojot lietotāju, bildes laukam ir apraksts “Saite uz manu profila bildi”
+- drosadistance.lv info (jagaida no Rona)
 
-(DONE)#15 Lietotājam ierakstot nekorektu linku uz bildi vajag paziņot par problēmu
-
-(DONE)#20 Adminam nav iespējas apskatīt lietotāja profilu, tikai labojot:
-  Vienīga iespēja kā apskatīties kāda lietotāja profilu ir Atvert to uz labošanu (poga Labot), bet ja ir vēlēšanas tikai apskatīt,
-  piemēram, bildi, tad to nav iespējams izdarīt. Nepieciešams ļaut atvert skatīšanas režīma nospiežot uz bildes (vai vārda).
-  Tas ir vajadzīgs, lai nejauši nesamainītu lietotāja datus.
-    - note: I implemented a page just like user page, but without the lessons and the ability to edit things for the profile
-    BUG: need to fix a but where the page sin't udpated on view to profile switch and some logon errors
-
-
-(DONE)#25 Ja lietotājs tiek izdzēsts tas paliek pieskaitīts pie grupas
-
-(DONE)#30 Lietotāju veidojot, pēc noklusējuma tas kļūst pievienots visām grupām
-
-(DONE)#35 Lokācijas kolonnai ir pārāk mazs izmērs, ne vairāk ka 11 simboli
-  Ir pietiekoši daudz vietas lai attēlotu vairāk simbolus kolonnā “Lokācija”, un ir liela varbūtība ka lokācijas nosaukumam būs vairāk burtu nekā 11.
-  To varētu palielināt uz Ieradīsies vai datumu kolonu rēķina, jo šīs kolonnas vienmēr būs ar fiksēta skaita rakstzīmēm.
-
-(DONE)#40 Ja nodarbībai tiek nomainīta grupa tad vecās grupas dalībniekiem tā nodarbība vairs nerādās,
-  bet pie “Ieradīsies” skaita lietotāji kuri ir atzīmējuši ka Ieradīsies paliek pieskaitīti.
-  Iespējams vajadzīga papildus apstrāde
-  Iespējams ir jāpaziņo kad nomaina nodarbībai grupu, ka tai jau ir dalībnieki kas ir atzīmējuši ka ieradīsies – līdzīgi ka ir kad dzēš nodarbību kurai ir pieteikušies dalībnieki
-  Ja lietotājs apstiprina grupas izmaiņas tai nodarbībai, tad nodarbībai ir jāpazūd no lietotāju profiliem,
-  kas bija agrāk norādītājā grupā (tā tas tagad arī notiek), un “Piedalīsies” skaitam ir jānomainās uz 0 (tagad paliek tāds ka bija vecajai grupai).
-
-(DONE)#45 Nodarbību attēlošanas secība
-  Nodarbības tiek sakārtotas tādā secībā kādā tās tika labotas, nav iespējas sakārtot pēc laika, grupas utml.
-  Ja nevar tā, tad ieteicams kārtot pēc laika dilstoši, lai jaunākās ir augšā.
-  - fixed with the new sorters/fitlers/config
-
-(DONE)#50 Vienā lapā attēloto Nodarbību un Lietotāju skaits
-  Nodarbības un lietotājus šobrīd attēlo tik daudz cik ir kopā, bet ieteicams rādīt, piemērām, pa 10 ar iespēju apskatīt nākamos.
-
-(DONE)#55 Ieteicams sistēmas footerī pievienot saita/lietotnes versija, piemēram v.1.0
-
-(DONE)#13 Pēc grupas izdzēšanas nodarbības, kas tika izveidotas šai grupai paliek neizdzēstas, bet lietotājiem (lietotāju profilos) vairāk nerādās
-  Nodarbību sarakstā nodarbības izveidotas ar izdzēstām grupām paliek neizdzēstas, bet lietotājiem vairāk nerādās.
-  “Ieradīsies” skaits paliek tāds kāds bija, skaita arī lietotāju kuram nodarbība vairs nerādās.
-  Kad grupa ir izdzēsta, grupas nosaukums nodarbībai mainās uz “Nezināma grupa”.
-  Ieteikums ir rādīt nezināmas grupas nodarbību lietotājam kurš agrāk tai nodarbībai bija pieteicies (norādījis ka ieradīsies)
-  un noņemt to no lietotāja kad nodarbībai tiek pielikta cita grupa, gadījumā ja lietotājs nav jaunas grupas dalībnieks,
-  ja ir dalībnieks – nodarbība lietotājam sarakstā paliek un paliek atzīmēts “Ieradīšos”.
-  “Ieradīsies” skaits brīdī kad nodarbībai tiek pielikta jauna grupa mainās uz 0 gadījumā,
-   ja neviens no jaunas grupas dalībniekiem nav vecās grupas dalībnieks kurš ir norādījis ka ieradīsies.
-
-  Vai ja ir izdzēsta grupa tad nodarbībai ar nezināmo grupu vienkārši nomainīt “Ieradīsies” skaitu uz nulli.
-
-(DONE)#14 Predefinētas lokācijas
-  Izveidot lokāciju sarakstu līdzīgu ka ir grupām, ar iespēju izveidot, labot un dzēst. Pie lokācijas izvēles nodarbības veidošanas formā piedāvāt sarakstu ar lokācijām,
-  lai nevadītu informāciju kas var atkārtoties ar roku bet pielikt ar vienu klikšķi. Atstāt iespēju ievadīt lokācijas nosaukumu brīvā tekstā,
-  t.i. lokāciju ir jāvar izvēlēties gan no saraksta gan ievadīt pašam.  – Ja šis tiek taisīts, tad var veidot papildus pārbaudes pie nodarbības izveidošanas,
-  vai uz konkrēto nodarbības laiku lokācija nav aizņemta un var arī izveidot skatu pa lokācijām kur būs nodarbību saraksts.
-  (DONE)- add back the free text field and bind the free text change to the select
-  (DONE)- add location filter to lessons
-  (DONE- MAYBE add a check for when a lesson is saved if the location isn't taken
-    (DONE)- check if the start date is less than the beginning AND the end date larger than oterh start date for the same location
-    - might need to adjust the milliseconds to 0 when saving, filtering data etc.
-    (DONE)- return conflict (409) if this isn't satisfied
-    (DONE)- add 409 handler for lesson creation/update
-    (DONE)- need to do the check for bot creating and updating lessons
-
-(DONE)- restyle the profile page
-(DONE)- Add JSDoc to components (research this a bit as well)
 -
+
+naksu/nenaksu:
+  - ir 2 pogas, ja naaksu, tad zala paliek peleka, ja nospiez nenaksu, tad paliek sarkana peleka
+
+nodarbibas:
+- iespeja uzlikt, ka atkartojas noteiktu laiku (lai var 1x uztaisit visam menesim, utt) (visdrizak nakama faaze)
 
 
 -----------------------------------------------
@@ -118,19 +31,3 @@ Later
 - when done with phase 1, read on releases and make it a major release
 
 -----------------------------------------------
-Notes:
-Meeting notes (24th Feb):
-
-- nodarbibas:
-  - lauki: datums/laiks/grupa/vieta (drop-down + opcija briva teksta formata)/komentars (neobligats)
-  - iespeja uzlikt ies/neies no lietotaja puses (prolly use active state and a button group)
-  -
-
-admin:
- - nodarbibu sadalja (cilveku skaits, kas pieteikusies, ne visi cilveki)
- - grupu sadalja
-
-
-(DONE)profila dati:
-  - atstat dzimumu
-  - pievinot: telefons, dzimsanas datums, datums no kura ir biedrs, grupas (probably use react-boostrap multiple select control)

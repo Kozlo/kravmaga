@@ -1,6 +1,6 @@
 // dependencies
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
@@ -123,22 +123,20 @@ class LessonEntry extends React.Component {
                     </div>
                 </td>
                 <td>
-                    {
-                        !isAttending &&
+                    <ButtonToolbar>
                         <Button
                             bsStyle="success"
-                            onClick={this.markAttending.bind(this, entry._id)}>
+                            onClick={this.markAttending.bind(this, entry._id)}
+                            disabled={isAttending}>
                             Ieradīšos
                         </Button>
-                    }
-                    {
-                        isAttending &&
                         <Button
                             bsStyle="danger"
-                            onClick={this.removeAttending.bind(this, entry._id)}>
+                            onClick={this.removeAttending.bind(this, entry._id)}
+                            disabled={!isAttending}>
                             Netieku
                         </Button>
-                    }
+                    </ButtonToolbar>
                 </td>
             </tr>
         );
