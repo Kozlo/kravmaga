@@ -101,6 +101,7 @@ class LessonEntry extends React.Component {
         const formattedEndDate = formatDateString(end, true);
         const groupName = this.findGroupName(group);
         const isAttending = this.determineIsAttending(entry);
+        const btnToolbarStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
@@ -122,13 +123,13 @@ class LessonEntry extends React.Component {
                         {comment}
                     </div>
                 </td>
-                <td>
+                <td style={btnToolbarStyle}>
                     <ButtonToolbar>
                         <Button
                             bsStyle="success"
                             onClick={this.markAttending.bind(this, entry._id)}
                             disabled={isAttending}>
-                            Ieradīšos
+                            Tieku
                         </Button>
                         <Button
                             bsStyle="danger"

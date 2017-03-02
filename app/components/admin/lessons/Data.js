@@ -36,6 +36,15 @@ class LessonData extends React.Component {
     }
 
     /**
+     * Resets lesson filters.
+     *
+     * @public
+     */
+    componentWillUnmount() {
+        LessonActions.resetFilters();
+    }
+
+    /**
      * Modal closed event handler.
      *
      * @public

@@ -26,9 +26,10 @@ class LessonStore extends EntryStore {
         this.locations = [];
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
-        this.filters = { start: { '$gte': new Date() } };
         this.sorters = { start: 1 };
         this.config = { limit: defaultAmount };
+
+        this.onResetFilters();
     }
 
     /**
@@ -81,6 +82,15 @@ class LessonStore extends EntryStore {
      */
     onLocationsReceived(locations) {
         this.locations = locations;
+    }
+
+    /**
+     * Resets filters to an initial state.
+     *
+     * @public
+     */
+    onResetFilters() {
+        this.filters = { start: { '$gte': new Date() } };
     }
 
     /**

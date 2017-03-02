@@ -25,15 +25,21 @@ class LessonData extends React.Component {
     }
 
     /**
-     * Gets the list of groups the user belongs to, in order to see their names.
-     * And gets the user's lesson list.
+     * Requests the data.
+     *
+     * @public
      */
     componentDidMount() {
-        const { token, userId } = AuthStore.getState();
-        const { filters, sorters, config } = this.props;
+        this._requestData();
+    }
 
-        GroupActions.getUserGroupList(token, userId);
-        LessonActions.getUserLessonList(token, userId, filters, sorters, config);
+    /**
+     * Resets lesson filters.
+     *
+     * @public
+     */
+    componentWillUnmount() {
+        LessonActions.resetFilters();
     }
 
     /**
@@ -51,6 +57,19 @@ class LessonData extends React.Component {
                 index={index}
                 entry={entry}/>
         );
+    }
+
+    /**
+     * Requests group and lesson lists.
+     *
+     * @private
+     */
+    _requestData() {
+        const { token, userId } = AuthStore.getState();
+        const { filters, sorters, config } = this.props;
+
+        GroupActions.getUserGroupList(token, userId);
+        LessonActions.getUserLessonList(token, userId, filters, sorters, config);
     }
 
     /**
