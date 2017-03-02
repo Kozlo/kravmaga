@@ -12,7 +12,10 @@ import UserActions from '../../../actions/UserActions';
 import ProfileActions from './Actions';
 
 // utility methods and config
-import { getGenderValue, formatDateString } from '../../../utils/utils';
+import {
+    getGenderValue, formatDateString,
+    getStatusValue, getRoleValue
+} from '../../../utils/utils';
 import { assets } from '../../../utils/config';
 
 /**
@@ -54,8 +57,17 @@ class ProfileData extends React.Component {
         const {
             given_name, family_name,
             email, phone,
-            gender, birthdate
+            gender, birthdate,
+            admin_fields = {}
         } = entry;
+        const {
+            role, is_blocked, member_since
+        } = admin_fields;
+
+        const roleValue = getRoleValue(role);
+        const status = getStatusValue(is_blocked);
+        const memberSinceValue = formatDateString(member_since);
+
         const imgSrc = entry.picture || assets.defaultImage;
         const genderValue = getGenderValue(gender);
         const birthdateValue = formatDateString(birthdate);
@@ -87,6 +99,20 @@ class ProfileData extends React.Component {
                                     <p><b>Dzimšanas diena:</b> {birthdateValue}</p>
                                 </Col>
                             </Row>
+                            {
+                                isViewOnly &&
+                                <Row>
+                                    <Col xs={12} sm={6}>
+                                        <p><b>Loma:</b> {roleValue}</p>
+                                    </Col>
+                                    <Col xs={12} sm={6}>
+                                        <p><b>Statuss:</b> {status}</p>
+                                    </Col>
+                                    <Col xs={12} sm={6}>
+                                        <p><b>Kluba biedrs kopš:</b> {memberSinceValue}</p>
+                                    </Col>
+                                </Row>
+                            }
                         </Media.Body>
                     </Media>
                 </Col>
