@@ -129,13 +129,13 @@ class LessonEntry extends React.Component {
                             bsStyle="success"
                             onClick={this.markAttending.bind(this, entry._id)}
                             disabled={isAttending}>
-                            Tieku
+                            Būšu
                         </Button>
                         <Button
                             bsStyle="danger"
                             onClick={this.removeAttending.bind(this, entry._id)}
                             disabled={!isAttending}>
-                            Netieku
+                            Nebūšu
                         </Button>
                     </ButtonToolbar>
                 </td>

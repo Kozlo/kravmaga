@@ -10,6 +10,7 @@ Meeting minutes (2 March):
 nodarbibas:
 - iespeja uzlikt, ka atkartojas noteiktu laiku (lai var 1x uztaisit visam menesim, utt) (visdrizak nakama faaze)
 
+(DONE)- nomainīt Tieku/Netieku uz Būšu/Nebūšu
 
 -----------------------------------------------
 Later
