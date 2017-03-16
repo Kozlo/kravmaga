@@ -117,11 +117,22 @@ export const formatDateString = (dateString, addTime = false) => {
     if (!addTime) {
         return formattedDate;
     } else {
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
+        const hours = formatTimeDigit(date.getHours());
+        const minutes = formatTimeDigit(date.getMinutes());
 
         return `${formattedDate} ${hours}:${minutes}`;
     }
+};
+
+/**
+ * Formats the time digit by adding a trailing 0 if the number is in single digits.
+ *
+ * @public
+ * @param {number} digit Digit to format
+ * @returns {string} constructed string
+ */
+export const formatTimeDigit = (digit) => {
+    return digit < 10 ? `0${digit}` : digit;
 };
 
 /**
