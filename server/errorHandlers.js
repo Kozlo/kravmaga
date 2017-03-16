@@ -8,6 +8,7 @@ module.exports = {
     /**
      * Logs the caught error to the console and calls the next method.
      *
+     * @public
      * @param {Error} err Error
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -19,12 +20,14 @@ module.exports = {
     },
 
     /**
-     * Tries to identify the type of error and send a response with the apporiate error status code.
+     * Tries to identify the type of error and send a response with the appropriate error status code.
      *
+     * @public
      * @param {Error} err Error
      * @param {Object} req Request object
      * @param {Object} res Response object
      * @param {Function} next Method for continuing execution
+     * @returns {*}
      */
     clientErrorHandler(err, req, res, next) {
         const { name, status } = err;
@@ -42,13 +45,13 @@ module.exports = {
      *
      * Checks if the error has a status code. Uses 500 if none is found.
      *
+     * @public
      * @param {Error} err Error
      * @param {Object} req Request object
      * @param {Object} res Response object
      * @param {Function} next Method for continuing execution
      */
     errorHandler(err, req, res, next) {
-        // TODO: test this http://expressjs.com/en/guide/error-handling.html
         if (res.headersSent) return next(err);
 
         const status = err.status || httpStatusCodes.internalServerError;

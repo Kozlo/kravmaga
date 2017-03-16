@@ -33,11 +33,16 @@ mongoose.connection.on('error', () => console.info(`Error: Could not connect to 
 //=================
 // Auth setup
 //=================
+const {
+    authenticate,
+    serializeUser,
+    deserializeUser
+} = authController;
 
 // Passport (authentication) setup
-passport.use(new LocalStrategy({ usernameField: 'email' }, authController.authenticate));
-passport.serializeUser(authController.serializeUser);
-passport.deserializeUser(authController.deserializeUser);
+passport.use(new LocalStrategy({ usernameField: 'email' }, authenticate));
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
 
 //=================
 // App setup
@@ -48,8 +53,6 @@ const app = express();
 // Express middleware
 app.use(helmet());
 app.set('port', process.env.PORT || 3000);
-// TODO: change this according to the environment
-// TODO: read more on logger and what it does
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,6 +67,7 @@ app.use(passport.session());
 //=================
 // Routes
 //=================
+
 const routes = require('./routes');
 
 app.use('/', routes);
