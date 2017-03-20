@@ -14,8 +14,8 @@ const userConfig = {
  */
 const maxFieldLength = {
     regularField: 25,
-    email: 40,
-    password: 30,
+    email: 50,
+    password: 50,
     phone: 25,
     textArea: 100,
     url: 300
