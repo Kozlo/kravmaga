@@ -5,7 +5,6 @@
 const path = require('path');
 
 module.exports = {
-
     /**
      * Route handler for all requests that haven't been matched by other route handlers.
      *
@@ -18,5 +17,4 @@ module.exports = {
     getAll(req, res) {
         res.sendFile(path.join(__dirname, '../../public/index.html'));
     }
-
 };

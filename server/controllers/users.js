@@ -87,7 +87,6 @@ module.exports = {
         User.findById(entryId)
             .then(entry => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(entry)))
             .catch(err => next(err));
-
     },
 
     /**
