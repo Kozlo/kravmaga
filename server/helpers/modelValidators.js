@@ -105,6 +105,18 @@ module.exports = {
     },
 
     /**
+     * Checks if the passed value is a positive integer.
+     *
+     * @public
+     * @param {number} field Field value
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isFieldPositiveInteger(field) {
+        console.log('FIELD:', field);
+        return typeof field === 'number' && field >= 0;
+    },
+
+    /**
      * Checks if the text area is valid.
      *
      * @public

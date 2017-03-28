@@ -8,7 +8,7 @@
 const express = require('express');
 const expressJwt = require('express-jwt');
 
-const middleware = require('../middleware/index');
+const middleware = require('../middleware');
 const controller = require('../controllers/lessons');
 
 const router = express.Router();

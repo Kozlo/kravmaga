@@ -1,14 +1,14 @@
 /**
- * Locations routes.
+ * Payment Type routes.
  *
- * Routes for handling CRUD operations on pre-defined locations.
+ * Routes for handling CRUD operations on pre-defined payment types.
  */
 
 const express = require('express');
 const expressJwt = require('express-jwt');
 
 const middleware = require('../middleware');
-const controller = require('../controllers/locations');
+const controller = require('../controllers/paymentTypes');
 
 const router = express.Router();
 const requireAuth = expressJwt({
