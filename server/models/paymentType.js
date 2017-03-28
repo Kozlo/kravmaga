@@ -27,7 +27,7 @@ const properties = {
     },
     hasCount: {
         type: Boolean,
-        required: true
+        default: false
     }
 };
 

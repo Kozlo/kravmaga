@@ -5,50 +5,50 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import LocationStore from '../../../stores/LocationStore';
-import LocationActions from '../../../actions/LocationActions';
+import PaymentTypeStore from '../../../stores/PaymentTypeStore';
+import PaymentTypeActions from '../../../actions/PaymentTypeActions';
 
 // components
 import LocationEntry from './Entry';
-import ManageLocation from './ManageLocation';
-import LocationFields from './LocationFields';
+import ManagePaymentType from './ManagePaymentType';
+import PaymentTypeFields from './PaymentTypeFields';
 
 /**
- * Location data presentation component.
+ * Payment type data presentation component.
  *
- * Location data is just just plain text data without any relations.
+ * Payment type data is just just plain text data without any relations.
  */
-class LocationsData extends React.Component {
+class PaymentTypeData extends React.Component {
     static getStores() {
-        return [LocationStore];
+        return [PaymentTypeStore];
     }
 
     static getPropsFromStores() {
-        return LocationStore.getState();
+        return PaymentTypeStore.getState();
     }
 
     /**
-     * Retrieves location data.
+     * Retrieves payment type data.
      *
      * @public
      */
     componentDidMount() {
         const { token } = AuthStore.getState();
 
-        LocationActions.getList(token);
+        PaymentTypeActions.getList(token);
     }
 
     /**
-     * Location data update modal close handler.
+     * Payment type data update modal close handler.
      *
      * @public
      * @param {boolean} isUpdating Flag showing if the data is being updated
      */
     closeHandler(isUpdating) {
         if (isUpdating) {
-            LocationActions.setIsUpdating(false);
+            PaymentTypeActions.setIsUpdating(false);
         } else {
-            LocationActions.setIsCreating(false);
+            PaymentTypeActions.setIsCreating(false);
         }
     }
 
@@ -65,12 +65,13 @@ class LocationsData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
+        const { name, amount } = updatable;
 
-        if (!updatable.name) {
-            return toastr.error('Lokācijas nosaukums ievadīts kļūdaini');
+        if (!name) {
+            return toastr.error('Maksājuma tipa nosaukums ievadīts kļūdaini');
         }
 
-        LocationActions.setIsRequesting(true);
+        PaymentTypeActions.setIsRequesting(true);
 
         if (isUpdating) {
             this.update(updatable, token);
@@ -85,8 +86,8 @@ class LocationsData extends React.Component {
      * @public
      */
     initCreate() {
-        LocationActions.clearUpdatable({});
-        LocationActions.setIsCreating(true);
+        PaymentTypeActions.clearUpdatable({});
+        PaymentTypeActions.setIsCreating(true);
     }
 
     /**
@@ -96,12 +97,12 @@ class LocationsData extends React.Component {
      * @param {string} token Authentication token
      */
     update(updatable, token) {
-        LocationActions.update(updatable, token)
+        PaymentTypeActions.update(updatable, token)
             .done(() => {
-                LocationActions.setIsRequesting(false);
-                LocationActions.setIsUpdating(false);
+                PaymentTypeActions.setIsRequesting(false);
+                PaymentTypeActions.setIsUpdating(false);
             })
-            .fail(() => LocationActions.setIsRequesting(false));
+            .fail(() => PaymentTypeActions.setIsRequesting(false));
     }
 
     /**
@@ -112,23 +113,23 @@ class LocationsData extends React.Component {
      * @param {string} token Authentication token
      */
     create(updatable, token) {
-        LocationActions.create(updatable, token)
+        PaymentTypeActions.create(updatable, token)
             .done(() => this._onLocationUpdated())
-            .fail(() => LocationActions.setIsRequesting(false));
+            .fail(() => PaymentTypeActions.setIsRequesting(false));
     }
 
     /**
-     * Renders a location entry.
+     * Renders the entry.
      *
      * @public
-     * @param {Object} entry Location entry
+     * @param {Object} entry Entry
      * @param {number} index Entry index
      * @returns {string} HTML markup
      */
     renderList(entry, index) {
         return (
             <LocationEntry
-                key={`LocationEntry${index}`}
+                key={`PaymentTypeEntry${index}`}
                 index={index}
                 entry={entry} />
         );
@@ -142,8 +143,8 @@ class LocationsData extends React.Component {
      * @private
      */
     _onLocationUpdated() {
-        LocationActions.setIsCreating(false);
-        LocationActions.setIsRequesting(false);
+        PaymentTypeActions.setIsCreating(false);
+        PaymentTypeActions.setIsRequesting(false);
     }
 
     /**
@@ -158,7 +159,7 @@ class LocationsData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Nosaukums', 'Darbības'];
+        const columns = ['#', 'Nosaukums', 'Maksa', 'Vai ir noteikts skaits?', 'Darbības'];
 
         return (
             <Row>
@@ -172,22 +173,22 @@ class LocationsData extends React.Component {
                 <Col xs={12}>
                     <Table responsive>
                         <thead>
-                            <tr>{columns.map((col, index) => <th key={`LocationTableHeader${index}`}>{col}</th>)}</tr>
+                            <tr>{columns.map((col, index) => <th key={`PaymentTypeTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
                         {list.map((entry, index) => this.renderList(entry, index) )}
                         </tbody>
                     </Table>
                 </Col>
-                <ManageLocation
+                <ManagePaymentType
                     shouldShow={shouldShow}
                     closeHandler={this.closeHandler.bind(this, isUpdating)}
                     submitHandler={this.submitHandler.bind(this, isUpdating, updatable)}>
-                    <LocationFields />
-                </ManageLocation>
+                    <PaymentTypeFields />
+                </ManagePaymentType>
             </Row>
         );
     }
 }
 
-export default connectToStores(LocationsData);
+export default connectToStores(PaymentTypeData);

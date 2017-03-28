@@ -4,12 +4,12 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import LocationActions from '../../../actions/LocationActions';
+import PaymentTypeActions from '../../../actions/PaymentTypeActions';
 
 /**
- * Location data entry presentation component.
+ * Payment type data entry presentation component.
  */
-class LocationEntry extends React.Component {
+class PaymentTypeEntry extends React.Component {
     /**
      * Clears the updatable and sets the updating flag to true to show the modal.
      *
@@ -17,8 +17,8 @@ class LocationEntry extends React.Component {
      * @param {Object} entry Entry
      */
     initUpdateEntry(entry) {
-        LocationActions.clearUpdatable(entry);
-        LocationActions.setIsUpdating(true);
+        PaymentTypeActions.clearUpdatable(entry);
+        PaymentTypeActions.setIsUpdating(true);
     }
 
     /**
@@ -28,7 +28,7 @@ class LocationEntry extends React.Component {
      */
     deleteEntry(entry) {
         const { _id, name } = entry;
-        const confirmText = `Vai esi drošs, ka vēlies izdzēst lokāciju: ${name}?`;
+        const confirmText = `Vai esi drošs, ka vēlies izdzēst maksājumu tipu: ${name}?`;
 
         if (!confirm(confirmText)) {
             return;
@@ -36,24 +36,27 @@ class LocationEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        LocationActions.delete(_id, token);
+        PaymentTypeActions.delete(_id, token);
     }
 
     /**
-     * Renders location data table cells, including action buttons.
+     * Renders table cells, including action buttons.
      *
      * @public
      * @returns {string} HTML markup
      */
     render() {
         const { index, entry } = this.props;
-        const { name } = entry;
+        const { name, amount, hasCount } = entry;
+        const hasCountValue = hasCount === true ? 'Jā' : 'Nē';
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
                 <td>{name}</td>
+                <td>{amount}</td>
+                <td>{hasCountValue}</td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button
@@ -73,4 +76,4 @@ class LocationEntry extends React.Component {
     }
 }
 
-export default LocationEntry;
+export default PaymentTypeEntry;

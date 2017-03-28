@@ -31,7 +31,8 @@ export const generalConfig = {
                 remove: '/removeAttending'
             }
         },
-        locationsUrl: '/locations'
+        locationsUrl: '/locations',
+        paymentTypesUrl: '/paymentTypes'
     }
 };
 
@@ -106,6 +107,11 @@ export const locationFieldNames = ['_id', 'name'];
  * Lesson field names.
  */
 export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'attendees', 'comment'];
+
+/**
+ * Lesson field names.
+ */
+export const paymentTypeFieldNames = ['_id', 'name', 'amount', 'hasCount'];
 
 /**
  * Links to assets used within the app.

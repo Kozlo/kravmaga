@@ -5,6 +5,7 @@ import LessonPanel from './lessons/Panel';
 import UsersPanel from './users/Panel';
 import GroupPanel from './groups/Panel';
 import LocationPanel from './locations/Panel';
+import PaymentTypePanel from './paymentTypes/Panel';
 
 /**
  *  Admin page panel container.
@@ -23,6 +24,7 @@ class AdminPage extends React.Component {
                 <UsersPanel />
                 <GroupPanel />
                 <LocationPanel />
+                <PaymentTypePanel />
             </Page>
         );
     }
