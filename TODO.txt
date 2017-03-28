@@ -1,16 +1,45 @@
-Meeting minutes (2 March):
+- Make pre-defined payment types section:
+  - Name (Nosaukums)
+  - Payment amount (Daudzums (EUR))
+  - Has lesson count (Ir reižu skaita ierobežojums)
 
-(DONE)- admin lauki profila skatā
+- Payments section (ADMIN):
+  - Name Surname (email) [a link to profile]
+  - Date when payed (the default is today)
+  - Payment type (probably this simply pre-fils the amount that the use can change), probably store these value in the store
+  - Amount
+  - Valid From (by default today)
+  - Valid To (by default a month from now)
+  - IF the payment type has 'uses':
+    - Total lessons
+    - Used lessons
 
-- drosadistance.lv info (jagaida no Rona)
+- Payments section (USER):
+  - a list of read-only active/payed lessons (i.e. expiry < current date)
+    - payment date
+    - payment type
+    - amount
+    - valid from
+    - valid to
+    - IF the payment has uses:
+      - total lesson count
+      - used lesson count
 
-(DONE)naksu/nenaksu:
-  - ir 2 pogas, ja naaksu, tad zala paliek peleka, ja nospiez nenaksu, tad paliek sarkana peleka
+- Lessons (USER):
+  - A user cannot mark attendance after the lesson start date
+  - When pressing 'busu' it is shown whether the user has payed subscription/lesson
+    - NEED TO DISCUSS. maybe if a subscription is valid then all is good, otherwise check if unused lessons are available.. but need to consider this thoroughtly
 
-nodarbibas:
-- iespeja uzlikt, ka atkartojas noteiktu laiku (lai var 1x uztaisit visam menesim, utt) (visdrizak nakama faaze)
+- Lessons (ADMIN):
+  - Need to see a list of users as attendees
+    - probably make something similar to group members
+    - should also have some sort of a separate list of attendees (maybe skipping the first thing)
+  - need a list of lessons where a user has attended, but not payed
+    - DISCUSS
 
-(DONE)- nomainīt Tieku/Netieku uz Būšu/Nebūšu
+- Users (admin)
+  - introduce a new admin field: lesson attendance count
+  - when clicking attending/not attending the count of lessons a user has attended should be updated accordingly
 
 -----------------------------------------------
 Later
@@ -25,8 +54,6 @@ Later
 - add 'loading' state instead of just disabling the button: https://react-bootstrap.github.io/components.html#buttons-loading
 - for admin panel in actions use: https://react-bootstrap.github.io/components.html#btn-groups-toolbar
 - split up utils code into separate files
-- research dependencies. maybe I don't nee both react and react-dom
 - consider lazy loading for components to reduce initial JS file size
-- when done with phase 1, read on releases and make it a major release
 
 -----------------------------------------------
