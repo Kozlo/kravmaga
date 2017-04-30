@@ -1,5 +1,5 @@
 /**
- * Common helpers.
+ * Model validation helpers.
  */
 
 const mongoose = require('mongoose');
@@ -112,7 +112,6 @@ module.exports = {
      * @returns {boolean} Flag showing if the field is valid
      */
     isFieldPositiveInteger(field) {
-        console.log('FIELD:', field);
         return typeof field === 'number' && field >= 0;
     },
 
