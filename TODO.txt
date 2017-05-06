@@ -1,4 +1,6 @@
-- Make pre-defined payment types section:
+- Switch to Monday as the week start date
+
+(DONE)- Make pre-defined payment types section:
   - Name (Nosaukums)
   - Payment amount (Daudzums (EUR))
   - Has lesson count (Ir reižu skaita ierobežojums)

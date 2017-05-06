@@ -5,50 +5,50 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import PaymentTypeStore from '../../../stores/PaymentTypeStore';
-import PaymentTypeActions from '../../../actions/PaymentTypeActions';
+import PaymentStore from '../../../stores/PaymentStore';
+import PaymentActions from '../../../actions/PaymentActions';
 
 // components
 import PaymentEntry from './Entry';
-import ManagePaymentType from './ManagePaymentType';
-import PaymentTypeFields from './PaymentTypeFields';
+import ManagePayment from './ManagePayment';
+import PaymentFields from './PaymentFields';
 
 /**
- * Payment type data presentation component.
+ * Payment data presentation component.
  *
- * Payment type data is just just plain text data without any relations.
+ * Payment data is just just plain text data without any relations.
  */
-class PaymentTypeData extends React.Component {
+class PaymentData extends React.Component {
     static getStores() {
-        return [PaymentTypeStore];
+        return [PaymentStore];
     }
 
     static getPropsFromStores() {
-        return PaymentTypeStore.getState();
+        return PaymentStore.getState();
     }
 
     /**
-     * Retrieves payment type data.
+     * Retrieves payment data.
      *
      * @public
      */
     componentDidMount() {
         const { token } = AuthStore.getState();
 
-        PaymentTypeActions.getList(token);
+        PaymentActions.getList(token);
     }
 
     /**
-     * Payment type data update modal close handler.
+     * Payment data update modal close handler.
      *
      * @public
      * @param {boolean} isUpdating Flag showing if the data is being updated
      */
     closeHandler(isUpdating) {
         if (isUpdating) {
-            PaymentTypeActions.setIsUpdating(false);
+            PaymentActions.setIsUpdating(false);
         } else {
-            PaymentTypeActions.setIsCreating(false);
+            PaymentActions.setIsCreating(false);
         }
     }
 
@@ -65,13 +65,14 @@ class PaymentTypeData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
-        const { name, amount } = updatable;
+        // TODO: add validataion here
+        // const {  } = updatable;
 
-        if (!name) {
-            return toastr.error('Maksājuma tipa nosaukums ievadīts kļūdaini');
-        }
+        // if (!name) {
+        //     return toastr.error('Maksājuma tipa nosaukums ievadīts kļūdaini');
+        // }
 
-        PaymentTypeActions.setIsRequesting(true);
+        PaymentActions.setIsRequesting(true);
 
         if (isUpdating) {
             this.update(updatable, token);
@@ -86,8 +87,8 @@ class PaymentTypeData extends React.Component {
      * @public
      */
     initCreate() {
-        PaymentTypeActions.clearUpdatable({});
-        PaymentTypeActions.setIsCreating(true);
+        PaymentActions.clearUpdatable({});
+        PaymentActions.setIsCreating(true);
     }
 
     /**
@@ -97,12 +98,12 @@ class PaymentTypeData extends React.Component {
      * @param {string} token Authentication token
      */
     update(updatable, token) {
-        PaymentTypeActions.update(updatable, token)
+        PaymentActions.update(updatable, token)
             .done(() => {
-                PaymentTypeActions.setIsRequesting(false);
-                PaymentTypeActions.setIsUpdating(false);
+                PaymentActions.setIsRequesting(false);
+                PaymentActions.setIsUpdating(false);
             })
-            .fail(() => PaymentTypeActions.setIsRequesting(false));
+            .fail(() => PaymentActions.setIsRequesting(false));
     }
 
     /**
@@ -113,9 +114,9 @@ class PaymentTypeData extends React.Component {
      * @param {string} token Authentication token
      */
     create(updatable, token) {
-        PaymentTypeActions.create(updatable, token)
+        PaymentActions.create(updatable, token)
             .done(() => this._onPaymentUpdated())
-            .fail(() => PaymentTypeActions.setIsRequesting(false));
+            .fail(() => PaymentActions.setIsRequesting(false));
     }
 
     /**
@@ -129,7 +130,7 @@ class PaymentTypeData extends React.Component {
     renderList(entry, index) {
         return (
             <PaymentEntry
-                key={`PaymentTypeEntry${index}`}
+                key={`PaymentEntry${index}`}
                 index={index}
                 entry={entry} />
         );
@@ -143,8 +144,8 @@ class PaymentTypeData extends React.Component {
      * @private
      */
     _onPaymentUpdated() {
-        PaymentTypeActions.setIsCreating(false);
-        PaymentTypeActions.setIsRequesting(false);
+        PaymentActions.setIsCreating(false);
+        PaymentActions.setIsRequesting(false);
     }
 
     /**
@@ -159,7 +160,7 @@ class PaymentTypeData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Nosaukums', 'Maksa', 'Vai ir noteikts skaits?', 'Darbības'];
+        const columns = ['#', 'Maksātājs', 'Maksājuma datums', 'Maksājuma tips', 'Daudzums', 'Derīgs no', 'Derīgs līdz', 'Nodarbību skaits', 'Izmantotās nodarbības'];
 
         return (
             <Row>
@@ -173,22 +174,22 @@ class PaymentTypeData extends React.Component {
                 <Col xs={12}>
                     <Table responsive>
                         <thead>
-                            <tr>{columns.map((col, index) => <th key={`PaymentTypeTableHeader${index}`}>{col}</th>)}</tr>
+                            <tr>{columns.map((col, index) => <th key={`PaymentTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
                         {list.map((entry, index) => this.renderList(entry, index) )}
                         </tbody>
                     </Table>
                 </Col>
-                <ManagePaymentType
+                <ManagePayment
                     shouldShow={shouldShow}
                     closeHandler={this.closeHandler.bind(this, isUpdating)}
                     submitHandler={this.submitHandler.bind(this, isUpdating, updatable)}>
-                    <PaymentTypeFields />
-                </ManagePaymentType>
+                    <PaymentFields />
+                </ManagePayment>
             </Row>
         );
     }
 }
 
-export default connectToStores(PaymentTypeData);
+export default connectToStores(PaymentData);

@@ -93,24 +93,19 @@ export const userFieldNames = {
     admin_fields: ['role', 'is_blocked', 'member_since']
 };
 
-/**
- * Group field names.
- */
+/** Group field names. */
 export const groupFieldNames = ['_id', 'name', 'members'];
 
-/**
- * Location field names.
- */
+/** Location field names. */
 export const locationFieldNames = ['_id', 'name'];
 
-/**
- * Lesson field names.
- */
+/** Lesson field names. */
 export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'attendees', 'comment'];
 
-/**
- * Lesson field names.
- */
+/** Payment field names. */
+export const paymentFieldNames = ['_id', 'payee', 'paymentDate', 'paymentType', 'amount', 'validFrom', 'validTo', 'totalLessons', 'usedLessons'];
+
+/** Payment type field names. */
 export const paymentTypeFieldNames = ['_id', 'name', 'amount', 'hasCount'];
 
 /**
