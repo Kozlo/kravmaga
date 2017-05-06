@@ -16,6 +16,9 @@
     - Total lessons
     - Used lessons
 
+Other Payment-related tasks:
+  - when deleting a user, their payments are deleted as well
+
 - Payments section (USER):
   - a list of read-only active/payed lessons (i.e. expiry < current date)
     - payment date
