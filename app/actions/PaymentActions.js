@@ -1,6 +1,6 @@
 import alt from '../alt';
 import EntryActions from './EntryActions';
-import { userFieldNames, generalConfig } from '../utils/config';
+import { paymentFieldNames, generalConfig } from '../utils/config';
 import { createObject } from '../utils/utils';
 
 /**
@@ -18,7 +18,7 @@ class UserActions extends EntryActions {
 
         this.generateActions();
 
-        this.url = generalConfig.api.usersUrl;
+        this.url = generalConfig.api.paymentsUrl;
     }
 
     /**
@@ -28,10 +28,7 @@ class UserActions extends EntryActions {
      * @returns {Promise}
      */
     clearUpdatable(entry) {
-        const { general, admin_fields } = userFieldNames;
-        const updatable = createObject(general, entry);
-
-        updatable.admin_fields = createObject(admin_fields, entry.admin_fields || {});
+        const updatable = createObject(paymentFieldNames, entry);
 
         return this.setUpdatable(updatable);
     }

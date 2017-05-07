@@ -71,18 +71,18 @@ class PaymentFields extends React.Component {
                     {/*TODO: add payment type here (need a select here)*/}
                     {/*TODO: differentiate between select payment types and custom ones (might need a combo box OR 2 different controls with an IF*/}
                     {/*TODO: consider adding 'EUR' here (see how it's done elsewhere)*/}
-                    <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Maksa</ControlLabel>
-                            <FormControl
-                                type="number"
-                                min="0"
-                                placeholder="Maksa"
-                                value={amount}
-                                onChange={this.handleChange.bind(this, 'amount')}
-                            />
-                        </FormGroup>
-                    </Col>
+                    {/*<Col xs={12}>*/}
+                        {/*<FormGroup>*/}
+                            {/*<ControlLabel>Maksa</ControlLabel>*/}
+                            {/*<FormControl*/}
+                                {/*type="number"*/}
+                                {/*min="0"*/}
+                                {/*placeholder="Maksa"*/}
+                                {/*value={amount}*/}
+                                {/*onChange={this.handleChange.bind(this, 'amount')}*/}
+                            {/*/>*/}
+                        {/*</FormGroup>*/}
+                    {/*</Col>*/}
                     {/*TODO: add valid from here (need a date control) */}
                     {/*TODO: add valid to here (need a date control) */}
                     <Col xs={12}>

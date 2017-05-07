@@ -5,6 +5,7 @@ import LessonPanel from './lessons/Panel';
 import UsersPanel from './users/Panel';
 import GroupPanel from './groups/Panel';
 import LocationPanel from './locations/Panel';
+import PaymentPanel from './payments/Panel';
 import PaymentTypePanel from './paymentTypes/Panel';
 
 /**
@@ -20,6 +21,7 @@ class AdminPage extends React.Component {
     render() {
         return (
             <Page title="Admin Panelis">
+                <PaymentPanel />
                 <LessonPanel />
                 <UsersPanel />
                 <GroupPanel />

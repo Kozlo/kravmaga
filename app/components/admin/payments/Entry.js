@@ -6,8 +6,11 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 import AuthStore from '../../../stores/AuthStore';
 import PaymentActions from '../../../actions/PaymentActions';
 
+// utils
+import { formatDateString } from '../../../utils/utils';
+
 /** Payment data entry presentation component. */
-class PaymentTypeEntry extends React.Component {
+class PaymentEntry extends React.Component {
     /**
      * Clears the updatable and sets the updating flag to true to show the modal.
      *
@@ -46,25 +49,35 @@ class PaymentTypeEntry extends React.Component {
      */
     render() {
         const { index, entry } = this.props;
-        const { payee, paymentDate, paymentType, amount, validFrom, validTo, totalLessons, usedLessons } = entry;
+        const {
+            payee, paymentDate, paymentType,
+            amount, validFrom, validTo,
+            totalLessons, usedLessons
+        } = entry;
+        const formattedPaymentDate = formatDateString(paymentDate);
+        const formattedValidFrom = formatDateString(validFrom);
+        const formattedValidTo = formatDateString(validTo);
+
         // TODO: see if this should be applied globally or not
         const btnColStyle = { minWidth: '12.5em' };
 
         return (
             <tr>
                 <td>{index + 1}</td>
+                {/*TODO: get user data (not just the ID */}
                 <td>{payee}</td>
-                {/*TODO: format the date*/}
-                <td>{paymentDate}</td>
+                {/*/!*TODO: format the date*!/*/}
+                <td>{formattedPaymentDate}</td>
+                {/*TODO: transfor the name if it's custom to LV*/}
                 <td>{paymentType}</td>
-                {/*TODO: add currency*/}
-                <td>{{amount}}</td>
-                {/*TODO: format the date*/}
-                <td>{{validFrom}}</td>
-                {/*TODO: format the date*/}
-                <td>{{validTo}}</td>
-                <td>{{totalLessons}}</td>
-                <td>{{usedLessons}}</td>
+                {/*/!*TODO: add currency*!/*/}
+                <td>{amount}</td>
+                {/*/!*TODO: format the date*!/*/}
+                <td>{formattedValidFrom}</td>
+                {/*/!*TODO: format the date*!/*/}
+                <td>{formattedValidTo}</td>
+                <td>{totalLessons}</td>
+                <td>{usedLessons}</td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button
@@ -84,4 +97,4 @@ class PaymentTypeEntry extends React.Component {
     }
 }
 
-export default PaymentTypeEntry;
+export default PaymentEntry;

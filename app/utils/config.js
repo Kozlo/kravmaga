@@ -32,6 +32,7 @@ export const generalConfig = {
             }
         },
         locationsUrl: '/locations',
+        paymentsUrl: '/payments',
         paymentTypesUrl: '/paymentTypes'
     }
 };

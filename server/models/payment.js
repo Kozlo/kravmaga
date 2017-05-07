@@ -15,7 +15,7 @@ const { isObjectIdValid } = require('../helpers/modelValidators');
  */
 const properties = {
     payee: {
-        type: ObjectId,
+        type: String,
         required: true,
         validate: {
             validator: isObjectIdValid,
