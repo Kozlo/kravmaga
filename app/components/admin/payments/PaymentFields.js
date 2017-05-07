@@ -9,7 +9,10 @@ import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
 
 import { maxInputLength } from '../../../utils/config';
-import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
+import {
+    formatUserDescription,
+    initDateTimePicker, handleDateChange
+} from '../../../utils/utils';
 
 /**
  * Payment fields presentation component.
@@ -56,6 +59,26 @@ class PaymentFields extends React.Component {
     }
 
     /**
+     * Renders an options for the user select
+     *
+     * @param {Object} user User object
+     * @returns {string} HTML output
+     * @public
+     */
+    renderUserOption(user, index) {
+        const userDescription = formatUserDescription(user);
+
+        return (
+            <option
+                key={`UserPaymentOption${index}`}
+                value={user._id}
+            >
+                {userDescription}
+            </option>
+        );
+    }
+
+    /**
      * Date changed event handler.
      *
      * @private
@@ -90,7 +113,7 @@ class PaymentFields extends React.Component {
      * @returns {string} HTML markup
      */
     render() {
-        const { updatable } = this.props;
+        const { updatable, users } = this.props;
         const {
             payee, paymentType, amount,
             totalLessons, usedLessons
@@ -100,16 +123,16 @@ class PaymentFields extends React.Component {
             <div>
                 <Row>
                     <Col xs={12}>
-                        {/*TODO: use a select with all users instead*/}
                         <FormGroup>
                             <ControlLabel>Maksātājs</ControlLabel>
-                            <FormControl
-                                type="text"
-                                placeholder="Maksātājs"
-                                maxLength={maxInputLength.regularField}
-                                value={payee}
-                                onChange={this.handleChange.bind(this, 'payee')}
-                            />
+                            <select className="form-control"
+                                    onChange={this.handleChange.bind(this, 'payee')}
+                                    value={payee}>
+                                <option value=""></option>
+                                {users.map(this.renderUserOption.bind(this))}
+                            </select>
+                            <FormControl.Feedback />
+                            <HelpBlock>Lietotājs, kurš veicis maksājumu.</HelpBlock>
                         </FormGroup>
                     </Col>
                     <Col xs={12}>
@@ -192,7 +215,7 @@ class PaymentFields extends React.Component {
                                 min="0"
                                 placeholder="Izmantoto nodarbību skaits"
                                 value={usedLessons}
-                                onChange={this.handleChange.bind(this, 'totalLessons')}
+                                onChange={this.handleChange.bind(this, 'usedLessons')}
                             />
                         </FormGroup>
                     </Col>

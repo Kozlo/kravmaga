@@ -101,7 +101,8 @@ export const getStatusValue = is_blocked => {
  *
  * @public
  * @param {string} dateString Date string
- * @returns {string} Formated date string or an emprt string
+ * @param {boolean} [addTime] Flag showing if time should be added to the date
+ * @returns {string} Formatted date string or an empty string
  */
 export const formatDateString = (dateString, addTime = false) => {
     if (!dateString) {
@@ -308,6 +309,25 @@ export const isUrlValid = url => {
     const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
     return pattern.test(url);
+};
+
+/**
+ * Created a string with the user's name, surname and email.
+ *
+ * Checks if first/last name properties exist as they are optional.
+ *
+ * @param {User} user User object
+ * @returns {string} HTML
+ * @public
+ */
+export const formatUserDescription = user => {
+    const { given_name, family_name, email } = user;
+    let description = '';
+
+    if (given_name) description += `${given_name} `;
+    if (family_name) description += `${family_name} `;
+
+    return `${description}(${email})`;
 };
 
 /**

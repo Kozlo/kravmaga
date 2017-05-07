@@ -17,6 +17,9 @@
     - Used lessons
 
 Other Payment-related tasks:
+  - add valid from/to date validation (copy from lessons):
+    - BE
+    - FE
   - when deleting a user, their payments are deleted as well
   - when adding/modifying/deleting a user, update the payment store users asd well
 

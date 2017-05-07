@@ -5,11 +5,10 @@ import { Link } from 'react-router';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
 
 // utils
-import { formatDateString } from '../../../utils/utils';
+import { formatDateString, formatUserDescription } from '../../../utils/utils';
 
 /** Payment data entry presentation component. */
 class PaymentEntry extends React.Component {
@@ -57,9 +56,7 @@ class PaymentEntry extends React.Component {
             return payee;
         }
 
-        const { given_name, family_name, email } = user;
-
-        return `${given_name} ${family_name} (${email})`;
+        return formatUserDescription(user);
     }
 
     /**
