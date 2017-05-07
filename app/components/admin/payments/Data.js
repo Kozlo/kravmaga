@@ -65,12 +65,15 @@ class PaymentData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
-        // TODO: add validataion here
-        // const {  } = updatable;
+        const {
+            payee, paymentDate, paymentType,
+            amount, validFrom, validTo,
+            totalLessons, usedLessons
+        } = updatable;
 
-        // if (!name) {
-        //     return toastr.error('Maksājuma tipa nosaukums ievadīts kļūdaini');
-        // }
+        if (!payee || !paymentDate || !paymentType || !amount || !validFrom || !validTo || !totalLessons || !usedLessons) {
+            return toastr.error('Lūdzu ievadiet visus obligātos laukus!');
+        }
 
         PaymentActions.setIsRequesting(true);
 
