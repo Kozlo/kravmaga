@@ -1,9 +1,11 @@
 // dependencies
 import React from 'react';
 import { Button, ButtonToolbar } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
+import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
 
 // utils
@@ -42,6 +44,25 @@ class PaymentEntry extends React.Component {
     }
 
     /**
+     * Retrieves the payee's name, email and link to the profile based on his/her ID.
+     *
+     * @param {string} payee Payee's ID
+     * @returns {string} Formatted link to the user's profile
+     * @public
+     */
+    formatPayee(payee) {
+        const user = this.props.users.filter(user => user._id === payee)[0];
+
+        if (!user) {
+            return payee;
+        }
+
+        const { given_name, family_name, email } = user;
+
+        return `${given_name} ${family_name} (${email})`;
+    }
+
+    /**
      * Renders table cells, including action buttons.
      *
      * @public
@@ -57,6 +78,7 @@ class PaymentEntry extends React.Component {
         const formattedPaymentDate = formatDateString(paymentDate);
         const formattedValidFrom = formatDateString(validFrom);
         const formattedValidTo = formatDateString(validTo);
+        const formattedPayee = this.formatPayee(payee);
 
         // TODO: see if this should be applied globally or not
         const btnColStyle = { minWidth: '12.5em' };
@@ -65,7 +87,9 @@ class PaymentEntry extends React.Component {
             <tr>
                 <td>{index + 1}</td>
                 {/*TODO: get user data (not just the ID */}
-                <td>{payee}</td>
+                <td>
+                    <Link to={`/user/${payee}`}>{formattedPayee}</Link>
+                </td>
                 {/*/!*TODO: format the date*!/*/}
                 <td>{formattedPaymentDate}</td>
                 {/*TODO: transfor the name if it's custom to LV*/}

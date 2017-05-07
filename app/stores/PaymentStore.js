@@ -19,6 +19,17 @@ class PaymentStore extends EntryStore {
 
         this.bindActions(PaymentActions);
         this.updatable = createObject(paymentFieldNames, {});
+        this.users = [];
+    }
+
+    /**
+     * Users received event handler.
+     *
+     * @public
+     * @param {User[]} users
+     */
+    onUsersReceived(users) {
+        this.users = users;
     }
 }
 

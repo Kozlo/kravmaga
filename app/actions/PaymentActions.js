@@ -16,7 +16,9 @@ class UserActions extends EntryActions {
     constructor(props) {
         super(props);
 
-        this.generateActions();
+        this.generateActions(
+            'usersReceived'
+        );
 
         this.url = generalConfig.api.paymentsUrl;
     }

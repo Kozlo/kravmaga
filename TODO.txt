@@ -18,6 +18,7 @@
 
 Other Payment-related tasks:
   - when deleting a user, their payments are deleted as well
+  - when adding/modifying/deleting a user, update the payment store users asd well
 
 - Payments section (USER):
   - a list of read-only active/payed lessons (i.e. expiry < current date)

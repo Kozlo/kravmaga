@@ -7,6 +7,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
+import UserActions from '../../../actions/UserActions';
 
 // components
 import PaymentEntry from './Entry';
@@ -35,6 +36,7 @@ class PaymentData extends React.Component {
     componentDidMount() {
         const { token } = AuthStore.getState();
 
+        UserActions.getList(token, PaymentActions.usersReceived);
         PaymentActions.getList(token);
     }
 
@@ -131,11 +133,14 @@ class PaymentData extends React.Component {
      * @returns {string} HTML markup
      */
     renderList(entry, index) {
+        const { users } = this.props;
+
         return (
             <PaymentEntry
                 key={`PaymentEntry${index}`}
                 index={index}
-                entry={entry} />
+                entry={entry}
+                users={users} />
         );
     }
 
