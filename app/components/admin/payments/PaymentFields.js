@@ -1,14 +1,15 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Row, Col, FormGroup, Checkbox,
-    FormControl, ControlLabel
+    Row, Col, FormGroup, InputGroup, HelpBlock,
+    Glyphicon, FormControl, ControlLabel
 } from 'react-bootstrap';
 
 import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
 
 import { maxInputLength } from '../../../utils/config';
+import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
 
 /**
  * Payment fields presentation component.
@@ -20,6 +21,23 @@ class PaymentFields extends React.Component {
 
     static getPropsFromStores() {
         return PaymentStore.getState();
+    }
+
+    /**
+     * Initiates the datetime picker and gets the latest group list (in case it's been updated).
+     *
+     * @public
+     */
+    componentDidMount() {
+        const { updatable } = this.props;
+        const { paymentDate, validFrom, validTo } = updatable;
+        const paymentDateChangeHandler = handleDateChange.bind(this, 'paymentDate', PaymentActions, updatable);
+        const validFromChangeHandler = handleDateChange.bind(this, 'validFrom', PaymentActions, updatable);
+        const validToChangeHandler = handleDateChange.bind(this, 'validTo', PaymentActions, updatable);
+
+        initDateTimePicker('#paymentDate', paymentDateChangeHandler, paymentDate);
+        initDateTimePicker('#validFrom', validFromChangeHandler, validFrom);
+        initDateTimePicker('#validTo', validToChangeHandler, validTo);
     }
 
     /**
@@ -38,6 +56,34 @@ class PaymentFields extends React.Component {
     }
 
     /**
+     * Date changed event handler.
+     *
+     * @private
+     * @param {string} prop Date property name
+     * @param {Date} date Date value
+     */
+    _handleDateChange(prop, date) {
+        date = date && date !== 'false' ? date : '';
+
+        this._updateData(prop, date);
+    }
+
+    /**
+     * Updates the updatable propery value.
+     *
+     * @private
+     * @param {string} prop Property name
+     * @param {Date} value Property value
+     */
+    _updateData(prop, value) {
+        const { updatable } = this.props;
+
+        updatable[prop] = value;
+
+        PaymentActions.setUpdatable(updatable);
+    }
+
+    /**
      * Renders payment fields.
      *
      * @public
@@ -46,8 +92,7 @@ class PaymentFields extends React.Component {
     render() {
         const { updatable } = this.props;
         const {
-            payee, paymentDate, paymentType,
-            amount, validFrom, validTo,
+            payee, paymentType, amount,
             totalLessons, usedLessons
         } = updatable;
 
@@ -67,7 +112,21 @@ class PaymentFields extends React.Component {
                             />
                         </FormGroup>
                     </Col>
-                    {/*TODO: add payment date here (need a date control) */}
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Maksājuma datums</ControlLabel>
+                            <InputGroup id='paymentDate'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Maksājuma datums"
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="calendar" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                            <HelpBlock>Datums, kurā maksājums tika veikts.</HelpBlock>
+                        </FormGroup>
+                    </Col>
                     {/*TODO: add payment type here (need a select here)*/}
                     {/*TODO: differentiate between select payment types and custom ones (might need a combo box OR 2 different controls with an IF*/}
                     {/*TODO: consider adding 'EUR' here (see how it's done elsewhere)*/}
@@ -83,8 +142,36 @@ class PaymentFields extends React.Component {
                             {/*/>*/}
                         {/*</FormGroup>*/}
                     {/*</Col>*/}
-                    {/*TODO: add valid from here (need a date control) */}
-                    {/*TODO: add valid to here (need a date control) */}
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Derīgs no</ControlLabel>
+                            <InputGroup id='validFrom'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Derīgs no"
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="calendar" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                            <HelpBlock>Datums no kura lietotājs nodarbības ir apmaksājis.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Derīgs līdz</ControlLabel>
+                            <InputGroup id='validTo'>
+                                <FormControl
+                                    type="text"
+                                    placeholder="Derīgs līdz"
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="calendar" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                            <HelpBlock>Datums līdz kuram lietotājs nodarbības ir apmaksājis.</HelpBlock>
+                        </FormGroup>
+                    </Col>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Nodarbību skaits</ControlLabel>
