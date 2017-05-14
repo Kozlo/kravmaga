@@ -5,7 +5,7 @@
   - Payment amount (Daudzums (EUR))
   - Has lesson count (Ir reižu skaita ierobežojums)
 
-- Payments section (ADMIN):
+(DONE)- Payments section (ADMIN):
   - Name Surname (email) [a link to profile]
   - Date when payed (the default is today)
   - Payment type (probably this simply pre-fils the amount that the use can change), probably store these value in the store
@@ -15,6 +15,8 @@
   - IF the payment type has 'uses':
     - Total lessons
     - Used lessons
+
+- add filter to the admin panel for payments
 
 Other Payment-related tasks:
   - add valid from/to date validation (copy from lessons):
