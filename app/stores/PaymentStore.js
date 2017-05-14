@@ -20,6 +20,7 @@ class PaymentStore extends EntryStore {
         this.bindActions(PaymentActions);
         this.updatable = createObject(paymentFieldNames, {});
         this.users = [];
+        this.paymentTypes = [];
     }
 
     /**
@@ -30,6 +31,16 @@ class PaymentStore extends EntryStore {
      */
     onUsersReceived(users) {
         this.users = users;
+    }
+
+    /**
+     * Payment types received event handler.
+     *
+     * @public
+     * @param {PaymentType[]} paymentTypes
+     */
+    onPaymentTypesReceived(paymentTypes) {
+        this.paymentTypes = paymentTypes;
     }
 }
 

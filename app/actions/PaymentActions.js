@@ -17,7 +17,8 @@ class UserActions extends EntryActions {
         super(props);
 
         this.generateActions(
-            'usersReceived'
+            'usersReceived',
+            'paymentTypesReceived',
         );
 
         this.url = generalConfig.api.paymentsUrl;
@@ -31,6 +32,8 @@ class UserActions extends EntryActions {
      */
     clearUpdatable(entry) {
         const updatable = createObject(paymentFieldNames, entry);
+
+        updatable.paymentType = 'other';
 
         return this.setUpdatable(updatable);
     }

@@ -5,10 +5,11 @@ import {
     Glyphicon, FormControl, ControlLabel
 } from 'react-bootstrap';
 
+import AuthStore from '../../../stores/AuthStore';
 import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
+import PaymentTypeActions from '../../../actions/PaymentTypeActions';
 
-import { maxInputLength } from '../../../utils/config';
 import {
     formatUserDescription,
     initDateTimePicker, handleDateChange
@@ -32,6 +33,7 @@ class PaymentFields extends React.Component {
      * @public
      */
     componentDidMount() {
+        const { token } = AuthStore.getState();
         const { updatable } = this.props;
         const { paymentDate, validFrom, validTo } = updatable;
         const paymentDateChangeHandler = handleDateChange.bind(this, 'paymentDate', PaymentActions, updatable);
@@ -41,6 +43,8 @@ class PaymentFields extends React.Component {
         initDateTimePicker('#paymentDate', paymentDateChangeHandler, paymentDate);
         initDateTimePicker('#validFrom', validFromChangeHandler, validFrom);
         initDateTimePicker('#validTo', validToChangeHandler, validTo);
+
+        PaymentTypeActions.getList(token, PaymentActions.paymentTypesReceived);
     }
 
     /**
@@ -54,6 +58,34 @@ class PaymentFields extends React.Component {
         const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
+
+        PaymentActions.setUpdatable(updatable);
+    }
+
+    /**
+     * Payment type value changed handler.
+     *
+     * If the payment type name is not other, updates the amount property as well.
+     * Otherwise clears the amount property
+     *
+     * @public
+     * @param {Object} event Event object
+     */
+    handlePaymentTypeChange(event) {
+        const { updatable } = this.props;
+        const paymentType = this.paymentTypeFinder(event.target.value);
+        const { name, amount, hasCount } = paymentType;
+
+        updatable.paymentType = name;
+
+        if (name === 'other') {
+            updatable.amount = '';
+        } else {
+            updatable.amount = paymentType.amount;
+        }
+
+        updatable.totalLessons = '';
+        updatable.usedLessons = '';
 
         PaymentActions.setUpdatable(updatable);
     }
@@ -79,11 +111,46 @@ class PaymentFields extends React.Component {
     }
 
     /**
+     * Renders an options for the payment type select
+     *
+     * @param {Object} user PaymentType object
+     * @returns {string} HTML output
+     * @public
+     */
+    renderPaymentTypeOption(paymentType, index) {
+        const { name, amount, hasCount } = paymentType;
+        const paymentDuration = hasCount ? 'par nodarbību skaitu' : 'par periodu';
+        const paymentTypeDescription = `${name} (€${amount} ${paymentDuration})`;
+
+        return (
+            <option
+                key={`PaymentTypeOption${index}`}
+                value={paymentType.name}>
+                {paymentTypeDescription}
+            </option>
+        );
+    }
+
+    /**
+     * Finds the payment type option based on its name.
+     *
+     * @param {string} paymentTypeName Name of the payment type
+     * @returns {PaymentType|Object} Payment type
+     * @private
+     */
+    paymentTypeFinder(paymentTypeName) {
+        const { paymentTypes } = this.props;
+        const foundPaymentTypes = paymentTypes.filter(paymentType => paymentType.name === paymentTypeName);
+
+        return foundPaymentTypes.length ? foundPaymentTypes[0] : { name: 'other' };
+    }
+
+    /**
      * Date changed event handler.
      *
-     * @private
      * @param {string} prop Date property name
      * @param {Date} date Date value
+     * @private
      */
     _handleDateChange(prop, date) {
         date = date && date !== 'false' ? date : '';
@@ -94,9 +161,9 @@ class PaymentFields extends React.Component {
     /**
      * Updates the updatable propery value.
      *
-     * @private
      * @param {string} prop Property name
      * @param {Date} value Property value
+     * @private
      */
     _updateData(prop, value) {
         const { updatable } = this.props;
@@ -113,11 +180,14 @@ class PaymentFields extends React.Component {
      * @returns {string} HTML markup
      */
     render() {
-        const { updatable, users } = this.props;
+        const {
+            updatable, users, paymentTypes
+        } = this.props;
         const {
             payee, paymentType, amount,
             totalLessons, usedLessons
         } = updatable;
+        const paymentTypeHasNoCount = this.paymentTypeFinder(paymentType).hasCount === false;
 
         return (
             <div>
@@ -150,21 +220,37 @@ class PaymentFields extends React.Component {
                             <HelpBlock>Datums, kurā maksājums tika veikts.</HelpBlock>
                         </FormGroup>
                     </Col>
-                    {/*TODO: add payment type here (need a select here)*/}
-                    {/*TODO: differentiate between select payment types and custom ones (might need a combo box OR 2 different controls with an IF*/}
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Maksājuma tips</ControlLabel>
+                            <select className="form-control"
+                                    onChange={this.handlePaymentTypeChange.bind(this)}
+                                    value={paymentType}>
+                                <option value="other">Cits</option>
+                                {paymentTypes.map(this.renderPaymentTypeOption.bind(this))}
+                            </select>
+                            <FormControl.Feedback />
+                            <HelpBlock>Definēts maksājuma tips.</HelpBlock>
+                        </FormGroup>
+                    </Col>
                     {/*TODO: consider adding 'EUR' here (see how it's done elsewhere)*/}
-                    {/*<Col xs={12}>*/}
-                        {/*<FormGroup>*/}
-                            {/*<ControlLabel>Maksa</ControlLabel>*/}
-                            {/*<FormControl*/}
-                                {/*type="number"*/}
-                                {/*min="0"*/}
-                                {/*placeholder="Maksa"*/}
-                                {/*value={amount}*/}
-                                {/*onChange={this.handleChange.bind(this, 'amount')}*/}
-                            {/*/>*/}
-                        {/*</FormGroup>*/}
-                    {/*</Col>*/}
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Maksa</ControlLabel>
+                            <InputGroup>
+                                <FormControl
+                                    type="number"
+                                    min="0"
+                                    placeholder="Maksa"
+                                    value={amount}
+                                    onChange={this.handleChange.bind(this, 'amount')}
+                                />
+                                <InputGroup.Addon>
+                                    <Glyphicon glyph="euro" />
+                                </InputGroup.Addon>
+                            </InputGroup>
+                        </FormGroup>
+                    </Col>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Derīgs no</ControlLabel>
@@ -195,30 +281,36 @@ class PaymentFields extends React.Component {
                             <HelpBlock>Datums līdz kuram lietotājs nodarbības ir apmaksājis.</HelpBlock>
                         </FormGroup>
                     </Col>
-                    <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Nodarbību skaits</ControlLabel>
-                            <FormControl
-                                type="number"
-                                min="0"
-                                placeholder="Nodarbību skaits"
-                                value={totalLessons}
-                                onChange={this.handleChange.bind(this, 'totalLessons')}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Izmantoto nodarbību skaits</ControlLabel>
-                            <FormControl
-                                type="number"
-                                min="0"
-                                placeholder="Izmantoto nodarbību skaits"
-                                value={usedLessons}
-                                onChange={this.handleChange.bind(this, 'usedLessons')}
-                            />
-                        </FormGroup>
-                    </Col>
+                    {
+                        !paymentTypeHasNoCount &&
+                        <Col xs={12}>
+                            <FormGroup>
+                                <ControlLabel>Nodarbību skaits</ControlLabel>
+                                <FormControl
+                                    type="number"
+                                    min="0"
+                                    placeholder="Nodarbību skaits"
+                                    value={totalLessons}
+                                    onChange={this.handleChange.bind(this, 'totalLessons')}
+                                />
+                            </FormGroup>
+                        </Col>
+                    }
+                    {
+                        !paymentTypeHasNoCount &&
+                        <Col xs={12}>
+                            <FormGroup>
+                                <ControlLabel>Izmantoto nodarbību skaits</ControlLabel>
+                                <FormControl
+                                    type="number"
+                                    min="0"
+                                    placeholder="Izmantoto nodarbību skaits"
+                                    value={usedLessons}
+                                    onChange={this.handleChange.bind(this, 'usedLessons')}
+                                />
+                            </FormGroup>
+                        </Col>
+                    }
                 </Row>
             </div>
         );

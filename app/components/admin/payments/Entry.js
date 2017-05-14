@@ -72,6 +72,7 @@ class PaymentEntry extends React.Component {
             amount, validFrom, validTo,
             totalLessons, usedLessons
         } = entry;
+        const paymentTypeName = paymentType === 'custom' ? 'Cits' : paymentType;
         const formattedPaymentDate = formatDateString(paymentDate);
         const formattedValidFrom = formatDateString(validFrom);
         const formattedValidTo = formatDateString(validTo);
@@ -83,19 +84,13 @@ class PaymentEntry extends React.Component {
         return (
             <tr>
                 <td>{index + 1}</td>
-                {/*TODO: get user data (not just the ID */}
                 <td>
                     <Link to={`/user/${payee}`}>{formattedPayee}</Link>
                 </td>
-                {/*/!*TODO: format the date*!/*/}
                 <td>{formattedPaymentDate}</td>
-                {/*TODO: transfor the name if it's custom to LV*/}
-                <td>{paymentType}</td>
-                {/*/!*TODO: add currency*!/*/}
-                <td>{amount}</td>
-                {/*/!*TODO: format the date*!/*/}
+                <td>{paymentTypeName}</td>
+                <td>€{amount}</td>
                 <td>{formattedValidFrom}</td>
-                {/*/!*TODO: format the date*!/*/}
                 <td>{formattedValidTo}</td>
                 <td>{totalLessons}</td>
                 <td>{usedLessons}</td>

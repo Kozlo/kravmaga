@@ -69,11 +69,10 @@ class PaymentData extends React.Component {
         const { token } = AuthStore.getState();
         const {
             payee, paymentDate, paymentType,
-            amount, validFrom, validTo,
-            totalLessons, usedLessons
+            amount, validFrom, validTo
         } = updatable;
 
-        if (!payee || !paymentDate || !paymentType || !amount || !validFrom || !validTo || !totalLessons || !usedLessons) {
+        if (!payee || !paymentDate || !paymentType || (!amount && amount !== 0) || !validFrom || !validTo) {
             return toastr.error('Lūdzu ievadiet visus obligātos laukus!');
         }
 

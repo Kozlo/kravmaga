@@ -25,11 +25,8 @@ class ManagePayment extends React.Component {
     render() {
         const {
             shouldShow, isRequesting,
-            closeHandler, submitHandler,
-            updatable
+            closeHandler, submitHandler
         } = this.props;
-        const { name } = updatable;
-        // TODO: add some payment-specific info here
         const title = 'Maksājums';
 
         return (

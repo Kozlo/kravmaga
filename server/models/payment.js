@@ -46,13 +46,11 @@ const properties = {
     },
     totalLessons: {
         type: Number,
-        required: true,
         min: 0,
         message: '{VALUE} is not a valid payment lesson count'
     },
     usedLessons: {
         type: Number,
-        required: true,
         min: 0,
         message: '{VALUE} is not a valid payment used lesson count'
     }
