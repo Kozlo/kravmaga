@@ -29,7 +29,7 @@ class PaymentEntry extends React.Component {
      * @param {Object} entry Entry
      */
     deleteEntry(entry) {
-        const { _id, name } = entry;
+        const { _id } = entry;
         // TODO: add some payment-specific text here
         const confirmText = 'Vai esi drošs, ka vēlies izdzēst maksājumu';
 

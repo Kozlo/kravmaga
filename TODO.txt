@@ -16,6 +16,11 @@
     - Total lessons
     - Used lessons
 
+BUGS:
+- UPDATE USER LIST when creating/updating/deleting a user!!!
+- make sure the previously added fonts are added to the CSS as well
+- fix the footer issue
+
 - add filter to the admin panel for payments
 
 Other Payment-related tasks:

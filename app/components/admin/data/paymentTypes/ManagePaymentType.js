@@ -1,8 +1,8 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
-import PaymentTypeStore from '../../../stores/PaymentTypeStore';
-import DataModal from '../../shared/DataModal';
+import PaymentTypeStore from '../../../../stores/PaymentTypeStore';
+import DataModal from '../../../shared/DataModal';
 
 /**
  * Manage payment type update modal container.

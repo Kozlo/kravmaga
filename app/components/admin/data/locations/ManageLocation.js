@@ -1,8 +1,8 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
-import LocationStore from '../../../stores/LocationStore';
-import DataModal from '../../shared/DataModal';
+import LocationStore from '../../../../stores/LocationStore';
+import DataModal from '../../../shared/DataModal';
 
 /**
  * Manage location update modal container.

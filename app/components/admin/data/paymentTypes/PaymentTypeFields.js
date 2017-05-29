@@ -5,10 +5,10 @@ import {
     FormControl, ControlLabel
 } from 'react-bootstrap';
 
-import PaymentTypeStore from '../../../stores/PaymentTypeStore';
-import PaymentTypeActions from '../../../actions/PaymentTypeActions';
+import PaymentTypeStore from '../../../../stores/PaymentTypeStore';
+import PaymentTypeActions from '../../../../actions/PaymentTypeActions';
 
-import { maxInputLength } from '../../../utils/config';
+import { maxInputLength } from '../../../../utils/config';
 
 /**
  * Payment type fields presentation component.

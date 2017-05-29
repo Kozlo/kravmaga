@@ -7,8 +7,6 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
-import LessonStore from '../../../stores/LessonStore';
-import LessonActions from '../../../actions/LessonActions';
 
 // components
 import GroupEntry from './Entry';
@@ -16,7 +14,7 @@ import ManageGroup from './ManageGroup';
 import GroupFields from './GroupFields';
 
 // utils/config
-import { getGroupMemberCount, updateStoreList } from '../../../utils/utils';
+import { getGroupMemberCount } from '../../../utils/utils';
 
 /**
  * Group data presentation component.
@@ -152,7 +150,6 @@ class GroupData extends React.Component {
      * @private
      */
     _onGroupUpdated() {
-        updateStoreList(LessonStore, LessonActions);
         GroupActions.setIsUpdating(false);
         GroupActions.setIsRequesting(false);
     }

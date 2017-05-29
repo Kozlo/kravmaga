@@ -283,22 +283,6 @@ export const fetchData = request => {
 };
 
 /**
- * Updates the list of the specified store.
- *
- * Uses the stores current filters, sorters, config and the default list received handler.
- *
- * @public
- * @param {Object} store Store
- * @param {Object} actions Actions
- */
-export const updateStoreList = (store, actions) => {
-    const { token } = AuthStore.getState();
-    const { filters, sorters, config } = store.getState();
-
-    actions.getList(token, actions.listReceived, filters, sorters, config);
-};
-
-/**
  * Checks if the passed value is a valid URL.
  *
  * @public

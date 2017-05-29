@@ -4,51 +4,51 @@ import { Button, Row, Col, Table } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
-import AuthStore from '../../../stores/AuthStore';
-import PaymentTypeStore from '../../../stores/PaymentTypeStore';
-import PaymentTypeActions from '../../../actions/PaymentTypeActions';
+import AuthStore from '../../../../stores/AuthStore';
+import LocationStore from '../../../../stores/LocationStore';
+import LocationActions from '../../../../actions/LocationActions';
 
 // components
-import PaymentEntry from './Entry';
-import ManagePaymentType from './ManagePaymentType';
-import PaymentTypeFields from './PaymentTypeFields';
+import LocationEntry from './Entry';
+import ManageLocation from './ManageLocation';
+import LocationFields from './LocationFields';
 
 /**
- * Payment type data presentation component.
+ * Location data presentation component.
  *
- * Payment type data is just just plain text data without any relations.
+ * Location data is just just plain text data without any relations.
  */
-class PaymentTypeData extends React.Component {
+class LocationsData extends React.Component {
     static getStores() {
-        return [PaymentTypeStore];
+        return [LocationStore];
     }
 
     static getPropsFromStores() {
-        return PaymentTypeStore.getState();
+        return LocationStore.getState();
     }
 
     /**
-     * Retrieves payment type data.
+     * Retrieves location data.
      *
      * @public
      */
     componentDidMount() {
         const { token } = AuthStore.getState();
 
-        PaymentTypeActions.getList(token);
+        LocationActions.getList(token);
     }
 
     /**
-     * Payment type data update modal close handler.
+     * Location data update modal close handler.
      *
      * @public
      * @param {boolean} isUpdating Flag showing if the data is being updated
      */
     closeHandler(isUpdating) {
         if (isUpdating) {
-            PaymentTypeActions.setIsUpdating(false);
+            LocationActions.setIsUpdating(false);
         } else {
-            PaymentTypeActions.setIsCreating(false);
+            LocationActions.setIsCreating(false);
         }
     }
 
@@ -65,13 +65,12 @@ class PaymentTypeData extends React.Component {
         event.preventDefault();
 
         const { token } = AuthStore.getState();
-        const { name, amount } = updatable;
 
-        if (!name) {
-            return toastr.error('Maksājuma tipa nosaukums ievadīts kļūdaini');
+        if (!updatable.name) {
+            return toastr.error('Lokācijas nosaukums ievadīts kļūdaini');
         }
 
-        PaymentTypeActions.setIsRequesting(true);
+        LocationActions.setIsRequesting(true);
 
         if (isUpdating) {
             this.update(updatable, token);
@@ -86,8 +85,8 @@ class PaymentTypeData extends React.Component {
      * @public
      */
     initCreate() {
-        PaymentTypeActions.clearUpdatable({});
-        PaymentTypeActions.setIsCreating(true);
+        LocationActions.clearUpdatable({});
+        LocationActions.setIsCreating(true);
     }
 
     /**
@@ -97,39 +96,39 @@ class PaymentTypeData extends React.Component {
      * @param {string} token Authentication token
      */
     update(updatable, token) {
-        PaymentTypeActions.update(updatable, token)
+        LocationActions.update(updatable, token)
             .done(() => {
-                PaymentTypeActions.setIsRequesting(false);
-                PaymentTypeActions.setIsUpdating(false);
+                LocationActions.setIsRequesting(false);
+                LocationActions.setIsUpdating(false);
             })
-            .fail(() => PaymentTypeActions.setIsRequesting(false));
+            .fail(() => LocationActions.setIsRequesting(false));
     }
 
     /**
-     * Calls the method to create a new payment.
+     * Calls the method to create a new location.
      *
      * @public
      * @param {Object} updatable Updatable entry
      * @param {string} token Authentication token
      */
     create(updatable, token) {
-        PaymentTypeActions.create(updatable, token)
-            .done(() => this._onPaymentUpdated())
-            .fail(() => PaymentTypeActions.setIsRequesting(false));
+        LocationActions.create(updatable, token)
+            .done(() => this._onLocationUpdated())
+            .fail(() => LocationActions.setIsRequesting(false));
     }
 
     /**
-     * Renders the entry.
+     * Renders a location entry.
      *
      * @public
-     * @param {Object} entry Entry
+     * @param {Object} entry Location entry
      * @param {number} index Entry index
      * @returns {string} HTML markup
      */
     renderList(entry, index) {
         return (
-            <PaymentEntry
-                key={`PaymentTypeEntry${index}`}
+            <LocationEntry
+                key={`LocationEntry${index}`}
                 index={index}
                 entry={entry} />
         );
@@ -142,13 +141,13 @@ class PaymentTypeData extends React.Component {
      *
      * @private
      */
-    _onPaymentUpdated() {
-        PaymentTypeActions.setIsCreating(false);
-        PaymentTypeActions.setIsRequesting(false);
+    _onLocationUpdated() {
+        LocationActions.setIsCreating(false);
+        LocationActions.setIsRequesting(false);
     }
 
     /**
-     * Renders payment data table and the manage modal.
+     * Renders location data table and the manage modal.
      *
      * @public
      * @returns {string} HTML markup
@@ -159,7 +158,7 @@ class PaymentTypeData extends React.Component {
             isUpdating, isCreating
         } = this.props;
         const shouldShow = isUpdating || isCreating;
-        const columns = ['#', 'Nosaukums', 'Maksa', 'Vai ir noteikts skaits?', 'Darbības'];
+        const columns = ['#', 'Nosaukums', 'Darbības'];
 
         return (
             <Row>
@@ -173,22 +172,22 @@ class PaymentTypeData extends React.Component {
                 <Col xs={12}>
                     <Table responsive>
                         <thead>
-                            <tr>{columns.map((col, index) => <th key={`PaymentTypeTableHeader${index}`}>{col}</th>)}</tr>
+                            <tr>{columns.map((col, index) => <th key={`LocationTableHeader${index}`}>{col}</th>)}</tr>
                         </thead>
                         <tbody>
                         {list.map((entry, index) => this.renderList(entry, index) )}
                         </tbody>
                     </Table>
                 </Col>
-                <ManagePaymentType
+                <ManageLocation
                     shouldShow={shouldShow}
                     closeHandler={this.closeHandler.bind(this, isUpdating)}
                     submitHandler={this.submitHandler.bind(this, isUpdating, updatable)}>
-                    <PaymentTypeFields />
-                </ManagePaymentType>
+                    <LocationFields />
+                </ManageLocation>
             </Row>
         );
     }
 }
 
-export default connectToStores(PaymentTypeData);
+export default connectToStores(LocationsData);
