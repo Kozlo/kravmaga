@@ -12,7 +12,8 @@ import PaymentTypeActions from '../../../actions/PaymentTypeActions';
 
 import {
     formatUserDescription,
-    initDateTimePicker, handleDateChange
+    initDateTimePicker,
+    handleDateChange
 } from '../../../utils/utils';
 
 /**
@@ -143,19 +144,6 @@ class PaymentFields extends React.Component {
         const foundPaymentTypes = paymentTypes.filter(paymentType => paymentType.name === paymentTypeName);
 
         return foundPaymentTypes.length ? foundPaymentTypes[0] : { name: 'other' };
-    }
-
-    /**
-     * Date changed event handler.
-     *
-     * @param {string} prop Date property name
-     * @param {Date} date Date value
-     * @private
-     */
-    _handleDateChange(prop, date) {
-        date = date && date !== 'false' ? date : '';
-
-        this._updateData(prop, date);
     }
 
     /**

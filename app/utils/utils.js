@@ -185,6 +185,11 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
 export const handleDateChange = (prop, entryActions, updatable, date) => {
     date = date && date !== 'false' ? date : '';
 
+    if (date !== '') {
+        date = new Date(date);
+        date.setHours(0,0,0,0);
+    }
+
     updatable[prop] = date;
 
     entryActions.setUpdatable(updatable);

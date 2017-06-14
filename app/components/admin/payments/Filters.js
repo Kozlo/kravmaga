@@ -3,8 +3,8 @@ import React from 'react';
 import {
     Row, Col,
     FormGroup, ControlLabel,
-    FormControl,
-    HelpBlock
+    FormControl, InputGroup,
+    HelpBlock, Glyphicon
 } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
@@ -18,7 +18,7 @@ import UserActions from '../../../actions/UserActions';
 
 // utils & config
 import { filterConfig } from '../../../utils/config';
-import { updateStoreList, constructUserInfo } from '../../../utils/utils';
+import { updateStoreList, constructUserInfo, initDateTimePicker } from '../../../utils/utils';
 
 /**
  * Payment filters data presentation component.
@@ -36,6 +36,17 @@ class PaymentFilters extends React.Component {
         const { token } = AuthStore.getState();
 
         UserActions.getList(token, PaymentActions.usersReceived);
+    }
+
+    /**
+     * Initiates the start time date/time picker.
+     *
+     * @public
+     */
+    componentDidMount() {
+        const paymentDateChangeHandler = this._handleDateChange.bind(this, 'paymentDate');
+
+        initDateTimePicker('#paymentDateFilter', paymentDateChangeHandler);
     }
 
     /**
@@ -101,6 +112,34 @@ class PaymentFilters extends React.Component {
     }
 
     /**
+     * Date filter value changed handler.
+     *
+     * Makes a new request when a change is made to reflect the change in the data.
+     *
+     * @private
+     * @param {string} prop Name of the filter
+     * @param {*} date The new date value
+     */
+    _handleDateChange(prop, date) {
+        const { filters } = this.props;
+
+        date = date && date !== 'false' ? date : '';
+        // TODO: use get for valid from and lte for valid to
+        // filters[prop] = { '$gte': date };
+        if (date === '') {
+            delete filters[prop];
+        } else {
+            date = new Date(date);
+            date.setHours(0, 0, 0, 0);
+            filters[prop] = date;
+        }
+        debugger;
+        PaymentActions.setFilters(filters);
+
+        updateStoreList(PaymentStore, PaymentActions);
+    }
+
+    /**
      * Renders payment data filters (and config) form.
      *
      * @public
@@ -129,6 +168,21 @@ class PaymentFilters extends React.Component {
                 </Col>
 
                 {/*TODO: add the following date filters: payment date, valid from, valid to*/}
+                <Col xs={12} sm={6} lg={3}>
+                    <FormGroup>
+                        <ControlLabel>Maksājuma datums</ControlLabel>
+                        <InputGroup id='paymentDateFilter'>
+                            <FormControl
+                                type="text"
+                                placeholder="Maksājuma datums"
+                            />
+                            <InputGroup.Addon>
+                                <Glyphicon glyph="calendar" />
+                            </InputGroup.Addon>
+                        </InputGroup>
+                        <HelpBlock>No kura datuma rādīt nodarbības.</HelpBlock>
+                    </FormGroup>
+                </Col>
 
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
