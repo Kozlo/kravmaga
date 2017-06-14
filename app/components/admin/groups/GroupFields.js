@@ -12,6 +12,7 @@ import GroupActions from '../../../actions/GroupActions';
 import UserActions from '../../../actions/UserActions';
 
 import { maxInputLength } from '../../../utils/config';
+import { constructUserInfo } from '../../../utils/utils';
 
 /**
  * Group field update form control component.
@@ -104,7 +105,7 @@ class GroupFields extends React.Component {
      */
     renderUser(user, index) {
         const { _id, given_name, family_name, email } = user;
-        const userInfo = this._constructUserInfo(email, given_name, family_name);
+        const userInfo = constructUserInfo(email, given_name, family_name);
 
         return (
             <option
@@ -126,7 +127,7 @@ class GroupFields extends React.Component {
      */
     renderMember(updatable, member, index) {
         const { given_name, family_name, email } = member;
-        const memberInfo = this._constructUserInfo(email, given_name, family_name);
+        const memberInfo = constructUserInfo(email, given_name, family_name);
 
         return (
             <Button
@@ -136,19 +137,6 @@ class GroupFields extends React.Component {
                 {memberInfo} <Glyphicon glyph="remove" />
             </Button>
         );
-    }
-
-    /**
-     * Constructs a string consisting of a user's email, name, and last name.
-     *
-     * @private
-     * @param {string} email User's email
-     * @param {string} given_name User's first name
-     * @param {string} family_name User's last name
-     * @returns {string} Constructed user info
-     */
-    _constructUserInfo(email, given_name, family_name) {
-        return `${email} (${given_name || ''} ${family_name || ''})`;
     }
 
     /**

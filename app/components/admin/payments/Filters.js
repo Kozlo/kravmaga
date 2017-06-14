@@ -9,14 +9,16 @@ import {
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
+import AuthStore from '../../../stores/AuthStore';
 import PaymentStore from '../../../stores/PaymentStore';
 import PaymentActions from '../../../actions/PaymentActions';
+import UserActions from '../../../actions/UserActions';
 
 // components
 
 // utils & config
 import { filterConfig } from '../../../utils/config';
-import { updateStoreList } from '../../../utils/utils';
+import { updateStoreList, constructUserInfo } from '../../../utils/utils';
 
 /**
  * Payment filters data presentation component.
@@ -30,7 +32,12 @@ class PaymentFilters extends React.Component {
         return PaymentStore.getState();
     }
 
-    // TODO: consider moving this to a util class (also in other components)
+    componentWillMount() {
+        const { token } = AuthStore.getState();
+
+        UserActions.getList(token, PaymentActions.usersReceived);
+    }
+
     /**
      * Request config changed event handler.
      *
@@ -59,11 +66,38 @@ class PaymentFilters extends React.Component {
      */
     handleFilterChange(prop, event) {
         const { filters } = this.props;
+        const { value } = event.target;
 
-        filters[prop] = event.target.value;
+        if (value === '') {
+            delete filters[prop];
+        } else {
+            filters[prop] = value;
+        }
+
         PaymentActions.setFilters(filters);
 
         updateStoreList(PaymentStore, PaymentActions);
+    }
+
+    /**
+     * Renders a user select option.
+     *
+     * @public
+     * @param {Object} user User to select
+     * @param {number} index User index
+     * @returns {string} HTML markup
+     */
+    renderUser(user, index) {
+        const { _id, given_name, family_name, email } = user;
+        const userInfo = constructUserInfo(email, given_name, family_name);
+
+        return (
+            <option
+                key={`UserOption${index}`}
+                value={_id}>
+                {userInfo}
+            </option>
+        );
     }
 
     /**
@@ -73,7 +107,8 @@ class PaymentFilters extends React.Component {
      * @returns {string} HTML markup
      */
     render() {
-        const { limit } = this.props.config;
+        const { config, users } = this.props;
+        const { limit } = config;
         const { min, max } = filterConfig.count;
 
         return (
@@ -81,17 +116,15 @@ class PaymentFilters extends React.Component {
                 {/*TODO: replace with user list*/}
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
-                        <ControlLabel>Statuss</ControlLabel>
+                        <ControlLabel>Lietotāji</ControlLabel>
                         <FormControl
                             componentClass="select"
-                            placeholder="Statuss"
-                            onChange={this.handleFilterChange.bind(this, 'admin_fields.is_blocked')}>
+                            placeholder="Lietotāji"
+                            onChange={this.handleFilterChange.bind(this, 'payee')}>
                             <option value="">Visi</option>
-                            <option value={false}>Aktīvs</option>
-                            <option value={true}>Bloķēts</option>
+                            {users.map((user, index) => this.renderUser(user, index))}
                         </FormControl>
                         <FormControl.Feedback />
-                        <HelpBlock>Vai lietotājs ir aktīvs vai bloķēts?</HelpBlock>
                     </FormGroup>
                 </Col>
 

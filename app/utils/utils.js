@@ -331,6 +331,19 @@ export const formatUserDescription = user => {
 };
 
 /**
+ * Constructs a string consisting of a user's email, name, and last name.
+ *
+ * @private
+ * @param {string} email User's email
+ * @param {string} given_name User's first name
+ * @param {string} family_name User's last name
+ * @returns {string} Constructed user info
+ */
+export const constructUserInfo = (email, given_name, family_name) => {
+    return `${email} (${given_name || ''} ${family_name || ''})`;
+};
+
+/**
  * HTTP error status codes.
  *
  * @property 400 Bad request
