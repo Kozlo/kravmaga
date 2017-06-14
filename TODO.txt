@@ -20,6 +20,7 @@ BUGS:
 - UPDATE USER LIST when creating/updating/deleting a user!!!
 - make sure the previously added fonts are added to the CSS as well
 - fix the footer issue
+- CHECK if bootstrap styles are not being overwritten (react boostrap looks different by default so could be I don't need to import it separately)
 
 - add filter to the admin panel for payments
 

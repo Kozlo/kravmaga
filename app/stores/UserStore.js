@@ -18,7 +18,7 @@ class UserStore extends EntryStore {
         super(props);
 
         const { general, admin_fields } = userFieldNames;
-        const { defaultAmount } = filterConfig.users.count;
+        const { defaultAmount } = filterConfig.count;
 
         this.bindActions(UserActions);
 

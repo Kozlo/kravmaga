@@ -17,7 +17,7 @@ class LessonStore extends EntryStore {
     constructor(props) {
         super(props);
 
-        const { defaultAmount } = filterConfig.lessons.count;
+        const { defaultAmount } = filterConfig.count;
 
         this.bindActions(LessonActions);
 

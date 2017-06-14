@@ -9,46 +9,28 @@ import {
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
-import UserStore from '../../../stores/UserStore';
-import UserActions from '../../../actions/UserActions';
+import PaymentStore from '../../../stores/PaymentStore';
+import PaymentActions from '../../../actions/PaymentActions';
 
 // components
 
 // utils & config
-import { filterConfig, maxInputLength } from '../../../utils/config';
+import { filterConfig } from '../../../utils/config';
 import { updateStoreList } from '../../../utils/utils';
 
 /**
- * User filters data presentation component.
+ * Payment filters data presentation component.
  */
-class UserFilters extends React.Component {
+class PaymentFilters extends React.Component {
     static getStores() {
-        return [UserStore];
+        return [PaymentStore];
     }
 
     static getPropsFromStores() {
-        return UserStore.getState();
+        return PaymentStore.getState();
     }
 
-    /**
-     * Text filter changed event handler.
-     *
-     * Uses regex for filtering so that the user can filter data by a 'like' syntax.
-     * Updates the filters in the store and makes a new request for data.
-     *
-     * @public
-     * @param {string} prop Name of the property that changed
-     * @param {Object} event Event object
-     */
-    handleTextFilterChange(prop, event) {
-        const { filters } = this.props;
-
-        filters[prop] = { $regex: event.target.value };
-        UserActions.setFilters(filters);
-
-        updateStoreList(UserStore, UserActions);
-    }
-
+    // TODO: consider moving this to a util class (also in other components)
     /**
      * Request config changed event handler.
      *
@@ -62,11 +44,12 @@ class UserFilters extends React.Component {
         const { config } = this.props;
 
         config[prop] = event.target.value;
-        UserActions.setConfig(config);
+        PaymentActions.setConfig(config);
 
-        updateStoreList(UserStore, UserActions);
+        updateStoreList(PaymentStore, PaymentActions);
     }
 
+    // TODO: consider moving this to a util class (also in other components)
     /**
      * Filter changed event handler.
      *
@@ -78,13 +61,13 @@ class UserFilters extends React.Component {
         const { filters } = this.props;
 
         filters[prop] = event.target.value;
-        UserActions.setFilters(filters);
+        PaymentActions.setFilters(filters);
 
-        updateStoreList(UserStore, UserActions);
+        updateStoreList(PaymentStore, PaymentActions);
     }
 
     /**
-     * Renders user data filters (and config) form.
+     * Renders payment data filters (and config) form.
      *
      * @public
      * @returns {string} HTML markup
@@ -95,28 +78,7 @@ class UserFilters extends React.Component {
 
         return (
             <Row>
-                <Col xs={12} sm={6} lg={3}>
-                    <FormGroup>
-                        <ControlLabel>Vārds</ControlLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Vārds"
-                            maxLength={maxInputLength.regularField}
-                            onChange={this.handleTextFilterChange.bind(this, 'given_name')}
-                        />
-                    </FormGroup>
-                </Col>
-                <Col xs={12} sm={6} lg={3}>
-                    <FormGroup>
-                        <ControlLabel>Uzvārds</ControlLabel>
-                        <FormControl
-                            type="text"
-                            placeholder="Uzvārds"
-                            maxLength={maxInputLength.regularField}
-                            onChange={this.handleTextFilterChange.bind(this, 'family_name')}
-                        />
-                    </FormGroup>
-                </Col>
+                {/*TODO: replace with user list*/}
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Statuss</ControlLabel>
@@ -132,19 +94,22 @@ class UserFilters extends React.Component {
                         <HelpBlock>Vai lietotājs ir aktīvs vai bloķēts?</HelpBlock>
                     </FormGroup>
                 </Col>
+
+                {/*TODO: add the following date filters: payment date, valid from, valid to*/}
+
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
-                        <ControlLabel>Lieotāju skaits</ControlLabel>
+                        <ControlLabel>Maksājumu skaits</ControlLabel>
                         <FormControl
                             type="number"
-                            placeholder="Lietotāju skaits"
+                            placeholder="Maksājumu skaits"
                             min={min}
                             max={max}
                             value={limit}
                             onChange={this.handleConfigChange.bind(this, 'limit')}
                         />
                         <FormControl.Feedback />
-                        <HelpBlock>Cik lietotājus rādīt (maks.)?</HelpBlock>
+                        <HelpBlock>Cik maksājumus rādīt (maks.)?</HelpBlock>
                     </FormGroup>
                 </Col>
             </Row>
@@ -152,4 +117,4 @@ class UserFilters extends React.Component {
     }
 }
 
-export default connectToStores(UserFilters);
+export default connectToStores(PaymentFilters);

@@ -2,7 +2,7 @@ import alt from '../alt';
 import EntryStore from './EntryStore';
 import PaymentActions from '../actions/PaymentActions';
 import { createObject } from '../utils/utils';
-import { paymentFieldNames } from '../utils/config';
+import { paymentFieldNames, filterConfig } from '../utils/config';
 
 /**
  * Store for payment-related data.
@@ -17,10 +17,13 @@ class PaymentStore extends EntryStore {
     constructor(props) {
         super(props);
 
+        const { defaultAmount } = filterConfig.count;
+
         this.bindActions(PaymentActions);
         this.updatable = createObject(paymentFieldNames, {});
         this.users = [];
         this.paymentTypes = [];
+        this.config = { limit: defaultAmount };
     }
 
     /**
