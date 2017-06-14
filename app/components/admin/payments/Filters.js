@@ -44,9 +44,13 @@ class PaymentFilters extends React.Component {
      * @public
      */
     componentDidMount() {
-        const paymentDateChangeHandler = this._handleDateChange.bind(this, 'paymentDate');
+        const paymentDateChangeHandler = this._handleDateChange.bind(this, 'paymentDate', null);
+        const validFromChangeHandler = this._handleDateChange.bind(this, 'validFrom', '$gte');
+        const validToChangeHandler = this._handleDateChange.bind(this, 'validTo', '$lte');
 
         initDateTimePicker('#paymentDateFilter', paymentDateChangeHandler);
+        initDateTimePicker('#validFromFilter', validFromChangeHandler);
+        initDateTimePicker('#validToFilter', validToChangeHandler);
     }
 
     /**
@@ -118,22 +122,27 @@ class PaymentFilters extends React.Component {
      *
      * @private
      * @param {string} prop Name of the filter
+     * @param {string|null} operator Operator to use for the filter
      * @param {*} date The new date value
      */
-    _handleDateChange(prop, date) {
+    _handleDateChange(prop, operator, date) {
         const { filters } = this.props;
 
         date = date && date !== 'false' ? date : '';
-        // TODO: use get for valid from and lte for valid to
-        // filters[prop] = { '$gte': date };
+
         if (date === '') {
             delete filters[prop];
         } else {
             date = new Date(date);
             date.setHours(0, 0, 0, 0);
-            filters[prop] = date;
+
+            if (operator) {
+                filters[prop] = { [operator]: date };
+            } else {
+                filters[prop] = date;
+            }
         }
-        debugger;
+
         PaymentActions.setFilters(filters);
 
         updateStoreList(PaymentStore, PaymentActions);
@@ -166,8 +175,6 @@ class PaymentFilters extends React.Component {
                         <FormControl.Feedback />
                     </FormGroup>
                 </Col>
-
-                {/*TODO: add the following date filters: payment date, valid from, valid to*/}
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Maksājuma datums</ControlLabel>
@@ -183,7 +190,36 @@ class PaymentFilters extends React.Component {
                         <HelpBlock>No kura datuma rādīt nodarbības.</HelpBlock>
                     </FormGroup>
                 </Col>
-
+                <Col xs={12} sm={6} lg={3}>
+                    <FormGroup>
+                        <ControlLabel>Derīgs no</ControlLabel>
+                        <InputGroup id='validFromFilter'>
+                            <FormControl
+                                type="text"
+                                placeholder="No kura datuma maksājums derīgs"
+                            />
+                            <InputGroup.Addon>
+                                <Glyphicon glyph="calendar" />
+                            </InputGroup.Addon>
+                        </InputGroup>
+                        <HelpBlock>No kura datuma maksājums derīgs.</HelpBlock>
+                    </FormGroup>
+                </Col>
+                <Col xs={12} sm={6} lg={3}>
+                    <FormGroup>
+                        <ControlLabel>Derīgs līdz</ControlLabel>
+                        <InputGroup id='validToFilter'>
+                            <FormControl
+                                type="text"
+                                placeholder="Līdz kuram datuma maksājums derīgs"
+                            />
+                            <InputGroup.Addon>
+                                <Glyphicon glyph="calendar" />
+                            </InputGroup.Addon>
+                        </InputGroup>
+                        <HelpBlock>Līdz kuram datumam maksājums derīgs.</HelpBlock>
+                    </FormGroup>
+                </Col>
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Maksājumu skaits</ControlLabel>
