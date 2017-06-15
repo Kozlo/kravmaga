@@ -17,10 +17,13 @@
     - Used lessons
 
 BUGS:
+- CHECK if there are any dates that need to have hours set to 0 (just as for the lessons)
 - make sure the previously added fonts are added to the CSS as well
 - CHECK if bootstrap styles are not being overwritten (react boostrap looks different by default so could be I don't need to import it separately)
 
 (DONE)- add filter to the admin panel for payments
+
+- Check deployment database size
 
 Other Payment-related tasks:
   - add valid from/to date validation (copy from lessons):

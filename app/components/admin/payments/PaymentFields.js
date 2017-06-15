@@ -37,9 +37,9 @@ class PaymentFields extends React.Component {
         const { token } = AuthStore.getState();
         const { updatable } = this.props;
         const { paymentDate, validFrom, validTo } = updatable;
-        const paymentDateChangeHandler = handleDateChange.bind(this, 'paymentDate', PaymentActions, updatable);
-        const validFromChangeHandler = handleDateChange.bind(this, 'validFrom', PaymentActions, updatable);
-        const validToChangeHandler = handleDateChange.bind(this, 'validTo', PaymentActions, updatable);
+        const paymentDateChangeHandler = handleDateChange.bind(this, 'paymentDate', PaymentActions, updatable, true);
+        const validFromChangeHandler = handleDateChange.bind(this, 'validFrom', PaymentActions, updatable, true);
+        const validToChangeHandler = handleDateChange.bind(this, 'validTo', PaymentActions, updatable, true);
 
         initDateTimePicker('#paymentDate', paymentDateChangeHandler, paymentDate);
         initDateTimePicker('#validFrom', validFromChangeHandler, validFrom);
