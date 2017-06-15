@@ -45,6 +45,15 @@ class PaymentStore extends EntryStore {
     onPaymentTypesReceived(paymentTypes) {
         this.paymentTypes = paymentTypes;
     }
+
+    /**
+     * Resets filters to an initial state.
+     *
+     * @public
+     */
+    onResetFilters() {
+        this.filters = {};
+    }
 }
 
 export default alt.createStore(PaymentStore);
