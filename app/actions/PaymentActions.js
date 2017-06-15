@@ -19,6 +19,7 @@ class UserActions extends EntryActions {
         this.generateActions(
             'usersReceived',
             'paymentTypesReceived',
+            'resetFilters',
         );
 
         this.url = generalConfig.api.paymentsUrl;
