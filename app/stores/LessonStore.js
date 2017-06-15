@@ -87,10 +87,15 @@ class LessonStore extends EntryStore {
     /**
      * Resets filters to an initial state.
      *
+     * Clears the hours so all times are included.
+     *
      * @public
      */
     onResetFilters() {
-        this.filters = { start: { '$gte': new Date() } };
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        this.filters = { start: { '$gte': today } };
     }
 
     /**
