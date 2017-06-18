@@ -76,6 +76,10 @@ class PaymentData extends React.Component {
             return toastr.error('Lūdzu ievadiet visus obligātos laukus!');
         }
 
+        if (new Date(validFrom) >  new Date(validTo)) {
+            return toastr.error('Maksājuma derīguma beigu datumam jābūt pirms sākuma datuma!');
+        }
+
         PaymentActions.setIsRequesting(true);
 
         if (isUpdating) {

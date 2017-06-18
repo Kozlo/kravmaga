@@ -29,7 +29,7 @@ Other Payment-related tasks:
   (DONE)- add filters to the user view
   (DONE)- make the default date filter (in the store probably) for the expiry
   - add valid from/to date validation (copy from lessons):
-    - BE
+    (DONE)- BE
     - FE
   - when deleting a user, their payments are deleted as well
 
