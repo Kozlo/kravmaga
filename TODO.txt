@@ -27,7 +27,7 @@ BUGS:
 
 Other Payment-related tasks:
   (DONE)- add filters to the user view
-  - make the default date filter (in the store probably) for the expiry
+  (DONE)- make the default date filter (in the store probably) for the expiry
   - add valid from/to date validation (copy from lessons):
     - BE
     - FE

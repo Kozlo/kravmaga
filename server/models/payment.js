@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
-const { isObjectIdValid } = require('../helpers/modelValidators');
+const {
+    isValidFromValid,
+    isValidToValid,
+    isObjectIdValid
+} = require('../helpers/modelValidators');
 
 /**
  * Schema properties.
@@ -38,11 +42,19 @@ const properties = {
     },
     validFrom: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: isValidFromValid,
+            message: '{VALUE} is not a valid valid from date! It must be a date after or at the valid to date!'
+        }
     },
     validTo: {
         type: Date,
-        required: true
+        required: true,
+        validate: {
+            validator: isValidToValid,
+            message: '{VALUE} is not a valid valid to date! It must be a date afteror at the valid from date!'
+        }
     },
     totalLessons: {
         type: Number,

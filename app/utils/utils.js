@@ -180,13 +180,14 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
  * @param {string} prop Property name to udpate
  * @param {Object} entryActions Entry store actions
  * @param {Object} updatable Updatable entry
- * @param {Date} date New date value
  * @param {boolean} [clearHours] Flag showing if the hours and the minutes should be cleared
+ * @param {string} date New date string value
  */
-export const handleDateChange = (prop, entryActions, updatable, date, clearHours = false) => {
+export const handleDateChange = (prop, entryActions, updatable, clearHours = false, date) => {
     date = date && date !== 'false' ? date : '';
 
     if (date !== '') {
+        console.log(date);
         date = new Date(date);
 
         if (clearHours) {
