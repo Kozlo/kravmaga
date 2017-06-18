@@ -30,7 +30,8 @@ Other Payment-related tasks:
     - BE
     - FE
   - when deleting a user, their payments are deleted as well
-  - when adding/modifying/deleting a user, update the payment store users asd well
+
+(DONE)- Translate the name of 'other' to Latvian
 
 - Payments section (USER):
   - a list of read-only active/payed lessons (i.e. expiry < current date)

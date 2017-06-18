@@ -72,7 +72,7 @@ class PaymentEntry extends React.Component {
             amount, validFrom, validTo,
             totalLessons, usedLessons
         } = entry;
-        const paymentTypeName = paymentType === 'custom' ? 'Cits' : paymentType;
+        const paymentTypeName = paymentType === 'other' ? 'Cits' : paymentType;
         const formattedPaymentDate = formatDateString(paymentDate);
         const formattedValidFrom = formatDateString(validFrom);
         const formattedValidTo = formatDateString(validTo);
