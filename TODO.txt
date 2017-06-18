@@ -16,6 +16,8 @@
     - Total lessons
     - Used lessons
 
+- ask Ronalds if payments for a deleted user should be deleted
+
 BUGS:
 - CHECK if there are any dates that need to have hours set to 0 (just as for the lessons)
 - make sure the previously added fonts are added to the CSS as well
@@ -30,8 +32,7 @@ Other Payment-related tasks:
   (DONE)- make the default date filter (in the store probably) for the expiry
   - add valid from/to date validation (copy from lessons):
     (DONE)- BE
-    - FE
-  - when deleting a user, their payments are deleted as well
+    (DONE)- FE
 
 (DONE)- Translate the name of 'other' to Latvian
 
