@@ -26,6 +26,8 @@ BUGS:
 - Check deployment database size
 
 Other Payment-related tasks:
+  - add filters to the user view
+  - make the default date filter (in the store probably) for the expiry
   - add valid from/to date validation (copy from lessons):
     - BE
     - FE
