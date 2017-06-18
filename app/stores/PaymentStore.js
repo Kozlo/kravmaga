@@ -24,6 +24,8 @@ class PaymentStore extends EntryStore {
         this.users = [];
         this.paymentTypes = [];
         this.config = { limit: defaultAmount };
+
+        this.onResetFilters();
     }
 
     /**
@@ -49,10 +51,18 @@ class PaymentStore extends EntryStore {
     /**
      * Resets filters to an initial state.
      *
+     * By default only selects active payments (i.e. expiry date is less than or equal to today).
+     *
      * @public
      */
     onResetFilters() {
-        this.filters = {};
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        this.filters = {
+            validTo: { $gte: today }
+        };
     }
 }
 

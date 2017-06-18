@@ -26,6 +26,7 @@ class PaymentEntry extends React.Component {
         const formattedPaymentDate = formatDateString(paymentDate);
         const formattedValidFrom = formatDateString(validFrom);
         const formattedValidTo = formatDateString(validTo);
+        const paymentTypeName = paymentType === 'other' ? 'Cits' : paymentType;
 
         return (
             <tr>
@@ -33,7 +34,7 @@ class PaymentEntry extends React.Component {
                 <td className="date-time-cell">{formattedPaymentDate}</td>
                 <td>
                     <div className="cell-wrapper payment-type-cell">
-                        {paymentType}
+                        {paymentTypeName}
                     </div>
                 </td>
                 <td>

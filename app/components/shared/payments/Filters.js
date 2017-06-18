@@ -47,10 +47,11 @@ class PaymentFilters extends React.Component {
         const paymentDateChangeHandler = this._handleDateChange.bind(this, 'paymentDate', null);
         const validFromChangeHandler = this._handleDateChange.bind(this, 'validFrom', '$gte');
         const validToChangeHandler = this._handleDateChange.bind(this, 'validTo', '$lte');
+        const { $gte } = this.props.filters.validTo;
 
         initDateTimePicker('#paymentDateFilter', paymentDateChangeHandler);
         initDateTimePicker('#validFromFilter', validFromChangeHandler);
-        initDateTimePicker('#validToFilter', validToChangeHandler);
+        initDateTimePicker('#validToFilter', validToChangeHandler, $gte);
     }
 
     /**
