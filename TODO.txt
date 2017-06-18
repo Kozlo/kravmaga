@@ -19,7 +19,7 @@
 - ask Ronalds if payments for a deleted user should be deleted
 
 BUGS:
-- CHECK if there are any dates that need to have hours set to 0 (just as for the lessons)
+(DONE)- CHECK if there are any dates that need to have hours set to 0 (just as for the lessons)
 - make sure the previously added fonts are added to the CSS as well
 - CHECK if bootstrap styles are not being overwritten (react boostrap looks different by default so could be I don't need to import it separately)
 
@@ -27,16 +27,16 @@ BUGS:
 
 - Check deployment database size
 
-Other Payment-related tasks:
+(DONE)Other Payment-related tasks:
   (DONE)- add filters to the user view
   (DONE)- make the default date filter (in the store probably) for the expiry
-  - add valid from/to date validation (copy from lessons):
+  (DONE)- add valid from/to date validation (copy from lessons):
     (DONE)- BE
     (DONE)- FE
 
 (DONE)- Translate the name of 'other' to Latvian
 
-- Payments section (USER):
+(DONE)- Payments section (USER):
   - a list of read-only active/payed lessons (i.e. expiry < current date)
     - payment date
     - payment type

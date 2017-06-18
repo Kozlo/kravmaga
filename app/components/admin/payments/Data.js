@@ -35,9 +35,10 @@ class PaymentData extends React.Component {
      */
     componentDidMount() {
         const { token } = AuthStore.getState();
+        const { filters, sorters, config } = this.props;
 
         UserActions.getList(token, PaymentActions.usersReceived);
-        PaymentActions.getList(token);
+        PaymentActions.getList(token, PaymentActions.listReceived, filters, sorters, config);
     }
 
     /**
