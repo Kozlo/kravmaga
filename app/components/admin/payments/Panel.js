@@ -2,7 +2,7 @@ import React from 'react';
 
 import PagePanel from '../../shared/PagePanel';
 import PaymentData from './Data';
-import PaymentFilters from './Filters';
+import PaymentFilters from '../../shared/payments/Filters';
 
 /**
  * Payment data container component.

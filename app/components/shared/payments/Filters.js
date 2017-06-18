@@ -155,26 +155,28 @@ class PaymentFilters extends React.Component {
      * @returns {string} HTML markup
      */
     render() {
-        const { config, users } = this.props;
+        const { config, users, userPaymentsOnly } = this.props;
         const { limit } = config;
         const { min, max } = filterConfig.count;
 
         return (
             <Row>
-                {/*TODO: replace with user list*/}
-                <Col xs={12} sm={6} lg={3}>
-                    <FormGroup>
-                        <ControlLabel>Lietotāji</ControlLabel>
-                        <FormControl
-                            componentClass="select"
-                            placeholder="Lietotāji"
-                            onChange={this.handleFilterChange.bind(this, 'payee')}>
-                            <option value="">Visi</option>
-                            {users.map((user, index) => this.renderUser(user, index))}
-                        </FormControl>
-                        <FormControl.Feedback />
-                    </FormGroup>
-                </Col>
+                {
+                    !userPaymentsOnly &&
+                    <Col xs={12} sm={6} lg={3}>
+                        <FormGroup>
+                            <ControlLabel>Lietotāji</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="Lietotāji"
+                                onChange={this.handleFilterChange.bind(this, 'payee')}>
+                                <option value="">Visi</option>
+                                {users.map((user, index) => this.renderUser(user, index))}
+                            </FormControl>
+                            <FormControl.Feedback />
+                        </FormGroup>
+                    </Col>
+                }
                 <Col xs={12} sm={6} lg={3}>
                     <FormGroup>
                         <ControlLabel>Maksājuma datums</ControlLabel>
