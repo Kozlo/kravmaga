@@ -16,11 +16,11 @@ const requireAuth = expressJwt({
 });
 
 const {
-    addIsAdmin, requireIsAdmin
+    addIsAdmin, requireIsAdmin, canAccessSelfUnlessAdmin
 } = middleware;
 const {
     getAll, createOne, getOne,
-    updateOne, deleteOne
+    updateOne, deleteOne, getUserPayments
 } = controller;
 
 /**
@@ -43,5 +43,17 @@ router.route('/:id')
      .get(getOne)
      .patch(updateOne)
      .delete(deleteOne);
+
+//=================
+// Custom routes
+//=================
+
+/**
+ * Routes for retrieving lessons for a specific user.
+ *
+ * Non-admin users can only see lessons for themselves.
+ */
+router.route('/userPayments/:id')
+    .get(canAccessSelfUnlessAdmin, getUserPayments);
 
 module.exports = router;

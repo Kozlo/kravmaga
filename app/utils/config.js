@@ -32,7 +32,10 @@ export const generalConfig = {
             }
         },
         locationsUrl: '/locations',
-        paymentsUrl: '/payments',
+        payments: {
+            baseUrl: '/payments',
+            userPaymentUrl: '/userPayments'
+        },
         paymentTypesUrl: '/paymentTypes'
     }
 };

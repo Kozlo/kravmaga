@@ -111,5 +111,27 @@ module.exports = {
         Payment.findByIdAndRemove(entryId)
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
+    },
+
+    /**
+     * Retrieves a list of payments for a user.
+     *
+     * @public
+     * @param {Object} req Request object
+     * @param {Object} res Response object
+     * @param {Function} next Executes the next matching route
+     */
+    getUserPayments(req, res, next) {
+        const { filters, sorters, config } = helpers.parseQueryParams(req.query);
+        const { limit } = config;
+        const userId = req.params.id;
+
+        filters.payee = userId;
+
+        Payment.find(filters)
+            .sort(sorters)
+            .limit(limit)
+            .then(entries => res.status(httpStatusCodes.ok).send(entries))
+            .catch(err => next(err));
     }
 };
