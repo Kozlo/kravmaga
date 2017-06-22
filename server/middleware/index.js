@@ -10,8 +10,8 @@ module.exports = {
     /**
      * Checks if the user is authenticated, exists in the DB, is not blocked.
      *
-     * If the authenticated use does not exist or is blocked, the no actions should be allowed.
-     * Otherwise adds to thr request a flag showing if the user is an admin.
+     * If the authenticated user does not exist or is blocked, then no actions should be allowed.
+     * Otherwise adds to the request a flag showing if the user is an admin.
      *
      * @public
      * @param {Object} req Request object.
@@ -56,7 +56,7 @@ module.exports = {
         const authUserId = req.user._id;
 
         if (req.authUserIsAdmin !== true) {
-            const message = `The requested resource can only be used by admins. Authenticated user with ID ${authUserId} id not an admin.`;
+            const message = `The requested resource can only be used by admins. Authenticated user with ID ${authUserId} is not an admin.`;
             const error = helpers.createError(message, httpStatusCodes.forbidden);
 
             return next(error);

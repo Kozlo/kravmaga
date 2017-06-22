@@ -5,7 +5,7 @@ import EntryActions from '../actions/EntryActions';
  */
 class EntryStore {
     /**
-     * Initialized empty properties used by entries.
+     * Initializes empty properties used by entries.
      */
     constructor() {
         this.bindActions(EntryActions);

@@ -1,23 +1,23 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
-import LocationStore from '../../../stores/LocationStore';
-import DataModal from '../../shared/DataModal';
+import PaymentTypeStore from '../../../../stores/PaymentTypeStore';
+import DataModal from '../../../shared/DataModal';
 
 /**
- * Manage location update modal container.
+ * Manage payment type update modal container.
  */
-class ManageLocation extends React.Component {
+class ManagePaymentType extends React.Component {
     static getStores() {
-        return [LocationStore];
+        return [PaymentTypeStore];
     }
 
     static getPropsFromStores() {
-        return LocationStore.getState();
+        return PaymentTypeStore.getState();
     }
 
     /**
-     * Data modal for updating locations.
+     * Data modal for updating payment types.
      *
      * @public
      * @returns {string} HTML markup
@@ -29,7 +29,7 @@ class ManageLocation extends React.Component {
             updatable
         } = this.props;
         const { name } = updatable;
-        const title = `Lokācija ${name}`;
+        const title = `Maksājumu tips ${name}`;
 
         return (
             <DataModal
@@ -44,4 +44,4 @@ class ManageLocation extends React.Component {
     }
 }
 
-export default connectToStores(ManageLocation);
+export default connectToStores(ManagePaymentType);

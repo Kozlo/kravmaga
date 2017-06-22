@@ -11,7 +11,7 @@ import AuthActions from '../../../actions/AuthActions';
 import UserActions from '../../../actions/UserActions';
 import DataModal from '../DataModal';
 
-import { isPasswordValid } from '../../../utils/utils';
+import { isPasswordValid, formatUserDescription } from '../../../utils/utils';
 
 /**
  * Data modal component for changing a user's password.
@@ -150,15 +150,15 @@ class PasswordChange extends React.Component {
      */
     render() {
         const { isRequesting, isChangingPassword, checkPass, updatable } = this.props;
-        const { given_name, family_name, email } = updatable;
-        const title = `Paroles maiņa ${given_name} ${family_name} (${email})`;
+        const userDescription = formatUserDescription(updatable);
+        const title = `Paroles maiņa ${userDescription}`;
 
         return (
             <DataModal
                 shouldShow={isChangingPassword}
                 title={title}
                 closeHandler={this.closeHandler.bind(this)}
-                submitHandler={this.submitHandler.bind(this, checkPass, email)}
+                submitHandler={this.submitHandler.bind(this, checkPass, updatable.email)}
                 isDisabled={isRequesting}>
                 <Row>
                     {

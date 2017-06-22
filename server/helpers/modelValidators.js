@@ -1,5 +1,5 @@
 /**
- * Common helpers.
+ * Model validation helpers.
  */
 
 const mongoose = require('mongoose');
@@ -29,6 +29,44 @@ module.exports = {
      */
     isPasswordValid(password) {
         return typeof password === 'string' && password.length >= userConfig.minPasswordLength && password.length <= maxFieldLength.password;
+    },
+
+    /**
+     * Checks if the passed valid from date is valid.
+     *
+     * It must be a date and if the valid to date has already been defined, it must be smaller than that.
+     *
+     * @public
+     * @param {Date} validFrom Payment valid from date.
+     * @returns {boolean} Flag showing is the value is a valid valid from date
+     */
+    isValidFromValid(validFrom) {
+        if (!helpers.isValidDate(validFrom)) return false;
+
+        if (helpers.isValidDate(this.validTo)) {
+            return validFrom <= this.validTo;
+        }
+
+        return true;
+    },
+
+    /**
+     * Checks if the passed valid to date is valid.
+     *
+     * It must be a date and if the valid from date has already been defined, it must be larger than that.
+     *
+     * @public
+     * @param {Date} validTo Payment valid from date.
+     * @returns {boolean} Flag showing is the value is a valid starting date
+     */
+    isValidToValid(validTo) {
+        if (!helpers.isValidDate(validTo)) return false;
+
+        if (helpers.isValidDate(this.validFrom)) {
+            return validTo >= this.validFrom;
+        }
+
+        return true;
     },
 
     /**
@@ -102,6 +140,17 @@ module.exports = {
      */
     isTextFieldValid(field) {
         return typeof field === 'string' && field.length <= maxFieldLength.regularField;
+    },
+
+    /**
+     * Checks if the passed value is a positive integer.
+     *
+     * @public
+     * @param {number} field Field value
+     * @returns {boolean} Flag showing if the field is valid
+     */
+    isFieldPositiveInteger(field) {
+        return typeof field === 'number' && field >= 0;
     },
 
     /**

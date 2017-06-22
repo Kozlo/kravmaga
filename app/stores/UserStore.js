@@ -9,8 +9,8 @@ import { userFieldNames, filterConfig } from '../utils/config';
  */
 class UserStore extends EntryStore {
     /**
-     * Binds the authentication actions to event handlers.
-     * Created objects used by the store.
+     * Binds store actions to event handlers.
+     * Creates objects used by the store.
      *
      * @public
      */
@@ -18,7 +18,7 @@ class UserStore extends EntryStore {
         super(props);
 
         const { general, admin_fields } = userFieldNames;
-        const { defaultAmount } = filterConfig.users.count;
+        const { defaultAmount } = filterConfig.count;
 
         this.bindActions(UserActions);
 

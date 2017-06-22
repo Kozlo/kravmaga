@@ -7,10 +7,7 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
-import GroupStore from '../../../stores/GroupStore';
 import GroupActions from '../../../actions/GroupActions';
-import LessonStore from '../../../stores/LessonStore';
-import LessonActions from '../../../actions/LessonActions';
 
 // components
 import UserEntry from './Entry';
@@ -23,7 +20,7 @@ import UserGroups from './UserGroups';
 // utils and config
 import {
     isEmailValid, isUrlValid,
-    prefixAdminFields, updateStoreList
+    prefixAdminFields
 } from '../../../utils/utils';
 import {
     generalConfig, userDataColumns
@@ -183,8 +180,7 @@ class UserData extends React.Component {
         UserActions.setIsCreating(false);
         UserActions.setIsRequesting(false);
 
-        this._addUserToGroups(userId, userGroupIds, token)
-            .then(() => updateStoreList(GroupStore, GroupActions));
+        this._addUserToGroups(userId, userGroupIds, token);
     }
 
     /**
@@ -223,11 +219,7 @@ class UserData extends React.Component {
         const addableUserGroupIds = this._findAddableUserGroupIds(currentUserGroupIds, newUserGroupIds);
 
         this._removeUserFromGroups(userId, removableUserGroupIds, token)
-            .then(() => this._addUserToGroups(userId, addableUserGroupIds, token))
-            .then(() => {
-                updateStoreList(LessonStore, LessonActions);
-                updateStoreList(GroupStore, GroupActions);
-            });
+            .then(() => this._addUserToGroups(userId, addableUserGroupIds, token));
     }
 
     /**
@@ -237,7 +229,6 @@ class UserData extends React.Component {
      * @param {string} userId User id
      * @param {string[]} addableUserGroupIds Group IDs where the user should be added to
      * @param {string} token Auth token
-     * @return {Promise} Request promise
      */
     _addUserToGroups(userId, addableUserGroupIds, token) {
         return GroupActions.addUserToGroups(token, userId, addableUserGroupIds);
@@ -250,7 +241,7 @@ class UserData extends React.Component {
      * @param {string} userId User id
      * @param {string[]} removableUserGroupIds Group IDs where the user should be added to
      * @param {string} token Auth token
-     * @return {Promise} Request promise
+     * @returns {Promise} Request promise
      */
     _removeUserFromGroups(userId, removableUserGroupIds, token) {
         return GroupActions.removeUserFromGroups(token, userId, removableUserGroupIds);

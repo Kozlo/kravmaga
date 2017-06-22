@@ -3,6 +3,7 @@ import React from 'react';
 import Page from '../shared/Page';
 import ProfilePanel from './profile/Panel';
 import LessonsPanel from './lessons/Panel';
+import PaymentsPanel from './payments/Panel';
 
 /**
  *  Profile page panel container.
@@ -19,6 +20,7 @@ class UserPage extends React.Component {
             <Page title="Krav Maga">
                 <ProfilePanel />
                 <LessonsPanel />
+                <PaymentsPanel />
             </Page>
         );
     }

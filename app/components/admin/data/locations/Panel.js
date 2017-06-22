@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PagePanel from '../../shared/PagePanel';
+import PagePanel from '../../../shared/PagePanel';
 import LocationData from './Data';
 
 /**

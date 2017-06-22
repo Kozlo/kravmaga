@@ -9,7 +9,6 @@ import {
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
-import AuthStore from '../../../stores/AuthStore';
 import UserStore from '../../../stores/UserStore';
 import UserActions from '../../../actions/UserActions';
 
@@ -92,7 +91,7 @@ class UserFilters extends React.Component {
      */
     render() {
         const { limit } = this.props.config;
-        const { min, max } = filterConfig.users.count;
+        const { min, max } = filterConfig.count;
 
         return (
             <Row>

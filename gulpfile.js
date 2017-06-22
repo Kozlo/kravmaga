@@ -106,9 +106,18 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
 
 /*
  |--------------------------------------------------------------------------
- | Compile LESS stylesheets.
+ | Compile LESS stylesheets and vendor CSS.
  |--------------------------------------------------------------------------
  */
+gulp.task('vendor-styles', function() {
+    return gulp.src([
+        'bower_components/bootstrap/dist/css/bootstrap.min.css',
+        'bower_components/bootstrap/dist/css/bootstrap-theme.min.css',
+    ]).pipe(concat('vendor.css'))
+        .pipe(plumber())
+        .pipe(gulp.dest('public/css'));
+});
+
 gulp.task('styles', function() {
     return gulp.src('app/stylesheets/main.less')
         .pipe(plumber())
@@ -122,5 +131,5 @@ gulp.task('watch', function() {
     gulp.watch('app/stylesheets/**/*.less', ['styles']);
 });
 
-gulp.task('default', ['styles', 'vendor', 'browserify-watch', 'watch']);
-gulp.task('build', ['styles', 'vendor', 'browserify']);
+gulp.task('default', ['styles', 'vendor-styles', 'vendor', 'browserify-watch', 'watch']);
+gulp.task('build', ['styles', 'vendor-styles', 'vendor', 'browserify']);

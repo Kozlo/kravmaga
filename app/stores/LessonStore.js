@@ -9,15 +9,15 @@ import { lessonFieldNames, filterConfig } from '../utils/config';
  */
 class LessonStore extends EntryStore {
     /**
-     * Binds the authentication actions to event handlers.
-     * Created objects used by the store.
+     * Binds store actions to event handlers.
+     * Creates objects used by the store.
      *
      * @public
      */
     constructor(props) {
         super(props);
 
-        const { defaultAmount } = filterConfig.lessons.count;
+        const { defaultAmount } = filterConfig.count;
 
         this.bindActions(LessonActions);
 
@@ -87,10 +87,15 @@ class LessonStore extends EntryStore {
     /**
      * Resets filters to an initial state.
      *
+     * Clears the hours so all times are included.
+     *
      * @public
      */
     onResetFilters() {
-        this.filters = { start: { '$gte': new Date() } };
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        this.filters = { start: { '$gte': today } };
     }
 
     /**
