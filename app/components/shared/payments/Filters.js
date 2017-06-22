@@ -33,9 +33,9 @@ class PaymentFilters extends React.Component {
     }
 
     componentWillMount() {
-        const { token } = AuthStore.getState();
-
-        UserActions.getList(token, PaymentActions.usersReceived);
+        if (this.props.userPaymentsOnly) {
+            this._getUserList();
+        }
     }
 
     /**
@@ -116,6 +116,11 @@ class PaymentFilters extends React.Component {
         );
     }
 
+    _getUserList() {
+        const { token } = AuthStore.getState();
+
+        UserActions.getList(token, PaymentActions.usersReceived);
+    }
     /**
      * Date filter value changed handler.
      *
