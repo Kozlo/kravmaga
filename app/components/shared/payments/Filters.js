@@ -33,7 +33,7 @@ class PaymentFilters extends React.Component {
     }
 
     componentWillMount() {
-        if (this.props.userPaymentsOnly) {
+        if (!this.props.userPaymentsOnly) {
             this._getUserList();
         }
     }
