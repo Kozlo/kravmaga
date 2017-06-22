@@ -32,12 +32,7 @@ class PaymentData extends React.Component {
         const { token, userId } = AuthStore.getState();
         const { filters, sorters, config } = this.props;
 
-        // TODO: possibly replace/improve this
-        filters.payee = userId;
-
-        // TODO: implement this and replace the below later....
-        // PaymentActions.getUserPaymentList(token, userId, filters, sorters, config);
-        PaymentActions.getList(token, PaymentActions.listReceived, filters, sorters, config);
+        PaymentActions.getUserPaymentList(token, userId, filters, sorters, config);
     }
 
     /**

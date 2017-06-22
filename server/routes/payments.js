@@ -16,32 +16,44 @@ const requireAuth = expressJwt({
 });
 
 const {
-    addIsAdmin, requireIsAdmin
+    addIsAdmin, requireIsAdmin, canAccessSelfUnlessAdmin
 } = middleware;
 const {
     getAll, createOne, getOne,
-    updateOne, deleteOne
+    updateOne, deleteOne, getUserPayments
 } = controller;
 
 /**
  * Add middleware that confirms that the user is authenticated and is an admin.
  */
-router.all('*', requireAuth, addIsAdmin, requireIsAdmin);
+router.all('*', requireAuth, addIsAdmin);
 
 /**
  * Get (all entries) and post (create) route handlers.
  * Both require that the user is an admin.
  */
-router.route('/')
+router.route('/', requireIsAdmin)
     .get(getAll)
     .post(createOne);
 
 /**
  * Get (view), patch (update), and delete route handlers for the entry with the specified ID.
  */
-router.route('/:id')
+router.route('/:id', requireIsAdmin)
      .get(getOne)
      .patch(updateOne)
      .delete(deleteOne);
+
+//=================
+// Custom routes
+//=================
+
+/**
+ * Routes for retrieving lessons for a specific user.
+ *
+ * Non-admin users can only see lessons for themselves.
+ */
+router.route('/userPayments/:id')
+    .get(canAccessSelfUnlessAdmin, getUserPayments);
 
 module.exports = router;
