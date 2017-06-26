@@ -183,7 +183,7 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
  * @param {boolean} [clearHours] Flag showing if the hours and the minutes should be cleared
  * @param {string} date New date string value
  */
-export const handleDateChange = (prop, entryActions, updatable, clearHours = false, date) => {
+export const handleDateChange = (prop, entryActions, updatable, clearHours, date) => {
     date = date && date !== 'false' ? date : '';
 
     if (date !== '') {

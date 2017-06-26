@@ -36,8 +36,8 @@ class LessonFields extends React.Component {
         const { token } = AuthStore.getState();
         const { updatable } = this.props;
         const { start, end } = updatable;
-        const startChangeHandler = handleDateChange.bind(this, 'start', LessonActions, updatable);
-        const endChangeHandler = handleDateChange.bind(this, 'end', LessonActions, updatable);
+        const startChangeHandler = handleDateChange.bind(this, 'start', LessonActions, updatable, false);
+        const endChangeHandler = handleDateChange.bind(this, 'end', LessonActions, updatable, false);
 
         initDateTimePicker('#start', startChangeHandler, start, true);
         initDateTimePicker('#end', endChangeHandler, end, true);
@@ -96,19 +96,6 @@ class LessonFields extends React.Component {
                 {groupInfo}
             </option>
         );
-    }
-
-    /**
-     * Date changed event handler.
-     *
-     * @private
-     * @param {string} prop Date property name
-     * @param {Date} date Date value
-     */
-    _handleDateChange(prop, date) {
-        date = date && date !== 'false' ? date : '';
-
-        this._updateData(prop, date);
     }
 
     /**
