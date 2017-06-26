@@ -61,6 +61,7 @@ class PaymentStore extends EntryStore {
         today.setHours(0, 0, 0, 0);
 
         this.filters = {
+            validFrom: { $lte: today },
             validTo: { $gte: today }
         };
     }
