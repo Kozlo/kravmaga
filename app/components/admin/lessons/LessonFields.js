@@ -3,7 +3,8 @@ import connectToStores from 'alt-utils/lib/connectToStores';
 import {
     Row, Col, FormGroup,
     FormControl, InputGroup,
-    HelpBlock, ControlLabel, Glyphicon
+    HelpBlock, ControlLabel, Glyphicon,
+    Well, Button
 } from 'react-bootstrap';
 
 import AuthStore from '../../../stores/AuthStore';
@@ -99,6 +100,46 @@ class LessonFields extends React.Component {
     }
 
     /**
+     * Renders a button with the user's info and adds a click event handler for removing the user from the attendance list.
+     *
+     * @public
+     * @param {Object} updatable Updatable group
+     * @param {string} attendee Lesson attendee (user) ID
+     * @param {number} index Lesson attendee index
+     * @returns {string} HTML markup
+     */
+    renderAttendee(updatable, attendee, index) {
+        // TODO: replac the user ID with full user info (need to request the data when the component mounts)
+        // const { given_name, family_name, email } = member;
+        // const memberInfo = constructUserInfo(email, given_name, family_name);
+
+        return (
+            <Button
+                key={`LessonAttendee${index}`}
+                bsSize="small"
+                onClick={this._removeAttendee.bind(this, updatable, attendee)}>
+                {attendee} <Glyphicon glyph="remove" />
+            </Button>
+        );
+    }
+
+    /**
+     * Removes an attendee from a lesson.
+     *
+     * @public
+     * @param {Object} updatable Updatable object
+     * @param {string} attendee Lesson attendee ID
+     */
+    _removeAttendee(updatable, attendee) {
+        const attendeeIndex = updatable.attendees.indexOf(attendee);
+
+        updatable.attendees.splice(attendeeIndex, 1);
+
+        LessonActions.setUpdatable(updatable);
+        LessonActions.attendeeRemoved(attendee);
+    }
+
+    /**
      * Updates the updatable propery value.
      *
      * @private
@@ -121,7 +162,7 @@ class LessonFields extends React.Component {
      */
     render() {
         const { updatable, groups, locations } = this.props;
-        const { group, location, comment } = updatable;
+        const { group, location, comment, attendees } = updatable;
 
         return (
             <div>
@@ -141,6 +182,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Nodarbības sākuma datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Beigas</ControlLabel>
@@ -156,6 +199,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Nodarbības beigu datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Grupa</ControlLabel>
@@ -171,6 +216,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Grupa priekš kuras nodarbība notiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Lokācija (no definētām)</ControlLabel>
@@ -186,6 +233,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Lokācija (brīvs teksts)</ControlLabel>
@@ -198,6 +247,8 @@ class LessonFields extends React.Component {
                             />
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup controlId="comment">
                             <ControlLabel>Komentāri (ne-obligāti)</ControlLabel>
@@ -211,7 +262,15 @@ class LessonFields extends React.Component {
                             <FormControl.Feedback />
                             <HelpBlock>Komentāri.</HelpBlock>
                         </FormGroup>
-                    </Col>      
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12}>
+                        <ControlLabel>Nodarbības dalībnieki</ControlLabel>
+                        <Well bsSize="small">
+                            {attendees.map((attendee, index) => this.renderAttendee(updatable, attendee, index))}
+                        </Well>
+                    </Col>
                 </Row>
             </div>
         );

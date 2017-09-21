@@ -32,6 +32,10 @@ BUGS:
   - need to make a script for updating the data (i.e. copy emails to be username)
   - need to make a backup of the database first!!! (at least user data)
 
+- consider saving the profile pictures instead of links as e.g. Facebook links expire
+  - need to resize the image to make it really small
+  - need to test how much size does the image take
+
 -----------------------------------------------
 Later
 - consider switching to a typeahead for location selector https://github.com/bassjobsen/Bootstrap-3-Typeahead

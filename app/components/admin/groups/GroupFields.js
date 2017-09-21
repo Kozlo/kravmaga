@@ -181,6 +181,8 @@ class GroupFields extends React.Component {
                             />
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Pievienot grupas biedru</ControlLabel>
@@ -194,6 +196,8 @@ class GroupFields extends React.Component {
                             </FormControl>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <ControlLabel>Grupas biedri</ControlLabel>
                         <Well bsSize="small">
