@@ -1,6 +1,18 @@
+- Lessons (ADMIN):
+  - Need to see a list of users as attendees
+    - probably make something similar to group members
+    - should also have some sort of a separate list of attendees (maybe skipping the first thing)
+  - need a list of lessons where a user has attended, but not payed
+    - DISCUSS
+
+- Check the database warning from mongolab (might need to update some dependencies)
+
+- Introduce typeahed instead of select for some fields (like users)
+
 - Switch to Monday as the week start date
 
 BUGS:
+- make sure there are not so many warnings
 - make sure the previously added fonts are added to the CSS as well
 - CHECK if bootstrap styles are not being overwritten (react boostrap looks different by default so could be I don't need to import it separately)
 
@@ -11,16 +23,14 @@ BUGS:
   - When pressing 'busu' it is shown whether the user has payed subscription/lesson
     - NEED TO DISCUSS. maybe if a subscription is valid then all is good, otherwise check if unused lessons are available.. but need to consider this thoroughtly
 
-- Lessons (ADMIN):
-  - Need to see a list of users as attendees
-    - probably make something similar to group members
-    - should also have some sort of a separate list of attendees (maybe skipping the first thing)
-  - need a list of lessons where a user has attended, but not payed
-    - DISCUSS
-
 - Users (admin)
   - introduce a new admin field: lesson attendance count
   - when clicking attending/not attending the count of lessons a user has attended should be updated accordingly
+
+- research how to allow one email for several users
+  - need to make a different unique key (username - could be email as well by default)
+  - need to make a script for updating the data (i.e. copy emails to be username)
+  - need to make a backup of the database first!!! (at least user data)
 
 -----------------------------------------------
 Later
