@@ -12,9 +12,10 @@ import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
 import LocationActions from '../../../actions/LocationActions';
+import UserActions from '../../../actions/UserActions';
 
 import { maxInputLength } from '../../../utils/config';
-import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
+import { initDateTimePicker, handleDateChange, constructUserInfo } from '../../../utils/utils';
 
 /**
  * Lesson field update form control component.
@@ -26,6 +27,17 @@ class LessonFields extends React.Component {
 
     static getPropsFromStores() {
         return LessonStore.getState();
+    }
+
+    /**
+     * Retrieved group members (i.e. user data)
+     *
+     * @public
+     */
+    componentWillMount() {
+        const { token } = AuthStore.getState();
+
+        UserActions.getList(token, this._userListReceived.bind(this));
     }
 
     /**
@@ -109,18 +121,36 @@ class LessonFields extends React.Component {
      * @returns {string} HTML markup
      */
     renderAttendee(updatable, attendee, index) {
-        // TODO: replac the user ID with full user info (need to request the data when the component mounts)
-        // const { given_name, family_name, email } = member;
-        // const memberInfo = constructUserInfo(email, given_name, family_name);
+        const { userList } = this.props;
+        const user = userList.find(user => user._id === attendee);
+        let attendeeInfo = '';
+
+        if (user) {
+            const { given_name, family_name, email } = user;
+            attendeeInfo = constructUserInfo(email, given_name, family_name);
+        }
 
         return (
             <Button
                 key={`LessonAttendee${index}`}
                 bsSize="small"
                 onClick={this._removeAttendee.bind(this, updatable, attendee)}>
-                {attendee} <Glyphicon glyph="remove" />
+                {attendeeInfo} <Glyphicon glyph="remove" />
             </Button>
         );
+    }
+
+    /**
+     * User list received event handler.
+     *
+     * Sets the user list store property.
+     *
+     * @private
+     * @param userList
+     * @private
+     */
+    _userListReceived(userList) {
+        LessonActions.userListReceived(userList);
     }
 
     /**

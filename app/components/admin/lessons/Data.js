@@ -79,7 +79,7 @@ class LessonData extends React.Component {
             }
         }
 
-        const { start , end} = updatable;
+        const { start, end} = updatable;
 
         if (new Date(start) >=  new Date(end)) {
             return toastr.error('Beigu datumam un laikam jābūt mazāka par sākuma datumu un laiku!');

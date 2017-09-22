@@ -142,7 +142,7 @@ class GroupFields extends React.Component {
     /**
      * User list received event handler.
      *
-     * Sets the user list store propery and assigns the already existing group members to the member list.
+     * Sets the user list store property and assigns the already existing group members to the member list.
      *
      * @private
      * @param userList
