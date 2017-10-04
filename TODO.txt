@@ -1,8 +1,9 @@
 - Lessons (ADMIN):
   (DONE)- Need to see a list of users as attendees
     (DONE)- probably make something similar to group members
-    - should also have some sort of a separate list of attendees (maybe skipping the first thing)
-  - BUG: when the array is empty on update, the property is removed from the POST. might need to pass some empty value and remove it on the API
+  - need a select with users so that they can be added to the attendee list (just like for groups)
+  - should also have some sort of a separate list of attendees (maybe skipping the first thing)
+  (DONE)- BUG: when the array is empty on update, the property is removed from the POST. might need to pass some empty value and remove it on the API
   - need a list of lessons where a user has attended, but not payed
     - DISCUSS, might be too tricky
 
