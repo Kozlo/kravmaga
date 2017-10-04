@@ -107,11 +107,20 @@ class LessonData extends React.Component {
     /**
      * Updates and existing lesson.
      *
+     * Sets the attendees property to null in case it's empty to workaround a problem where an empty array is removed from the request.
+     * Also makes sure the object data is immutable.
+     *
      * @public
      * @param {Object} updatable Updatable lesson
      * @param {string} token Authorization token
      */
     update(updatable, token) {
+        updatable = Object.assign({}, updatable);
+
+        if (updatable.attendees.length === 0) {
+            updatable.attendees = null;
+        }
+
         LessonActions.update(updatable, token)
             .done(() => this._onRequestDone(LessonActions.setIsUpdating))
             .fail(() => this._onRequestFailed());
