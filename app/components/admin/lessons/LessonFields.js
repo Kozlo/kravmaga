@@ -82,9 +82,13 @@ class LessonFields extends React.Component {
      * @param {Object} event Event object
      */
     addAttendee(updatable, event) {
-        const user = event.target.value;
+        const userId = event.target.value;
 
-        updatable.attendees.push(user._id);
+        if (updatable.attendees.indexOf(userId) >= 0) {
+            return toastr.error('Lietotājs jau nodarbībai pievienots!');
+        }
+
+        updatable.attendees.push(userId);
 
         LessonActions.setUpdatable(updatable);
         LessonActions.attendeeAdded(user)
@@ -141,6 +145,27 @@ class LessonFields extends React.Component {
     }
 
     /**
+     * Renders a user select option.
+     *
+     * @public
+     * @param {Object} user User to select
+     * @param {number} index User index
+     * @returns {string} HTML markup
+     */
+    renderUser(user, index) {
+        const { _id, given_name, family_name, email } = user;
+        const userInfo = constructUserInfo(email, given_name, family_name);
+
+        return (
+            <option
+                key={`UserOption${index}`}
+                value={_id}>
+                {userInfo}
+            </option>
+        );
+    }
+
+    /**
      * User list received event handler.
      *
      * Sets the user list store property.
@@ -191,7 +216,7 @@ class LessonFields extends React.Component {
      * @returns {string} HTML markup
      */
     render() {
-        const { updatable, groups, locations } = this.props;
+        const { updatable, groups, locations, userList } = this.props;
         const { group, location, comment, attendees } = updatable;
 
         return (
@@ -291,6 +316,21 @@ class LessonFields extends React.Component {
                             />
                             <FormControl.Feedback />
                             <HelpBlock>Komentāri.</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Pievienot nodarbības dalībnieku</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="Pievienot dalībnieku"
+                                value=""
+                                onChange={this.addAttendee.bind(this, updatable)}>
+                                <option value=''></option>
+                                {userList.map((user, index) => this.renderUser(user, index))}
+                            </FormControl>
                         </FormGroup>
                     </Col>
                 </Row>
