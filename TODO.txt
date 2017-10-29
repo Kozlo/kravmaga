@@ -17,6 +17,7 @@
 - Switch to Monday as the week start date
 
 BUGS:
+- after upgrade: Warning: Modal: isMounted is deprecated. Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.
 - make sure there are not so many warnings
 - make sure the previously added fonts are added to the CSS as well
 - CHECK if bootstrap styles are not being overwritten (react boostrap looks different by default so could be I don't need to import it separately)
