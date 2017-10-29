@@ -6,6 +6,7 @@ import {
     HelpBlock, ControlLabel, Glyphicon,
     Well, Button
 } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
@@ -15,7 +16,10 @@ import LocationActions from '../../../actions/LocationActions';
 import UserActions from '../../../actions/UserActions';
 
 import { maxInputLength } from '../../../utils/config';
-import { initDateTimePicker, handleDateChange, constructUserInfo } from '../../../utils/utils';
+import {
+    initDateTimePicker, handleDateChange,
+    constructUserInfo, constructUserOptions
+} from '../../../utils/utils';
 
 /**
  * Lesson field update form control component.
@@ -77,12 +81,21 @@ class LessonFields extends React.Component {
     /**
      * Mark that a user will be attending the lesson.
      *
+     * Clears the typeahead when the user had been selected.
+     * Uses setTimeout of 1 ms to put in on the next thing on the event loop.
+     *
      * @public
      * @param {Object} updatable Updatable lesson
-     * @param {Object} event Event object
+     * @param {Object} selected selected option
      */
-    addAttendee(updatable, event) {
-        const userId = event.target.value;
+    addAttendee(updatable, selected) {
+        if (!selected || !selected[0] ||!selected[0].id) {
+            return
+        } else {
+            setTimeout(() => this.typeahead.getInstance().clear(), 1);
+        }
+
+        const userId = selected[0].id;
 
         if (updatable.attendees.indexOf(userId) >= 0) {
             return toastr.error('Lietotājs jau nodarbībai pievienots!');
@@ -218,6 +231,7 @@ class LessonFields extends React.Component {
     render() {
         const { updatable, groups, locations, userList } = this.props;
         const { group, location, comment, attendees } = updatable;
+        const userOptions = constructUserOptions(userList);
 
         return (
             <div>
@@ -323,14 +337,13 @@ class LessonFields extends React.Component {
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Pievienot nodarbības dalībnieku</ControlLabel>
-                            <FormControl
-                                componentClass="select"
+                            <Typeahead
+                                multiple={false}
+                                options={userOptions}
+                                onChange={this.addAttendee.bind(this, updatable)}
                                 placeholder="Pievienot dalībnieku"
-                                value=""
-                                onChange={this.addAttendee.bind(this, updatable)}>
-                                <option value=''></option>
-                                {userList.map((user, index) => this.renderUser(user, index))}
-                            </FormControl>
+                                ref={ ref => this.typeahead = ref }
+                            />
                         </FormGroup>
                     </Col>
                 </Row>

@@ -353,6 +353,17 @@ export const constructUserInfo = (email, given_name, family_name) => {
     return `${email} (${given_name || ''} ${family_name || ''})`;
 };
 
+export const constructUserOptions = (userList) => {
+    return userList.map(
+        ({ _id, email, given_name, family_name }) => {
+            return {
+                id: _id,
+                label: constructUserInfo(email, given_name, family_name)
+            };
+        }
+    );
+};
+
 /**
  * HTTP error status codes.
  *

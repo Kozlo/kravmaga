@@ -1,7 +1,7 @@
 - Lessons (ADMIN):
   (DONE)- Need to see a list of users as attendees
     (DONE)- probably make something similar to group members
-  - need a select with users so that they can be added to the attendee list (just like for groups)
+  (DONE)- need a select with users so that they can be added to the attendee list (just like for groups)
   - should also have some sort of a separate list of attendees (maybe skipping the first thing)
   (DONE)- BUG: when the array is empty on update, the property is removed from the POST. might need to pass some empty value and remove it on the API
   - need a list of lessons where a user has attended, but not payed
@@ -10,6 +10,9 @@
 - Check the database warning from mongolab (might need to update some dependencies)
 
 - Introduce typeahed instead of select for some fields (like users)
+  (DONE)- lessons
+  - groups
+  - payments
 
 - Add a typeahead to lesson edit field
   - consider moving this to a separate component and have it usable by both edit lesson and separately
