@@ -62,8 +62,6 @@ class UserActions extends EntryActions {
     clearUpdatable(entry) {
         const updatable = createObject(paymentFieldNames, entry);
 
-        updatable.paymentType = 'other';
-
         return this.setUpdatable(updatable);
     }
 }

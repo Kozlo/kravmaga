@@ -4,6 +4,7 @@ import {
     Row, Col, FormGroup, InputGroup, HelpBlock,
     Glyphicon, FormControl, ControlLabel
 } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 import AuthStore from '../../../stores/AuthStore';
 import PaymentStore from '../../../stores/PaymentStore';
@@ -13,7 +14,8 @@ import PaymentTypeActions from '../../../actions/PaymentTypeActions';
 import {
     formatUserDescription,
     initDateTimePicker,
-    handleDateChange
+    handleDateChange,
+    constructUserOptions
 } from '../../../utils/utils';
 
 /**
@@ -59,6 +61,25 @@ class PaymentFields extends React.Component {
         const { updatable } = this.props;
 
         updatable[prop] = event.target.value;
+
+        PaymentActions.setUpdatable(updatable);
+    }
+
+    /**
+     * Payee changed event handler.
+     *
+     * @public
+     * @param {*} selected Selected values
+     */
+    payeeChanged(selected) {
+        if (!selected || !selected[0] ||!selected[0].id) {
+            return
+        }
+
+        const { updatable } = this.props;
+        const userId = selected[0].id;
+
+        updatable.payee = userId;
 
         PaymentActions.setUpdatable(updatable);
     }
@@ -172,10 +193,22 @@ class PaymentFields extends React.Component {
             updatable, users, paymentTypes
         } = this.props;
         const {
-            payee, paymentType, amount,
+            payee, paymentType, amount
+        } = updatable;
+        let {
             totalLessons, usedLessons
         } = updatable;
+
+        if (totalLessons === null) {
+            totalLessons = '';
+        }
+        if (usedLessons === null) {
+            usedLessons = '';
+        }
+
         const paymentTypeHasNoCount = this.paymentTypeFinder(paymentType).hasCount === false;
+        const userOptions = constructUserOptions(users);
+        const selectedUser = userOptions.filter(({ id }) => id === payee);
 
         return (
             <div>
@@ -183,12 +216,14 @@ class PaymentFields extends React.Component {
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Maksātājs</ControlLabel>
-                            <select className="form-control"
-                                    onChange={this.handleChange.bind(this, 'payee')}
-                                    value={payee}>
-                                <option value=""></option>
-                                {users.map(this.renderUserOption.bind(this))}
-                            </select>
+                            <Typeahead
+                                defaultSelected={selectedUser}
+                                multiple={false}
+                                options={userOptions}
+                                onChange={this.payeeChanged.bind(this)}
+                                placeholder="Maksātajs"
+                                ref={ ref => this.typeahead = ref }
+                            />
                             <FormControl.Feedback />
                             <HelpBlock>Lietotājs, kurš veicis maksājumu.</HelpBlock>
                         </FormGroup>
@@ -214,6 +249,7 @@ class PaymentFields extends React.Component {
                             <select className="form-control"
                                     onChange={this.handlePaymentTypeChange.bind(this)}
                                     value={paymentType}>
+                                <option value=""></option>
                                 <option value="other">Cits</option>
                                 {paymentTypes.map(this.renderPaymentTypeOption.bind(this))}
                             </select>
@@ -222,23 +258,26 @@ class PaymentFields extends React.Component {
                         </FormGroup>
                     </Col>
                     {/*TODO: consider adding 'EUR' here (see how it's done elsewhere)*/}
-                    <Col xs={12}>
-                        <FormGroup>
-                            <ControlLabel>Maksa</ControlLabel>
-                            <InputGroup>
-                                <FormControl
-                                    type="number"
-                                    min="0"
-                                    placeholder="Maksa"
-                                    value={amount}
-                                    onChange={this.handleChange.bind(this, 'amount')}
-                                />
-                                <InputGroup.Addon>
-                                    <Glyphicon glyph="euro" />
-                                </InputGroup.Addon>
-                            </InputGroup>
-                        </FormGroup>
-                    </Col>
+                    {
+                        paymentType &&
+                        <Col xs={12}>
+                            <FormGroup>
+                                <ControlLabel>Maksa</ControlLabel>
+                                <InputGroup>
+                                    <FormControl
+                                        type="number"
+                                        min="0"
+                                        placeholder="Maksa"
+                                        value={amount}
+                                        onChange={this.handleChange.bind(this, 'amount')}
+                                    />
+                                    <InputGroup.Addon>
+                                        <Glyphicon glyph="euro"/>
+                                    </InputGroup.Addon>
+                                </InputGroup>
+                            </FormGroup>
+                        </Col>
+                    }
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Derīgs no</ControlLabel>

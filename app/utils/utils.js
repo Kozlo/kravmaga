@@ -343,7 +343,7 @@ export const formatUserDescription = user => {
 /**
  * Constructs a string consisting of a user's email, name, and last name.
  *
- * @private
+ * @public
  * @param {string} email User's email
  * @param {string} given_name User's first name
  * @param {string} family_name User's last name
@@ -353,15 +353,26 @@ export const constructUserInfo = (email, given_name, family_name) => {
     return `${email} (${given_name || ''} ${family_name || ''})`;
 };
 
+/**
+ * Creates a single user option for a select.
+ *
+ * @public
+ * @param {Object} {_id, email, given_name, family_name} User
+ * @returns {Object} User option
+ */
+export const constructUserOption = ({ _id, email, given_name, family_name }) => {
+    return {
+        id: _id,
+        label: constructUserInfo(email, given_name, family_name)
+    };
+};
+
+/**
+ * Constructs user list options.
+ * @param {Object[]} userList
+ */
 export const constructUserOptions = (userList) => {
-    return userList.map(
-        ({ _id, email, given_name, family_name }) => {
-            return {
-                id: _id,
-                label: constructUserInfo(email, given_name, family_name)
-            };
-        }
-    );
+    return userList.map(constructUserOption);
 };
 
 /**
