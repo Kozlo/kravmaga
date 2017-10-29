@@ -91,7 +91,7 @@ class LessonFields extends React.Component {
         updatable.attendees.push(userId);
 
         LessonActions.setUpdatable(updatable);
-        LessonActions.attendeeAdded(user)
+        LessonActions.attendeeAdded(userId);
     }
 
     /**
@@ -138,7 +138,7 @@ class LessonFields extends React.Component {
             <Button
                 key={`LessonAttendee${index}`}
                 bsSize="small"
-                onClick={this._removeAttendee.bind(this, updatable, attendee)}>
+                onClick={this.removeAttendee.bind(this, updatable, attendee)}>
                 {attendeeInfo} <Glyphicon glyph="remove" />
             </Button>
         );
@@ -166,6 +166,22 @@ class LessonFields extends React.Component {
     }
 
     /**
+     * Removes an attendee from a lesson.
+     *
+     * @public
+     * @param {Object} updatable Updatable object
+     * @param {string} attendee Lesson attendee ID
+     */
+    removeAttendee(updatable, attendee) {
+        const attendeeIndex = updatable.attendees.indexOf(attendee);
+
+        updatable.attendees.splice(attendeeIndex, 1);
+
+        LessonActions.setUpdatable(updatable);
+        LessonActions.attendeeRemoved(attendee);
+    }
+
+    /**
      * User list received event handler.
      *
      * Sets the user list store property.
@@ -176,22 +192,6 @@ class LessonFields extends React.Component {
      */
     _userListReceived(userList) {
         LessonActions.userListReceived(userList);
-    }
-
-    /**
-     * Removes an attendee from a lesson.
-     *
-     * @public
-     * @param {Object} updatable Updatable object
-     * @param {string} attendee Lesson attendee ID
-     */
-    _removeAttendee(updatable, attendee) {
-        const attendeeIndex = updatable.attendees.indexOf(attendee);
-
-        updatable.attendees.splice(attendeeIndex, 1);
-
-        LessonActions.setUpdatable(updatable);
-        LessonActions.attendeeRemoved(attendee);
     }
 
     /**
