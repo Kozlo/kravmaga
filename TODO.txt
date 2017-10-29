@@ -9,9 +9,9 @@
 
 - Check the database warning from mongolab (might need to update some dependencies)
 
-- Introduce typeahed instead of select for some fields (like users)
+(DONE)- Introduce typeahed instead of select for some fields (like users)
   (DONE)- lessons
-  - groups
+  (DONE)- groups
   (DONE)- payments
 
 - Switch to Monday as the week start date
