@@ -163,5 +163,23 @@ module.exports = {
      */
     findAddableItems(firstArray, secondArray) {
         return secondArray.filter(secondArrayItem => firstArray.indexOf(secondArrayItem) === -1);
+    },
+
+    /**
+     * Attempts to parse the passed body.
+     *
+     * @param {string} body Stringified JSON.
+     * @returns {object} Object body
+     */
+    parseBody(body) {
+    let parsedBody;
+
+    try {
+        parsedBody = JSON.parse(body);
+    } catch (e) {
+        console.error('Error parsing body.', e);
     }
+
+    return parsedBody;
+}
 };

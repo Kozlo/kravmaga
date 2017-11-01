@@ -103,7 +103,6 @@ class GroupActions extends EntryActions {
      * @param {string} userId User id
      * @param {string} groupIds Group id
      * @param {string} action Add or remove action
-     * @param {Function} callback Success callback
      * @returns {Promise} Request promise
      */
     _updateUserGroups(token, userId, groupIds, action) {
