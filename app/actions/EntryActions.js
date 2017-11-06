@@ -115,7 +115,7 @@ class EntryActions {
             statusCode,
             url: `${this.url}/${props._id}`,
             method: 'PATCH',
-            data: props,
+            data: props
         };
 
         return this._sendRequest(requestProps, token);

@@ -24,6 +24,7 @@ class LessonStore extends EntryStore {
         this.attendees = [];
         this.groups = [];
         this.locations = [];
+        this.userList = [];
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
         this.sorters = { start: 1 };
@@ -59,7 +60,7 @@ class LessonStore extends EntryStore {
      * @param {Object} attendee User object
      */
     onAttendeeRemoved(attendee) {
-        const attendeeIndex = this.attendee.indexOf(attendee);
+        const attendeeIndex = this.attendees.indexOf(attendee);
 
         this.attendees.splice(attendeeIndex, 1);
     }
@@ -103,6 +104,16 @@ class LessonStore extends EntryStore {
      */
     onUpdateConflict() {
         toastr.error(`Lokācija norādītajā laikā ir aizņemta!`);
+    }
+
+    /**
+     * All user list received handler.
+     *
+     * @public
+     * @param {Array} userList List of all existing users.
+     */
+    onUserListReceived(userList) {
+        this.userList = userList;
     }
 }
 
