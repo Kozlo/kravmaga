@@ -29,7 +29,7 @@ class LessonAttendees extends React.Component {
     }
 
     /**
-     * Retrieved group members (i.e. user data)
+     * Retrieves use list.
      *
      * @public
      */

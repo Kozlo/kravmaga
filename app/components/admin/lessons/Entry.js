@@ -10,6 +10,9 @@ import LessonActions from '../../../actions/LessonActions';
 // utils
 import { formatDateString } from '../../../utils/utils';
 
+// components
+import AttendeeList from './AttendeeList';
+
 /**
  * Lesson entry data presentation component.
  */
@@ -91,7 +94,9 @@ class LessonEntry extends React.Component {
                         {location}
                     </div>
                 </td>
-                <td>{attendees.length}</td>
+                <td>
+                    <AttendeeList attendeeIds={attendees} />
+                </td>
                 <td>
                     <div className="cell-wrapper comment-cell">
                         {comment}

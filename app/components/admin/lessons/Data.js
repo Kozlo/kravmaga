@@ -8,6 +8,7 @@ import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
+import UserActions from '../../../actions/UserActions';
 
 // components
 import LessonEntry from './Entry';
@@ -24,6 +25,18 @@ class LessonData extends React.Component {
 
     static getPropsFromStores() {
         return LessonStore.getState();
+    }
+
+
+    /**
+     * Retrieves use list.
+     *
+     * @public
+     */
+    componentWillMount() {
+        const { token } = AuthStore.getState();
+
+        UserActions.getList(token, this._userListReceived.bind(this));
     }
 
     /**
@@ -154,6 +167,19 @@ class LessonData extends React.Component {
                 index={index}
                 entry={entry}/>
         );
+    }
+
+    /**
+     * User list received event handler.
+     *
+     * Sets the user list store property.
+     *
+     * @private
+     * @param userList
+     * @private
+     */
+    _userListReceived(userList) {
+        LessonActions.userListReceived(userList);
     }
 
     /**
