@@ -4,6 +4,7 @@
 
 const config = require('../config');
 const helpers = require('../helpers');
+const lessonHelpers = require('../helpers/lessonsHelpers');
 const Lesson = require('../models/lesson');
 const Group = require('../models/group');
 
@@ -179,6 +180,7 @@ module.exports = {
         const attendeeId = req.params.attendeeId;
 
         Lesson.findById(entryId)
+            .then(entry => lessonHelpers.checkAttendanceMarking(entry))
             .then(entry => {
                 const isNotAttending = entry.attendees.indexOf(attendeeId) === -1;
 
@@ -205,6 +207,7 @@ module.exports = {
         const attendeeId = req.params.attendeeId;
 
         Lesson.findById(entryId)
+            .then(entry => lessonHelpers.checkAttendanceMarking(entry))
             .then(entry => {
                 const attendeeIndex = entry.attendees.indexOf(attendeeId);
 

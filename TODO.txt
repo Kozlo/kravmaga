@@ -15,11 +15,15 @@ BUGS:
 (DONE)- when updating a payment the payment type is changed to 'other'
 - after upgrade: Warning: Modal: isMounted is deprecated. Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.
 - make sure there are not so many warnings
+- when editing payment type, the 'has usage' checkbox is not selected if ti should be
+- warnings when session has expired
 
 - Check deployment database size
 
 - Lessons (USER):
   - A user cannot mark attendance after the lesson start date
+    (DONE)- back-end
+    - front-end
   - When pressing 'busu' it is shown whether the user has payed subscription/lesson
     - NEED TO DISCUSS. maybe if a subscription is valid then all is good, otherwise check if unused lessons are available.. but need to consider this thoroughtly
 
