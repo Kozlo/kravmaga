@@ -15,7 +15,7 @@ BUGS:
 (DONE)- when updating a payment the payment type is changed to 'other'
 - after upgrade: Warning: Modal: isMounted is deprecated. Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.
 - make sure there are not so many warnings
-- when editing payment type, the 'has usage' checkbox is not selected if ti should be
+(DONE)- when editing payment type, the 'has usage' checkbox is not selected if ti should be
 - warnings when session has expired
 
 - Check deployment database size
