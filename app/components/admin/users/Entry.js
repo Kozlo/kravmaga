@@ -87,11 +87,14 @@ class UserEntry extends React.Component {
             picture, gender,
             admin_fields
         } = user;
+        const {
+            role, is_blocked, member_since, attendance_count
+        } = admin_fields;
         const birthdateValue = formatDateString(birthdate);
         const genderValue = getGenderValue(gender);
-        const roleValue = getRoleValue(admin_fields.role);
-        const status = getStatusValue(admin_fields.is_blocked);
-        const memberSinceValue = formatDateString(admin_fields.member_since);
+        const roleValue = getRoleValue(role);
+        const status = getStatusValue(is_blocked);
+        const memberSinceValue = formatDateString(member_since);
         const btnColStyle = { minWidth: '19em' };
         const imageStyle = {
             maxWidth: '2.5em',
@@ -122,6 +125,7 @@ class UserEntry extends React.Component {
                 <td className="date-cell">{memberSinceValue}</td>
                 <td>{status}</td>
                 <td>{roleValue}</td>
+                <td>{attendance_count}</td>
                 <td style={btnColStyle}>
                     <ButtonToolbar>
                         <Button

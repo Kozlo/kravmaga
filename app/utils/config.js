@@ -81,7 +81,7 @@ export const filterConfig = {
  */
 export const userFieldNames = {
     general: ['_id', 'picture', 'given_name', 'family_name', 'email', 'phone', 'gender', 'birthdate'],
-    admin_fields: ['role', 'is_blocked', 'member_since']
+    admin_fields: ['role', 'is_blocked', 'member_since', 'attendance_count']
 };
 
 /** Group field names. */
@@ -113,4 +113,4 @@ export const assets = {
  *
  * @type {string[]}
  */
-export const userDataColumns = ['#', 'Bilde', 'Vārds, Uzvārds', 'E-pasts', 'Telefons', 'Dzimis', 'Dzimums', 'Klubā kopš', 'Statuss', 'Loma', 'Darbības'];
+export const userDataColumns = ['#', 'Bilde', 'Vārds, Uzvārds', 'E-pasts', 'Telefons', 'Dzimis', 'Dzimums', 'Klubā kopš', 'Statuss', 'Loma', 'Apmeklējumi', 'Darbības'];

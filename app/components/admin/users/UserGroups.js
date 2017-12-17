@@ -147,27 +147,31 @@ class UserData extends React.Component {
         const { groupList, userGroupIds } = this.props;
 
         return (
-            <Row>
-                <Col xs={12}>
-                    <FormGroup>
-                        <ControlLabel>Pievienot lietotāju grupai</ControlLabel>
-                        <FormControl
-                            componentClass="select"
-                            placeholder="Pievienot grupu"
-                            value=""
-                            onChange={this.addUserGroupId.bind(this, groupList, userGroupIds)}>
-                            <option value=''></option>
-                            {groupList.map((group, index) => this.renderGroup(group, index))}}
-                        </FormControl>
-                    </FormGroup>
-                </Col>
-                <Col xs={12}>
-                    <ControlLabel>Lietotāja grupas</ControlLabel>
-                    <Well bsSize="small">
-                        {userGroupIds.map((userGroupId, index) => this.renderUserGroup(groupList, userGroupId, index))}
-                    </Well>
-                </Col>
-            </Row>
+            <div>
+                <Row>
+                    <Col xs={12}>
+                        <FormGroup>
+                            <ControlLabel>Pievienot lietotāju grupai</ControlLabel>
+                            <FormControl
+                                componentClass="select"
+                                placeholder="Pievienot grupu"
+                                value=""
+                                onChange={this.addUserGroupId.bind(this, groupList, userGroupIds)}>
+                                <option value=''></option>
+                                {groupList.map((group, index) => this.renderGroup(group, index))}}
+                            </FormControl>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12}>
+                        <ControlLabel>Lietotāja grupas</ControlLabel>
+                        <Well bsSize="small">
+                            {userGroupIds.map((userGroupId, index) => this.renderUserGroup(groupList, userGroupId, index))}
+                        </Well>
+                    </Col>
+                </Row>
+            </div>
         );
     }
 }

@@ -5,8 +5,10 @@
 const config = require('../config');
 const helpers = require('../helpers');
 const lessonHelpers = require('../helpers/lessonsHelpers');
+const userHelpers = require('../helpers/usersHelpers');
 const Lesson = require('../models/lesson');
 const Group = require('../models/group');
+const User = require('../models/user');
 
 const { httpStatusCodes } = config;
 
@@ -170,6 +172,8 @@ module.exports = {
     /**
      * Adds an attendee to a lesson's attendance list.
      *
+     * Also updates the attendance count of the user.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -179,7 +183,9 @@ module.exports = {
         const entryId = req.params.id;
         const attendeeId = req.params.attendeeId;
 
-        Lesson.findById(entryId)
+        User.findById(attendeeId)
+            .then(user => userHelpers.updateAttendance(user, 1))
+            .then(() => Lesson.findById(entryId))
             .then(entry => lessonHelpers.checkAttendanceMarking(entry))
             .then(entry => {
                 const isNotAttending = entry.attendees.indexOf(attendeeId) === -1;
@@ -197,6 +203,8 @@ module.exports = {
     /**
      * Removes an attendee from a lesson's attendance list.
      *
+     * Also updates the attendance count of the user.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -206,7 +214,9 @@ module.exports = {
         const entryId = req.params.id;
         const attendeeId = req.params.attendeeId;
 
-        Lesson.findById(entryId)
+        User.findById(attendeeId)
+            .then(user => userHelpers.updateAttendance(user, -1))
+            .then(() => Lesson.findById(entryId))
             .then(entry => lessonHelpers.checkAttendanceMarking(entry))
             .then(entry => {
                 const attendeeIndex = entry.attendees.indexOf(attendeeId);

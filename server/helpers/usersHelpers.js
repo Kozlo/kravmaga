@@ -123,5 +123,17 @@ module.exports = {
             email: this.email,
             exp: parseInt(expiry.getTime() / 1000),
         }, jwtSecret);
+    },
+
+    /***
+     * Updates the user's attendance count.
+     *
+     * @param {Object} user The user to be updated
+     * @param {number} operator Increment or decrement operator.
+     * @returns {Promise.<T>|Promise|*}
+     */
+    updateAttendance(user, operator) {
+        user.admin_fields.attendance_count = user.admin_fields.attendance_count + operator;
+        return user.save();
     }
 };
