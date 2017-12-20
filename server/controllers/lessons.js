@@ -17,6 +17,8 @@ module.exports = {
     /**
      * Create an entry based on the passed params.
      *
+     * Also updates the attendance count for the selected attendees.
+     *
      * Checks if the location is already taken at the specified times by finding entries with the following filters:
      * - location equals the passed one
      * - new lesson start/end times:
@@ -43,6 +45,7 @@ module.exports = {
                     throw helpers.locationTakenError(entries);
                 }
 
+                // TODO: update every attendee's attendance by +1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
                 return Lesson.create(entryProps);
             })
             .then(entry => res.status(httpStatusCodes.created).send(entry))
@@ -141,6 +144,9 @@ module.exports = {
                     entryProps.attendees = [];
                 }
 
+                // TODO: update every attendee's attendance by -1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
+                // TODO: cont. the easiest would probably be to update all by -1 for the old attendees and again by +1 for the new ones
+
                 return Lesson.findByIdAndUpdate(entryId, entryProps, opts);
             })
             .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
@@ -164,6 +170,7 @@ module.exports = {
     deleteOne(req, res, next) {
         const entryId = req.params.id;
 
+        // TODO: update every attendee's attendance by -1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
         Lesson.findByIdAndRemove(entryId)
             .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
             .catch(err => next(err));
