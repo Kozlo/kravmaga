@@ -45,10 +45,15 @@ module.exports = {
                     throw helpers.locationTakenError(entries);
                 }
 
-                // TODO: update every attendee's attendance by +1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
                 return Lesson.create(entryProps);
             })
-            .then(entry => res.status(httpStatusCodes.created).send(entry))
+            .then(entry => {
+                entry.attendees.forEach(attendeeId => {
+                    User.findById(attendeeId)
+                        .then(user => userHelpers.updateAttendance(user, 1));
+                });
+                res.status(httpStatusCodes.created).send(entry)
+            })
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
 
@@ -108,6 +113,8 @@ module.exports = {
      * Uses an empty attendees array if it has been passed, but it's not valid.
      * Additionally removes all attendees if the group has changed.
      *
+     * Makes sure attendance count of the users is updated by removing it from the old attendees and adding back for the new.
+     *
      * @public
      * @param {Object} req Request object
      * @param {Object} res Response object
@@ -144,12 +151,26 @@ module.exports = {
                     entryProps.attendees = [];
                 }
 
-                // TODO: update every attendee's attendance by -1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
-                // TODO: cont. the easiest would probably be to update all by -1 for the old attendees and again by +1 for the new ones
+                // attendees that are in the new list, but not the old one
+                const newAttendees = entryProps.attendees.filter(attendeeId => entry.attendees.indexOf(attendeeId) === -1);
+                // attendees that are in the old list but, not in the new one
+                const removedAttendees = entry.attendees.filter(attendeeId => entryProps.attendees.indexOf(attendeeId) === -1);
+
+                // remove attendance from all of the old attendees
+                newAttendees.forEach(attendeeId => {
+                    User.findById(attendeeId)
+                        .then(user => userHelpers.updateAttendance(user, 1));
+                });
+
+                // add attendance for all of the new attendees
+                removedAttendees.forEach(attendeeId => {
+                    User.findById(attendeeId)
+                        .then(user => userHelpers.updateAttendance(user, -1));
+                });
 
                 return Lesson.findByIdAndUpdate(entryId, entryProps, opts);
             })
-            .then(updatedEntry => res.status(httpStatusCodes.ok).send(updatedEntry))
+            .then(updatedEntry => res.status(httpStatusCodes.created).send(updatedEntry))
             .catch(err => {
                 const entryExistsError = helpers.entryExistsError(err);
 
@@ -172,7 +193,14 @@ module.exports = {
 
         // TODO: update every attendee's attendance by -1 (find each by ID and do smth like .then(user => userHelpers.updateAttendance(user, 1)))
         Lesson.findByIdAndRemove(entryId)
-            .then(deletedEntry => res.status(httpStatusCodes.ok).send(deletedEntry))
+            .then(deletedEntry => {
+                // remove attendance from all of the attendees
+                deletedEntry.attendees.forEach(attendeeId => {
+                    User.findById(attendeeId)
+                        .then(user => userHelpers.updateAttendance(user, -1));
+                });
+                res.status(httpStatusCodes.ok).send(deletedEntry);
+            })
             .catch(err => next(err));
     },
 
