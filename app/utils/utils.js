@@ -392,7 +392,6 @@ export const httpStatusCode = {
     },
     401: res => {
         console.error(res);
-        toastr.error('Autorizācijas kļūda - mēģiniet vēlreiz!');
         AuthActions.silentLogoutUser();
     },
     403: res => {
