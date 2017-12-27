@@ -6,6 +6,9 @@ import {
     HelpBlock, ControlLabel, Glyphicon
 } from 'react-bootstrap';
 
+
+import LessonAttendees from './Attendees';
+
 import AuthStore from '../../../stores/AuthStore';
 import LessonStore from '../../../stores/LessonStore';
 import LessonActions from '../../../actions/LessonActions';
@@ -13,7 +16,9 @@ import GroupActions from '../../../actions/GroupActions';
 import LocationActions from '../../../actions/LocationActions';
 
 import { maxInputLength } from '../../../utils/config';
-import { initDateTimePicker, handleDateChange } from '../../../utils/utils';
+import {
+    initDateTimePicker, handleDateChange
+} from '../../../utils/utils';
 
 /**
  * Lesson field update form control component.
@@ -36,8 +41,8 @@ class LessonFields extends React.Component {
         const { token } = AuthStore.getState();
         const { updatable } = this.props;
         const { start, end } = updatable;
-        const startChangeHandler = handleDateChange.bind(this, 'start', LessonActions, updatable);
-        const endChangeHandler = handleDateChange.bind(this, 'end', LessonActions, updatable);
+        const startChangeHandler = handleDateChange.bind(this, 'start', LessonActions, updatable, false);
+        const endChangeHandler = handleDateChange.bind(this, 'end', LessonActions, updatable, false);
 
         initDateTimePicker('#start', startChangeHandler, start, true);
         initDateTimePicker('#end', endChangeHandler, end, true);
@@ -62,22 +67,6 @@ class LessonFields extends React.Component {
     }
 
     /**
-     * Mark that a user will be attending the lesson.
-     *
-     * @public
-     * @param {Object} updatable Updatable lesson
-     * @param {Object} event Event object
-     */
-    addAttendee(updatable, event) {
-        const user = event.target.value;
-
-        updatable.attendees.push(user._id);
-
-        LessonActions.setUpdatable(updatable);
-        LessonActions.attendeeAdded(user)
-    }
-
-    /**
      * Render a group select option.
      *
      * @public
@@ -96,19 +85,6 @@ class LessonFields extends React.Component {
                 {groupInfo}
             </option>
         );
-    }
-
-    /**
-     * Date changed event handler.
-     *
-     * @private
-     * @param {string} prop Date property name
-     * @param {Date} date Date value
-     */
-    _handleDateChange(prop, date) {
-        date = date && date !== 'false' ? date : '';
-
-        this._updateData(prop, date);
     }
 
     /**
@@ -154,6 +130,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Nodarbības sākuma datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Beigas</ControlLabel>
@@ -169,6 +147,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Nodarbības beigu datums un laiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Grupa</ControlLabel>
@@ -184,6 +164,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Grupa priekš kuras nodarbība notiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Lokācija (no definētām)</ControlLabel>
@@ -199,6 +181,8 @@ class LessonFields extends React.Component {
                             <HelpBlock>Vieta, kur nodarbība notiks.</HelpBlock>
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Lokācija (brīvs teksts)</ControlLabel>
@@ -211,6 +195,8 @@ class LessonFields extends React.Component {
                             />
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup controlId="comment">
                             <ControlLabel>Komentāri (ne-obligāti)</ControlLabel>
@@ -224,8 +210,9 @@ class LessonFields extends React.Component {
                             <FormControl.Feedback />
                             <HelpBlock>Komentāri.</HelpBlock>
                         </FormGroup>
-                    </Col>      
+                    </Col>
                 </Row>
+                <LessonAttendees />
             </div>
         );
     }

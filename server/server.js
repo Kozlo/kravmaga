@@ -28,7 +28,7 @@ const database = process.env.DB_URI;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(database, () => console.log(`Successfully connected to the DB: ${database}`));
-mongoose.connection.on('error', () => console.info(`Error: Could not connect to MongoDB ${database}: `, err));
+mongoose.connection.on('error', err => console.info(`Error: Could not connect to MongoDB ${database}: `, err));
 
 //=================
 // Auth setup

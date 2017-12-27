@@ -5,6 +5,7 @@ import {
     FormGroup, FormControl,
     ControlLabel, Glyphicon
 } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 import AuthStore from '../../../stores/AuthStore';
 import GroupStore from '../../../stores/GroupStore';
@@ -12,6 +13,7 @@ import GroupActions from '../../../actions/GroupActions';
 import UserActions from '../../../actions/UserActions';
 
 import { maxInputLength } from '../../../utils/config';
+import { constructUserInfo, constructUserOptions } from '../../../utils/utils';
 
 /**
  * Group field update form control component.
@@ -56,15 +58,17 @@ class GroupFields extends React.Component {
      *
      * @public
      * @param {Object} updatable Updatable obejct
-     * @param {Object} event Event object
+     * @param {Object} selected Selected user
      * @returns {*}
      */
-    addMember(updatable, event) {
-        const userId = event.target.value;
-
-        if (!userId) {
-            return;
+    addMember(updatable, selected) {
+        if (!selected || !selected[0] ||!selected[0].id) {
+            return
+        } else {
+            setTimeout(() => this.typeahead.getInstance().clear(), 1);
         }
+
+        const userId = selected[0].id;
 
         if (updatable.members.indexOf(userId) > -1) {
             return toastr.error('Lietotājs jau grupai ir pievienots');
@@ -75,7 +79,7 @@ class GroupFields extends React.Component {
         updatable.members.push(userId);
 
         GroupActions.setUpdatable(updatable);
-        GroupActions.memberAdded(user)
+        GroupActions.memberAdded(user);
     }
 
     /**
@@ -104,7 +108,7 @@ class GroupFields extends React.Component {
      */
     renderUser(user, index) {
         const { _id, given_name, family_name, email } = user;
-        const userInfo = this._constructUserInfo(email, given_name, family_name);
+        const userInfo = constructUserInfo(email, given_name, family_name);
 
         return (
             <option
@@ -126,7 +130,7 @@ class GroupFields extends React.Component {
      */
     renderMember(updatable, member, index) {
         const { given_name, family_name, email } = member;
-        const memberInfo = this._constructUserInfo(email, given_name, family_name);
+        const memberInfo = constructUserInfo(email, given_name, family_name);
 
         return (
             <Button
@@ -139,22 +143,9 @@ class GroupFields extends React.Component {
     }
 
     /**
-     * Constructs a string consisting of a user's email, name, and last name.
-     *
-     * @private
-     * @param {string} email User's email
-     * @param {string} given_name User's first name
-     * @param {string} family_name User's last name
-     * @returns {string} Constructed user info
-     */
-    _constructUserInfo(email, given_name, family_name) {
-        return `${email} (${given_name || ''} ${family_name || ''})`;
-    }
-
-    /**
      * User list received event handler.
      *
-     * Sets the user list store propery and assigns the already existing group members to the member list.
+     * Sets the user list store property and assigns the already existing group members to the member list.
      *
      * @private
      * @param userList
@@ -177,6 +168,7 @@ class GroupFields extends React.Component {
     render() {
         const { userList, updatable, members } = this.props;
         const { name } = updatable;
+        const userOptions = constructUserOptions(userList);
 
         return (
             <div>
@@ -193,19 +185,22 @@ class GroupFields extends React.Component {
                             />
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <FormGroup>
                             <ControlLabel>Pievienot grupas biedru</ControlLabel>
-                            <FormControl
-                                componentClass="select"
+                            <Typeahead
+                                multiple={false}
+                                options={userOptions}
+                                onChange={this.addMember.bind(this, updatable)}
                                 placeholder="Pievienot biedru"
-                                value=""
-                                onChange={this.addMember.bind(this, updatable)}>
-                                <option value=''></option>
-                                {userList.map((user, index) => this.renderUser(user, index))}
-                            </FormControl>
+                                ref={ ref => this.typeahead = ref }
+                            />
                         </FormGroup>
                     </Col>
+                </Row>
+                <Row>
                     <Col xs={12}>
                         <ControlLabel>Grupas biedri</ControlLabel>
                         <Well bsSize="small">

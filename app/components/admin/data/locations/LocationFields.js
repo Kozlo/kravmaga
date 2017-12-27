@@ -5,10 +5,10 @@ import {
     FormControl, ControlLabel
 } from 'react-bootstrap';
 
-import LocationStore from '../../../stores/LocationStore';
-import LocationActions from '../../../actions/LocationActions';
+import LocationStore from '../../../../stores/LocationStore';
+import LocationActions from '../../../../actions/LocationActions';
 
-import { maxInputLength } from '../../../utils/config';
+import { maxInputLength } from '../../../../utils/config';
 
 /**
  * Location fields presentation component.

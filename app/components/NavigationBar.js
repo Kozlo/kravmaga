@@ -69,8 +69,28 @@ class NavigationBar extends React.Component {
                         </NavItem>
                     }
                     {isLoggedIn && isAdmin &&
-                        <NavItem eventKey={2} onClick={this.navigateTo.bind(this, '/admin')}>
-                            Admin Panelis
+                        <NavItem eventKey={2} onClick={this.navigateTo.bind(this, '/admin/payments')}>
+                            Maksājumi
+                        </NavItem>
+                    }
+                    {isLoggedIn && isAdmin &&
+                        <NavItem eventKey={3} onClick={this.navigateTo.bind(this, '/admin/lessons')}>
+                            Nodarbības
+                        </NavItem>
+                    }
+                    {isLoggedIn && isAdmin &&
+                        <NavItem eventKey={4} onClick={this.navigateTo.bind(this, '/admin/users')}>
+                            Lietotāji
+                        </NavItem>
+                    }
+                    {isLoggedIn && isAdmin &&
+                        <NavItem eventKey={5} onClick={this.navigateTo.bind(this, '/admin/groups')}>
+                            Grupas
+                        </NavItem>
+                    }
+                    {isLoggedIn && isAdmin &&
+                        <NavItem eventKey={6} onClick={this.navigateTo.bind(this, '/admin/data')}>
+                            Dati
                         </NavItem>
                     }
                 </Nav>

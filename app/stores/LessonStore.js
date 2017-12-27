@@ -9,21 +9,22 @@ import { lessonFieldNames, filterConfig } from '../utils/config';
  */
 class LessonStore extends EntryStore {
     /**
-     * Binds the authentication actions to event handlers.
-     * Created objects used by the store.
+     * Binds store actions to event handlers.
+     * Creates objects used by the store.
      *
      * @public
      */
     constructor(props) {
         super(props);
 
-        const { defaultAmount } = filterConfig.lessons.count;
+        const { defaultAmount } = filterConfig.count;
 
         this.bindActions(LessonActions);
 
         this.attendees = [];
         this.groups = [];
         this.locations = [];
+        this.userList = [];
         this.updatable = createObject(lessonFieldNames, {});
         this.updatable.attendees = [];
         this.sorters = { start: 1 };
@@ -59,7 +60,7 @@ class LessonStore extends EntryStore {
      * @param {Object} attendee User object
      */
     onAttendeeRemoved(attendee) {
-        const attendeeIndex = this.attendee.indexOf(attendee);
+        const attendeeIndex = this.attendees.indexOf(attendee);
 
         this.attendees.splice(attendeeIndex, 1);
     }
@@ -87,10 +88,15 @@ class LessonStore extends EntryStore {
     /**
      * Resets filters to an initial state.
      *
+     * Clears the hours so all times are included.
+     *
      * @public
      */
     onResetFilters() {
-        this.filters = { start: { '$gte': new Date() } };
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        this.filters = { start: { '$gte': today } };
     }
 
     /**
@@ -98,6 +104,16 @@ class LessonStore extends EntryStore {
      */
     onUpdateConflict() {
         toastr.error(`Lokācija norādītajā laikā ir aizņemta!`);
+    }
+
+    /**
+     * All user list received handler.
+     *
+     * @public
+     * @param {Array} userList List of all existing users.
+     */
+    onUserListReceived(userList) {
+        this.userList = userList;
     }
 }
 

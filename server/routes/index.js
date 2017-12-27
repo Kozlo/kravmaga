@@ -10,6 +10,8 @@ const usersRoutes = require('./users');
 const groupsRoutes = require('./groups');
 const lessonsRoutes = require('./lessons');
 const locationsRoutes = require('./locations');
+const paymentsRoutes = require('./payments');
+const paymentTypesRoutes = require('./paymentTypes');
 const { getAll } = require('../controllers/');
 
 /**
@@ -20,6 +22,8 @@ router.use('/users', usersRoutes);
 router.use('/groups', groupsRoutes);
 router.use('/lessons', lessonsRoutes);
 router.use('/locations', locationsRoutes);
+router.use('/payments', paymentsRoutes);
+router.use('/paymentTypes', paymentTypesRoutes);
 
 /**
  * Route for unrecognized get requests.

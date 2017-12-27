@@ -9,8 +9,8 @@ import { groupFieldNames } from '../utils/config';
  */
 class GroupStore extends EntryStore {
     /**
-     * Binds the authentication actions to event handlers.
-     * Created objects used by the store.
+     * Binds store actions to event handlers.
+     * Creates objects used by the store.
      *
      * @public
      */

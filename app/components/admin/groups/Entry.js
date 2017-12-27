@@ -4,12 +4,7 @@ import { Button, ButtonToolbar } from 'react-bootstrap';
 
 // stores and actions
 import AuthStore from '../../../stores/AuthStore';
-import LessonStore from '../../../stores/LessonStore';
-import LessonActions from '../../../actions/LessonActions';
 import GroupActions from '../../../actions/GroupActions';
-
-// utility methods
-import { updateStoreList } from '../../../utils/utils';
 
 /**
  * Lesson entry data presentation component.
@@ -44,8 +39,7 @@ class GroupEntry extends React.Component {
 
         const { token } = AuthStore.getState();
 
-        GroupActions.delete(_id, token)
-            .then(() => updateStoreList(LessonStore, LessonActions));
+        GroupActions.delete(_id, token);
     }
 
     /**

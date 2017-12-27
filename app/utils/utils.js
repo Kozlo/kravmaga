@@ -101,7 +101,8 @@ export const getStatusValue = is_blocked => {
  *
  * @public
  * @param {string} dateString Date string
- * @returns {string} Formated date string or an emprt string
+ * @param {boolean} [addTime] Flag showing if time should be added to the date
+ * @returns {string} Formatted date string or an empty string
  */
 export const formatDateString = (dateString, addTime = false) => {
     if (!dateString) {
@@ -179,10 +180,20 @@ export const initDateTimePicker = (datetimePickerSelector, dateChangedHandler, d
  * @param {string} prop Property name to udpate
  * @param {Object} entryActions Entry store actions
  * @param {Object} updatable Updatable entry
- * @param {Date} date New date value
+ * @param {boolean} [clearHours] Flag showing if the hours and the minutes should be cleared
+ * @param {string} date New date string value
  */
-export const handleDateChange = (prop, entryActions, updatable, date) => {
+export const handleDateChange = (prop, entryActions, updatable, clearHours, date) => {
     date = date && date !== 'false' ? date : '';
+
+    if (date !== '') {
+        console.log(date);
+        date = new Date(date);
+
+        if (clearHours) {
+            date.setHours(0,0,0,0);
+        }
+    }
 
     updatable[prop] = date;
 
@@ -308,6 +319,60 @@ export const isUrlValid = url => {
     const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
     return pattern.test(url);
+};
+
+/**
+ * Created a string with the user's name, surname and email.
+ *
+ * Checks if first/last name properties exist as they are optional.
+ *
+ * @param {User} user User object
+ * @returns {string} HTML
+ * @public
+ */
+export const formatUserDescription = user => {
+    const { given_name, family_name, email } = user;
+    let description = '';
+
+    if (given_name) description += `${given_name} `;
+    if (family_name) description += `${family_name} `;
+
+    return `${description}(${email})`;
+};
+
+/**
+ * Constructs a string consisting of a user's email, name, and last name.
+ *
+ * @public
+ * @param {string} email User's email
+ * @param {string} given_name User's first name
+ * @param {string} family_name User's last name
+ * @returns {string} Constructed user info
+ */
+export const constructUserInfo = (email, given_name, family_name) => {
+    return `${email} (${given_name || ''} ${family_name || ''})`;
+};
+
+/**
+ * Creates a single user option for a select.
+ *
+ * @public
+ * @param {Object} {_id, email, given_name, family_name} User
+ * @returns {Object} User option
+ */
+export const constructUserOption = ({ _id, email, given_name, family_name }) => {
+    return {
+        id: _id,
+        label: constructUserInfo(email, given_name, family_name)
+    };
+};
+
+/**
+ * Constructs user list options.
+ * @param {Object[]} userList
+ */
+export const constructUserOptions = (userList) => {
+    return userList.map(constructUserOption);
 };
 
 /**

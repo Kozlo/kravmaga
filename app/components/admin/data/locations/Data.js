@@ -4,9 +4,9 @@ import { Button, Row, Col, Table } from 'react-bootstrap';
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 // stores and actions
-import AuthStore from '../../../stores/AuthStore';
-import LocationStore from '../../../stores/LocationStore';
-import LocationActions from '../../../actions/LocationActions';
+import AuthStore from '../../../../stores/AuthStore';
+import LocationStore from '../../../../stores/LocationStore';
+import LocationActions from '../../../../actions/LocationActions';
 
 // components
 import LocationEntry from './Entry';
@@ -67,7 +67,7 @@ class LocationsData extends React.Component {
         const { token } = AuthStore.getState();
 
         if (!updatable.name) {
-            return toastr.error('Grupas nosaukums ievadīts kļūdaini');
+            return toastr.error('Lokācijas nosaukums ievadīts kļūdaini');
         }
 
         LocationActions.setIsRequesting(true);

@@ -9,6 +9,7 @@ const userHelpers = require('../helpers/usersHelpers');
 const User = require('../models/user');
 const Lesson = require('../models/lesson');
 const Group = require('../models/group');
+const Payment = require('../models/payment');
 
 const { httpStatusCodes } = config;
 
@@ -87,7 +88,6 @@ module.exports = {
         User.findById(entryId)
             .then(entry => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(entry)))
             .catch(err => next(err));
-
     },
 
     /**
@@ -141,8 +141,9 @@ module.exports = {
     /**
      * Deletes the specified entry.
      *
-     * Removes the user from all groups.
-     * Removes the user from all
+     * Removes the user from all lessons.
+     * Removes the user from all groups
+     * Deletes all payments for the user
      *
      * @public
      * @param {Object} req Request object
@@ -153,6 +154,7 @@ module.exports = {
         const entryId = req.params.id;
         const lessonFilter = { attendees: entryId };
         const groupFilter = { members: entryId };
+        const paymentFilter = { payee: entryId };
 
         Lesson.find(lessonFilter)
             .then(lessons => {
@@ -161,7 +163,7 @@ module.exports = {
                     lesson.save().catch(err => next(err));
                 });
 
-                return Group.find(groupFilter)
+                return Group.find(groupFilter);
             })
             .then(groups => {
                 groups.forEach(group => {
@@ -169,8 +171,9 @@ module.exports = {
                     group.save().catch(err => next(err));
                 });
 
-                return User.findByIdAndRemove(entryId)
+                return Payment.find(paymentFilter).remove();
             })
+            .then(payments => User.findByIdAndRemove(entryId))
             .then(deletedUser => res.status(httpStatusCodes.ok).send(userHelpers.removeSensitiveData(deletedUser)))
             .catch(err => next(err));
     }

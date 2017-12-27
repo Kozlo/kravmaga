@@ -31,7 +31,12 @@ export const generalConfig = {
                 remove: '/removeAttending'
             }
         },
-        locationsUrl: '/locations'
+        locationsUrl: '/locations',
+        payments: {
+            baseUrl: '/payments',
+            userPaymentUrl: '/userPayments'
+        },
+        paymentTypesUrl: '/paymentTypes'
     }
 };
 
@@ -56,28 +61,15 @@ export const maxInputLength = {
 /**
  * Filter config.
  *
- * @property {object} lessons Lessons config
- * @property {number} lessons.count.min Minimum amount of entries to show
- * @property {number} lessons.count.max Maximum amount of entries to show
- * @property {number} lessons.count.defaultAmount Default amount of entries to show
- * @property {number} users.count.min Minimum amount of entries to show
- * @property {number} users.count.max Maximum amount of entries to show
- * @property {number} user.count.defaultAmount Default amount of entries to show
+ * @property {number} count.min Minimum amount of entries to show
+ * @property {number} count.max Maximum amount of entries to show
+ * @property {number} count.defaultAmount Default amount of entries to show
  */
 export const filterConfig = {
-    lessons: {
-        count: {
-            min: 1,
-            max: 99,
-            defaultAmount: 10
-        }
-    },
-    users: {
-        count: {
-            min: 1,
-            max: 999,
-            defaultAmount: 10
-        }
+    count: {
+        min: 1,
+        max: 99,
+        defaultAmount: 10
     }
 };
 
@@ -92,20 +84,20 @@ export const userFieldNames = {
     admin_fields: ['role', 'is_blocked', 'member_since']
 };
 
-/**
- * Group field names.
- */
+/** Group field names. */
 export const groupFieldNames = ['_id', 'name', 'members'];
 
-/**
- * Location field names.
- */
+/** Location field names. */
 export const locationFieldNames = ['_id', 'name'];
 
-/**
- * Lesson field names.
- */
+/** Lesson field names. */
 export const lessonFieldNames = ['_id', 'start', 'end', 'group', 'location', 'attendees', 'comment'];
+
+/** Payment field names. */
+export const paymentFieldNames = ['_id', 'payee', 'paymentDate', 'paymentType', 'amount', 'validFrom', 'validTo', 'totalLessons', 'usedLessons'];
+
+/** Payment type field names. */
+export const paymentTypeFieldNames = ['_id', 'name', 'amount', 'hasCount'];
 
 /**
  * Links to assets used within the app.

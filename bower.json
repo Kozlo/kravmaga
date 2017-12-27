@@ -4,6 +4,7 @@
     "jquery": "^2.1.4",
     "magnific-popup": "^1.0.0",
     "toastr": "^2.1.1",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
+    "bootstrap": "^3.3.7"
   }
 }

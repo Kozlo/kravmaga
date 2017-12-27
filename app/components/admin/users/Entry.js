@@ -7,15 +7,10 @@ import { Link } from 'react-router';
 import AuthStore from '../../../stores/AuthStore';
 import UserActions from '../../../actions/UserActions';
 
-import GroupStore from '../../../stores/GroupStore';
-import GroupActions from '../../../actions/GroupActions';
-
-import LessonStore from '../../../stores/LessonStore';
-import LessonActions from '../../../actions/LessonActions';
+import PaymentActions from '../../../actions/PaymentActions';
 
 // utility methods
 import {
-    updateStoreList,
     getRoleValue, getStatusValue,
     formatDateString, getGenderValue
 } from '../../../utils/utils';
@@ -65,17 +60,17 @@ class UserEntry extends React.Component {
 
         UserActions
             .delete(_id, token)
-            .then(() => this._onEntryDeleted());
+            .then(() => this._onEntryDeleted(token));
     }
 
     /**
      * Updates group and lesson stores.
      *
+     * @param {string} token Authentication token
      * @private
      */
-    _onEntryDeleted() {
-        updateStoreList(GroupStore, GroupActions);
-        updateStoreList(LessonStore, LessonActions);
+    _onEntryDeleted(token) {
+        UserActions.getList(token, PaymentActions.onUsersReceived);
     }
 
     /**
