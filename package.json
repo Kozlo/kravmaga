@@ -68,7 +68,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react": "^15.6.2",
-    "react-bootstrap": "^0.30.10",
+    "react-bootstrap": "^0.31.5",
     "react-bootstrap-typeahead": "^2.0.0-alpha.6",
     "react-dom": "^15.6.2",
     "react-router": "^3.2.0",
