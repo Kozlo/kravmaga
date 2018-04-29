@@ -68,8 +68,7 @@ class PaymentFilters extends React.Component {
 
         config[prop] = event.target.value;
         PaymentActions.setConfig(config);
-
-        updateStoreList(PaymentStore, PaymentActions);
+        this._updateData();
     }
 
     // TODO: consider moving this to a util class (also in other components)
@@ -91,8 +90,7 @@ class PaymentFilters extends React.Component {
         }
 
         PaymentActions.setFilters(filters);
-
-        updateStoreList(PaymentStore, PaymentActions);
+        this._updateData();
     }
 
     /**
@@ -150,8 +148,29 @@ class PaymentFilters extends React.Component {
         }
 
         PaymentActions.setFilters(filters);
+        this._updateData();
+    }
 
-        updateStoreList(PaymentStore, PaymentActions);
+    /** Determines if all user data should be retrieved (for admins) or single user data (for single user view) */
+    _updateData() {
+      if (this.props.userPaymentsOnly) {
+          this._getSingleUserData();
+      } else {
+          this._getAllData();
+      }
+    }
+
+    /** Updates all data (all users) when an admin is searching for them. */
+    _getAllData() {
+      updateStoreList(PaymentStore, PaymentActions);
+    }
+
+    /** Updates data for a single user.*/
+    _getSingleUserData() {
+      const { token, userId } = AuthStore.getState();
+      const { filters, sorters, config } = this.props;
+
+      PaymentActions.getUserPaymentList(token, userId, filters, sorters, config);
     }
 
     /**
