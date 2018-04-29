@@ -1,8 +1,9 @@
 import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import {
-    Row, Col, FormGroup, Checkbox,
-    FormControl, ControlLabel
+    Row, Col, FormGroup,
+    FormControl, ControlLabel,
+    ToggleButtonGroup, ToggleButton
 } from 'react-bootstrap';
 
 import PaymentTypeStore from '../../../../stores/PaymentTypeStore';
@@ -42,12 +43,12 @@ class PaymentTypeFields extends React.Component {
      *
      * @public
      * @param {*} prop Property value
-     * @param {Object} event Event object
+     * @param {boolean} value Entry has count
      */
-    handleCheckboxChange(prop, event) {
+    handleCheckboxChange(prop, value) {
         const { updatable } = this.props;
 
-        updatable[prop] = event.target.checked;
+        updatable[prop] = value;
 
         PaymentTypeActions.setUpdatable(updatable);
     }
@@ -91,11 +92,16 @@ class PaymentTypeFields extends React.Component {
                     </Col>
                     <Col xs={12}>
                         <FormGroup>
-                            <Checkbox
-                                value={hasCount}
+                            <ControlLabel>Vai tipam ir izmantošanas reizes?</ControlLabel>
+                            <br />
+                            <ToggleButtonGroup
+                                type="radio"
+                                name="hasCount"
+                                defaultValue={hasCount}
                                 onChange={this.handleCheckboxChange.bind(this, 'hasCount')}>
-                                Vai tipam ir izmantošanas reizes?
-                            </Checkbox>
+                                <ToggleButton value={true}>Jā</ToggleButton>
+                                <ToggleButton value={false}>Nē</ToggleButton>
+                            </ToggleButtonGroup>
                         </FormGroup>
                     </Col>
                 </Row>

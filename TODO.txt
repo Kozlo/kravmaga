@@ -4,28 +4,28 @@
   (DONE)- need a select with users so that they can be added to the attendee list (just like for groups)
   (DONE)- should also have some sort of a separate list of attendees (maybe skipping the first thing)
   (DONE)- BUG: when the array is empty on update, the property is removed from the POST. might need to pass some empty value and remove it on the API
-- need a list of lessons where a user has attended, but not payed
-    - DISCUSS, might be too tricky
 
-- Check the database warning from mongolab (might need to update some dependencies)
+(DONE/SKIP)- Lessons (USER):
+  (DONE)- A user cannot mark attendance after the lesson start date
+  - When pressing 'busu' it is shown whether the user has payed subscription/lesson
+    - NEED TO DISCUSS. maybe if a subscription is valid then all is good, otherwise check if unused lessons are available.. but need to consider this thoroughtly
+  - need a list of lessons where a user has attended, but not payed
+      - DISCUSS, might be too tricky
 
-- Switch to Monday as the week start date
+(DONE)- Users (admin)
+  (DONE)- introduce a new admin field: lesson attendance count
+  (DONE)- when clicking attending/not attending the count of lessons a user has attended should be updated accordingly
+  (DONE)- also need to update when the admin adds/removes attendees
 
 BUGS:
 (DONE)- when updating a payment the payment type is changed to 'other'
+(DONE)- when editing payment type, the 'has usage' checkbox is not selected if ti should be
+(DONE)- make sure there are not so many warnings
+- when selecting users for a lesson the user list has all users, not only the ones in the selected group
 - after upgrade: Warning: Modal: isMounted is deprecated. Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.
-- make sure there are not so many warnings
-
 - Check deployment database size
+- Switch to Monday as the week start date
 
-- Lessons (USER):
-  - A user cannot mark attendance after the lesson start date
-  - When pressing 'busu' it is shown whether the user has payed subscription/lesson
-    - NEED TO DISCUSS. maybe if a subscription is valid then all is good, otherwise check if unused lessons are available.. but need to consider this thoroughtly
-
-- Users (admin)
-  - introduce a new admin field: lesson attendance count
-  - when clicking attending/not attending the count of lessons a user has attended should be updated accordingly
 
 - research how to allow one email for several users
   - need to make a different unique key (username - could be email as well by default)

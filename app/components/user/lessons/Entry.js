@@ -102,6 +102,7 @@ class LessonEntry extends React.Component {
         const groupName = this.findGroupName(group);
         const isAttending = this.determineIsAttending(entry);
         const btnToolbarStyle = { minWidth: '12.5em' };
+        const canMarkAttendance = new Date(start) > new Date();
 
         return (
             <tr>
@@ -124,20 +125,23 @@ class LessonEntry extends React.Component {
                     </div>
                 </td>
                 <td style={btnToolbarStyle}>
-                    <ButtonToolbar>
-                        <Button
-                            bsStyle="success"
-                            onClick={this.markAttending.bind(this, entry._id)}
-                            disabled={isAttending}>
-                            Būšu
-                        </Button>
-                        <Button
-                            bsStyle="danger"
-                            onClick={this.removeAttending.bind(this, entry._id)}
-                            disabled={!isAttending}>
-                            Nebūšu
-                        </Button>
-                    </ButtonToolbar>
+                    {
+                        canMarkAttendance &&
+                        <ButtonToolbar>
+                            <Button
+                                bsStyle="success"
+                                onClick={this.markAttending.bind(this, entry._id)}
+                                disabled={isAttending}>
+                                Būšu
+                            </Button>
+                            <Button
+                                bsStyle="danger"
+                                onClick={this.removeAttending.bind(this, entry._id)}
+                                disabled={!isAttending}>
+                                Nebūšu
+                            </Button>
+                        </ButtonToolbar>
+                    }
                 </td>
             </tr>
         );

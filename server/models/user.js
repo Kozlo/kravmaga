@@ -24,6 +24,7 @@ const {
  * @property {String} admin_fields.role User's role
  * @property {Boolean} admin_fields.is_blocked Flag showing if the user has been blocked or not
  * @property {String} [admin_fields.member_since] Date when the user became a member
+ * @property {String} [admin_fields.attendance_count] Number of times the user has attended lessons
  */
 const properties = {
     email: {
@@ -75,7 +76,8 @@ const properties = {
     admin_fields: {
         role: { type: String, required: true, enum: ['admin', 'user'], default: 'user' },
         is_blocked: { type: Boolean, required: true, default: false },
-        member_since: Date
+        member_since: Date,
+        attendance_count: { type: Number, default: 0 }
     }
 };
 

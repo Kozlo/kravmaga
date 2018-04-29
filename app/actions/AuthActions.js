@@ -17,6 +17,8 @@ class AuthActions {
     /**
      * Sends the passed credentials to the API to check if  they are valid.
      *
+     * Additionally shows an error message on fail because it is removed elsewhere.
+     *
      * @public
      * @param {string} email User's email
      * @param {string} password User's password
@@ -31,7 +33,10 @@ class AuthActions {
             method: 'POST'
         };
 
-        return fetchData(request);
+        return fetchData(request)
+          .fail(res => {
+            toastr.error('Autorizācijas kļūda. Mēģini vēlreiz!');
+          });
     }
 
     /**

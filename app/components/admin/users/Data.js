@@ -288,34 +288,40 @@ class UserData extends React.Component {
         const shouldShow = isUpdating || isCreating;
 
         return (
-            <Row>
-                <Col xs={12}>
-                    <Button
-                        bsStyle="success"
-                        onClick={this.initCreate.bind(this)}>
-                        Izveidot
-                    </Button>
-                </Col>
-                <Col xs={12}>
-                    <Table responsive>
-                        <thead>
-                            <tr>{userDataColumns.map((col, index) => <th key={`UserTableHeader${index}`}>{col}</th>)}</tr>
-                        </thead>
-                        <tbody>
-                            {list.map((user, index) => <UserEntry key={`UserEntry${index}`} index={index} user={user} />)}
-                        </tbody>
-                    </Table>
-                </Col>
-                <ManageUser
-                    shouldShow={shouldShow}
-                    closeHandler={this.closeHandler.bind(this, isUpdating)}
-                    submitHandler={this.submitHandler.bind(this, isUpdating, userGroupIds, updatable)}>
-                    <UserFields />
-                    <AdminUserFields />
-                    <UserGroups />
-                </ManageUser>
-                <PasswordChange checkPass={false} />
-            </Row>
+            <div>
+                <Row>
+                    <Col xs={12}>
+                        <Button
+                            bsStyle="success"
+                            onClick={this.initCreate.bind(this)}>
+                            Izveidot
+                        </Button>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12}>
+                        <Table responsive>
+                            <thead>
+                                <tr>{userDataColumns.map((col, index) => <th key={`UserTableHeader${index}`}>{col}</th>)}</tr>
+                            </thead>
+                            <tbody>
+                                {list.map((user, index) => <UserEntry key={`UserEntry${index}`} index={index} user={user} />)}
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                <Row>
+                    <ManageUser
+                        shouldShow={shouldShow}
+                        closeHandler={this.closeHandler.bind(this, isUpdating)}
+                        submitHandler={this.submitHandler.bind(this, isUpdating, userGroupIds, updatable)}>
+                        <UserFields />
+                        <AdminUserFields />
+                        <UserGroups />
+                    </ManageUser>
+                    <PasswordChange checkPass={false} />
+                </Row>
+            </div>
         );
     }
 }
