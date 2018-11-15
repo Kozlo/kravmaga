@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 // models
 const User = require('../server/models/user.js');
 // constants
-const databaseName = process.env.DB_URI;
+const databaseName = process.env.DB_URI || 'localhost';
 const defaultAdminEmail = 'admin@kravmaga.lv';
 const defaultAdminPassword = 'admin';
 
